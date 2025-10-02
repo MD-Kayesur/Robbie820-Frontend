@@ -2,6 +2,9 @@ import ServicesSection from "@/components/test/ServicesSection";
 import CommonWrapper from "../common/CommonWrapper";
 import ServicesSection2 from "@/components/test/ServicesSection2";
 import ScrollAnimationSection from "@/components/ScrollTextAnimation/ScrollAnimationSection";
+import RichTextInput from "@/components/RichTextInput/RichTextInput2";
+import RichTextInput2 from "@/components/RichTextInput/RichTextInput2";
+// import RichTextInput from "@/components/RichTextInput/RichTextInput";
  
  
 const Home = () => {
@@ -18,8 +21,10 @@ const Home = () => {
           
           {/* <ServicesSection/> */}
           {/* <ServicesSection2/> */}
-          <ScrollAnimationSection></ScrollAnimationSection>
-        </div>
+          {/* <ScrollAnimationSection></ScrollAnimationSection> */}
+          <RichTextInput/>
+          {/* <RichTextInput2/> */}
+         </div>
       </div>
     </CommonWrapper>
   );
