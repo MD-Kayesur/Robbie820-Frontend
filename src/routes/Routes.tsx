@@ -3,7 +3,7 @@ import App from "../App";
 
 import NotFound from "@/pages/NotFound";
 import Home from "@/pages/Home";
- import Login from "@/pages/Login";
+import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 
 import ReferrerLayout from "@/Layout/ReferrerLayout/ReferrerLayout";
@@ -29,6 +29,18 @@ import TermsOfService from "@/pages/About/TermsOfService";
 import PrivacyPolicy from "@/pages/About/PrivacyPolicy";
 import CookiePolicy from "@/pages/About/CookiePolicy";
 import AdminRoutes from "./AdminRoutes";
+
+import BrokerLayout from "@/Layout/BrokerLayout/BrokerLayout";
+import BrokerDashboard from "@/pages/Broker/BrokerDashboard";
+import {
+    BrokerMyReferrals,
+    BrokerPartnerProfile,
+    BrokerTeamManagement,
+    BrokerReport,
+    BrokerNotifications,
+    BrokerSubscription,
+    BrokerSettings
+} from "@/pages/Broker/BrokerRoutes";
 
 const routes = createBrowserRouter([
     {
@@ -70,7 +82,7 @@ const routes = createBrowserRouter([
                 path: "/signup",
                 element: <Signup />,
             },
-           
+
             {
                 path: "/referrer",
                 element: <ReferrerLayout />,
@@ -82,7 +94,23 @@ const routes = createBrowserRouter([
                     { path: "settings", element: <ReferrerSettings /> },
                 ],
             },
-           
+
+            {
+                path: "/broker",
+                element: <BrokerLayout />,
+                children: [
+                    { index: true, element: <BrokerDashboard /> },
+                    { path: "overview", element: <BrokerDashboard /> },
+                    { path: "my-referrals", element: <BrokerMyReferrals /> },
+                    { path: "partner-profile", element: <BrokerPartnerProfile /> },
+                    { path: "team-management", element: <BrokerTeamManagement /> },
+                    { path: "report", element: <BrokerReport /> },
+                    { path: "notifications", element: <BrokerNotifications /> },
+                    { path: "subscription", element: <BrokerSubscription /> },
+                    { path: "settings", element: <BrokerSettings /> },
+                ],
+            },
+
             {
                 path: "/admin",
                 element: <AdminRoutes />,
