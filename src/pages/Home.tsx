@@ -4,6 +4,7 @@ import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import laptopMockup from "../../laptop_dashboard_mockup_1772505073423.png";
 import DashboardMarquee from "@/components/DashboardMarquee/DashboardMarquee";
+import FeaturesSection from "@/components/FeaturesSection/FeaturesSection";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -145,6 +146,9 @@ const Home = () => {
 
       {/* Dashboard Marquee Section */}
       <DashboardMarquee />
+
+      {/* Features Section */}
+      <FeaturesSection />
     </div>
   );
 };
