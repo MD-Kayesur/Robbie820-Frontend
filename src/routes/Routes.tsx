@@ -1,62 +1,112 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import About from "../pages/About";
-import Contact from "../pages/Contact";
-import NotFound from "../pages/NotFound";
-import Home from "../pages/Home";
-import AdminRoute from "./AdminRoutes";
-import AdminDashboard from "@/pages/Admin/AdminDashboard";
-import Login from "@/pages/Login";
+
+import NotFound from "@/pages/NotFound";
+import Home from "@/pages/Home";
+ import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
-import Form from "@/pages/Form";
-import Services from "@/pages/Services";
+
+import ReferrerLayout from "@/Layout/ReferrerLayout/ReferrerLayout";
+import ReferrerDashboard from "@/pages/Referrer/ReferrerDashboard";
+import {
+    ReferrerMyReferrals,
+    ReferrerNotifications,
+    ReferrerSettings
+} from "@/pages/Referrer/ReferrerRoutes";
+
+import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
+import SuperAdminDashboard from "@/pages/SuperAdmin/SuperAdminDashboard";
+import {
+    SuperAdminUserManagement,
+    SuperAdminSubscriptions,
+    SuperAdminIntegrations,
+    SuperAdminAuditLogs,
+    SuperAdminSettings
+} from "@/pages/SuperAdmin/SuperAdminRoutes";
+
+import About from "@/pages/About";
+import TermsOfService from "@/pages/About/TermsOfService";
+import PrivacyPolicy from "@/pages/About/PrivacyPolicy";
+import CookiePolicy from "@/pages/About/CookiePolicy";
+import AdminRoutes from "./AdminRoutes";
 
 const routes = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    children: [
-      {
+    {
         path: "/",
-        element: <Home />,
-      },
-      {
-        path: "/about",
-        element: <About />,
-      },
-      {
-        path: "/contact",
-        element: <Contact />,
-      },
-      {
-        path: "/services",
-        element: <Services />,
-      },
-      {
-        path: "/form",
-        element: <Form />,
-      },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/signup",
-        element: <Signup />,
-      },
-      {
-        path: "/admin",
-        element: <AdminRoute />, // This will check if the user is an admin
+        element: <App />,
         children: [
-          { path: "", element: <AdminDashboard /> }, // Admin Dashboard
+            {
+                index: true,
+                element: <Home />,
+            },
+            {
+                path: "/about-content",
+                element: <ReferrerLayout />,
+                children: [
+                    {
+                        path: "about",
+                        element: <About />,
+                    },
+                    {
+                        path: "terms",
+                        element: <TermsOfService />,
+                    },
+                    {
+                        path: "privacy",
+                        element: <PrivacyPolicy />,
+                    },
+                    {
+                        path: "cookies",
+                        element: <CookiePolicy />,
+                    },
+                ]
+            },
+
+            {
+                path: "/login",
+                element: <Login />,
+            },
+            {
+                path: "/signup",
+                element: <Signup />,
+            },
+           
+            {
+                path: "/referrer",
+                element: <ReferrerLayout />,
+                children: [
+                    { index: true, element: <ReferrerDashboard /> },
+                    { path: "overview", element: <ReferrerDashboard /> },
+                    { path: "my-referrals", element: <ReferrerMyReferrals /> },
+                    { path: "notifications", element: <ReferrerNotifications /> },
+                    { path: "settings", element: <ReferrerSettings /> },
+                ],
+            },
+           
+            {
+                path: "/admin",
+                element: <AdminRoutes />,
+                children: [
+                    {
+                        element: <SuperAdminLayout />,
+                        children: [
+                            { index: true, element: <SuperAdminDashboard /> },
+                            { path: "dashboard", element: <SuperAdminDashboard /> },
+                            { path: "user-management", element: <SuperAdminUserManagement /> },
+                            { path: "subscriptions", element: <SuperAdminSubscriptions /> },
+                            { path: "integrations", element: <SuperAdminIntegrations /> },
+                            { path: "audit-logs", element: <SuperAdminAuditLogs /> },
+                            { path: "settings", element: <SuperAdminSettings /> },
+                        ],
+                    },
+                ],
+            },
         ],
-      },
-    ],
-  },
-  {
-    path: "*",
-    element: <NotFound />,
-  },
+    },
+    {
+        path: "*",
+        element: <NotFound />,
+    },
 ]);
 
 export default routes;

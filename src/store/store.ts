@@ -4,11 +4,11 @@ import authReducer from "./Slices/AuthSlice/authSlice";
 import formReducer from "./Slices/FormSlice/FormSlice";
 
 export const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-    auth: authReducer,
-    form: formReducer,
-  },
+    reducer: {
+        counter: counterReducer,
+        auth: authReducer,
+        form: formReducer,
+    },
 });
 
 // Define RootState and AppDispatch types

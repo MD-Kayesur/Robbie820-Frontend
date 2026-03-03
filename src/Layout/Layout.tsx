@@ -1,17 +1,16 @@
-import Footer from "./Footer";
-import { Outlet } from "react-router-dom";
-import Navbar from "./Navbar";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 const Layout: React.FC = () => {
-  return (
-    <div>
-      <Navbar />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
-  );
+    return (
+        <div
+            className="flex flex-col h-screen overflow-hidden bg-background"
+        >
+            <main className="flex-grow">
+                <Outlet />
+            </main>
+        </div >
+    );
 };
 
 export default Layout;
