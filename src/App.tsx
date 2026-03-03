@@ -1,13 +1,13 @@
-import Layout from './Layout/Layout'
-import { Toaster } from 'sonner';
+import Layout from "./Layout/Layout";
+import { Toaster } from "sonner";
 
 function App() {
-    return (
-        <>
-            <Layout></Layout>
-            <Toaster />
-        </>
-    )
+  return (
+    <>
+      <Layout></Layout>
+      <Toaster />
+    </>
+  );
 }
 
-export default App
+export default App;
