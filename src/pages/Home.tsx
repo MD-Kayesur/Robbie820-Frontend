@@ -3,16 +3,18 @@ import { motion } from "framer-motion";
 import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import laptopMockup from "../../laptop_dashboard_mockup_1772505073423.png";
+import DashboardMarquee from "@/components/DashboardMarquee/DashboardMarquee";
+import FeaturesSection from "@/components/FeaturesSection/FeaturesSection";
 
 const Home = () => {
   const navigate = useNavigate();
 
   const handleGetStarted = () => {
-    navigate("/user/all");
+    navigate("/login");
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] font-sans selection:bg-sky-100 overflow-x-hidden">
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] font-sans selection:bg-sky-100 overflow-x-hidden no-scrollbar">
       {/* Navbar Section */}
       <header className="fixed top-0 left-0 right-0 z-50 px-4 py-6 md:px-8">
         <nav className="max-w-6xl mx-auto bg-white/90 backdrop-blur-xl border border-white/50 rounded-[2rem] px-8 py-5 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
@@ -51,7 +53,7 @@ const Home = () => {
       </header>
 
       {/* Hero Section */}
-      <main className="relative pt-48 pb-32 px-4 md:px-8 overflow-hidden">
+      <main className="relative pt-48 pb-16 px-4 md:px-8">
         {/* Background Decorations */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-sky-100/40 rounded-full blur-[120px] -z-10 translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-50/50 rounded-full blur-[100px] -z-10 -translate-x-1/4 translate-y-1/4" />
@@ -141,6 +143,12 @@ const Home = () => {
           </motion.div>
         </div>
       </main>
+
+      {/* Dashboard Marquee Section */}
+      <DashboardMarquee />
+
+      {/* Features Section */}
+      <FeaturesSection />
     </div>
   );
 };
