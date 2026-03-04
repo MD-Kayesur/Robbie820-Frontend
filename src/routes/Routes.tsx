@@ -15,7 +15,6 @@ import {
 } from "@/pages/Referrer/ReferrerRoutes";
 
 import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
-import SuperAdminDashboard from "@/pages/SuperAdminDashboard/SuperAdminDashboard";
 
 import About from "@/pages/About";
 import TermsOfService from "@/pages/About/TermsOfService";
@@ -34,11 +33,13 @@ import {
   BrokerSubscription,
   BrokerSettings,
 } from "@/pages/Broker/BrokerRoutes";
-import SuperAdminUserManagement from "@/pages/SuperAdminDashboard/SuperAdminUserManagement";
-import SuperAdminSubscriptions from "@/pages/SuperAdminDashboard/SuperAdminSubscriptions";
-import SuperAdminIntegrations from "@/pages/SuperAdminDashboard/SuperAdminIntegrations";
-import SuperAdminAuditLogs from "@/pages/SuperAdminDashboard/SuperAdminAuditLogs";
-import SuperAdminSettings from "@/pages/SuperAdminDashboard/SuperAdminSettings";
+import SuperAdminUserManagement from "@/pages/SuperAdminDashboard/SuperAdminUserManagement/SuperAdminUserManagement";
+import SuperAdminSubscriptions from "@/pages/SuperAdminDashboard/SuperAdminSubscriptions/SuperAdminSubscriptions";
+import SuperAdminIntegrations from "@/pages/SuperAdminDashboard/SuperAdminIntegrations/SuperAdminIntegrations";
+import SuperAdminAuditLogs from "@/pages/SuperAdminDashboard/SuperAdminAuditLogs/SuperAdminAuditLogs";
+import SuperAdminSettings from "@/pages/SuperAdminDashboard/SuperAdminSettings/SuperAdminSettings";
+import SuperAdminDashboard from "@/pages/SuperAdminDashboard/SuperAdminDashboard/SuperAdminDashboard";
+import SuperAdminLayoutNoTopbar from "@/Layout/SuperAdminLayout/SuperAdminLayoutNoTopbar";
 
 const routes = createBrowserRouter([
   {
@@ -113,7 +114,7 @@ const routes = createBrowserRouter([
 
       // admin
       {
-        path: "/admin",
+        path: "/super-admin",
         element: <AdminRoutes />,
         children: [
           {
@@ -121,6 +122,11 @@ const routes = createBrowserRouter([
             children: [
               { index: true, element: <SuperAdminDashboard /> },
               { path: "dashboard", element: <SuperAdminDashboard /> },
+            ],
+          },
+          {
+            element: <SuperAdminLayoutNoTopbar />,
+            children: [
               {
                 path: "user-management",
                 element: <SuperAdminUserManagement />,

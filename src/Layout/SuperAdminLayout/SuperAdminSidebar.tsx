@@ -46,32 +46,32 @@ const SuperAdminSidebar = () => {
       {/* Nav */}
       <nav className="mt-6 space-y-6">
         <SidebarItem
-          to="/admin/dashboard"
+          to="/super-admin/dashboard"
           icon={LayoutGrid}
           label="Dashboard"
         />
         <SidebarItem
-          to="/admin/user-management"
+          to="/super-admin/user-management"
           icon={Users}
           label="User Management"
         />
         <SidebarItem
-          to="/admin/subscriptions"
+          to="/super-admin/subscriptions"
           icon={CreditCard}
           label="Subscriptions"
         />
         <SidebarItem
-          to="/admin/integrations"
+          to="/super-admin/integrations"
           icon={GitBranch}
           label="Integrations"
         />
         <SidebarItem
-          to="/admin/audit-logs"
+          to="/super-admin/audit-logs"
           icon={FileText}
           label="Audit Logs"
         />
         <SidebarItem
-          to="/admin/settings"
+          to="/super-admin/settings"
           icon={Settings}
           label="System Settings"
         />

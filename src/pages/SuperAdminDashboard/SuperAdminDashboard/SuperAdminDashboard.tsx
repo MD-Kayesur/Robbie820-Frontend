@@ -24,16 +24,16 @@ import {
 import {
   TotalLicensedUsersModal,
   type UserRow,
-} from "../../components/SuperAdminDashboardCom/SADashboardCom/modals/TotalLicensedUsersModal";
-import { TotalRegisteredAccountsModal } from "../../components/SuperAdminDashboardCom/SADashboardCom/modals/TotalRegisteredAccountsModal";
+} from "../../../components/SuperAdminDashboardCom/SADashboardCom/modals/TotalLicensedUsersModal";
+import { TotalRegisteredAccountsModal } from "../../../components/SuperAdminDashboardCom/SADashboardCom/modals/TotalRegisteredAccountsModal";
 import {
   ActiveSubscriptionsModal,
   type SubscriptionRow,
-} from "../../components/SuperAdminDashboardCom/SADashboardCom/modals/ActiveSubscriptionsModal";
+} from "../../../components/SuperAdminDashboardCom/SADashboardCom/modals/ActiveSubscriptionsModal";
 import {
   AnnualRevenueAnalyticsModal,
   type RevenueRow,
-} from "../../components/SuperAdminDashboardCom/SADashboardCom/modals/AnnualRevenueAnalyticsModal";
+} from "../../../components/SuperAdminDashboardCom/SADashboardCom/modals/AnnualRevenueAnalyticsModal";
 
 type Tone = "indigo" | "blue" | "emerald" | "amber";
 
@@ -312,7 +312,7 @@ export default function SuperAdminDashboard() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="px-8 py-10">
+      <div className="px-8 pb-6 pt-2">
         {/* top filter */}
         <div
           ref={dropdownRef}
