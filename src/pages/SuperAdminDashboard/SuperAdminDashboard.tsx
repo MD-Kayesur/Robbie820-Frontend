@@ -312,7 +312,7 @@ export default function SuperAdminDashboard() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="mx-auto w-full max-w-7xl pb-4">
+      <div className="px-8 py-10">
         {/* top filter */}
         <div
           ref={dropdownRef}

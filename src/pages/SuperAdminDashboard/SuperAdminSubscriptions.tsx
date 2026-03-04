@@ -52,7 +52,7 @@ export default function SuperAdminSubscriptions() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="mx-auto w-full max-w-7xl px-10 py-8">
+      <div className="px-8 py-10">
         {/* header row */}
         <div className="flex items-start justify-between gap-6">
           <div className="min-w-0">

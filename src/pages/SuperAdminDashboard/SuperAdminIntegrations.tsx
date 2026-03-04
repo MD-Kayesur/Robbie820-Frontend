@@ -530,7 +530,7 @@ export default function SuperAdminIntegrations() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="mx-auto w-full max-w-7xl px-10 py-8">
+      <div className="px-8 py-10">
         <div>
           <h1 className="text-2xl font-semibold text-black">
             Integrations Management
