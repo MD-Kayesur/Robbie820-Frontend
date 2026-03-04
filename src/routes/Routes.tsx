@@ -15,7 +15,7 @@ import {
 } from "@/pages/Referrer/ReferrerRoutes";
 
 import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
-import SuperAdminDashboard from "@/pages/SuperAdmin/SuperAdminDashboard";
+import SuperAdminDashboard from "@/pages/SuperAdminDashboard/SuperAdminDashboard";
 
 import About from "@/pages/About";
 import TermsOfService from "@/pages/About/TermsOfService";
@@ -34,11 +34,11 @@ import {
   BrokerSubscription,
   BrokerSettings,
 } from "@/pages/Broker/BrokerRoutes";
-import SuperAdminUserManagement from "@/pages/SuperAdmin/SuperAdminUserManagement";
-import SuperAdminSubscriptions from "@/pages/SuperAdmin/SuperAdminSubscriptions";
-import SuperAdminIntegrations from "@/pages/SuperAdmin/SuperAdminIntegrations";
-import SuperAdminAuditLogs from "@/pages/SuperAdmin/SuperAdminAuditLogs";
-import SuperAdminSettings from "@/pages/SuperAdmin/SuperAdminSettings";
+import SuperAdminUserManagement from "@/pages/SuperAdminDashboard/SuperAdminUserManagement";
+import SuperAdminSubscriptions from "@/pages/SuperAdminDashboard/SuperAdminSubscriptions";
+import SuperAdminIntegrations from "@/pages/SuperAdminDashboard/SuperAdminIntegrations";
+import SuperAdminAuditLogs from "@/pages/SuperAdminDashboard/SuperAdminAuditLogs";
+import SuperAdminSettings from "@/pages/SuperAdminDashboard/SuperAdminSettings";
 
 const routes = createBrowserRouter([
   {

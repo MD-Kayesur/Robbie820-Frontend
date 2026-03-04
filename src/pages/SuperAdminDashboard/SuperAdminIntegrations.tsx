@@ -1,7 +1,6 @@
 // src/pages/SuperAdmin/SuperAdminIntegrations.tsx
-"use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ChevronDown,
   Check,
@@ -16,6 +15,10 @@ import {
   ExternalLink,
   MoreVertical,
 } from "lucide-react";
+import IntegrationDetailsModal, {
+  ConnStatus,
+  IntegrationCardData,
+} from "@/components/SuperAdminDashboardCom/SAIntegrationsCom/modals/IntegrationDetailsModal";
 
 function cn(...s: Array<string | false | null | undefined>) {
   return s.filter(Boolean).join(" ");
@@ -107,8 +110,6 @@ function StatusDropdown({
 }
 
 /* ----------------------------- pills ----------------------------- */
-type ConnStatus = "Connected" | "Warning" | "Disconnected";
-
 function StatusPill({ status }: { status: ConnStatus }) {
   const cls =
     status === "Connected"
@@ -130,17 +131,13 @@ function StatusPill({ status }: { status: ConnStatus }) {
 }
 
 /* ----------------------------- cards ----------------------------- */
-type IntegrationCardData = {
-  id: string;
-  name: string;
-  status: ConnStatus;
-  lastSync: string;
-  syncErrors: number;
-  brokers: number;
-  icon: React.ElementType;
-};
-
-function IntegrationCard({ item }: { item: IntegrationCardData }) {
+function IntegrationCard({
+  item,
+  onViewDetails,
+}: {
+  item: IntegrationCardData;
+  onViewDetails: () => void;
+}) {
   const Icon = item.icon;
 
   return (
@@ -167,7 +164,7 @@ function IntegrationCard({ item }: { item: IntegrationCardData }) {
           </div>
         </div>
 
-        <div className="text-slate-500 text-right">
+        <div className="text-right text-slate-500">
           <div>Sync Errors (24h)</div>
           <div
             className={cn(
@@ -191,6 +188,7 @@ function IntegrationCard({ item }: { item: IntegrationCardData }) {
 
       <button
         type="button"
+        onClick={onViewDetails}
         className="mt-4 w-full rounded-xl border border-slate-200 bg-white py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50"
       >
         View Details
@@ -393,6 +391,7 @@ function WebhookStatusPill({ s }: { s: WebhookRow["status"] }) {
 
 export default function SuperAdminIntegrations() {
   const [filter, setFilter] = useState<Filter>("All");
+  const [selected, setSelected] = useState<IntegrationCardData | null>(null);
 
   const cards: IntegrationCardData[] = [
     {
@@ -453,13 +452,12 @@ export default function SuperAdminIntegrations() {
 
   const shownCards = useMemo(() => {
     if (filter === "All") return cards;
-
     if (filter === "Active")
       return cards.filter((c) => c.status === "Connected");
     if (filter === "Inactive")
       return cards.filter((c) => c.status === "Disconnected");
     if (filter === "Error") return cards.filter((c) => c.syncErrors > 0);
-    return cards.filter((c) => c.status === "Warning" || c.syncErrors > 0); // Needs Attention
+    return cards.filter((c) => c.status === "Warning" || c.syncErrors > 0);
   }, [filter]);
 
   const webhooks: WebhookRow[] = [
@@ -508,7 +506,6 @@ export default function SuperAdminIntegrations() {
   return (
     <div className="min-h-screen bg-white">
       <div className="mx-auto w-full max-w-7xl px-10 py-8">
-        {/* header */}
         <div>
           <h1 className="text-2xl font-bold text-slate-900">
             Integrations Management
@@ -518,7 +515,6 @@ export default function SuperAdminIntegrations() {
           </p>
         </div>
 
-        {/* banner */}
         <div className="mt-5 rounded-2xl border border-sky-300/70 bg-sky-50 px-5 py-4">
           <div className="flex items-start gap-3">
             <div className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full border border-sky-400/60 bg-white">
@@ -533,40 +529,36 @@ export default function SuperAdminIntegrations() {
           </div>
         </div>
 
-        {/* section head */}
         <div className="mt-8 flex items-center justify-between">
-          <div>
-            <div className="text-sm font-bold text-slate-900">
-              CRM &amp; Workflow Integrations
-            </div>
+          <div className="text-sm font-bold text-slate-900">
+            CRM &amp; Workflow Integrations
           </div>
-
           <StatusDropdown value={filter} onChange={setFilter} />
         </div>
 
-        {/* cards */}
         <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
           {shownCards.map((c) => (
-            <IntegrationCard key={c.id} item={c} />
+            <IntegrationCard
+              key={c.id}
+              item={c}
+              onViewDetails={() => setSelected(c)}
+            />
           ))}
         </div>
 
-        {/* bottom grid */}
         <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div>
-            <div className="text-sm font-bold text-slate-900 mb-3">
+            <div className="mb-3 text-sm font-bold text-slate-900">
               Email Services
             </div>
             <EmailServicesCard />
           </div>
-
           <div>
             <SystemAlertsCard />
           </div>
         </div>
 
-        {/* webhook monitor */}
-        <div className="mt-10 rounded-2xl border border-slate-200 bg-white overflow-hidden">
+        <div className="mt-10 overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <div className="px-6 py-5">
             <div className="text-sm font-bold text-slate-900">
               Webhook Monitor
@@ -641,6 +633,13 @@ export default function SuperAdminIntegrations() {
           </div>
         </div>
       </div>
+
+      {/* ✅ modal (separate file) */}
+      <IntegrationDetailsModal
+        open={!!selected}
+        item={selected}
+        onClose={() => setSelected(null)}
+      />
     </div>
   );
 }
