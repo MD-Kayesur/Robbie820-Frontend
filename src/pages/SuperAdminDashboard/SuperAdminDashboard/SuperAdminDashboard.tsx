@@ -1,32 +1,39 @@
-// src/components/dashboard/SuperAdminDashboard.tsx
+// src/components/SuperAdmin/SuperAdminDashboard.tsx
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Users,
-  UserCheck,
   CreditCard,
   DollarSign,
   TrendingUp,
   ArrowUpRight,
   Info,
   ChevronDown,
+  Calendar,
+  UserPlus,
+  Banknote,
+  UserCheck,
+  UserMinus,
+  ArrowDownRight,
+  ArrowRight,
+  ChevronUp,
 } from "lucide-react";
 
 import {
   TotalLicensedUsersModal,
   type UserRow,
-} from "../../components/AdminDashboardCom/ADComModals/TotalLicensedUsersModal";
-import { TotalRegisteredAccountsModal } from "../../components/AdminDashboardCom/ADComModals/TotalRegisteredAccountsModal";
+} from "../../../components/SuperAdminDashboardCom/SADashboardCom/modals/TotalLicensedUsersModal";
+import { TotalRegisteredAccountsModal } from "../../../components/SuperAdminDashboardCom/SADashboardCom/modals/TotalRegisteredAccountsModal";
 import {
   ActiveSubscriptionsModal,
   type SubscriptionRow,
-} from "../../components/AdminDashboardCom/ADComModals/ActiveSubscriptionsModal";
+} from "../../../components/SuperAdminDashboardCom/SADashboardCom/modals/ActiveSubscriptionsModal";
 import {
   AnnualRevenueAnalyticsModal,
   type RevenueRow,
-} from "../../components/AdminDashboardCom/ADComModals/AnnualRevenueAnalyticsModal";
+} from "../../../components/SuperAdminDashboardCom/SADashboardCom/modals/AnnualRevenueAnalyticsModal";
 
 type Tone = "indigo" | "blue" | "emerald" | "amber";
 
@@ -117,30 +124,41 @@ function GrowthCard({
   title,
   value,
   change,
+  icon: Icon,
 }: {
   title: string;
   value: string;
   change: string;
+  icon: React.ElementType;
 }) {
   const isUp = change.trim().startsWith("+");
+
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
       <div className="flex items-start justify-between">
         <p className="text-sm font-medium text-slate-500">{title}</p>
+
+        <div className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100">
+          <Icon className="h-5 w-5 text-[#155DFC]" />
+        </div>
       </div>
 
       <div className="mt-3 flex items-end justify-between">
         <div className="text-3xl font-semibold tracking-tight text-slate-900">
           {value}
         </div>
+
         <div
-          className={[
-            "inline-flex items-center gap-1 text-sm font-semibold",
-            isUp ? "text-emerald-600" : "text-rose-600",
-          ].join(" ")}
+          className={`inline-flex items-center gap-1 text-sm font-semibold ${
+            isUp ? "text-emerald-600" : "text-rose-600"
+          }`}
         >
           {change}
-          <ArrowUpRight className="h-4 w-4" />
+          {isUp ? (
+            <ArrowUpRight className="h-4 w-4" />
+          ) : (
+            <ArrowDownRight className="h-4 w-4" />
+          )}
         </div>
       </div>
     </div>
@@ -166,9 +184,9 @@ function LinkRow({ label }: { label: string }) {
   return (
     <button
       type="button"
-      className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-700"
+      className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#00B4FE] hover:text-[#00A63E]"
     >
-      {label} <ArrowUpRight className="h-4 w-4" />
+      {label} <ArrowRight className="h-4 w-4" />
     </button>
   );
 }
@@ -197,10 +215,28 @@ type ModalType =
   | "annualRevenue";
 
 export default function SuperAdminDashboard() {
-  const [range, setRange] = useState("Custom Range");
+  const [range, setRange] = useState("Month to Date (MTD)");
+  const [open, setOpen] = useState(false);
   const [modal, setModal] = useState<ModalType | null>(null);
 
-  // --- mock data (from screenshots) ---
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // close when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // --- mock data
   const licensedUsers: UserRow[] = [
     {
       name: "John Smith",
@@ -267,27 +303,62 @@ export default function SuperAdminDashboard() {
     { label: "Business Plan Revenue", value: "$23,800" },
   ];
 
+  const ranges = [
+    "Month to Date (MTD)",
+    "Year to Date (YTD)",
+    "Last 6 Months",
+    "Custom Range",
+  ];
+
   return (
     <div className="min-h-screen bg-white">
-      <div className="mx-auto w-full max-w-7xl px-6 py-6">
+      <div className="px-8 pb-6 pt-2">
         {/* top filter */}
-        <div className="flex items-center justify-between">
+        <div
+          ref={dropdownRef}
+          className="relative px-7 pt-3.5 flex items-center justify-between border-t border-slate-200"
+        >
           <button
             type="button"
+            onClick={() => setOpen(!open)}
             className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-            onClick={() =>
-              setRange((r) =>
-                r === "Custom Range" ? "Last 30 Days" : "Custom Range",
-              )
-            }
           >
+            <Calendar className="h-4 w-4 text-[#364153]" />
             {range}
-            <ChevronDown className="h-4 w-4 text-slate-400" />
+
+            {open ? (
+              <ChevronUp className="h-4 w-4 text-[#364153]" />
+            ) : (
+              <ChevronDown className="h-4 w-4 text-[#364153]" />
+            )}
           </button>
+
+          {open && (
+            <div className="absolute left-0 top-full mt-2 w-56 rounded-xl border border-slate-200 bg-white shadow-md">
+              {ranges.map((item) => (
+                <button
+                  key={item}
+                  onClick={() => {
+                    setRange(item);
+                    setOpen(false);
+                  }}
+                  className="block w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="px-7">
+          <p className="mt-2 text-xs text-slate-500">
+            Date range dynamically updates all metrics below
+          </p>
         </div>
 
         {/* Key Metrics */}
-        <div className="mt-7">
+        <div className="pt-7 px-7 mt-3 border-t border-slate-200">
           <SectionTitle>Key Metrics</SectionTitle>
 
           <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
@@ -303,7 +374,7 @@ export default function SuperAdminDashboard() {
               title="Total Registered Accounts"
               value="12,834"
               change="+8.2%"
-              icon={UserCheck}
+              icon={UserPlus}
               tone="blue"
               onInfo={() => setModal("registeredAccounts")}
             />
@@ -326,7 +397,7 @@ export default function SuperAdminDashboard() {
               title="Annual Revenue"
               value="$1.8M"
               change="+24.3%"
-              icon={TrendingUp}
+              icon={Banknote}
               tone="blue"
               onInfo={() => setModal("annualRevenue")}
             />
@@ -334,18 +405,33 @@ export default function SuperAdminDashboard() {
         </div>
 
         {/* Growth Metrics */}
-        <div className="mt-9">
+        <div className="mt-9 px-7">
           <SectionTitle>Growth Metrics</SectionTitle>
 
           <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-            <GrowthCard title="New Signups" value="342" change="+15.3%" />
-            <GrowthCard title="Churned Accounts" value="28" change="-5.2%" />
-            <GrowthCard title="Net Growth" value="+314" change="+22.1%" />
+            <GrowthCard
+              title="New Signups"
+              value="342"
+              change="+15.3%"
+              icon={UserCheck}
+            />
+            <GrowthCard
+              title="Churned Accounts"
+              value="28"
+              change="-5.2%"
+              icon={UserMinus}
+            />
+            <GrowthCard
+              title="Net Growth"
+              value="+314"
+              change="+22.1%"
+              icon={TrendingUp}
+            />
           </div>
         </div>
 
         {/* Platform Control Snapshot */}
-        <div className="mt-9">
+        <div className="mt-9 px-7">
           <SectionTitle>Platform Control Snapshot</SectionTitle>
 
           <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
@@ -353,10 +439,11 @@ export default function SuperAdminDashboard() {
               <div className="text-3xl font-semibold tracking-tight text-slate-900">
                 147
               </div>
-              <div className="mt-3 space-y-1 text-sm text-slate-500">
+              <div className="mt-3 space-y-1 text-sm text-black">
                 <div>Total count</div>
                 <div className="text-slate-900">
-                  3 <span className="text-slate-500">Suspended count</span>
+                  <p className="font-semibold">3 </p>
+                  <span>Suspended count</span>
                 </div>
               </div>
               <LinkRow label="View Brokers" />
@@ -366,11 +453,11 @@ export default function SuperAdminDashboard() {
               <div className="text-3xl font-semibold tracking-tight text-slate-900">
                 2,845
               </div>
-              <div className="mt-3 space-y-1 text-sm text-slate-500">
+              <div className="mt-3 space-y-1 text-sm text-black">
                 <div>Total</div>
                 <div className="text-slate-900">
-                  1,923{" "}
-                  <span className="text-slate-500">With Active Leads</span>
+                  <p className="font-semibold">1,923</p>
+                  <span>With Active Leads</span>
                 </div>
               </div>
               <LinkRow label="View Referrers" />
@@ -387,30 +474,34 @@ export default function SuperAdminDashboard() {
                 <div className="text-xs font-medium text-slate-400">
                   Platform wide
                 </div>
-
-                <div className="mt-4 flex items-center justify-between gap-4 text-sm">
-                  <div className="text-slate-600">Market Paid</div>
-                  <div className="font-semibold text-emerald-600">$742,100</div>
+              </div>
+              <div className="flex justify-between">
+                <div className="flex flex-col justify-between text-sm">
+                  <div className="text-black">Market Paid</div>
+                  <div className="font-semibold text-emerald-600 text-[16px]">
+                    $742,100
+                  </div>
                 </div>
 
-                <div className="mt-2 flex items-center justify-between gap-4 text-sm">
-                  <div className="text-slate-600">Pending</div>
-                  <div className="font-semibold text-rose-500">$105,150</div>
+                <div className="flex flex-col justify-between text-sm">
+                  <div className="text-black">Pending</div>
+                  <div className="font-semibold text-rose-500 text-[16px]">
+                    $105,150
+                  </div>
                 </div>
               </div>
-
               <LinkRow label="View Commission Details" />
             </SnapshotCard>
           </div>
         </div>
 
         {/* System Health */}
-        <div className="mt-9">
+        <div className="mt-9 px-7">
           <SectionTitle>System Health</SectionTitle>
 
           <div className="mt-4 rounded-2xl border border-slate-200 bg-white shadow-sm">
             <div className="px-6 py-5">
-              <div className="text-sm font-semibold text-slate-800">
+              <div className="font-semibold text-slate-800">
                 Platform Infrastructure Health
               </div>
             </div>
@@ -425,7 +516,7 @@ export default function SuperAdminDashboard() {
               ].map((r) => (
                 <div
                   key={r.label}
-                  className="flex items-center justify-between px-6 py-4"
+                  className="flex items-center justify-between px-6 py-3 space-y-3"
                 >
                   <div className="text-sm text-slate-600">{r.label}</div>
                   <Chip
@@ -439,7 +530,7 @@ export default function SuperAdminDashboard() {
             <div className="px-6 py-5">
               <button
                 type="button"
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
               >
                 View Detailed Logs
               </button>
