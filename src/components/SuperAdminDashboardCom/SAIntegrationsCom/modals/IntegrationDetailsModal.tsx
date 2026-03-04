@@ -1,7 +1,7 @@
 // src/components/SuperAdminDashboardCom/SAIntegrationsCom/modals/IntegrationDetailsModal.tsx
 
 import React, { useEffect, useRef } from "react";
-import { X, FileText, RotateCcw, CheckCircle2, TrendingUp } from "lucide-react";
+import { X, RotateCcw, CheckCircle2, TrendingUp } from "lucide-react";
 
 function cn(...s: Array<string | false | null | undefined>) {
   return s.filter(Boolean).join(" ");
@@ -96,7 +96,7 @@ export default function IntegrationDetailsModal({
     return (
       <span
         className={cn(
-          "inline-flex rounded-full px-3 py-1 text-xs font-bold",
+          "inline-flex rounded-full px-3 py-1 text-xs font-medium",
           cls,
         )}
       >
@@ -143,7 +143,7 @@ export default function IntegrationDetailsModal({
           <div
             ref={panelRef}
             className={cn(
-              "flex w-full max-w-2xl flex-col overflow-hidden rounded-3xl bg-white",
+              "flex w-full max-w-2xl flex-col overflow-hidden bg-white",
               "shadow-[0_30px_90px_rgba(0,0,0,0.35)]",
               "max-h-[calc(100vh-1.5rem)] sm:max-h-[calc(100vh-3rem)]",
             )}
@@ -172,33 +172,31 @@ export default function IntegrationDetailsModal({
             {/* body (only scroll area) */}
             <div className="flex-1 min-h-0 overflow-y-auto px-6 py-5">
               {/* Integration Overview */}
-              <div className="rounded-3xl bg-slate-50/60 p-5">
+              <div className="rounded-xl bg-[#F9FAFB] p-5">
                 <div className="text-base font-extrabold text-slate-900">
                   Integration Overview
                 </div>
 
                 <div className="mt-4 space-y-3">
                   <div className="flex items-center justify-between">
-                    <div className="text-sm font-semibold text-slate-500">
-                      Status
-                    </div>
+                    <div className="text-sm text-slate-500">Status</div>
                     <StatusBadge status={item.status} />
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <div className="text-sm font-semibold text-slate-500">
+                    <div className="text-sm text-slate-500">
                       Connected Brokers
                     </div>
-                    <div className="text-sm font-extrabold text-slate-900">
+                    <div className="text-sm font-semibold text-slate-900">
                       {item.brokers}
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <div className="text-sm font-semibold text-slate-500">
+                    <div className="text-sm text-slate-500">
                       Last Sync Timestamp
                     </div>
-                    <div className="text-sm font-extrabold text-slate-900">
+                    <div className="text-sm font-medium text-slate-900">
                       {item.lastSync}
                     </div>
                   </div>
@@ -206,10 +204,10 @@ export default function IntegrationDetailsModal({
                   <div className="border-t border-slate-200 pt-3" />
 
                   <div>
-                    <div className="text-sm font-semibold text-slate-500">
+                    <div className="text-sm text-slate-500">
                       Webhook Endpoint
                     </div>
-                    <div className="mt-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700">
+                    <div className="mt-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-black">
                       {webhookUrl}
                     </div>
                   </div>
@@ -217,7 +215,7 @@ export default function IntegrationDetailsModal({
               </div>
 
               {/* Sync Metrics */}
-              <div className="mt-5 rounded-3xl border border-sky-200 bg-sky-50/40 p-5">
+              <div className="mt-5 rounded-3xl border border-[#BEDBFF] bg-[#EFF6FF] p-5">
                 <div className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-blue-600" />
                   <div className="text-base font-extrabold text-slate-900">
@@ -250,7 +248,7 @@ export default function IntegrationDetailsModal({
               </div>
 
               {/* Supported Event Types */}
-              <div className="mt-5 rounded-3xl bg-slate-50/60 p-5">
+              <div className="mt-5 rounded-3xl bg-[#F9FAFB] p-5">
                 <div className="text-base font-extrabold text-slate-900">
                   Supported Event Types
                 </div>
@@ -262,15 +260,15 @@ export default function IntegrationDetailsModal({
                       className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-50">
-                          <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                        <div className="inline-flex h-6 w-6 items-center justify-center ">
+                          <CheckCircle2 className="h-4 w-4 text-[#00A63E]" />
                         </div>
-                        <div className="text-sm font-bold text-slate-800">
+                        <div className="text-sm font-medium text-black">
                           {e.name}
                         </div>
                       </div>
 
-                      <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-extrabold text-slate-700">
+                      <span className="rounded-full bg-[#F3F4F6] px-3 py-1 text-xs font-medium text-[#030213]">
                         {e.count} events
                       </span>
                     </div>
@@ -280,10 +278,10 @@ export default function IntegrationDetailsModal({
 
               {/* Retry Controls */}
               <div className="mt-5 rounded-3xl border border-orange-200 bg-orange-50/60 p-5">
-                <div className="text-base font-extrabold text-slate-900">
+                <div className="text-base font-semibold text-slate-900">
                   Retry Controls
                 </div>
-                <div className="mt-2 text-sm font-semibold text-slate-500">
+                <div className="mt-2 text-sm text-[#364153]">
                   If sync errors occurred, you can manually retry failed events.
                   This will attempt to reprocess all failed synchronization
                   attempts from the last 24 hours.
@@ -291,28 +289,27 @@ export default function IntegrationDetailsModal({
 
                 <button
                   type="button"
-                  className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-orange-500 text-sm font-extrabold text-white hover:opacity-95"
+                  className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[#F54900] text-sm font-medium text-white hover:opacity-95"
                 >
-                  <RotateCcw className="h-4 w-4" />
+                  <RotateCcw className="h-4 w-4 shrink-0" />
                   Retry Failed Events
                 </button>
               </div>
             </div>
 
-            {/* footer (fixed) */}
+            {/* Footer */}
             <div className="shrink-0 border-t border-slate-200 px-6 py-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
               <div className="space-y-3">
                 <button
                   type="button"
-                  className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white text-sm font-extrabold text-slate-800 hover:bg-slate-50"
+                  className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white text-sm font-medium text-[#0A0A0A] hover:bg-slate-50"
                 >
-                  <FileText className="h-4 w-4 text-slate-600" />
                   Download Integration Report
                 </button>
 
                 <button
                   type="button"
-                  className="h-12 w-full rounded-2xl bg-rose-600 text-sm font-extrabold text-white hover:opacity-95"
+                  className="h-12 w-full rounded-2xl bg-[#D4183D] text-sm font-medium  text-white hover:opacity-95"
                 >
                   Disable Integration
                 </button>

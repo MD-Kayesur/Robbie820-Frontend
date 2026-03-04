@@ -14,6 +14,8 @@ import {
   AlertTriangle,
   ExternalLink,
   MoreVertical,
+  ChevronUp,
+  TrendingUp,
 } from "lucide-react";
 import IntegrationDetailsModal, {
   ConnStatus,
@@ -74,7 +76,12 @@ function StatusDropdown({
         className="inline-flex h-10 min-w-35 items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-semibold text-slate-800 hover:bg-slate-100"
       >
         {value}
-        <ChevronDown className="h-4 w-4 text-slate-500" />
+        {/* conditional icon */}
+        {open ? (
+          <ChevronUp className="h-4 w-4 text-slate-500" />
+        ) : (
+          <ChevronDown className="h-4 w-4 text-slate-500" />
+        )}
       </button>
 
       {open && (
@@ -96,7 +103,7 @@ function StatusDropdown({
               >
                 <span className="text-slate-800">{opt}</span>
                 {active ? (
-                  <Check className="h-5 w-5 text-slate-500" />
+                  <Check className="h-5 w-5 text-[#666666]" />
                 ) : (
                   <span className="h-5 w-5" />
                 )}
@@ -121,7 +128,7 @@ function StatusPill({ status }: { status: ConnStatus }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold",
+        "inline-flex items-center rounded-full border px-3 py-1 text-[13px] font-medium",
         cls,
       )}
     >
@@ -144,27 +151,23 @@ function IntegrationCard({
     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50">
+          <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[#EFF6FF]">
             <Icon className="h-5 w-5 text-blue-600" />
           </div>
           <div>
-            <div className="text-sm font-semibold text-slate-900">
-              {item.name}
-            </div>
+            <div className="text-sm font-semibold text-black">{item.name}</div>
           </div>
         </div>
         <StatusPill status={item.status} />
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 text-xs">
-        <div className="text-slate-500">
+      <div className="mt-4 text-[13px]">
+        <div className="text-[#666666] flex justify-between mt-1">
           <div>Last Sync</div>
-          <div className="mt-1 font-semibold text-slate-900">
-            {item.lastSync}
-          </div>
+          <div className="mt-1 font-semibold text-black">{item.lastSync}</div>
         </div>
 
-        <div className="text-right text-slate-500">
+        <div className="text-[#666666] flex justify-between mt-1">
           <div>Sync Errors (24h)</div>
           <div
             className={cn(
@@ -176,11 +179,9 @@ function IntegrationCard({
           </div>
         </div>
 
-        <div className="text-slate-500">
+        <div className="text-[#666666] flex justify-between mt-1">
           <div>Connected Brokers</div>
-          <div className="mt-1 font-semibold text-slate-900">
-            {item.brokers}
-          </div>
+          <div className="mt-1 font-semibold text-black">{item.brokers}</div>
         </div>
 
         <div />
@@ -203,7 +204,7 @@ function IntegrationCard({
         </button>
         <button
           type="button"
-          className="rounded-xl border border-slate-200 bg-white py-2 text-sm font-semibold text-rose-500 hover:bg-rose-50"
+          className="rounded-xl border border-slate-200 bg-white py-2 text-sm font-semibold text-[#D76C6C] hover:bg-rose-50"
         >
           Disable
         </button>
@@ -215,43 +216,71 @@ function IntegrationCard({
 /* ----------------------------- email + alerts ----------------------------- */
 function EmailServicesCard() {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="flex items-start justify-between">
-        <div className="flex items-center gap-3">
-          <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50">
-            <Mail className="h-5 w-5 text-emerald-600" />
-          </div>
-          <div>
-            <div className="text-sm font-semibold text-slate-900">
-              Email Delivery
+    <div>
+      <div className="rounded-2xl border border-slate-200 bg-white p-6">
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-3">
+            <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#DCFCE7]">
+              <Mail className="h-5.5 w-5.5 text-[#00A63E]" />
             </div>
-            <div className="text-xs text-slate-500">SendGrid Integration</div>
+            <div>
+              <div className="font-semibold text-black">Email Delivery</div>
+              <div className="text-[13px] text-[#666666]">
+                SendGrid Integration
+              </div>
+            </div>
           </div>
+
+          <span className="inline-flex items-center rounded-full border border-emerald-100 bg-[#DCFCE7] px-3 py-1 text-[13px] font-semibold text-[#1B7231]">
+            Connected
+          </span>
         </div>
 
-        <span className="inline-flex items-center rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-          Connected
-        </span>
+        <div className="mt-5 grid grid-cols-2 gap-4">
+          <div className="rounded-2xl bg-[#F9FAFB] p-4">
+            <div className="text-[13px] text-[#666666]">Emails Sent (24h)</div>
+            <div className="mt-2 text-2xl font-bold text-black">8,547</div>
+            <div className="mt-2 text-[13px] text-[#15D946]">
+              <TrendingUp className="inline-block h-3 w-3 mr-1 " />
+              <span>+12% from yesterday</span>
+            </div>
+          </div>
+
+          <div className="rounded-2xl bg-[#F9FAFB] p-4">
+            <div className="text-[13px] text-[#666666]">Bounce Rate</div>
+            <div className="mt-2 text-2xl font-bold text-black">1.2%</div>
+            <div className="mt-2 text-[13px] text-[#666666]">
+              Within acceptable range
+            </div>
+          </div>
+
+          {/* Horizontal divider */}
+          <div className="h-px bg-slate-200" />
+
+          {/* Horizontal divider */}
+          <div className="h-px bg-slate-200" />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="mt-4">
+            <div className="text-[#666666] text-[13px]">
+              <div>Delivery Success</div>
+              <div className="mt-2 text-2xl font-semibold text-[#00A63E]">
+                98.8%
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <div className="text-[#666666] text-[13px]">
+              <div>Failed Emails</div>
+              <div className="mt-2 text-2xl font-semibold text-[#E7000B]">
+                103
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div className="mt-5 grid grid-cols-2 gap-4">
-        <div className="rounded-2xl bg-slate-50/60 p-4">
-          <div className="text-xs text-slate-500">Emails Sent (24h)</div>
-          <div className="mt-2 text-2xl font-bold text-slate-900">8,547</div>
-          <div className="mt-1 text-xs font-semibold text-emerald-600">
-            ~ +12% from yesterday
-          </div>
-        </div>
-
-        <div className="rounded-2xl bg-slate-50/60 p-4">
-          <div className="text-xs text-slate-500">Bounce Rate</div>
-          <div className="mt-2 text-2xl font-bold text-slate-900">1.2%</div>
-          <div className="mt-1 text-xs text-slate-500">
-            Within acceptable range
-          </div>
-        </div>
-      </div>
-
       <div className="mt-4 grid grid-cols-2 gap-3">
         <button
           type="button"
@@ -275,8 +304,8 @@ type AlertTone = "Warning" | "Critical";
 function AlertTag({ tone }: { tone: AlertTone }) {
   const cls =
     tone === "Warning"
-      ? "bg-amber-50 text-amber-700 border-amber-100"
-      : "bg-rose-50 text-rose-700 border-rose-100";
+      ? "bg-[#FFEDD4 ] text-[#D76C6C]"
+      : "bg-[#D4183D] text-white";
   return (
     <span
       className={cn(
@@ -314,15 +343,13 @@ function SystemAlertsCard() {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="flex items-start gap-3">
-        <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50">
-          <AlertTriangle className="h-5 w-5 text-amber-600" />
+        <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[#FFEDD4]">
+          <AlertTriangle className="h-5 w-5 text-[#F54900]" />
         </div>
 
         <div>
-          <div className="text-sm font-semibold text-slate-900">
-            System Alerts
-          </div>
-          <div className="text-xs text-slate-500">
+          <div className="font-semibold text-black">System Alerts</div>
+          <div className="text-[13px] text-[#666666]">
             Recent integration issues
           </div>
         </div>
@@ -338,19 +365,17 @@ function SystemAlertsCard() {
             )}
           >
             <div className="flex items-center gap-2">
-              <div className="text-sm font-semibold text-slate-900">
-                {a.title}
-              </div>
+              <div className="text-sm font-semibold text-black">{a.title}</div>
               <AlertTag tone={a.tone} />
             </div>
-            <div className="mt-1 text-xs text-slate-600">{a.desc}</div>
-            <div className="mt-1 text-xs text-slate-400">{a.time}</div>
+            <div className="mt-1 text-[13px] text-[#666]">{a.desc}</div>
+            <div className="mt-1 text-[13px] text-[#666]">{a.time}</div>
 
             <button
               type="button"
               className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50"
             >
-              <ExternalLink className="h-4 w-4 text-slate-500" />
+              <ExternalLink className="h-4 w-4 text-[#666666]" />
               View Related Logs
             </button>
           </div>
@@ -373,14 +398,14 @@ type WebhookRow = {
 function WebhookStatusPill({ s }: { s: WebhookRow["status"] }) {
   const cls =
     s === "Active"
-      ? "bg-emerald-50 text-emerald-700"
+      ? "bg-[#DCFCE7] text-[#1B7231]"
       : s === "Failed"
-        ? "bg-rose-600 text-white"
-        : "bg-amber-50 text-amber-700";
+        ? "bg-[#D4183D] text-white"
+        : "bg-[#FEF9C2] text-[#D76C6C]";
   return (
     <span
       className={cn(
-        "inline-flex rounded-full px-3 py-1 text-xs font-bold",
+        "inline-flex rounded-full px-3 py-1 text-[13px] font-medium",
         cls,
       )}
     >
@@ -507,30 +532,28 @@ export default function SuperAdminIntegrations() {
     <div className="min-h-screen bg-white">
       <div className="mx-auto w-full max-w-7xl px-10 py-8">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">
+          <h1 className="text-2xl font-semibold text-black">
             Integrations Management
           </h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-[#666666]">
             Configure and monitor third-party integrations
           </p>
         </div>
 
-        <div className="mt-5 rounded-2xl border border-sky-300/70 bg-sky-50 px-5 py-4">
-          <div className="flex items-start gap-3">
-            <div className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-full border border-sky-400/60 bg-white">
-              <Info className="h-4 w-4 text-sky-600" />
-            </div>
+        <div className="mt-5 rounded-2xl border border-sky-300/70 bg-sky-50 p-4">
+          <div className="flex items-center gap-3">
+            <Info className="h-4 w-4 shrink-0 text-[#00B4FE]" />
 
-            <div className="text-sm font-semibold text-sky-700">
-              <span className="font-extrabold">Important:</span> Integrations
+            <p className="text-[13px] font-medium text-[#00B4FE]">
+              <span className="font-semibold">Important:</span> Integrations
               affect broker workflow and commission tracking. Monitor connection
               status to ensure uninterrupted system performance.
-            </div>
+            </p>
           </div>
         </div>
 
         <div className="mt-8 flex items-center justify-between">
-          <div className="text-sm font-bold text-slate-900">
+          <div className="font-semibold text-black">
             CRM &amp; Workflow Integrations
           </div>
           <StatusDropdown value={filter} onChange={setFilter} />
@@ -548,7 +571,7 @@ export default function SuperAdminIntegrations() {
 
         <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div>
-            <div className="mb-3 text-sm font-bold text-slate-900">
+            <div className="mb-3 sm font-semibold text-black">
               Email Services
             </div>
             <EmailServicesCard />
@@ -560,10 +583,8 @@ export default function SuperAdminIntegrations() {
 
         <div className="mt-10 overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <div className="px-6 py-5">
-            <div className="text-sm font-bold text-slate-900">
-              Webhook Monitor
-            </div>
-            <div className="text-xs text-slate-500">
+            <div className="font-semibold text-black">Webhook Monitor</div>
+            <div className="mt-1 text-[13px] text-[#4A5565]">
               Real-time webhook delivery tracking
             </div>
           </div>
@@ -571,7 +592,7 @@ export default function SuperAdminIntegrations() {
           <div className="overflow-x-auto">
             <table className="w-full min-w-225">
               <thead>
-                <tr className="border-t border-slate-200 bg-slate-50/40">
+                <tr className="border-t border-[#0000001A] bg-[#F9FAFB]">
                   {[
                     "Event Type",
                     "Endpoint URL",
@@ -583,7 +604,7 @@ export default function SuperAdminIntegrations() {
                   ].map((h) => (
                     <th
                       key={h}
-                      className="px-6 py-3 text-left text-xs font-bold text-slate-700"
+                      className="px-3 py-3 text-left text-[13px] font-bold text-slate-700"
                     >
                       {h}
                     </th>
@@ -594,30 +615,28 @@ export default function SuperAdminIntegrations() {
               <tbody className="divide-y divide-slate-200">
                 {webhooks.map((r) => (
                   <tr key={r.type} className="bg-white">
-                    <td className="px-6 py-4 text-sm text-slate-700">
-                      {r.type}
-                    </td>
-                    <td className="px-6 py-4 text-xs text-slate-500">
+                    <td className="px-3 py-1.5 text-sm text-black">{r.type}</td>
+                    <td className="px-3 py-1.5 text-[13px] text-[#666666]">
                       {r.url}
                     </td>
-                    <td className="px-6 py-4 text-xs text-slate-500">
+                    <td className="px-3 py-1.5 text-[13px] text-[#666666]">
                       {r.lastTriggered}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 py-1.5">
                       <WebhookStatusPill s={r.status} />
                     </td>
                     <td
                       className={cn(
-                        "px-6 py-4 text-sm font-semibold",
-                        r.failures > 0 ? "text-rose-600" : "text-slate-700",
+                        "px-3 py-1.5 text-sm font-semibold",
+                        r.failures > 0 ? "text-[#D76C6C]" : "text-[#666666]",
                       )}
                     >
                       {r.failures}
                     </td>
-                    <td className="px-6 py-4 text-xs text-slate-500">
+                    <td className="px-3 py-1.5 text-[13px] text-[#666666]">
                       {r.retry}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 py-1.5">
                       <button
                         type="button"
                         className="inline-flex h-9 w-9 items-center justify-center rounded-xl hover:bg-slate-50"
