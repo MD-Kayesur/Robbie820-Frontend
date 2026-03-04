@@ -5,11 +5,11 @@ import {
   PlanCard,
   SubscriptionRow,
   Tab,
-} from "@/components/SuperAdminDashboardCom/SASubscriptionsCom/types";
+} from "@/pages/SuperAdminDashboard/SuperAdminSubscriptions/types";
 import {
   plansMock,
   subscriptionsMock,
-} from "@/components/SuperAdminDashboardCom/SASubscriptionsCom/mock";
+} from "@/pages/SuperAdminDashboard/SuperAdminSubscriptions/mock";
 import { SegmentedTabs } from "@/components/SuperAdminDashboardCom/SASubscriptionsCom/SegmentedTabs";
 import { Dropdown } from "@/components/SuperAdminDashboardCom/SASubscriptionsCom/Dropdown";
 import { SubscriptionAccountsTab } from "@/components/SuperAdminDashboardCom/SASubscriptionsCom/tabs/SubscriptionAccountsTab";

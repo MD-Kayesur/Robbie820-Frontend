@@ -1,7 +1,10 @@
 // src/pages/SuperAdmin/SubscriptionsCom/modals/EditPlanModal.tsx
 import React, { useEffect, useId, useRef, useState } from "react";
 import { X } from "lucide-react";
-import type { PlanCard, PlanName } from "../types";
+import type {
+  PlanCard,
+  PlanName,
+} from "../../../../pages/SuperAdminDashboard/SuperAdminSubscriptions/types";
 import { useEscClose, useLockBodyScroll } from "../utils";
 
 function Field({

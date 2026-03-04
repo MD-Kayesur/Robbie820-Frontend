@@ -1,6 +1,6 @@
 // src/pages/SuperAdmin/SubscriptionsCom/charts/RevenueLineChart.tsx
 
-import { RevenuePoint } from "../types";
+import { RevenuePoint } from "../../../../pages/SuperAdminDashboard/SuperAdminSubscriptions/types";
 import {
   ResponsiveContainer,
   LineChart,
