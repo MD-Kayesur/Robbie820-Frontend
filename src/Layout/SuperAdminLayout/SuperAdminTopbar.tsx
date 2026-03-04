@@ -2,47 +2,43 @@ import { Search, Bell } from "lucide-react";
 
 const SuperAdminTopbar = () => {
   return (
-    <header className="h-25 w-full bg-white border-b border-slate-100 flex items-center justify-between px-10 relative z-50">
-      <div className="flex items-center gap-10 flex-1">
-        <h2 className="text-xl font-black text-slate-800 tracking-tighter hidden lg:block">
+    <header className="relative z-50 w-full bg-white">
+      <div className="mx-auto flex h-20 items-center justify-between px-6 lg:px-10">
+        {/* Left: Title */}
+        <h2 className="text-2xl font-semibold px-9 tracking-tight text-slate-900 sm:text-3xl">
           Platform Overview
         </h2>
 
-        {/* Search Bar */}
-        <div className="max-w-100 w-full relative group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-hover:text-sky-500 transition-colors" />
-          <input
-            type="text"
-            placeholder="Search records, users, or logs..."
-            className="w-full h-12 bg-slate-50 border border-slate-100 rounded-2xl pl-12 pr-4 font-bold text-slate-600 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:bg-white transition-all text-[15px]"
-          />
-        </div>
-      </div>
-
-      <div className="flex items-center gap-8">
-        {/* Notifications */}
-        <button className="relative p-2 text-slate-400 hover:text-sky-500 transition-colors group">
-          <Bell className="w-6 h-6 stroke-[2.5px]" />
-          <span className="absolute top-1.5 right-2 w-2.5 h-2.5 bg-rose-500 border-2 border-white rounded-full"></span>
-        </button>
-
-        {/* Topbar User Profile */}
-        <div className="flex items-center gap-4 cursor-pointer hover:bg-slate-50 p-2 rounded-2xl transition-all">
-          <div className="flex flex-col items-end mr-1">
-            <h4 className="font-black text-slate-900 leading-tight">
-              Alexander Thomas
-            </h4>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
-              Super Admin
-            </p>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-sky-100 overflow-hidden shadow-sm border-2 border-white ring-1 ring-slate-100">
-            <img
-              src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alexander"
-              alt="Alexander Thomas"
-              className="w-full h-full object-cover"
+        {/* Right: Search + actions */}
+        <div className="flex items-center gap-4 sm:gap-6">
+          {/* Search */}
+          <div className="relative hidden w-105 max-w-130 md:block">
+            <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search users, subscriptions, logs..."
+              className="h-11 w-full rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] pl-11 pr-4 text-sm text-slate-700 placeholder:text-slate-400 outline-none transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60"
             />
           </div>
+
+          {/* Bell */}
+          <button
+            type="button"
+            className="relative grid h-11 w-11 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100"
+            aria-label="Notifications"
+          >
+            <Bell className="h-5 w-5" />
+            <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-rose-500 ring-2 ring-white" />
+          </button>
+
+          {/* Avatar */}
+          <button
+            type="button"
+            className="grid h-11 w-11 place-items-center rounded-full bg-[linear-gradient(135deg,#2B7FFF_0%,#1447E6_100%)] text-sm font-bold text-white"
+            aria-label="Account"
+          >
+            SA
+          </button>
         </div>
       </div>
     </header>

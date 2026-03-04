@@ -312,11 +312,11 @@ export default function SuperAdminDashboard() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="mx-auto w-full max-w-7xl px-10 py-6">
+      <div className="mx-auto w-full max-w-7xl pb-4">
         {/* top filter */}
         <div
           ref={dropdownRef}
-          className="relative flex items-center justify-between"
+          className="relative px-7 pt-3.5 flex items-center justify-between border-t border-slate-200"
         >
           <button
             type="button"
@@ -351,14 +351,14 @@ export default function SuperAdminDashboard() {
           )}
         </div>
 
-        <div>
+        <div className="px-7">
           <p className="mt-2 text-xs text-slate-500">
             Date range dynamically updates all metrics below
           </p>
         </div>
 
         {/* Key Metrics */}
-        <div className="pt-7 mt-3 border-t border-slate-200">
+        <div className="pt-7 px-7 mt-3 border-t border-slate-200">
           <SectionTitle>Key Metrics</SectionTitle>
 
           <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
@@ -405,7 +405,7 @@ export default function SuperAdminDashboard() {
         </div>
 
         {/* Growth Metrics */}
-        <div className="mt-9">
+        <div className="mt-9 px-7">
           <SectionTitle>Growth Metrics</SectionTitle>
 
           <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -431,7 +431,7 @@ export default function SuperAdminDashboard() {
         </div>
 
         {/* Platform Control Snapshot */}
-        <div className="mt-9">
+        <div className="mt-9 px-7">
           <SectionTitle>Platform Control Snapshot</SectionTitle>
 
           <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
@@ -496,7 +496,7 @@ export default function SuperAdminDashboard() {
         </div>
 
         {/* System Health */}
-        <div className="mt-9">
+        <div className="mt-9 px-7">
           <SectionTitle>System Health</SectionTitle>
 
           <div className="mt-4 rounded-2xl border border-slate-200 bg-white shadow-sm">
