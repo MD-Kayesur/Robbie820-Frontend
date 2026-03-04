@@ -2,7 +2,7 @@
 import React from "react";
 import { Check, SquarePen } from "lucide-react";
 
-import type { PlanCard } from "../types";
+import type { PlanCard } from "../../../../pages/SuperAdminDashboard/SuperAdminSubscriptions/types";
 import { cn } from "../utils";
 import { EditPlanModal } from "../modals/EditPlanModal";
 

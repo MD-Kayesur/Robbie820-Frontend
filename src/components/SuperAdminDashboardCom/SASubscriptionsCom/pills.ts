@@ -1,5 +1,9 @@
 // src/pages/SuperAdmin/SubscriptionsCom/pills.ts
-import type { PaymentStatus, PlanName, SubStatus } from "./types";
+import type {
+  PaymentStatus,
+  PlanName,
+  SubStatus,
+} from "../../../pages/SuperAdminDashboard/SuperAdminSubscriptions/types";
 
 export const planPill = (p: PlanName) =>
   p === "Enterprise"

@@ -1,5 +1,8 @@
 // src/pages/SuperAdmin/SubscriptionsCom/tabs/RevenueAnalyticsTab.tsx
-import { revenueByPlanMock, revenueTrendMock } from "../mock";
+import {
+  revenueByPlanMock,
+  revenueTrendMock,
+} from "../../../../pages/SuperAdminDashboard/SuperAdminSubscriptions/mock";
 import { RevenueLineChart } from "../charts/RevenueLineChart";
 import { StatCard } from "../StatCard";
 import {

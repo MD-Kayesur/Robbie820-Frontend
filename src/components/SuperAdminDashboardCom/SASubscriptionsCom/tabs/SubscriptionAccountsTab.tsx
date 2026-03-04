@@ -2,7 +2,7 @@
 import React from "react";
 import { MoreVertical } from "lucide-react";
 
-import type { SubscriptionRow } from "../types";
+import type { SubscriptionRow } from "../../../../pages/SuperAdminDashboard/SuperAdminSubscriptions/types";
 import { cn } from "../utils";
 import { planPill, paymentPill, statusPill } from "../pills";
 import { ActionsMenu } from "../ActionsMenu";
