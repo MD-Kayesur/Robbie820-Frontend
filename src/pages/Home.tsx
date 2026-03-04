@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import laptopMockup from "../../laptop_dashboard_mockup_1772505073423.png";
+import { Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import laptopMockup from "../assets/laptop_dashboard_mockup_1772505073423.png";
 import DashboardMarquee from "@/components/DashboardMarquee/DashboardMarquee";
 import FeaturesSection from "@/components/FeaturesSection/FeaturesSection";
 
@@ -19,7 +19,10 @@ const Home = () => {
       <header className="fixed top-0 left-0 right-0 z-50 px-4 py-6 md:px-8">
         <nav className="max-w-6xl mx-auto bg-white/90 backdrop-blur-xl border border-white/50 rounded-[2rem] px-8 py-5 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
           {/* Logo */}
-          <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => navigate("/")}>
+          <div
+            className="flex items-center gap-2.5 cursor-pointer group"
+            onClick={() => navigate("/")}
+          >
             <div className="w-9 h-9 bg-sky-500 rounded-xl flex items-center justify-center shadow-lg shadow-sky-500/30 group-hover:scale-110 transition-transform duration-300">
               <span className="text-white font-black text-xl">R</span>
             </div>
@@ -68,8 +71,11 @@ const Home = () => {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1] tracking-tight text-[#0F172A]"
               >
-                Automate Referral <br className="hidden md:block" /> Commissions <br className="hidden lg:block" />
-                <span className="text-sky-500 inline-block mt-2">With Complete Accuracy</span>
+                Automate Referral <br className="hidden md:block" /> Commissions{" "}
+                <br className="hidden lg:block" />
+                <span className="text-sky-500 inline-block mt-2">
+                  With Complete Accuracy
+                </span>
               </motion.h1>
 
               <motion.p
@@ -78,7 +84,9 @@ const Home = () => {
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                 className="text-xl md:text-2xl text-slate-500 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium"
               >
-                Eliminate Manual Tracking And Commission Disputes. Our Platform Connects Brokers, And Referral Partners With Transparent, Automated Commission Management.
+                Eliminate Manual Tracking And Commission Disputes. Our Platform
+                Connects Brokers, And Referral Partners With Transparent,
+                Automated Commission Management.
               </motion.p>
             </div>
 
