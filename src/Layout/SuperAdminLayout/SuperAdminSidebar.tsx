@@ -3,7 +3,6 @@ import {
   LayoutGrid,
   Users,
   CreditCard,
-  TrendingUp,
   GitBranch,
   FileText,
   Settings,
@@ -60,11 +59,6 @@ const SuperAdminSidebar = () => {
           to="/admin/subscriptions"
           icon={CreditCard}
           label="Subscriptions"
-        />
-        <SidebarItem
-          to="/admin/commission-monitoring"
-          icon={TrendingUp}
-          label="Commission Monitoring"
         />
         <SidebarItem
           to="/admin/integrations"

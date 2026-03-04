@@ -24,16 +24,16 @@ import {
 import {
   TotalLicensedUsersModal,
   type UserRow,
-} from "../../components/AdminDashboardCom/ADComModals/TotalLicensedUsersModal";
-import { TotalRegisteredAccountsModal } from "../../components/AdminDashboardCom/ADComModals/TotalRegisteredAccountsModal";
+} from "../../components/SuperAdminDashboardCom/SADashboardComModals/TotalLicensedUsersModal";
+import { TotalRegisteredAccountsModal } from "../../components/SuperAdminDashboardCom/SADashboardComModals/TotalRegisteredAccountsModal";
 import {
   ActiveSubscriptionsModal,
   type SubscriptionRow,
-} from "../../components/AdminDashboardCom/ADComModals/ActiveSubscriptionsModal";
+} from "../../components/SuperAdminDashboardCom/SADashboardComModals/ActiveSubscriptionsModal";
 import {
   AnnualRevenueAnalyticsModal,
   type RevenueRow,
-} from "../../components/AdminDashboardCom/ADComModals/AnnualRevenueAnalyticsModal";
+} from "../../components/SuperAdminDashboardCom/SADashboardComModals/AnnualRevenueAnalyticsModal";
 
 type Tone = "indigo" | "blue" | "emerald" | "amber";
 

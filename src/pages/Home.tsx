@@ -17,7 +17,7 @@ const Home = () => {
     <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] font-sans selection:bg-sky-100 overflow-x-hidden no-scrollbar">
       {/* Navbar Section */}
       <header className="fixed top-0 left-0 right-0 z-50 px-4 py-6 md:px-8">
-        <nav className="max-w-6xl mx-auto bg-white/90 backdrop-blur-xl border border-white/50 rounded-[2rem] px-8 py-5 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+        <nav className="max-w-6xl mx-auto bg-white/90 backdrop-blur-xl border border-white/50 rounded-4xl px-8 py-5 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
           {/* Logo */}
           <div
             className="flex items-center gap-2.5 cursor-pointer group"
@@ -58,8 +58,8 @@ const Home = () => {
       {/* Hero Section */}
       <main className="relative pt-48 pb-16 px-4 md:px-8">
         {/* Background Decorations */}
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-sky-100/40 rounded-full blur-[120px] -z-10 translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-50/50 rounded-full blur-[100px] -z-10 -translate-x-1/4 translate-y-1/4" />
+        <div className="absolute top-0 right-0 w-200 h-200 bg-sky-100/40 rounded-full blur-[120px] -z-10 translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 left-0 w-150 h-150 bg-blue-50/50 rounded-full blur-[100px] -z-10 -translate-x-1/4 translate-y-1/4" />
 
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
           {/* Hero Text content */}
@@ -69,7 +69,7 @@ const Home = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-[1] tracking-tight text-[#0F172A]"
+                className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold leading-none tracking-tight text-[#0F172A]"
               >
                 Automate Referral <br className="hidden md:block" /> Commissions{" "}
                 <br className="hidden lg:block" />
