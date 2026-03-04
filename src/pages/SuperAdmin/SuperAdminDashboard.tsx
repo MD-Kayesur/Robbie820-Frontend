@@ -1,4 +1,4 @@
-// src/components/dashboard/SuperAdminDashboard.tsx
+// src/components/SuperAdmin/SuperAdminDashboard.tsx
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
