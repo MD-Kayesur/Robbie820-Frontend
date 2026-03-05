@@ -1,6 +1,6 @@
 // src/pages/SuperAdmin/SubscriptionsCom/SegmentedTabs.tsx
-import type { Tab } from "../../../pages/SuperAdminDashboard/SuperAdminSubscriptions/types";
 import { cn } from "@/hooks/useCn";
+import type { Tab } from "../../../pages/SuperAdminDashboard/SuperAdminSubscriptions/types";
 
 export function SegmentedTabs({
   tab,
