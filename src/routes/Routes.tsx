@@ -4,12 +4,6 @@ import Home from "@/pages/Home/Home";
 import Login from "@/pages/Login/Login";
 import Signup from "@/pages/Signup/Signup";
 import ReferrerLayout from "@/Layout/ReferrerLayout/ReferrerLayout";
-import ReferrerDashboard from "@/pages/ReferrerDashboard/ReferrerDashboard";
-import {
-  ReferrerMyReferrals,
-  ReferrerNotifications,
-  ReferrerSettings,
-} from "@/pages/ReferrerDashboard/ReferrerRoutes";
 import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
 import AdminRoutes from "./AdminRoutes";
 import BrokerLayout from "@/Layout/BrokerLayout/BrokerLayout";
@@ -31,6 +25,10 @@ import SuperAdminSettings from "@/pages/SuperAdminDashboard/SuperAdminSettings/S
 import SuperAdminDashboard from "@/pages/SuperAdminDashboard/SuperAdminDashboard/SuperAdminDashboard";
 import SuperAdminLayoutNoTopbar from "@/Layout/SuperAdminLayout/SuperAdminLayoutNoTopbar";
 import RootLayout from "@/Layout/RootLayout/RootLayout";
+import ReferrerOverview from "@/pages/ReferrerDashboard/ReferrerOverview/ReferrerOverview";
+import { ReferrerMyReferrals } from "@/pages/ReferrerDashboard/ReferrerMyReferrals/ReferrerMyReferrals";
+import ReferrerNotifications from "@/pages/ReferrerDashboard/ReferrerNotifications/ReferrerNotifications";
+import ReferrerSettings from "@/pages/ReferrerDashboard/ReferrerSettings/ReferrerSettings";
 
 const routes = createBrowserRouter([
   {
@@ -55,8 +53,8 @@ const routes = createBrowserRouter([
         path: "/referrer-dashboard",
         element: <ReferrerLayout />,
         children: [
-          { index: true, element: <ReferrerDashboard /> },
-          { path: "overview", element: <ReferrerDashboard /> },
+          { index: true, element: <ReferrerOverview /> },
+          { path: "overview", element: <ReferrerOverview /> },
           { path: "my-referrals", element: <ReferrerMyReferrals /> },
           { path: "notifications", element: <ReferrerNotifications /> },
           { path: "settings", element: <ReferrerSettings /> },

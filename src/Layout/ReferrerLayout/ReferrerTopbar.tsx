@@ -1,10 +1,11 @@
 // src/Layout/ReferrerLayout/ReferrerTopbar.tsx
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Bell, Plus, Search } from "lucide-react";
 import { cn } from "@/hooks/useCn";
+import NewReferralModal from "@/components/ReferrerDashboardCom/NewReferralModal";
 
 type TopbarMeta = {
   title: string;
@@ -48,6 +49,8 @@ const ROUTE_META: Array<{ match: (p: string) => boolean; meta: TopbarMeta }> = [
 export default function ReferrerTopbar() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+
+  const [openNew, setOpenNew] = useState(false);
 
   const meta = useMemo(() => {
     return (
@@ -108,7 +111,7 @@ export default function ReferrerTopbar() {
           {/* New Referral */}
           <button
             type="button"
-            onClick={() => navigate("/referrer-dashboard/my-referrals/new")}
+            onClick={() => setOpenNew(true)}
             className={cn(
               "inline-flex h-12 items-center gap-3 rounded-md bg-black px-6",
               "text-sm font-medium uppercase tracking-wide text-white",
@@ -123,6 +126,17 @@ export default function ReferrerTopbar() {
 
       {/* Bottom divider (like screenshot) */}
       <div className="mt-3.5 h-px w-full bg-slate-200/70" />
+
+      {/* Modal */}
+      <NewReferralModal
+        open={openNew}
+        onClose={() => setOpenNew(false)}
+        onSubmit={(data) => {
+          // wire your API here
+          // eslint-disable-next-line no-console
+          console.log("new referral submit:", data);
+        }}
+      />
     </header>
   );
 }
