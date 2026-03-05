@@ -1,3 +1,4 @@
+import  { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
     Users,
@@ -10,8 +11,26 @@ import {
     ArrowUpRight,
     MoreHorizontal,
     RefreshCcw,
-    CloudLightning
-} from 'lucide-react';
+    CloudLightning,
+    Percent,
+ } from 'lucide-react';
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 const MetricCard = ({ title, value, badge, icon: Icon, color }: any) => (
     <motion.div
@@ -69,6 +88,8 @@ const LineChartPlaceholder = () => (
 );
 
 const BrokerDashboard = () => {
+    const [isCreateLeadOpen, setIsCreateLeadOpen] = useState(false);
+
     const leads = [
         { name: 'Alice Henderson', ref: 'prime estates', amount: '$450,000', date: '2023-11-20', status: 'APPROVED', rate: '4.25%/80% LVR', commission: '$12,525', statusColor: 'text-emerald-500' },
         { name: 'Alice Henderson', ref: 'salesforce', amount: '$450,000', date: '2023-11-20', status: 'APPLICATION IN PROGRESS', rate: '3.85%/65% LVR', commission: '$15,000', statusColor: 'text-sky-500' },
@@ -95,7 +116,10 @@ const BrokerDashboard = () => {
                         <Calendar className="w-4 h-4" /> Nov 2025 - Jan 2026
                     </button>
                 </div>
-                <button className="bg-sky-500 text-white px-8 h-12 rounded-xl font-black text-xs uppercase tracking-[0.2em] hover:bg-sky-600 transition-all shadow-xl shadow-sky-100 flex items-center gap-2">
+                <button
+                    onClick={() => setIsCreateLeadOpen(true)}
+                    className="bg-sky-500 text-white px-8 h-12 rounded-xl font-black text-xs uppercase tracking-[0.2em] hover:bg-sky-600 transition-all shadow-xl shadow-sky-100 flex items-center gap-2"
+                >
                     <Plus className="w-4 h-4" /> Create Lead
                 </button>
             </div>
@@ -223,8 +247,139 @@ const BrokerDashboard = () => {
                     </table>
                 </div>
             </section>
+
+            {/* Create Lead Modal */}
+            <Dialog open={isCreateLeadOpen} onOpenChange={setIsCreateLeadOpen}>
+                <DialogContent className="sm:max-w-[500px] p-0 overflow-hidden border-none rounded-[1.5rem] shadow-2xl">
+                    <DialogHeader className="p-8 pb-0">
+                        <DialogTitle className="text-2xl font-black text-slate-900 tracking-tight">Create New Lead</DialogTitle>
+                        <DialogDescription className="text-slate-400 font-bold text-sm leading-relaxed mt-1">
+                            Capture basic client details to start the referral process.
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="p-8 space-y-8 max-h-[80vh] overflow-y-auto custom-scrollbar">
+                        {/* Client Details Section */}
+                        <div className="space-y-4">
+                            <h3 className="text-[12px] font-black uppercase tracking-widest text-slate-800 mb-6">Client Details</h3>
+
+                            <div className="space-y-2">
+                                <Label className="text-[13px] font-bold text-slate-600 ml-1">Full Name <span className="text-rose-500">*</span></Label>
+                                <Input
+                                    placeholder="e.g. Jonathan Smith"
+                                    className="h-12 bg-slate-50/50 border-slate-100 rounded-xl px-5 font-medium focus:bg-white transition-all outline-none"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label className="text-[13px] font-bold text-slate-600 ml-1">Email Address <span className="text-rose-500">*</span></Label>
+                                <Input
+                                    type="email"
+                                    placeholder="jonathan@email.com"
+                                    className="h-12 bg-slate-50/50 border-slate-100 rounded-xl px-5 font-medium focus:bg-white transition-all outline-none"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label className="text-[13px] font-bold text-slate-600 ml-1">Mobile Number <span className="text-rose-500">*</span></Label>
+                                <Input
+                                    placeholder="+61 XXX XXX XXX"
+                                    className="h-12 bg-slate-50/50 border-slate-100 rounded-xl px-5 font-medium focus:bg-white transition-all outline-none"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label className="text-[13px] font-bold text-slate-600 ml-1">Company Name</Label>
+                                <Input
+                                    placeholder="e.g. TechFlow Solutions"
+                                    className="h-12 bg-slate-50/50 border-slate-100 rounded-xl px-5 font-medium focus:bg-white transition-all outline-none"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Lead Information Section */}
+                        <div className="space-y-4">
+                            <h3 className="text-[12px] font-black uppercase tracking-widest text-slate-800 mb-6">Lead Information</h3>
+
+                            <div className="space-y-2">
+                                <Label className="text-[13px] font-bold text-slate-600 ml-1">Estimated Loan Amount</Label>
+                                <Input
+                                    placeholder="$350,000"
+                                    className="h-12 bg-slate-50/50 border-slate-100 rounded-xl px-5 font-medium focus:bg-white transition-all outline-none"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label className="text-[13px] font-bold text-slate-600 ml-1">Lead Stage <span className="text-rose-500">*</span></Label>
+                                <Select defaultValue="new">
+                                    <SelectTrigger className="h-12 bg-slate-50/50 border-slate-100 rounded-xl px-5 font-medium focus:bg-white transition-all w-full text-slate-600">
+                                        <SelectValue placeholder="Select lead stage" />
+                                    </SelectTrigger>
+                                    <SelectContent className="rounded-xl border-slate-100 shadow-xl">
+                                        <SelectItem value="new" className="font-bold py-3">New Lead</SelectItem>
+                                        <SelectItem value="contacted" className="font-bold py-3">Contacted</SelectItem>
+                                        <SelectItem value="progress" className="font-bold py-3">Application in Progress</SelectItem>
+                                        <SelectItem value="submitted" className="font-bold py-3">Submitted to Lender</SelectItem>
+                                        <SelectItem value="settled" className="font-bold py-3">Settled</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
+
+                        {/* Assign to Team Member Section */}
+                        <div className="space-y-4">
+                            <h3 className="text-[12px] font-black uppercase tracking-widest text-slate-800 mb-6">Assign to Team Member</h3>
+
+                            <div className="space-y-2">
+                                <Label className="text-[13px] font-bold text-slate-600 ml-1">Allocate Lead To <span className="text-rose-500">*</span></Label>
+                                <Select defaultValue="marcus">
+                                    <SelectTrigger className="h-12 bg-slate-50/50 border-slate-100 rounded-xl px-5 font-medium focus:bg-white transition-all w-full text-slate-600">
+                                        <SelectValue placeholder="Select team member" />
+                                    </SelectTrigger>
+                                    <SelectContent className="rounded-xl border-slate-100 shadow-xl">
+                                        <SelectItem value="marcus" className="font-bold py-3">Marcus Broker (You)</SelectItem>
+                                        <SelectItem value="sarah" className="font-bold py-3">Sarah Team</SelectItem>
+                                        <SelectItem value="john" className="font-bold py-3">John Staff</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <p className="text-[11px] font-bold text-slate-400 ml-1 mt-1 uppercase tracking-wider">Select which team member will manage this lead.</p>
+                            </div>
+                        </div>
+
+                        {/* Commission Box */}
+                        <div className="bg-emerald-50 rounded-2xl border border-emerald-100 p-6 flex items-start gap-4">
+                            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-emerald-500 shadow-sm shrink-0">
+                                <Percent size={18} strokeWidth={3} />
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-[11px] font-black text-emerald-800 uppercase tracking-widest">Estimated Referrer Commission</p>
+                                <h4 className="text-2xl font-black text-emerald-600 tracking-tight">$0.00</h4>
+                                <p className="text-[10px] font-bold text-emerald-900/40 leading-relaxed">
+                                    Automatically calculated based on the partner agreement and updated as details are entered.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="p-8 pt-4 bg-slate-50/50 border-t border-slate-100 flex gap-4">
+                        <Button
+                            variant="outline"
+                            onClick={() => setIsCreateLeadOpen(false)}
+                            className="flex-1 h-12 rounded-xl border-slate-200 font-bold text-slate-600 hover:bg-white hover:border-slate-300 transition-all"
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            className="flex-2 h-12 rounded-xl bg-black text-white font-black uppercase tracking-wider hover:bg-slate-900 transition-all shadow-xl shadow-black/10"
+                        >
+                            Create Lead
+                        </Button>
+                    </div>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 };
 
 export default BrokerDashboard;
+

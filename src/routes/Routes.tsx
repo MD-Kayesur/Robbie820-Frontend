@@ -5,12 +5,10 @@ import NotFound from "@/pages/NotFound";
 import Home from "@/pages/Home";
 
 import ReferrerLayout from "@/Layout/ReferrerLayout/ReferrerLayout";
-import ReferrerDashboard from "@/pages/Referrer/ReferrerDashboard";
-import {
-  ReferrerMyReferrals,
-  ReferrerNotifications,
-  ReferrerSettings,
-} from "@/pages/Referrer/ReferrerRoutes";
+import ReferrerDashboard from "@/pages/Referrer/ReferrerDashboard/ReferrerDashboard";
+import ReferrerMyReferrals from "@/pages/Referrer/ReferrerMyReferrals/ReferrerMyReferrals";
+import ReferrerNotifications from "@/pages/Referrer/ReferrerNotifications/ReferrerNotifications";
+import ReferrerSettings from "@/pages/Referrer/ReferrerSettings/ReferrerSettings";
 
 import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
 
@@ -20,16 +18,14 @@ import CookiePolicy from "@/pages/About/CookiePolicy";
 import AdminRoutes from "./AdminRoutes";
 
 import BrokerLayout from "@/Layout/BrokerLayout/BrokerLayout";
-import BrokerDashboard from "@/pages/Broker/BrokerDashboard";
-import {
-  BrokerMyReferrals,
-  BrokerPartnerProfile,
-  BrokerTeamManagement,
-  BrokerReport,
-  BrokerNotifications,
-  BrokerSubscription,
-  BrokerSettings,
-} from "@/pages/Broker/BrokerRoutes";
+import BrokerDashboard from "@/pages/Broker/BrokerDashboard/BrokerDashboard";
+import BrokerMyReferrals from "@/pages/Broker/BrokerMyReferrals/BrokerMyReferrals";
+import BrokerPartnerProfile from "@/pages/Broker/BrokerPartnerProfile/BrokerPartnerProfile";
+import BrokerTeamManagement from "@/pages/Broker/BrokerTeamManagement/BrokerTeamManagement";
+import BrokerReport from "@/pages/Broker/BrokerReport/BrokerReport";
+import BrokerNotifications from "@/pages/Broker/BrokerNotifications/BrokerNotifications";
+import BrokerSubscription from "@/pages/Broker/BrokerSubscription/BrokerSubscription";
+import BrokerSettings from "@/pages/Broker/BrokerSettings/BrokerSettings";
 import SuperAdminUserManagement from "@/pages/SuperAdminDashboard/SuperAdminUserManagement/SuperAdminUserManagement";
 import SuperAdminSubscriptions from "@/pages/SuperAdminDashboard/SuperAdminSubscriptions/SuperAdminSubscriptions";
 import SuperAdminIntegrations from "@/pages/SuperAdminDashboard/SuperAdminIntegrations/SuperAdminIntegrations";
