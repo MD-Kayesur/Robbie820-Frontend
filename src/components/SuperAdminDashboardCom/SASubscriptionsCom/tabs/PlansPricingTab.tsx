@@ -3,7 +3,7 @@ import React from "react";
 import { Check, SquarePen } from "lucide-react";
 
 import type { PlanCard } from "../../../../pages/SuperAdminDashboard/SuperAdminSubscriptions/types";
-import { cn } from "../utils";
+import { cn } from "@/hooks/useCn";
 import { EditPlanModal } from "../modals/EditPlanModal";
 
 export function PlansPricingTab({
