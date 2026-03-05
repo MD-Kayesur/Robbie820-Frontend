@@ -60,6 +60,7 @@ const Signup: React.FC = () => {
     // Simulate API call
     setTimeout(() => {
       setLoading(false);
+      localStorage.setItem('userRole', role);
       toast.success('Account created successfully!');
       navigate('/login');
     }, 1500);
@@ -97,7 +98,7 @@ const Signup: React.FC = () => {
           {step === 'role' && (
             <div className="grid grid-cols-2 gap-6 mb-10">
               <button
-                onClick={() => setRole('referrer')}
+                onClick={() => { setRole('referrer'); localStorage.setItem('userRole', 'referrer'); }}
                 className={`flex flex-col items-center gap-4 p-8 rounded-2xl border-2 transition-all duration-300 ${role === 'referrer'
                   ? 'border-sky-500 bg-white shadow-lg shadow-sky-500/10'
                   : 'border-slate-100 bg-slate-50/50 hover:border-sky-200'
@@ -110,7 +111,7 @@ const Signup: React.FC = () => {
                 <span className="font-black text-slate-800">Referrer</span>
               </button>
               <button
-                onClick={() => setRole('broker')}
+                onClick={() => { setRole('broker'); localStorage.setItem('userRole', 'broker'); }}
                 className={`flex flex-col items-center gap-4 p-8 rounded-2xl border-2 transition-all duration-300 ${role === 'broker'
                   ? 'border-sky-500 bg-white shadow-lg shadow-sky-500/10'
                   : 'border-slate-100 bg-slate-50/50 hover:border-sky-200'

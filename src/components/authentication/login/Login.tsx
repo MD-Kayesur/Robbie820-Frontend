@@ -1,18 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, ArrowRight, ChevronLeft } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, ChevronLeft, User, Building } from 'lucide-react';
 import { toast } from 'react-hot-toast';
-
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState<'referrer' | 'broker'>((localStorage.getItem('userRole') as any) || 'referrer');
 
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+
+  // Sync with localStorage when role changes
+  useEffect(() => {
+    localStorage.setItem('userRole', role);
+  }, [role]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,15 +31,18 @@ const Login: React.FC = () => {
     setTimeout(() => {
       setLoading(false);
       toast.success('Logged in successfully!');
-      // Default to referrer for now, or use logic if role is stored
-      navigate('/referrer');
+
+      // Redirect based on selected role
+      if (role === 'broker') {
+        navigate('/broker');
+      } else {
+        navigate('/referrer');
+      }
     }, 1500);
   };
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] flex flex-col items-center justify-center p-6">
-
-
       {/* Content Card */}
       <div className="w-full max-w-[500px] bg-white rounded-[2rem] border border-sky-100 shadow-xl shadow-sky-500/5 p-10 relative">
 
@@ -44,13 +52,39 @@ const Login: React.FC = () => {
           className="absolute left-10 top-10 flex items-center gap-2 text-sky-500 font-bold text-sm uppercase tracking-wider hover:text-sky-600 transition-colors"
         >
           <ChevronLeft size={18} strokeWidth={3} />
-          Back to Account Type
+          Back to signup
         </Link>
 
         <div className="mt-12 text-center">
           <h1 className="text-3xl font-black text-slate-900 tracking-tight mb-8">
-            Welcome
+            Welcome back
           </h1>
+
+          {/* Role Selection inside Login card */}
+          <div className="grid grid-cols-2 gap-4 mb-8">
+            <button
+              type="button"
+              onClick={() => setRole('referrer')}
+              className={`flex items-center justify-center gap-2 py-3 rounded-xl border-2 transition-all duration-300 ${role === 'referrer'
+                ? 'border-sky-500 bg-sky-50 text-sky-600 shadow-sm'
+                : 'border-slate-100 bg-slate-50/50 hover:border-sky-200 text-slate-500 hover:text-sky-500'
+                }`}
+            >
+              <User size={18} strokeWidth={2.5} />
+              <span className="font-bold text-sm uppercase tracking-wider">Referrer</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setRole('broker')}
+              className={`flex items-center justify-center gap-2 py-3 rounded-xl border-2 transition-all duration-300 ${role === 'broker'
+                ? 'border-sky-500 bg-sky-50 text-sky-600 shadow-sm'
+                : 'border-slate-100 bg-slate-50/50 hover:border-sky-200 text-slate-500 hover:text-sky-500'
+                }`}
+            >
+              <Building size={18} strokeWidth={2.5} />
+              <span className="font-bold text-sm uppercase tracking-wider">Broker</span>
+            </button>
+          </div>
 
           <form onSubmit={handleLogin} className="space-y-6 text-left">
             <div className="space-y-2">
@@ -112,7 +146,7 @@ const Login: React.FC = () => {
 
           {/* Footer Link */}
           <div className="mt-10 font-bold text-slate-400">
-            Already have an account? <Link to="/signup" className="text-sky-500">Sign Up</Link>
+            Don't have an account? <Link to="/signup" className="text-sky-500">Sign Up</Link>
           </div>
         </div>
       </div>
