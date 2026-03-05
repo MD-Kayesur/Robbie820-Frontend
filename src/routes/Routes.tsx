@@ -16,10 +16,6 @@ import {
 
 import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
 
-import About from "@/pages/About";
-import TermsOfService from "@/pages/About/TermsOfService";
-import PrivacyPolicy from "@/pages/About/PrivacyPolicy";
-import CookiePolicy from "@/pages/About/CookiePolicy";
 import AdminRoutes from "./AdminRoutes";
 
 import BrokerLayout from "@/Layout/BrokerLayout/BrokerLayout";
@@ -51,29 +47,6 @@ const routes = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/about-content",
-        element: <ReferrerLayout />,
-        children: [
-          {
-            path: "about",
-            element: <About />,
-          },
-          {
-            path: "terms",
-            element: <TermsOfService />,
-          },
-          {
-            path: "privacy",
-            element: <PrivacyPolicy />,
-          },
-          {
-            path: "cookies",
-            element: <CookiePolicy />,
-          },
-        ],
-      },
-
-      {
         path: "/login",
         element: <Login />,
       },
@@ -84,7 +57,7 @@ const routes = createBrowserRouter([
 
       // referrer
       {
-        path: "/referrer",
+        path: "/referrer-dashboard",
         element: <ReferrerLayout />,
         children: [
           { index: true, element: <ReferrerDashboard /> },
@@ -97,7 +70,7 @@ const routes = createBrowserRouter([
 
       // broker
       {
-        path: "/broker",
+        path: "/broker-dashboard",
         element: <BrokerLayout />,
         children: [
           { index: true, element: <BrokerDashboard /> },

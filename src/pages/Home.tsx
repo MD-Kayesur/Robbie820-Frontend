@@ -3,16 +3,12 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import laptopMockup from "../assets/laptop_dashboard_mockup_1772505073423.png";
-import DashboardMarquee from "@/components/DashboardMarquee/DashboardMarquee";
-import FeaturesSection from "@/components/FeaturesSection/FeaturesSection";
-import HowItWorks from "@/components/HowItWorks/HowItWorks";
-import SecurityCompliance from "@/components/SecurityCompliance/SecurityCompliance";
-import PricingSection from "@/components/PricingSection/PricingSection";
-import Footer from "@/components/Footer/Footer";
-
-
-
-
+import DashboardMarquee from "@/components/LandingPageCom/DashboardMarquee/DashboardMarquee";
+import FeaturesSection from "@/components/LandingPageCom/FeaturesSection/FeaturesSection";
+import HowItWorks from "@/components/LandingPageCom/HowItWorks/HowItWorks";
+import SecurityCompliance from "@/components/LandingPageCom/SecurityCompliance/SecurityCompliance";
+import PricingSection from "@/components/LandingPageCom/PricingSection/PricingSection";
+import Footer from "@/components/LandingPageCom/Footer/Footer";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -177,10 +173,6 @@ const Home = () => {
 
       {/* Footer Section */}
       <Footer />
-
-
-
-
     </div>
   );
 };
