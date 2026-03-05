@@ -1,29 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
-
 import NotFound from "@/pages/NotFound";
-import Home from "@/pages/Home";
-import Login from "@/pages/Login";
-import Signup from "@/pages/Signup";
-
+import Home from "@/pages/Home/Home";
+import Login from "@/pages/Login/Login";
+import Signup from "@/pages/Signup/Signup";
 import ReferrerLayout from "@/Layout/ReferrerLayout/ReferrerLayout";
-import ReferrerDashboard from "@/pages/Referrer/ReferrerDashboard";
-import {
-  ReferrerMyReferrals,
-  ReferrerNotifications,
-  ReferrerSettings,
-} from "@/pages/Referrer/ReferrerRoutes";
-
 import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
-
-import About from "@/pages/About";
-import TermsOfService from "@/pages/About/TermsOfService";
-import PrivacyPolicy from "@/pages/About/PrivacyPolicy";
-import CookiePolicy from "@/pages/About/CookiePolicy";
 import AdminRoutes from "./AdminRoutes";
-
 import BrokerLayout from "@/Layout/BrokerLayout/BrokerLayout";
-import BrokerDashboard from "@/pages/Broker/BrokerDashboard";
+import BrokerDashboard from "@/pages/BrokerDashboard/BrokerDashboard";
 import {
   BrokerMyReferrals,
   BrokerPartnerProfile,
@@ -32,7 +16,7 @@ import {
   BrokerNotifications,
   BrokerSubscription,
   BrokerSettings,
-} from "@/pages/Broker/BrokerRoutes";
+} from "@/pages/BrokerDashboard/BrokerRoutes";
 import SuperAdminUserManagement from "@/pages/SuperAdminDashboard/SuperAdminUserManagement/SuperAdminUserManagement";
 import SuperAdminSubscriptions from "@/pages/SuperAdminDashboard/SuperAdminSubscriptions/SuperAdminSubscriptions";
 import SuperAdminIntegrations from "@/pages/SuperAdminDashboard/SuperAdminIntegrations/SuperAdminIntegrations";
@@ -40,39 +24,21 @@ import SuperAdminAuditLogs from "@/pages/SuperAdminDashboard/SuperAdminAuditLogs
 import SuperAdminSettings from "@/pages/SuperAdminDashboard/SuperAdminSettings/SuperAdminSettings";
 import SuperAdminDashboard from "@/pages/SuperAdminDashboard/SuperAdminDashboard/SuperAdminDashboard";
 import SuperAdminLayoutNoTopbar from "@/Layout/SuperAdminLayout/SuperAdminLayoutNoTopbar";
+import RootLayout from "@/Layout/RootLayout/RootLayout";
+import ReferrerOverview from "@/pages/ReferrerDashboard/ReferrerOverview/ReferrerOverview";
+import { ReferrerMyReferrals } from "@/pages/ReferrerDashboard/ReferrerMyReferrals/ReferrerMyReferrals";
+import ReferrerNotifications from "@/pages/ReferrerDashboard/ReferrerNotifications/ReferrerNotifications";
+import ReferrerSettings from "@/pages/ReferrerDashboard/ReferrerSettings/ReferrerSettings";
 
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <RootLayout />,
     children: [
       {
         index: true,
         element: <Home />,
       },
-      {
-        path: "/about-content",
-        element: <ReferrerLayout />,
-        children: [
-          {
-            path: "about",
-            element: <About />,
-          },
-          {
-            path: "terms",
-            element: <TermsOfService />,
-          },
-          {
-            path: "privacy",
-            element: <PrivacyPolicy />,
-          },
-          {
-            path: "cookies",
-            element: <CookiePolicy />,
-          },
-        ],
-      },
-
       {
         path: "/login",
         element: <Login />,
@@ -84,11 +50,11 @@ const routes = createBrowserRouter([
 
       // referrer
       {
-        path: "/referrer",
+        path: "/referrer-dashboard",
         element: <ReferrerLayout />,
         children: [
-          { index: true, element: <ReferrerDashboard /> },
-          { path: "overview", element: <ReferrerDashboard /> },
+          { index: true, element: <ReferrerOverview /> },
+          { path: "overview", element: <ReferrerOverview /> },
           { path: "my-referrals", element: <ReferrerMyReferrals /> },
           { path: "notifications", element: <ReferrerNotifications /> },
           { path: "settings", element: <ReferrerSettings /> },
@@ -97,7 +63,7 @@ const routes = createBrowserRouter([
 
       // broker
       {
-        path: "/broker",
+        path: "/broker-dashboard",
         element: <BrokerLayout />,
         children: [
           { index: true, element: <BrokerDashboard /> },
@@ -112,7 +78,7 @@ const routes = createBrowserRouter([
         ],
       },
 
-      // admin
+      // super admin
       {
         path: "/super-admin",
         element: <AdminRoutes />,

@@ -5,7 +5,8 @@ import type {
   PlanCard,
   PlanName,
 } from "../../../../pages/SuperAdminDashboard/SuperAdminSubscriptions/types";
-import { useEscClose, useLockBodyScroll } from "../utils";
+import { useEscClose } from "@/hooks/useEscClose";
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 
 function Field({
   label,

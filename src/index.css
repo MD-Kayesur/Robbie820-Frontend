@@ -19,6 +19,11 @@ html {
   font-family: "Consolas", monospace;
 }
 
+/* Clash Display */
+.clash {
+  font-family: "Clash Display", sans-serif;
+}
+
 body {
   font-family: "Clash Display", sans-serif;
 }
