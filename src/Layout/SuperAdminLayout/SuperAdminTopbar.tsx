@@ -5,7 +5,7 @@ const SuperAdminTopbar = () => {
     <header className="relative z-50 w-full bg-white">
       <div className="mx-auto flex h-20 items-center justify-between px-6 lg:px-10">
         {/* Left: Title */}
-        <h2 className="text-2xl font-semibold px-9 tracking-tight text-slate-900 sm:text-3xl">
+        <h2 className="text-xl font-semibold px-9 tracking-tight text-black sm:text-2xl">
           Platform Overview
         </h2>
 

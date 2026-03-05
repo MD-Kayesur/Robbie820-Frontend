@@ -24,10 +24,7 @@ import {
   rangeOptions,
   userOptions,
 } from "./mock";
-
-function cn(...s: Array<string | false | null | undefined>) {
-  return s.filter(Boolean).join(" ");
-}
+import { cn } from "@/hooks/useCn";
 
 function useEscClose(open: boolean, onClose: () => void) {
   useEffect(() => {
