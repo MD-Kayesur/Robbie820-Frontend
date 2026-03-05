@@ -4,8 +4,7 @@ import { Mail, Lock, User, Sparkles, Zap, Eye, EyeOff, Target, ChevronDown } fro
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
-import signupimage from "@/assets/prontocorso/PeopleWorking.png";
-import logoLight from "@/assets/prontocorso/ProntoCorsoLogoLight-removebg-preview.png";
+ import logoLight from "@/assets/prontocorso/ProntoCorsoLogoLight-removebg-preview.png";
 import logoDark from "@/assets/prontocorso/ProntoCorsoLogoDark-removebg-preview.png";
 import { useTheme } from "@/components/ThemeToggle/theme-provider";
 // --- Type Definitions ---

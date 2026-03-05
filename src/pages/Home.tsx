@@ -3,12 +3,12 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import laptopMockup from "../assets/laptop_dashboard_mockup_1772505073423.png";
-import DashboardMarquee from "@/components/DashboardMarquee/DashboardMarquee";
-import FeaturesSection from "@/components/FeaturesSection/FeaturesSection";
-import HowItWorks from "@/components/HowItWorks/HowItWorks";
-import SecurityCompliance from "@/components/SecurityCompliance/SecurityCompliance";
-import PricingSection from "@/components/PricingSection/PricingSection";
-import Footer from "@/components/Footer/Footer";
+import DashboardMarquee from "@/components/HomePage/DashboardMarquee";
+import FeaturesSection from "@/components/HomePage/FeaturesSection";
+import HowItWorks from "@/components/HomePage/HowItWorks";
+import SecurityCompliance from "@/components/HomePage/SecurityCompliance";
+import PricingSection from "@/components/HomePage/PricingSection";
+import Footer from "@/components/HomePage/Footer";
 
 
 
