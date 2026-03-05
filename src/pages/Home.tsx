@@ -5,6 +5,10 @@ import { Button } from "@/components/ui/button";
 import laptopMockup from "../assets/laptop_dashboard_mockup_1772505073423.png";
 import DashboardMarquee from "@/components/DashboardMarquee/DashboardMarquee";
 import FeaturesSection from "@/components/FeaturesSection/FeaturesSection";
+import HowItWorks from "@/components/HowItWorks/HowItWorks";
+import SecurityCompliance from "@/components/SecurityCompliance/SecurityCompliance";
+
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -157,6 +161,14 @@ const Home = () => {
 
       {/* Features Section */}
       <FeaturesSection />
+
+      {/* How It Works Section */}
+      <HowItWorks />
+
+      {/* Security & Compliance Section */}
+      <SecurityCompliance />
+
+
     </div>
   );
 };
