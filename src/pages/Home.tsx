@@ -7,6 +7,8 @@ import DashboardMarquee from "@/components/DashboardMarquee/DashboardMarquee";
 import FeaturesSection from "@/components/FeaturesSection/FeaturesSection";
 import HowItWorks from "@/components/HowItWorks/HowItWorks";
 import SecurityCompliance from "@/components/SecurityCompliance/SecurityCompliance";
+import PricingSection from "@/components/PricingSection/PricingSection";
+
 
 
 
@@ -167,6 +169,10 @@ const Home = () => {
 
       {/* Security & Compliance Section */}
       <SecurityCompliance />
+
+      {/* Pricing Section */}
+      <PricingSection />
+
 
 
     </div>
