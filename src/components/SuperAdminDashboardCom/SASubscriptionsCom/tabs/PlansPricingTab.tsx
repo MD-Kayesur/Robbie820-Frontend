@@ -3,7 +3,6 @@ import React from "react";
 import { Check, SquarePen } from "lucide-react";
 
 import type { PlanCard } from "../../../../pages/SuperAdminDashboard/SuperAdminSubscriptions/types";
-
 import { EditPlanModal } from "../modals/EditPlanModal";
 import { cn } from "@/hooks/useCn";
 
