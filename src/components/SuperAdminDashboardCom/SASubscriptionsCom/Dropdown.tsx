@@ -1,7 +1,8 @@
 // src/pages/SuperAdmin/SubscriptionsCom/Dropdown.tsx
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { cn, useOutsideClose } from "./utils";
+import { useOutsideClose } from "@/hooks/useOutsideClose";
+import { cn } from "@/hooks/useCn";
 
 export function Dropdown<T extends string>({
   value,
