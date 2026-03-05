@@ -1,25 +1,19 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
-
 import NotFound from "@/pages/NotFound";
-import Home from "@/pages/Home";
-import Login from "@/pages/Login";
-import Signup from "@/pages/Signup";
-
+import Home from "@/pages/Home/Home";
+import Login from "@/pages/Login/Login";
+import Signup from "@/pages/Signup/Signup";
 import ReferrerLayout from "@/Layout/ReferrerLayout/ReferrerLayout";
-import ReferrerDashboard from "@/pages/Referrer/ReferrerDashboard";
+import ReferrerDashboard from "@/pages/ReferrerDashboard/ReferrerDashboard";
 import {
   ReferrerMyReferrals,
   ReferrerNotifications,
   ReferrerSettings,
-} from "@/pages/Referrer/ReferrerRoutes";
-
+} from "@/pages/ReferrerDashboard/ReferrerRoutes";
 import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
-
 import AdminRoutes from "./AdminRoutes";
-
 import BrokerLayout from "@/Layout/BrokerLayout/BrokerLayout";
-import BrokerDashboard from "@/pages/Broker/BrokerDashboard";
+import BrokerDashboard from "@/pages/BrokerDashboard/BrokerDashboard";
 import {
   BrokerMyReferrals,
   BrokerPartnerProfile,
@@ -28,7 +22,7 @@ import {
   BrokerNotifications,
   BrokerSubscription,
   BrokerSettings,
-} from "@/pages/Broker/BrokerRoutes";
+} from "@/pages/BrokerDashboard/BrokerRoutes";
 import SuperAdminUserManagement from "@/pages/SuperAdminDashboard/SuperAdminUserManagement/SuperAdminUserManagement";
 import SuperAdminSubscriptions from "@/pages/SuperAdminDashboard/SuperAdminSubscriptions/SuperAdminSubscriptions";
 import SuperAdminIntegrations from "@/pages/SuperAdminDashboard/SuperAdminIntegrations/SuperAdminIntegrations";
@@ -36,11 +30,12 @@ import SuperAdminAuditLogs from "@/pages/SuperAdminDashboard/SuperAdminAuditLogs
 import SuperAdminSettings from "@/pages/SuperAdminDashboard/SuperAdminSettings/SuperAdminSettings";
 import SuperAdminDashboard from "@/pages/SuperAdminDashboard/SuperAdminDashboard/SuperAdminDashboard";
 import SuperAdminLayoutNoTopbar from "@/Layout/SuperAdminLayout/SuperAdminLayoutNoTopbar";
+import RootLayout from "@/Layout/RootLayout/RootLayout";
 
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <RootLayout />,
     children: [
       {
         index: true,
@@ -85,7 +80,7 @@ const routes = createBrowserRouter([
         ],
       },
 
-      // admin
+      // super admin
       {
         path: "/super-admin",
         element: <AdminRoutes />,

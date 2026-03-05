@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import laptopMockup from "../assets/laptop_dashboard_mockup_1772505073423.png";
+import laptopMockup from "../../assets/laptop_dashboard_mockup_1772505073423.png";
 import DashboardMarquee from "@/components/LandingPageCom/DashboardMarquee/DashboardMarquee";
 import FeaturesSection from "@/components/LandingPageCom/FeaturesSection/FeaturesSection";
 import HowItWorks from "@/components/LandingPageCom/HowItWorks/HowItWorks";
