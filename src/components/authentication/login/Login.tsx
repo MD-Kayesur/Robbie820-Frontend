@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, ArrowRight, ChevronLeft, User, Building } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, ChevronLeft } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [role, setRole] = useState<'referrer' | 'broker'>((localStorage.getItem('userRole') as any) || 'referrer');
+  const [role] = useState<'referrer' | 'broker'>((localStorage.getItem('userRole') as any) || 'referrer');
 
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
 
-  // Sync with localStorage when role changes
-  useEffect(() => {
-    localStorage.setItem('userRole', role);
-  }, [role]);
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,31 +57,7 @@ const Login: React.FC = () => {
             Welcome back
           </h1>
 
-          {/* Role Selection inside Login card */}
-          <div className="grid grid-cols-2 gap-4 mb-8">
-            <button
-              type="button"
-              onClick={() => setRole('referrer')}
-              className={`flex items-center justify-center gap-2 py-3 rounded-xl border-2 transition-all duration-300 ${role === 'referrer'
-                ? 'border-sky-500 bg-sky-50 text-sky-600 shadow-sm'
-                : 'border-slate-100 bg-slate-50/50 hover:border-sky-200 text-slate-500 hover:text-sky-500'
-                }`}
-            >
-              <User size={18} strokeWidth={2.5} />
-              <span className="font-bold text-sm uppercase tracking-wider">Referrer</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setRole('broker')}
-              className={`flex items-center justify-center gap-2 py-3 rounded-xl border-2 transition-all duration-300 ${role === 'broker'
-                ? 'border-sky-500 bg-sky-50 text-sky-600 shadow-sm'
-                : 'border-slate-100 bg-slate-50/50 hover:border-sky-200 text-slate-500 hover:text-sky-500'
-                }`}
-            >
-              <Building size={18} strokeWidth={2.5} />
-              <span className="font-bold text-sm uppercase tracking-wider">Broker</span>
-            </button>
-          </div>
+
 
           <form onSubmit={handleLogin} className="space-y-6 text-left">
             <div className="space-y-2">
