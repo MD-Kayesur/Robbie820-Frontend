@@ -1,10 +1,6 @@
 // src/pages/SuperAdmin/SubscriptionsCom/utils.ts
 import { useEffect, useRef } from "react";
 
-export function cn(...s: Array<string | false | null | undefined>) {
-  return s.filter(Boolean).join(" ");
-}
-
 export function useOutsideClose<T extends HTMLElement>(
   open: boolean,
   onClose: () => void,

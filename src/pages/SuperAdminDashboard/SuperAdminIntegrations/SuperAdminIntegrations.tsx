@@ -21,10 +21,7 @@ import IntegrationDetailsModal, {
   ConnStatus,
   IntegrationCardData,
 } from "@/components/SuperAdminDashboardCom/SAIntegrationsCom/modals/IntegrationDetailsModal";
-
-function cn(...s: Array<string | false | null | undefined>) {
-  return s.filter(Boolean).join(" ");
-}
+import { cn } from "@/hooks/useCn";
 
 function useOutsideClose<T extends HTMLElement>(
   open: boolean,
