@@ -14,6 +14,11 @@ html {
   font-family: "Inter", sans-serif;
 }
 
+/* Consolas font */
+.consolas {
+  font-family: "Consolas", monospace;
+}
+
 body {
   font-family: "Clash Display", sans-serif;
 }

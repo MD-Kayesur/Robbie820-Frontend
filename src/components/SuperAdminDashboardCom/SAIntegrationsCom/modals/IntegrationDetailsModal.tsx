@@ -2,10 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { X, RotateCcw, CheckCircle2, TrendingUp } from "lucide-react";
-
-function cn(...s: Array<string | false | null | undefined>) {
-  return s.filter(Boolean).join(" ");
-}
+import { cn } from "@/hooks/useCn";
 
 function useEscClose(open: boolean, onClose: () => void) {
   useEffect(() => {
