@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
     Users,
@@ -13,7 +13,7 @@ import {
     RefreshCcw,
     CloudLightning,
     Percent,
- } from 'lucide-react';
+} from 'lucide-react';
 import {
     Dialog,
     DialogContent,
@@ -31,6 +31,12 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger
+} from "@/components/ui/popover";
+import { Eye, FileEdit, StickyNote } from "lucide-react";
 
 const MetricCard = ({ title, value, badge, icon: Icon, color }: any) => (
     <motion.div
@@ -237,9 +243,33 @@ const BrokerDashboard = () => {
                                         </span>
                                     </td>
                                     <td className="px-8 py-6 text-right">
-                                        <button className="p-2 hover:bg-slate-100 rounded-lg transition-colors">
-                                            <MoreHorizontal className="w-5 h-5 text-slate-400" />
-                                        </button>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <button className="p-2 hover:bg-slate-100 rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-sky-500/20 active:scale-95 group">
+                                                    <MoreHorizontal className="w-5 h-5 text-slate-400 group-hover:text-sky-500 transition-colors" />
+                                                </button>
+                                            </PopoverTrigger>
+                                            <PopoverContent align="end" className="w-48 p-2 rounded-2xl border-slate-100 shadow-2xl shadow-slate-200/50 bg-white space-y-1">
+                                                <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors text-left group">
+                                                    <div className="p-1.5 rounded-lg bg-sky-50 text-sky-500 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                                                        <Eye className="w-3.5 h-3.5" />
+                                                    </div>
+                                                    <span className="text-[13px] font-bold text-slate-600">View Lead Details</span>
+                                                </button>
+                                                <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors text-left group">
+                                                    <div className="p-1.5 rounded-lg bg-emerald-50 text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                                                        <FileEdit className="w-3.5 h-3.5" />
+                                                    </div>
+                                                    <span className="text-[13px] font-bold text-slate-600">Update Status</span>
+                                                </button>
+                                                <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-colors text-left group">
+                                                    <div className="p-1.5 rounded-lg bg-amber-50 text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-colors">
+                                                        <StickyNote className="w-3.5 h-3.5" />
+                                                    </div>
+                                                    <span className="text-[13px] font-bold text-slate-600">Add Note</span>
+                                                </button>
+                                            </PopoverContent>
+                                        </Popover>
                                     </td>
                                 </tr>
                             ))}
