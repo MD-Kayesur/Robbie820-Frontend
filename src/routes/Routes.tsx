@@ -3,7 +3,7 @@ import App from "../App";
 
 import NotFound from "@/pages/NotFound";
 import Home from "@/pages/Home";
-  
+
 import ReferrerLayout from "@/Layout/ReferrerLayout/ReferrerLayout";
 import ReferrerDashboard from "@/pages/Referrer/ReferrerDashboard";
 import {
@@ -14,7 +14,7 @@ import {
 
 import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
 
- import TermsOfService from "@/pages/About/TermsOfService";
+import TermsOfService from "@/pages/About/TermsOfService";
 import PrivacyPolicy from "@/pages/About/PrivacyPolicy";
 import CookiePolicy from "@/pages/About/CookiePolicy";
 import AdminRoutes from "./AdminRoutes";
@@ -39,6 +39,7 @@ import SuperAdminDashboard from "@/pages/SuperAdminDashboard/SuperAdminDashboard
 import SuperAdminLayoutNoTopbar from "@/Layout/SuperAdminLayout/SuperAdminLayoutNoTopbar";
 import Login from "@/components/authentication/login/Login";
 import Signup from "@/components/authentication/Signup";
+import ForgotPasswordForm from "@/components/authentication/login/ForgotPasswordForm";
 
 const routes = createBrowserRouter([
   {
@@ -53,7 +54,7 @@ const routes = createBrowserRouter([
         path: "/about-content",
         element: <ReferrerLayout />,
         children: [
-          
+
           {
             path: "terms",
             element: <TermsOfService />,
@@ -76,6 +77,10 @@ const routes = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
+      },
+      {
+        path: "/forgot-password",
+        element: <ForgotPasswordForm />,
       },
 
       // referrer
