@@ -8,6 +8,8 @@ import FeaturesSection from "@/components/FeaturesSection/FeaturesSection";
 import HowItWorks from "@/components/HowItWorks/HowItWorks";
 import SecurityCompliance from "@/components/SecurityCompliance/SecurityCompliance";
 import PricingSection from "@/components/PricingSection/PricingSection";
+import Footer from "@/components/Footer/Footer";
+
 
 
 
@@ -172,6 +174,10 @@ const Home = () => {
 
       {/* Pricing Section */}
       <PricingSection />
+
+      {/* Footer Section */}
+      <Footer />
+
 
 
 
