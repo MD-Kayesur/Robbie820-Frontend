@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Mail, ShieldCheck, Loader2 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ModeToggle } from "../ThemeToggle/mode-toggle";
-// import { useVerifyEmailMutation } from "@/redux/features/auth/authApi";
+ // import { useVerifyEmailMutation } from "@/redux/features/auth/authApi";
  
  
 
@@ -63,7 +62,7 @@ export default function EmailVerify() {
     <div className="min-h-screen flex items-center justify-center px-4 bg-gray-100 text-gray-900 dark:bg-[#1A1C1D] dark:text-gray-200">
       {/* Theme toggle */}
       <div className="absolute top-8 right-8">
-        <ModeToggle />
+        {/* <ModeToggle /> */}
       </div>
 
       {/* Card */}

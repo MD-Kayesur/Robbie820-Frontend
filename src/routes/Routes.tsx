@@ -1,9 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
+import RootLayout from "@/Layout/RootLayout/RootLayout";
 
 import NotFound from "@/pages/NotFound";
-import Home from "@/pages/Home";
-
+ 
 import ReferrerLayout from "@/Layout/ReferrerLayout/ReferrerLayout";
 import ReferrerDashboard from "@/pages/Referrer/ReferrerDashboard/ReferrerDashboard";
 import ReferrerMyReferrals from "@/pages/Referrer/ReferrerMyReferrals/ReferrerMyReferrals";
@@ -11,10 +10,7 @@ import ReferrerNotifications from "@/pages/Referrer/ReferrerNotifications/Referr
 import ReferrerSettings from "@/pages/Referrer/ReferrerSettings/ReferrerSettings";
 
 import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
-
-import TermsOfService from "@/pages/About/TermsOfService";
-import PrivacyPolicy from "@/pages/About/PrivacyPolicy";
-import CookiePolicy from "@/pages/About/CookiePolicy";
+ 
 import AdminRoutes from "./AdminRoutes";
 
 import BrokerLayout from "@/Layout/BrokerLayout/BrokerLayout";
@@ -36,35 +32,18 @@ import SuperAdminLayoutNoTopbar from "@/Layout/SuperAdminLayout/SuperAdminLayout
 import Login from "@/components/authentication/login/Login";
 import Signup from "@/components/authentication/Signup";
 import ForgotPasswordForm from "@/components/authentication/login/ForgotPasswordForm";
+import Home from "@/pages/Home/Home";
 
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <RootLayout />,
     children: [
       {
         index: true,
         element: <Home />,
       },
-      {
-        path: "/about-content",
-        element: <ReferrerLayout />,
-        children: [
-
-          {
-            path: "terms",
-            element: <TermsOfService />,
-          },
-          {
-            path: "privacy",
-            element: <PrivacyPolicy />,
-          },
-          {
-            path: "cookies",
-            element: <CookiePolicy />,
-          },
-        ],
-      },
+     
 
       {
         path: "/login",
