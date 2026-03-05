@@ -1,9 +1,10 @@
 // src/pages/ReferrerDashboard/ReferrerMyReferrals/ReferrerMyReferrals.tsx
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
-  CalendarDays,
+  Calendar,
   ChevronDown,
+  Filter,
   MoreVertical,
   UserRound,
 } from "lucide-react";
@@ -20,29 +21,8 @@ import {
   statusOptions,
   timeOptions,
 } from "./mock";
-
-function cn(...s: Array<string | false | null | undefined>) {
-  return s.filter(Boolean).join(" ");
-}
-
-function useOutsideClose<T extends HTMLElement>(
-  open: boolean,
-  onClose: () => void,
-) {
-  const ref = useRef<T | null>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const onDown = (e: MouseEvent) => {
-      if (!ref.current) return;
-      if (!ref.current.contains(e.target as Node)) onClose();
-    };
-    document.addEventListener("mousedown", onDown);
-    return () => document.removeEventListener("mousedown", onDown);
-  }, [open, onClose]);
-
-  return ref;
-}
+import { cn } from "@/hooks/useCn";
+import { useOutsideClose } from "@/hooks/useOutsideClose";
 
 /* ----------------------------- helpers ----------------------------- */
 function monthLabel(ym: string) {
@@ -96,8 +76,6 @@ function presetToRange(preset: TimePreset): MonthRange | null {
   if (preset === "All Time") return null;
   if (preset === "This Month") return { from: ym(y, m), to: ym(y, m) };
 
-  // Last 3 months (including current)
-  // Example: Mar => Jan..Mar
   const fromMonthIndex = y * 12 + (m - 1) - 2; // inclusive
   const fromY = Math.floor(fromMonthIndex / 12);
   const fromM = (fromMonthIndex % 12) + 1;
@@ -122,7 +100,7 @@ function SelectLikeButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "h-11 min-w-42.5 rounded-xl border border-slate-200 bg-white px-3",
+        "h-11 min-w-35 rounded-xl border border-slate-200 bg-white px-3",
         "flex items-center justify-between gap-3 text-sm text-slate-700",
         "hover:bg-slate-50 active:scale-[0.99] transition",
         className,
@@ -183,7 +161,7 @@ function RowActions({
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
 
   return (
-    <div className="relative flex justify-end" ref={ref}>
+    <div className="relative" ref={ref}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -269,7 +247,7 @@ export const ReferrerMyReferrals = () => {
   }
 
   return (
-    <div className="w-full">
+    <div className="mx-auto max-w-400 bg-white p-6">
       {/* filters bar */}
       <div
         className={cn(
@@ -279,32 +257,12 @@ export const ReferrerMyReferrals = () => {
         )}
       >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-          {/* Status */}
-          <div className="relative" ref={statusRef}>
-            <SelectLikeButton
-              leftIcon={
-                <span className="grid h-7 w-7 place-items-center rounded-lg border border-slate-200 bg-white">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    className="text-slate-500"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M4 5h16v2l-6 7v5l-4-2v-3L4 7V5z"
-                    />
-                  </svg>
-                </span>
-              }
-              value="Status"
-              onClick={() => {
-                setStatusOpen((v) => !v);
-                setTimeOpen(false);
-                setRangeOpen(false);
-              }}
-              className="min-w-35 justify-start"
-            />
+          {/* Status (Static) */}
+          <div className="relative">
+            <div className="flex min-w-25 items-center justify-start gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700">
+              <Filter className="h-4 w-4 text-slate-500" />
+              <span>Status</span>
+            </div>
           </div>
 
           <div className="relative" ref={statusRef}>
@@ -315,7 +273,6 @@ export const ReferrerMyReferrals = () => {
                 setTimeOpen(false);
                 setRangeOpen(false);
               }}
-              className="min-w-55"
             />
             <Menu
               open={statusOpen}
@@ -336,7 +293,6 @@ export const ReferrerMyReferrals = () => {
                 setStatusOpen(false);
                 setRangeOpen(false);
               }}
-              className="min-w-45"
             />
             <Menu
               open={timeOpen}
@@ -351,7 +307,7 @@ export const ReferrerMyReferrals = () => {
           {/* Month range */}
           <div className="relative" ref={rangeRef}>
             <SelectLikeButton
-              leftIcon={<CalendarDays className="h-4 w-4" />}
+              leftIcon={<Calendar className="h-4 w-4" />}
               value={rangeLabel}
               onClick={() => {
                 setRangeOpen((v) => !v);
@@ -362,7 +318,7 @@ export const ReferrerMyReferrals = () => {
             />
 
             {rangeOpen ? (
-              <div className="absolute left-0 z-50 mt-2 w-[320px] rounded-2xl border border-slate-200 bg-white p-4 shadow-lg">
+              <div className="absolute left-0 z-50 mt-2 w-100 rounded-2xl border border-slate-200 bg-white p-4 shadow-lg">
                 <div className="grid gap-3">
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1.5">
@@ -396,33 +352,6 @@ export const ReferrerMyReferrals = () => {
                       />
                     </div>
                   </div>
-
-                  <div className="flex items-center justify-between gap-2 pt-1">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setTimePreset("All Time");
-                        setRange(defaultRange);
-                      }}
-                      className="h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-                    >
-                      Reset
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        // keep from <= to
-                        setRange((r) =>
-                          r.from <= r.to ? r : { from: r.to, to: r.from },
-                        );
-                        setRangeOpen(false);
-                      }}
-                      className="h-10 rounded-xl bg-slate-900 px-4 text-sm font-semibold text-white hover:opacity-95"
-                    >
-                      Apply
-                    </button>
-                  </div>
                 </div>
               </div>
             ) : null}
@@ -451,26 +380,33 @@ export const ReferrerMyReferrals = () => {
                   "EXPECTED REF FEE",
                   "DATE SUBMITTED",
                   "",
-                ].map((h) => (
-                  <th
-                    key={h}
-                    className={cn(
-                      "px-6 py-4 text-left text-xs font-semibold tracking-wide text-slate-500",
-                      h === "EXPECTED REF FEE" || h === "DATE SUBMITTED"
-                        ? "text-right"
-                        : "",
-                    )}
-                  >
-                    {h}
-                  </th>
-                ))}
+                ].map((h) => {
+                  const align =
+                    h === "EXPECTED REF FEE" || h === "DATE SUBMITTED"
+                      ? "text-right"
+                      : h === "CURRENT STATUS"
+                        ? "text-center"
+                        : "text-left";
+
+                  return (
+                    <th
+                      key={h}
+                      className={cn(
+                        "px-5 py-2 text-lg font-medium tracking-wide text-black",
+                        align,
+                      )}
+                    >
+                      {h}
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-slate-200">
+            <tbody>
               {filtered.map((r) => (
                 <tr key={r.id} className="hover:bg-slate-50/60">
-                  <td className="px-6 py-4">
+                  <td className="px-5 py-2">
                     <div className="min-w-0">
                       <p className="truncate text-sm font-semibold text-slate-900">
                         {r.clientName}
@@ -481,7 +417,7 @@ export const ReferrerMyReferrals = () => {
                     </div>
                   </td>
 
-                  <td className="px-6 py-4">
+                  <td className="px-5 py-2 text-center">
                     <span
                       className={cn(
                         "inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold",
@@ -492,7 +428,7 @@ export const ReferrerMyReferrals = () => {
                     </span>
                   </td>
 
-                  <td className="px-6 py-4">
+                  <td className="px-5 py-2">
                     <div className="flex items-center gap-2 text-sm text-slate-700">
                       <UserRound className="h-4 w-4 text-slate-400" />
                       <span className="font-semibold text-slate-800">
@@ -501,7 +437,7 @@ export const ReferrerMyReferrals = () => {
                     </div>
                   </td>
 
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-5 py-2 text-right">
                     <span className="text-sm font-semibold text-slate-900">
                       {r.expectedRefFee == null
                         ? "Pending"
@@ -509,13 +445,13 @@ export const ReferrerMyReferrals = () => {
                     </span>
                   </td>
 
-                  <td className="px-6 py-4 text-right">
+                  <td className="py-2 text-center">
                     <span className="text-sm font-semibold text-slate-900">
                       {r.dateSubmitted}
                     </span>
                   </td>
 
-                  <td className="px-3 py-4">
+                  <td className="py-4 text-left">
                     <RowActions
                       onEdit={() => {
                         // mock behaviour: edit does not change data, but stays functional
