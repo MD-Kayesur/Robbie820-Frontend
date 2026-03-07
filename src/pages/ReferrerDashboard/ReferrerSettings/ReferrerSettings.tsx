@@ -93,7 +93,6 @@ const ReferrerSettings = () => {
   }
 
   function onUploadDoc() {
-    // eslint-disable-next-line no-alert
     const title = prompt("Document title (mock):");
     if (!title) return;
 
@@ -111,71 +110,79 @@ const ReferrerSettings = () => {
 
   function onDownloadDoc(id: string) {
     const d = docs.find((x) => x.id === id);
-    // eslint-disable-next-line no-alert
     alert(`Download (mock): ${d?.title ?? id}`);
   }
 
   return (
-    <div className="mx-auto max-w-5xl bg-white py-9 clash">
-      {/* top tabs */}
-      <div className="mb-6 flex flex-wrap items-center gap-4 px-6">
-        {tabs.map((t) => {
-          const active = t === tab;
-          return (
-            <button
-              key={t}
-              type="button"
-              onClick={() => setTab(t)}
-              className={cn(
-                "relative text-sm text-black",
-                active ? "" : "hover:text-slate-700",
-              )}
-            >
-              <span className="px-2.5 py-1.5">{t.toUpperCase()}</span>
-              <span
+    <div className="mx-auto w-full max-w-375 bg-white px-4 pb-10 pt-5 sm:px-6 md:px-8 md:pb-12 md:pt-8 clash">
+      {/* tabs */}
+      <div className="overflow-x-auto no-scrollbar">
+        <div className="mb-6 flex min-w-max items-center gap-8 md:mb-8 md:gap-10">
+          {tabs.map((t) => {
+            const active = t === tab;
+
+            return (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setTab(t)}
                 className={cn(
-                  "absolute left-0 right-0 -bottom-px h-0.5 rounded-full transition",
-                  active ? "bg-[#00B4FE]" : "bg-transparent",
+                  "relative shrink-0 pb-3 text-left text-[15px] font-normal uppercase tracking-normal text-black transition md:pb-4 md:text-sm",
+                  active ? "" : "hover:text-slate-700",
                 )}
-              />
-            </button>
-          );
-        })}
+              >
+                <span>{t}</span>
+
+                <span
+                  className={cn(
+                    "absolute bottom-0 left-0 right-0 h-0.5 rounded-full transition",
+                    active ? "bg-[#00B4FE]" : "bg-transparent",
+                  )}
+                />
+              </button>
+            );
+          })}
+        </div>
       </div>
 
+      {/* divider */}
+      <div className="mb-7 h-px w-full bg-[#D9D9D9] md:mb-8" />
+
       {/* content */}
-      {tab === "My Profile" ? (
-        <MyProfileTab value={profile} onSave={setProfile} />
-      ) : null}
+      <div>
+        {tab === "My Profile" ? (
+          <MyProfileTab value={profile} onSave={setProfile} />
+        ) : null}
 
-      {tab === "Team Management" ? (
-        <TeamManagementTab
-          members={team}
-          onAdd={onAddMember}
-          onRemove={onRemoveMember}
-        />
-      ) : null}
+        {tab === "Team Management" ? (
+          <TeamManagementTab
+            members={team}
+            onAdd={onAddMember}
+            onRemove={onRemoveMember}
+          />
+        ) : null}
 
-      {tab === "Alerts" ? (
-        <AlertsTab
-          prefs={alertPrefs}
-          stages={alertStages}
-          onChangePrefs={setAlertPrefs}
-          onToggleStage={onToggleStage}
-        />
-      ) : null}
+        {tab === "Alerts" ? (
+          <AlertsTab
+            prefs={alertPrefs}
+            stages={alertStages}
+            onChangePrefs={setAlertPrefs}
+            onToggleStage={onToggleStage}
+          />
+        ) : null}
 
-      {tab === "Legal Documents" ? (
-        <LegalDocumentsTab
-          docs={docs}
-          onUpload={onUploadDoc}
-          onDownload={onDownloadDoc}
-        />
-      ) : null}
+        {tab === "Legal Documents" ? (
+          <LegalDocumentsTab
+            docs={docs}
+            onUpload={onUploadDoc}
+            onDownload={onDownloadDoc}
+          />
+        ) : null}
 
-      {tab === "Banking Details" ? (
-        <BankingDetailsTab value={banking} onSave={setBanking} />
-      ) : null}
+        {tab === "Banking Details" ? (
+          <BankingDetailsTab value={banking} onSave={setBanking} />
+        ) : null}
+      </div>
 
       <TMTNewMemberModal
         open={memberModalOpen}

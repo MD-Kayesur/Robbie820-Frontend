@@ -9,14 +9,16 @@ import { Toggle } from "@/hooks/useToggle2";
 function Field({
   label,
   children,
+  className,
 }: {
   label: string;
   children: React.ReactNode;
+  className?: string;
 }) {
   return (
-    <div className="relative pt-3">
-      <div className="relative rounded-lg border border-gray-300 px-5 pb-3 pt-4">
-        <span className="absolute -top-2 left-8 bg-white px-3 text-sm leading-3.5 text-black">
+    <div className={cn("relative pt-3", className)}>
+      <div className="relative min-h-21 rounded-[18px] border border-[#AFAFAF] bg-white px-7 pb-5 pt-7 md:min-h-18 md:rounded-lg md:px-5 md:pb-3 md:pt-4">
+        <span className="absolute -top-3 left-8 bg-white px-3 text-[15px] leading-none text-black md:-top-2 md:left-6 md:text-sm md:leading-3.5">
           {label}
         </span>
         {children}
@@ -26,7 +28,7 @@ function Field({
 }
 
 const inputBase =
-  "w-full border-0 bg-transparent text-xs outline-none ring-0 focus:border-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0";
+  "w-full border-0 bg-transparent p-0 text-[17px] outline-none ring-0 placeholder:text-[#D0D0D0] focus:border-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 md:text-sm";
 
 export default function MyProfileTab({
   value,
@@ -40,32 +42,21 @@ export default function MyProfileTab({
   useEffect(() => setForm(value), [value]);
 
   return (
-    <div className="space-y-8">
-      {/* main card */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:px-6 py-8">
+    <div className="space-y-8 md:space-y-6">
+      {/* main section */}
+      <div className="bg-white">
         {/* header */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="min-w-0">
-            <p className="font-medium text-black">Personal Information</p>
-            <p className="mt-2 text-sm text-[#666666]">
-              Update your account details and contact information.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => onSave(form)}
-            className={cn(
-              "inline-flex py-2.5 items-center gap-2.5 rounded-sm px-5 text-sm font-medium transition bg-[#00B4FE] text-white hover:opacity-95 leading-4",
-            )}
-          >
-            <Save className="h-5 w-5" />
-            Save Change
-          </button>
+        <div className="px-0">
+          <p className="text-[18px] font-medium text-black md:text-base">
+            Personal Information
+          </p>
+          <p className="mt-3 max-w-155 text-[16px] leading-8 text-[#666666] md:mt-2 md:text-sm md:leading-6">
+            Update your account details and contact information.
+          </p>
         </div>
 
         {/* form */}
-        <div className="mt-9 grid gap-7 sm:grid-cols-2">
+        <div className="mt-8 grid gap-7 md:mt-7 md:grid-cols-2 md:gap-6">
           <Field label="Full Name">
             <input
               className={cn(inputBase, "text-[#CDCDCD]")}
@@ -73,7 +64,7 @@ export default function MyProfileTab({
               onChange={(e) =>
                 setForm((p) => ({ ...p, fullName: e.target.value }))
               }
-              placeholder="Full name"
+              placeholder="Cameron Williamson"
             />
           </Field>
 
@@ -84,41 +75,40 @@ export default function MyProfileTab({
               onChange={(e) =>
                 setForm((p) => ({ ...p, email: e.target.value }))
               }
-              placeholder="email@example.com"
+              placeholder="debra.holt@example.com"
             />
           </Field>
 
           <Field label="Business Name">
             <input
-              className={cn(inputBase, "text-[#CDCDCD]")}
+              className={cn(inputBase, "uppercase text-[#CDCDCD]")}
               value={form.businessName}
               onChange={(e) =>
                 setForm((p) => ({ ...p, businessName: e.target.value }))
               }
-              placeholder="Business"
+              placeholder="TECHFLOW SOLUTIONS"
             />
           </Field>
 
           <Field label="Verification Status">
-            <div className={cn(inputBase, "flex items-center px-6")}>
-              <span className="text-[#1B7231] text-xs">
+            <div className="flex min-h-8 items-center">
+              <span className="text-[17px] text-[#1B7231] md:text-sm">
                 {form.verificationStatus}
               </span>
             </div>
           </Field>
 
-          <div className="px-11.5">
-            <h1 className="text-sm text-black py-1.5">Account Status</h1>
-            <div className="flex items-center gap-3">
-              <span className="inline-flex items-center rounded-full bg-[#15D9461A] px-6 py-2 text-xs text-[#15D946] ring-1 ring-[#15D946]">
+          <Field label="Account Status">
+            <div className="flex min-h-8 items-center">
+              <span className="inline-flex items-center rounded-full border border-[#4ADE80] bg-[#15D9461A] px-6 py-2 text-[16px] leading-none text-[#15D946] md:px-5 md:py-1.5 md:text-sm">
                 {form.accountStatus}
               </span>
             </div>
-          </div>
+          </Field>
 
           <Field label="Mobile Number">
             <input
-              className={cn(inputBase, "text-[#1B7231] px-6")}
+              className={cn(inputBase, "text-[#1B7231]")}
               value={form.mobileNumber}
               onChange={(e) =>
                 setForm((p) => ({ ...p, mobileNumber: e.target.value }))
@@ -127,44 +117,55 @@ export default function MyProfileTab({
             />
           </Field>
 
-          <div className="sm:col-span-2 grid gap-5 sm:grid-cols-2">
-            <div className="rounded-xl border border-slate-200 p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-semibold text-slate-700">
-                    GST Registered
-                  </p>
-                  <p className="mt-1 text-sm text-slate-700">
-                    {form.gstRegistered ? "yes" : "no"}
-                  </p>
-                </div>
-                <Toggle
-                  value={form.gstRegistered}
-                  onChange={(v) => setForm((p) => ({ ...p, gstRegistered: v }))}
-                />
-              </div>
-            </div>
+          <Field label="GST Registered" className="md:col-span-1">
+            <div className="flex min-h-8 items-center justify-between gap-4">
+              <span className="text-[17px] lowercase text-black md:text-sm">
+                {form.gstRegistered ? "yes" : "no"}
+              </span>
 
-            <Field label="ABN Number">
-              <input
-                className={cn(inputBase, "text-black")}
-                value={form.abnNumber}
-                onChange={(e) =>
-                  setForm((p) => ({ ...p, abnNumber: e.target.value }))
-                }
-                placeholder="ABN"
+              <Toggle
+                value={form.gstRegistered}
+                onChange={(v) => setForm((p) => ({ ...p, gstRegistered: v }))}
               />
-            </Field>
-          </div>
+            </div>
+          </Field>
+
+          <Field label="ABN Number">
+            <input
+              className={cn(
+                inputBase,
+                "tracking-[0.18em] text-black md:tracking-[0.12em]",
+              )}
+              value={form.abnNumber}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, abnNumber: e.target.value }))
+              }
+              placeholder="xxxxxxxxxxxxxxxx"
+            />
+          </Field>
         </div>
+
+        {/* save button */}
+        <button
+          type="button"
+          onClick={() => onSave(form)}
+          className={cn(
+            "mt-8 inline-flex h-17 w-full items-center justify-center gap-3 rounded-lg bg-[#00B4FE] px-6 text-[18px] font-medium text-white transition hover:opacity-95 md:mt-7 md:h-12 md:w-auto md:rounded-sm md:px-5 md:text-sm",
+          )}
+        >
+          <Save className="h-6 w-6 md:h-5 md:w-5" />
+          Save Change
+        </button>
       </div>
 
       {/* delete card */}
-      <div className="rounded-2xl border border-red-200 bg-red-50 p-5 sm:p-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="rounded-3xl border border-[#F0A4A4] bg-[#FFF6F6] px-6 py-8 md:rounded-2xl md:px-6 md:py-6">
+        <div className="flex flex-col gap-6">
           <div>
-            <p className="font-medium text-black">Personal Information</p>
-            <p className="mt-2 text-sm text-[#666666]">
+            <p className="text-[18px] font-medium text-black md:text-base">
+              Personal Information
+            </p>
+            <p className="mt-3 max-w-105 text-[16px] leading-8 text-[#666666] md:mt-2 md:text-sm md:leading-6">
               Update your account details and contact information.
             </p>
           </div>
@@ -172,12 +173,11 @@ export default function MyProfileTab({
           <button
             type="button"
             onClick={() => {
-              // eslint-disable-next-line no-alert
               alert("Delete account (mock).");
             }}
-            className="inline-flex h-10 items-center gap-2 rounded-xl border border-[#D76C6C] bg-white px-4 text-sm font-medium text-[#D76C6C] leading-4 hover:bg-red-50"
+            className="inline-flex h-17 w-full items-center justify-center gap-3 rounded-[10px] border border-[#F0A4A4] bg-white px-6 text-[18px] font-medium text-[#E57373] transition hover:bg-red-50 md:h-11 md:w-auto md:rounded-xl md:px-5 md:text-sm"
           >
-            <Trash2 className="h-4 w-4" />
+            <Trash2 className="h-6 w-6 md:h-4 md:w-4" />
             Delete Account
           </button>
         </div>

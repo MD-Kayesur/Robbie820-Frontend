@@ -6,7 +6,7 @@ import { BankingForm } from "@/pages/ReferrerDashboard/ReferrerSettings/types";
 import { cn } from "@/hooks/useCn";
 
 const inputBase =
-  "h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-[#D1D5DC] outline-none focus:ring-2 focus:ring-sky-200";
+  "h-17 w-full rounded-[18px] border border-[#D9DDE3] bg-white px-7 text-[16px] text-[#C9CED6] outline-none placeholder:text-[#C9CED6] focus:ring-2 focus:ring-sky-200 md:h-11 md:rounded-xl md:px-4 md:text-sm";
 
 function Field({
   label,
@@ -16,8 +16,8 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div className="space-y-3">
-      <p className="text-xs font-bold uppercase leading-4 tracking-wide text-[#666666]">
+    <div className="space-y-3 md:space-y-2.5">
+      <p className="text-[16px] font-bold uppercase leading-none text-[#666666] md:text-xs md:leading-4 md:tracking-wide">
         {label}
       </p>
       {children}
@@ -42,18 +42,20 @@ export default function BankingDetailsTab({
   );
 
   return (
-    <div className="mx-auto max-w-155">
-      <div className="rounded-2xl border border-[#00B4FE33] bg-white p-10 space-y-10">
+    <div className="mx-auto max-w-190">
+      <div className="space-y-8 rounded-[30px] border border-[#BEEAFF] bg-white px-6 py-8 md:space-y-10 md:rounded-2xl md:p-10">
         {/* header */}
-        <div className="flex items-center gap-4">
-          <div className="grid h-12 w-12 place-items-center rounded-2xl bg-emerald-100 text-emerald-700">
-            <CreditCard className="h-6 w-6" />
+        <div className="flex items-center gap-5 md:gap-4">
+          <div className="grid h-22 w-22 shrink-0 place-items-center rounded-3xl bg-emerald-100 text-emerald-700 md:h-12 md:w-12 md:rounded-2xl">
+            <CreditCard className="h-10 w-10 md:h-6 md:w-6" />
           </div>
-          <p className="text-2xl font-bold text-slate-900">Banking Details</p>
+          <p className="text-[28px] font-bold leading-none text-black md:text-2xl md:text-slate-900">
+            Banking Details
+          </p>
         </div>
 
         {/* form */}
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid gap-7 md:grid-cols-2 md:gap-5">
           <Field label="BANK NAME">
             <input
               className={inputBase}
@@ -87,7 +89,7 @@ export default function BankingDetailsTab({
             />
           </Field>
 
-          <Field label="ROUTING / BSB NUMBER">
+          <Field label="BSB NUMBER">
             <input
               className={inputBase}
               value={form.routingBsb}
@@ -99,25 +101,25 @@ export default function BankingDetailsTab({
           </Field>
         </div>
 
-        {/* buttons */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-slate-500">
-            <span className="font-bold text-emerald-600">Note:</span> Changing
-            banking details will notify your broker to update payment
-            instructions.
-          </p>
+        {/* note */}
+        <p className="text-[16px] leading-8 text-[#666666] md:text-sm md:leading-6">
+          <span className="font-bold text-emerald-600">Note:</span> Changing
+          banking details will notify your broker to update payment
+          instructions.
+        </p>
 
-          <button
-            type="button"
-            onClick={() => onSave(form)}
-            disabled={!dirty}
-            className={cn(
-              "rounded-xl px-7 py-3 font-medium transition bg-sky-500 text-white hover:opacity-95 text-nowrap",
-            )}
-          >
-            Save Changes
-          </button>
-        </div>
+        {/* button */}
+        <button
+          type="button"
+          onClick={() => onSave(form)}
+          disabled={!dirty}
+          className={cn(
+            "inline-flex h-17 w-full items-center justify-center rounded-2xl bg-[#00B4FE] px-6 text-[18px] font-medium text-white transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60",
+            "md:h-12 md:w-auto md:rounded-xl md:px-7 md:text-sm",
+          )}
+        >
+          Save Changes
+        </button>
       </div>
     </div>
   );
