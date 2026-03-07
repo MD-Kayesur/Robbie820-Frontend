@@ -2,15 +2,11 @@ import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "@/Layout/RootLayout/RootLayout";
 
 import NotFound from "@/pages/NotFound";
- 
+
 import ReferrerLayout from "@/Layout/ReferrerLayout/ReferrerLayout";
-import ReferrerDashboard from "@/pages/Referrer/ReferrerDashboard/ReferrerDashboard";
-import ReferrerMyReferrals from "@/pages/Referrer/ReferrerMyReferrals/ReferrerMyReferrals";
-import ReferrerNotifications from "@/pages/Referrer/ReferrerNotifications/ReferrerNotifications";
-import ReferrerSettings from "@/pages/Referrer/ReferrerSettings/ReferrerSettings";
 
 import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
- 
+
 import AdminRoutes from "./AdminRoutes";
 
 import BrokerLayout from "@/Layout/BrokerLayout/BrokerLayout";
@@ -33,6 +29,10 @@ import Login from "@/components/authentication/login/Login";
 import Signup from "@/components/authentication/Signup";
 import ForgotPasswordForm from "@/components/authentication/login/ForgotPasswordForm";
 import Home from "@/pages/Home/Home";
+import ReferrerOverview from "@/pages/ReferrerDashboard/ReferrerOverview/ReferrerOverview";
+import ReferrerMyReferrals from "@/pages/ReferrerDashboard/ReferrerMyReferrals/ReferrerMyReferrals";
+import ReferrerNotifications from "@/pages/ReferrerDashboard/ReferrerNotifications/ReferrerNotifications";
+import ReferrerSettings from "@/pages/ReferrerDashboard/ReferrerSettings/ReferrerSettings";
 
 const routes = createBrowserRouter([
   {
@@ -43,7 +43,6 @@ const routes = createBrowserRouter([
         index: true,
         element: <Home />,
       },
-     
 
       {
         path: "/login",
@@ -55,16 +54,16 @@ const routes = createBrowserRouter([
       },
       {
         path: "/forgot-password",
-        element: <ForgotPasswordForm/>,
+        element: <ForgotPasswordForm />,
       },
 
       // referrer
       {
-        path: "/referrer",
+        path: "/referrer-dashboard",
         element: <ReferrerLayout />,
         children: [
-          { index: true, element: <ReferrerDashboard /> },
-          { path: "overview", element: <ReferrerDashboard /> },
+          { index: true, element: <ReferrerOverview /> },
+          { path: "overview", element: <ReferrerOverview /> },
           { path: "my-referrals", element: <ReferrerMyReferrals /> },
           { path: "notifications", element: <ReferrerNotifications /> },
           { path: "settings", element: <ReferrerSettings /> },
@@ -73,7 +72,7 @@ const routes = createBrowserRouter([
 
       // broker
       {
-        path: "/broker",
+        path: "/broker-dashboard",
         element: <BrokerLayout />,
         children: [
           { index: true, element: <BrokerDashboard /> },

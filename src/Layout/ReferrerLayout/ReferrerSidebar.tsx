@@ -62,23 +62,23 @@ const ReferrerSidebar = () => {
       {/* Nav */}
       <nav className="space-y-8.5">
         <SidebarItem
-          to="/referrer/overview"
+          to="/referrer-dashboard/overview"
           icon={LayoutGrid}
           label="Overview"
           end
         />
         <SidebarItem
-          to="/referrer/my-referrals"
+          to="/referrer-dashboard/my-referrals"
           icon={User}
           label="My Referrals"
         />
         <SidebarItem
-          to="/referrer/notifications"
+          to="/referrer-dashboard/notifications"
           icon={Bell}
           label="Notifications"
         />
         <SidebarItem
-          to="/referrer/settings"
+          to="/referrer-dashboard/settings"
           icon={SettingsIcon}
           label="Settings"
         />
