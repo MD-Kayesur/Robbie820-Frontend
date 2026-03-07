@@ -1,16 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useNavigate } from "react-router-dom";
-import { Mail, Lock, Rocket, Sparkles, CheckCircle, Zap, Eye, EyeOff, AlertCircle } from 'lucide-react';
-import React, { useState, useMemo, useEffect } from 'react';
+import {
+  Mail,
+  Lock,
+  Rocket,
+  Sparkles,
+  CheckCircle,
+  Zap,
+  Eye,
+  EyeOff,
+  AlertCircle,
+} from "lucide-react";
+import React, { useState, useMemo, useEffect } from "react";
 import loginimage from "@/assets/prontocorso/Loginwithguy.png";
 import logo from "@/assets/prontocorso/ProntoCorsoLogoLight-removebg-preview.png";
 import img from "@/assets/prontocorso/ProntoCorsoLogoDark-removebg-preview.png";
 import { useTheme } from "@/components/ThemeToggle/theme-provider";
 // OR import toast from "react-hot-toast"; if using react-hot-toast
-
-
-
-
 
 const AnimatedBackground = () => (
   <div className="absolute inset-0 overflow-hidden">
@@ -32,7 +38,19 @@ interface MockInputProps {
 }
 
 const MockInput = React.forwardRef<HTMLInputElement, MockInputProps>(
-  ({ id, type = 'text', placeholder, icon: Icon, error, value, onChange, ...props }, ref) => (
+  (
+    {
+      id,
+      type = "text",
+      placeholder,
+      icon: Icon,
+      error,
+      value,
+      onChange,
+      ...props
+    },
+    ref,
+  ) => (
     <div className="relative group">
       {Icon && (
         <Icon className="absolute left-3 top-1/2 h-3.5 w-3.5 xs:h-4 xs:w-4 md:h-5 md:w-5 -translate-y-1/2 text-gray-400 transition-all duration-300 group-focus-within:text-blue-400 group-hover:text-blue-300 z-10" />
@@ -45,22 +63,27 @@ const MockInput = React.forwardRef<HTMLInputElement, MockInputProps>(
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className={`flex h-11 xs:h-12 text-black md:h-14 w-full rounded-lg xs:rounded-xl md:rounded-2xl border-2 bg-white/5 px-3 xs:px-3 md:px-4 py-2 xs:py-3 md:py-4 text-xs xs:text-sm md:text-base text-white transition-all duration-500 placeholder:text-gray-500 focus:outline-none focus:ring-1 xs:focus:ring-2 md:focus:ring-4 focus:ring-blue-500/30 focus:border-transparent backdrop-blur-sm transform group-hover:scale-[1.02] ${Icon ? 'pl-9 xs:pl-10 md:pl-12' : 'pl-3'
-            } ${error
-              ? 'border-red-400/80 shadow-lg shadow-red-500/30'
-              : 'border-gray-500/30 hover:border-blue-400/50'
-            }`}
+          className={`flex h-11 xs:h-12 text-black md:h-14 w-full rounded-lg xs:rounded-xl md:rounded-2xl border-2 bg-white/5 px-3 xs:px-3 md:px-4 py-2 xs:py-3 md:py-4 text-xs xs:text-sm md:text-base text-white transition-all duration-500 placeholder:text-gray-500 focus:outline-none focus:ring-1 xs:focus:ring-2 md:focus:ring-4 focus:ring-blue-500/30 focus:border-transparent backdrop-blur-sm transform group-hover:scale-[1.02] ${
+            Icon ? "pl-9 xs:pl-10 md:pl-12" : "pl-3"
+          } ${
+            error
+              ? "border-red-400/80 shadow-lg shadow-red-500/30"
+              : "border-gray-500/30 hover:border-blue-400/50"
+          }`}
           {...props}
         />
         {/* Animated border effect */}
-        <div className={`absolute inset-0 rounded-lg xs:rounded-xl md:rounded-2xl from-blue-500 to-purple-500 opacity-0 transition-opacity duration-500 group-focus-within:opacity-20 -z-10 ${error ? 'from-red-500 to-pink-500' : ''
-          }`}></div>
+        <div
+          className={`absolute inset-0 rounded-lg xs:rounded-xl md:rounded-2xl from-blue-500 to-purple-500 opacity-0 transition-opacity duration-500 group-focus-within:opacity-20 -z-10 ${
+            error ? "from-red-500 to-pink-500" : ""
+          }`}
+        ></div>
       </div>
     </div>
-  )
+  ),
 );
 
-MockInput.displayName = 'MockInput';
+MockInput.displayName = "MockInput";
 
 interface MockLabelProps {
   htmlFor: string;
@@ -68,15 +91,18 @@ interface MockLabelProps {
 }
 
 const MockLabel: React.FC<MockLabelProps> = ({ htmlFor, children }) => (
-  <label htmlFor={htmlFor} className="mb-1.5 xs:mb-2 md:mb-3 text-[10px] xs:text-xs md:text-sm font-semibold text-gray-200 flex items-center gap-1 xs:gap-1 md:gap-2 transition-all duration-300 hover:text-white">
+  <label
+    htmlFor={htmlFor}
+    className="mb-1.5 xs:mb-2 md:mb-3 text-[10px] xs:text-xs md:text-sm font-semibold text-gray-200 flex items-center gap-1 xs:gap-1 md:gap-2 transition-all duration-300 hover:text-white"
+  >
     {children}
   </label>
 );
 
 interface MockButtonProps {
   children: React.ReactNode;
-  type?: 'button' | 'submit' | 'reset';
-  variant?: 'primary' | 'secondary' | 'success' | 'gradient';
+  type?: "button" | "submit" | "reset";
+  variant?: "primary" | "secondary" | "success" | "gradient";
   className?: string;
   disabled?: boolean;
   onClick?: () => void;
@@ -84,20 +110,22 @@ interface MockButtonProps {
 
 const MockButton: React.FC<MockButtonProps> = ({
   children,
-  type = 'button',
-  variant = 'gradient',
-  className = '',
+  type = "button",
+  variant = "gradient",
+  className = "",
   disabled = false,
   onClick,
   ...props
 }) => {
-  const baseClasses = "inline-flex items-center justify-center rounded-lg xs:rounded-xl md:rounded-2xl px-4 xs:px-6 md:px-8 py-2.5 xs:py-3 md:py-4 text-xs xs:text-sm md:text-base font-bold text-white shadow-md xs:shadow-lg md:shadow-2xl transition-all duration-500 transform hover:scale-[1.03] active:scale-[0.98] focus:outline-none focus:ring-1 xs:focus:ring-2 md:focus:ring-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none relative overflow-hidden group";
+  const baseClasses =
+    "inline-flex items-center justify-center rounded-lg xs:rounded-xl md:rounded-2xl px-4 xs:px-6 md:px-8 py-2.5 xs:py-3 md:py-4 text-xs xs:text-sm md:text-base font-bold text-white shadow-md xs:shadow-lg md:shadow-2xl transition-all duration-500 transform hover:scale-[1.03] active:scale-[0.98] focus:outline-none focus:ring-1 xs:focus:ring-2 md:focus:ring-4 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none relative overflow-hidden group";
 
   const variantClasses = {
     primary: "bg-blue-600 hover:bg-blue-700 focus:ring-blue-500/30",
     secondary: "bg-gray-600 hover:bg-gray-700 focus:ring-gray-500/30",
     success: "bg-green-600 hover:bg-green-700 focus:ring-green-500/30",
-    gradient: "bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 hover:from-purple-700 hover:via-blue-700 hover:to-cyan-700 focus:ring-blue-500/30"
+    gradient:
+      "bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 hover:from-purple-700 hover:via-blue-700 hover:to-cyan-700 focus:ring-blue-500/30",
   };
 
   return (
@@ -120,10 +148,8 @@ const MockButton: React.FC<MockButtonProps> = ({
 };
 
 // Enhanced background image URL
-const LOGIN_IMAGE = loginimage
+const LOGIN_IMAGE = loginimage;
 const Login = () => {
-
-
   const navigate = useNavigate();
   const [isLoggedIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -141,7 +167,9 @@ const Login = () => {
         setIsDarkMode(false);
       } else {
         // theme === "system"
-        setIsDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches);
+        setIsDarkMode(
+          window.matchMedia("(prefers-color-scheme: dark)").matches,
+        );
       }
     };
 
@@ -162,8 +190,6 @@ const Login = () => {
     // Form submission logic
   };
 
-
-
   const renderContent = useMemo(() => {
     if (isLoggedIn) {
       return (
@@ -175,11 +201,14 @@ const Login = () => {
             Welcome Back!
           </h2>
           <p className="text-gray-300 text-xs xs:text-sm md:text-lg mb-4 xs:mb-6 md:mb-8 max-w-md leading-relaxed animate-slide-up delay-200">
-            Successfully logged in. Redirecting you to your personalized dashboard...
+            Successfully logged in. Redirecting you to your personalized
+            dashboard...
           </p>
           <div className="flex items-center gap-1.5 xs:gap-2 md:gap-3 text-green-400 animate-pulse">
             <Rocket className="h-3 w-3 xs:h-4 xs:w-4 md:h-5 md:w-5" />
-            <span className="text-xs xs:text-sm md:text-base">Taking you to your workspace...</span>
+            <span className="text-xs xs:text-sm md:text-base">
+              Taking you to your workspace...
+            </span>
           </div>
         </div>
       );
@@ -193,8 +222,12 @@ const Login = () => {
             <div className="flex items-center gap-2 xs:gap-3 text-red-400">
               <AlertCircle className="h-4 w-4 xs:h-5 xs:w-5 md:h-6 md:w-6 flex-shrink-0" />
               <div>
-                <p className="font-semibold text-xs xs:text-sm dark:text-white md:text-base mb-1">Login Failed</p>
-                <p className="text-[10px] xs:text-xs md:text-sm text-red-300">{apiError}</p>
+                <p className="font-semibold text-xs xs:text-sm dark:text-white md:text-base mb-1">
+                  Login Failed
+                </p>
+                <p className="text-[10px] xs:text-xs md:text-sm text-red-300">
+                  {apiError}
+                </p>
               </div>
             </div>
           </div>
@@ -211,19 +244,14 @@ const Login = () => {
               id="email"
               type="email"
               placeholder="your.email@example.com"
-
-              className={`flex h-11 fucus:border-[#10B981] ring-1 ring-[#10B981] xs:h-12 md:h-14 w-full rounded-lg xs:rounded-xl md:rounded-2xl border-1 bg-white/5 px-3 xs:px-3 md:px-4 py-2 xs:py-3 md:py-4 text-xs xs:text-sm md:text-base text-gray-900 dark:text-white transition-all duration-500 placeholder:text-gray-500 focus:outline-none focus:ring-1 xs:focus:ring-2 md:focus:ring-4   focus:border-transparent backdrop-blur-sm ${'border-red-400/80 shadow-lg shadow-red-500/30'
-
-                } pl-9 xs:pl-10 md:pl-12`}
+              className={`flex h-11 fucus:border-[#10B981] ring-1 ring-[#10B981] xs:h-12 md:h-14 w-full rounded-lg xs:rounded-xl md:rounded-2xl border-1 bg-white/5 px-3 xs:px-3 md:px-4 py-2 xs:py-3 md:py-4 text-xs xs:text-sm md:text-base text-gray-900 dark:text-white transition-all duration-500 placeholder:text-gray-500 focus:outline-none focus:ring-1 xs:focus:ring-2 md:focus:ring-4   focus:border-transparent backdrop-blur-sm ${"border-red-400/80 shadow-lg shadow-red-500/30"} pl-9 xs:pl-10 md:pl-12`}
             />
             <Mail className="absolute left-3 top-1/2 h-3.5 w-3.5 xs:h-4 xs:w-4 md:h-5 md:w-5 -translate-y-1/2 text-gray-400" />
           </div>
 
           <p className="text-red-400 text-[10px] xs:text-xs md:text-sm mt-1 xs:mt-1 md:mt-2 flex items-center gap-1 xs:gap-1 md:gap-2 animate-shake">
             <Zap className="h-2.5 w-2.5 xs:h-3 xs:w-3 md:h-4 md:w-4" />
-
           </p>
-
         </div>
 
         {/* Password Input */}
@@ -237,10 +265,7 @@ const Login = () => {
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
-
-              className={`flex h-11 fucus:border-[#10B981] ring-1 ring-[#10B981] xs:h-12 md:h-14 w-full rounded-lg xs:rounded-xl md:rounded-2xl border-1 bg-white/5 px-3 xs:px-3 md:px-4 py-2 xs:py-3 md:py-4 text-xs xs:text-sm md:text-base text-gray-900 dark:text-white transition-all duration-500 placeholder:text-gray-500 focus:outline-none focus:ring-1 xs:focus:ring-2 md:focus:ring-4   focus:border-transparent backdrop-blur-sm ${'border-red-400/80 shadow-lg shadow-red-500/30'
-
-                } pl-9 xs:pl-10 md:pl-12 pr-9 xs:pr-10 md:pr-12`}
+              className={`flex h-11 fucus:border-[#10B981] ring-1 ring-[#10B981] xs:h-12 md:h-14 w-full rounded-lg xs:rounded-xl md:rounded-2xl border-1 bg-white/5 px-3 xs:px-3 md:px-4 py-2 xs:py-3 md:py-4 text-xs xs:text-sm md:text-base text-gray-900 dark:text-white transition-all duration-500 placeholder:text-gray-500 focus:outline-none focus:ring-1 xs:focus:ring-2 md:focus:ring-4   focus:border-transparent backdrop-blur-sm ${"border-red-400/80 shadow-lg shadow-red-500/30"} pl-9 xs:pl-10 md:pl-12 pr-9 xs:pr-10 md:pr-12`}
             />
             <Lock className="absolute left-3 top-1/2 h-3.5 w-3.5 xs:h-4 xs:w-4 md:h-5 md:w-5 -translate-y-1/2 text-gray-400" />
             <button
@@ -248,13 +273,13 @@ const Login = () => {
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-300 transition-colors duration-300 cursor-pointer"
             >
-              {showPassword ?
-                <EyeOff className="h-3.5 w-3.5 xs:h-4 xs:w-4 md:h-5 md:w-5" /> :
+              {showPassword ? (
+                <EyeOff className="h-3.5 w-3.5 xs:h-4 xs:w-4 md:h-5 md:w-5" />
+              ) : (
                 <Eye className="h-3.5 w-3.5 xs:h-4 xs:w-4 md:h-5 md:w-5" />
-              }
+              )}
             </button>
           </div>
-
         </div>
 
         {/* Forgot Password Link */}
@@ -264,38 +289,32 @@ const Login = () => {
           <Link to="/forgot-password" className="group">
             <span className="text-[10px] xs:text-xs md:text-sm text-gray-400 hover:text-blue-400 transition-colors duration-300 flex items-center gap-1 xs:gap-1 md:gap-2">
               <Lock className="h-2.5 w-2.5 xs:h-3 xs:w-3 md:h-4 md:w-4 dark:text-white text-gray-800" />
-              <span className="dark:text-white text-gray-800">Forgot your password?</span>
+              <span className="dark:text-white text-gray-800">
+                Forgot your password?
+              </span>
             </span>
           </Link>
         </div>
 
-
-
-
         {/* Submit Button */}
         <MockButton
           type="submit"
-
           variant="success"
           className="w-full h-11 !bg-[#10B981] hover:!bg-[#0ea571] text-white cursor-pointer xs:h-12 md:h-14 text-xs xs:text-sm md:text-lg animate-slide-up delay-300 mt-1 xs:mt-2 md:mt-6"
         >
-
           <div className="flex items-center gap-1.5 xs:gap-2 md:gap-3">
             <div className="h-3.5 w-3.5 xs:h-4 xs:w-4 md:h-5 md:w-5 border-2 xs:border-2 md:border-3 border-white border-t-transparent rounded-full animate-spin" />
-            <span className="text-xs xs:text-xs md:text-base">Signing You In...</span>
+            <span className="text-xs xs:text-xs md:text-base">
+              Signing You In...
+            </span>
           </div>
-
         </MockButton>
       </form>
     );
   }, [isLoggedIn, apiError, showPassword, onSubmit]);
 
   return (
-
-
-
     <>
-
       <div className="min-h-screen   text-white flex items-center justify-center p-1 xs:p-2 md:p-4 relative overflow-hidden">
         <AnimatedBackground />
 
@@ -313,7 +332,8 @@ const Login = () => {
               Achieve Your Italian Fluency Goals.
             </h3>
             <p className="text-black dark:text-white text-[10px] xs:text-xs leading-relaxed">
-              Pick up exactly where you left off. Your next lesson is waiting for you.
+              Pick up exactly where you left off. Your next lesson is waiting
+              for you.
             </p>
           </div>
         </div>
@@ -325,14 +345,17 @@ const Login = () => {
               <div className="grid gap-3 xs:gap-4 md:gap-6 text-center">
                 <div className="inline-flex items-center gap-1.5 xs:gap-2 bg-gray-100 dark:bg-green-50/30 px-3 xs:px-4 py-1.5 xs:py-2 md:px-6 md:py-3 rounded-lg xs:rounded-xl md:rounded-2xl border border-gray-200 dark:border-green-100/30 mb-2 md:mb-4 transform transition-all duration-500 hover:scale-105">
                   <div className="h-1.5 w-1.5 xs:h-2 xs:w-2 md:h-3 md:w-3 bg-[#10B981] rounded-full animate-pulse"></div>
-                  <span className="text-[#10B981] text-[10px] xs:text-xs md:text-base font-bold">Welcome Back!</span>
+                  <span className="text-[#10B981] text-[10px] xs:text-xs md:text-base font-bold">
+                    Welcome Back!
+                  </span>
                   <Sparkles className="h-2.5 w-2.5 xs:h-3 xs:w-3 md:h-4 md:w-4 text-[#10B981]" />
                 </div>
                 {/* <h1 className="text-2xl dark:text-white text-gray-800 xs:text-3xl md:text-6xl font-black from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent animate-gradient">
                 Login
               </h1> */}
                 <p className="text-balance text-gray-300 text-xs dark:text-gray-800 text-left font-bold xs:text-sm md:text-2xl leading-relaxed animate-fade-in">
-                  <span className="dark:text-white text-gray-800">Welcome back! Ready to continue your Italian practice?
+                  <span className="dark:text-white text-gray-800">
+                    Welcome back! Ready to continue your Italian practice?
                   </span>
                   {/* <span className="dark:text-white text-gray-800">Access your account and continue your creative journey with us.</span> */}
                 </p>
@@ -344,7 +367,9 @@ const Login = () => {
                 {isLoggedIn ? (
                   <div className="flex items-center justify-center gap-1.5 xs:gap-2 md:gap-3 text-green-400 animate-pulse">
                     <CheckCircle className="h-3 w-3 xs:h-4 xs:w-4 md:h-5 md:w-5" />
-                    <span className="text-[10px] xs:text-xs md:text-base">Redirecting to your dashboard...</span>
+                    <span className="text-[10px] xs:text-xs md:text-base">
+                      Redirecting to your dashboard...
+                    </span>
                   </div>
                 ) : (
                   <>
@@ -374,34 +399,43 @@ const Login = () => {
               Continue Your Journey
             </h3> */}
 
-
               <h3 className="text-3xl font-bold text-black mb-4 flex items-center gap-3">
                 <Sparkles className="h-8 w-8 text-[#10B981]" />
                 Achieve Your Italian Fluency Goals.
               </h3>
 
-
               <p className="text-black   text-base leading-relaxed">
-                Pick up exactly where you left off. Your next lesson is waiting for you.
+                Pick up exactly where you left off. Your next lesson is waiting
+                for you.
               </p>
             </div>
           </div>
         </div>
       </div>
 
-
-
       {/* Footer */}
       <footer className="bg-white dark:bg-[#1A1C1D] text-slate-600 dark:text-gray-400 pt-20 pb-10 px-[5%] border-t border-slate-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-16 mb-16 text-left">
             <div>
-              <Link to="/#home" state={{ from: "/" }} className="flex items-center gap-4">
-                <img src={isDarkMode ? img : logo} alt="ProntoCorso" className="w-50  mb-6 rounded-full" />
+              <Link
+                to="/#home"
+                state={{ from: "/" }}
+                className="flex items-center gap-4"
+              >
+                <img
+                  src={isDarkMode ? img : logo}
+                  alt="ProntoCorso"
+                  className="w-50  mb-6 rounded-full"
+                />
               </Link>
               <p className="text-sm leading-relaxed mb-8 text-slate-600 dark:text-gray-400">
                 Empowering citizenship applicants with the specific tactical
-                skills needed to pass the <span className="font-bold text-slate-900 dark:text-white">B1c</span> exam.
+                skills needed to pass the{" "}
+                <span className="font-bold text-slate-900 dark:text-white">
+                  B1c
+                </span>{" "}
+                exam.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-8">
@@ -423,13 +457,19 @@ const Login = () => {
                       onClick={() => {
                         navigate("/#pricing");
                         setTimeout(() => {
-                          const pricingSection = document.getElementById("pricing");
+                          const pricingSection =
+                            document.getElementById("pricing");
                           if (pricingSection) {
-                            pricingSection.scrollIntoView({ behavior: "smooth" });
+                            pricingSection.scrollIntoView({
+                              behavior: "smooth",
+                            });
                           } else {
                             setTimeout(() => {
-                              const pricingSection = document.getElementById("pricing");
-                              pricingSection?.scrollIntoView({ behavior: "smooth" });
+                              const pricingSection =
+                                document.getElementById("pricing");
+                              pricingSection?.scrollIntoView({
+                                behavior: "smooth",
+                              });
                             }, 500);
                           }
                         }, 100);
@@ -447,12 +487,22 @@ const Login = () => {
                 </h5>
                 <ul className="space-y-4 text-sm font-semibold">
                   <li>
-                    <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                    <a
+                      href="/privacy"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                    >
                       Privacy Policy
                     </a>
                   </li>
                   <li>
-                    <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+                    <a
+                      href="/terms"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                    >
                       Terms of Service
                     </a>
                   </li>
@@ -473,16 +523,39 @@ const Login = () => {
 
           <div className="mt-12 pt-8 border-t border-slate-200 dark:border-gray-700">
             <p className="text-sm leading-relaxed text-slate-500 dark:text-gray-300 text-center max-w-5xl mx-auto">
-              ProntoCorso is an independent educational tool. It accompanies your primary language education. We focus on preparation standards for exams including CILS, CELI, and PLIDA. We are not affiliated with these exam bodies. All content is original. It is not derived from official proprietary exam materials. We strictly adhere to the CEFR B1 Standard. This content is for practice purposes only. It does not guarantee a passing score. CILS is a trademark of the Università per Stranieri di Siena. CELI is a trademark of the Università per Stranieri di Perugia. PLIDA is a trademark of the Dante Alighieri Society. All other trademarks are the property of their respective owners.
+              ProntoCorso is an independent educational tool. It accompanies
+              your primary language education. We focus on preparation standards
+              for exams including CILS, CELI, and PLIDA. We are not affiliated
+              with these exam bodies. All content is original. It is not derived
+              from official proprietary exam materials. We strictly adhere to
+              the CEFR B1 Standard. This content is for practice purposes only.
+              It does not guarantee a passing score. CILS is a trademark of the
+              Università per Stranieri di Siena. CELI is a trademark of the
+              Università per Stranieri di Perugia. PLIDA is a trademark of the
+              Dante Alighieri Society. All other trademarks are the property of
+              their respective owners.
             </p>
           </div>
 
           <p className="mt-8 text-center text-sm text-slate-600 dark:text-gray-400">
-            <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+            <a
+              href="/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+            >
               Privacy Policy
-            </a> |   <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+            </a>{" "}
+            |{" "}
+            <a
+              href="/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+            >
               Terms of Service
-            </a>  |  © {new Date().getFullYear()} ProntoCorso.
+            </a>{" "}
+            | © {new Date().getFullYear()} ProntoCorso.
           </p>
         </div>
       </footer>
