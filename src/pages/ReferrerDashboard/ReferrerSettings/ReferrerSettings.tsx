@@ -10,6 +10,7 @@ import type {
   ProfileForm,
   SettingsTab,
   TeamMember,
+  TeamRole,
 } from "./types";
 
 import {
@@ -26,10 +27,24 @@ import TeamManagementTab from "@/components/ReferrerDashboardCom/RSettingsCom/Te
 import AlertsTab from "@/components/ReferrerDashboardCom/RSettingsCom/AlertsTab";
 import LegalDocumentsTab from "@/components/ReferrerDashboardCom/RSettingsCom/LegalDocumentsTab";
 import BankingDetailsTab from "@/components/ReferrerDashboardCom/RSettingsCom/BankingDetailsTab";
+import TMTNewMemberModal from "@/components/ReferrerDashboardCom/RSettingsCom/modals/TMTNewMemberModal";
 
 function cn(...s: Array<string | false | null | undefined>) {
   return s.filter(Boolean).join(" ");
 }
+
+type InvitePayload = {
+  fullName: string;
+  email: string;
+  role: TeamRole;
+  permissions: {
+    submitReferrals: boolean;
+    viewOwnReferralsOnly: boolean;
+    viewCommission: boolean;
+  };
+  additionalSeatCost: number;
+  newMonthlyTotal: number;
+};
 
 const ReferrerSettings = () => {
   const [tab, setTab] = useState<SettingsTab>("My Profile");
@@ -40,23 +55,27 @@ const ReferrerSettings = () => {
   const [alertStages, setAlertStages] = useState<AlertStage[]>(alertStagesMock);
   const [docs, setDocs] = useState<LegalDocument[]>(legalDocsMock);
   const [banking, setBanking] = useState<BankingForm>(bankingMock);
+  const [memberModalOpen, setMemberModalOpen] = useState(false);
 
   const tabs = useMemo(() => tabsMock as unknown as SettingsTab[], []);
 
   function onAddMember() {
-    // eslint-disable-next-line no-alert
-    const name = prompt("Member name (mock):");
-    if (!name) return;
-    const email = prompt("Member email (mock):") || "new@partnerportal.com";
+    setMemberModalOpen(true);
+  }
+
+  function onInviteMember(payload: InvitePayload) {
+    const permissionLabel = payload.permissions.viewCommission
+      ? "Admin"
+      : "Member";
 
     setTeam((prev) => [
       ...prev,
       {
         id: `t_${Date.now()}`,
-        name,
-        email,
-        role: "Staff Member",
-        permission: "Member",
+        name: payload.fullName,
+        email: payload.email,
+        role: payload.role,
+        permission: permissionLabel,
         referrals: 0,
         joined: new Date().toISOString().slice(0, 10),
       },
@@ -157,6 +176,14 @@ const ReferrerSettings = () => {
       {tab === "Banking Details" ? (
         <BankingDetailsTab value={banking} onSave={setBanking} />
       ) : null}
+
+      <TMTNewMemberModal
+        open={memberModalOpen}
+        onClose={() => setMemberModalOpen(false)}
+        onSubmit={onInviteMember}
+        baseMonthlyTotal={150}
+        seatCost={25}
+      />
     </div>
   );
 };
