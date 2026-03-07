@@ -28,6 +28,7 @@ import ReferrerOverview from "@/pages/ReferrerDashboard/ReferrerOverview/Referre
 import ReferrerMyReferrals from "@/pages/ReferrerDashboard/ReferrerMyReferrals/ReferrerMyReferrals";
 import ReferrerNotifications from "@/pages/ReferrerDashboard/ReferrerNotifications/ReferrerNotifications";
 import ReferrerSettings from "@/pages/ReferrerDashboard/ReferrerSettings/ReferrerSettings";
+import ReferrerClientDetails from "@/pages/ReferrerDashboard/ReferrerClientDetails/ReferrerClientDetails";
 
 const routes = createBrowserRouter([
   {
@@ -58,8 +59,18 @@ const routes = createBrowserRouter([
         element: <ReferrerLayout />,
         children: [
           { index: true, element: <ReferrerOverview /> },
-          { path: "overview", element: <ReferrerOverview /> },
-          { path: "my-referrals", element: <ReferrerMyReferrals /> },
+          {
+            path: "overview",
+            element: <ReferrerOverview />,
+          },
+          {
+            path: "my-referrals",
+            element: <ReferrerMyReferrals />,
+          },
+          {
+            path: "my-referrals/clients/:id",
+            element: <ReferrerClientDetails />,
+          },
           { path: "notifications", element: <ReferrerNotifications /> },
           { path: "settings", element: <ReferrerSettings /> },
         ],

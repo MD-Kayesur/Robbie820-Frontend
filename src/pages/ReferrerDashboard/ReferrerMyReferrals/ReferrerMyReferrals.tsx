@@ -23,6 +23,7 @@ import {
 } from "./mock";
 import { cn } from "@/hooks/useCn";
 import { useOutsideClose } from "@/hooks/useOutsideClose";
+import { Link } from "react-router-dom";
 
 /* ----------------------------- helpers ----------------------------- */
 function monthLabel(ym: string) {
@@ -406,15 +407,19 @@ export const ReferrerMyReferrals = () => {
             <tbody>
               {filtered.map((r) => (
                 <tr key={r.id} className="hover:bg-slate-50/60">
-                  <td className="px-5 py-2">
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold text-slate-900">
-                        {r.clientName}
-                      </p>
-                      <p className="truncate text-xs font-medium uppercase tracking-wide text-slate-400">
-                        {r.company}
-                      </p>
-                    </div>
+                  <td className="px-5 py-2 hover:bg-sky-100">
+                    <Link
+                      to={`/referrer-dashboard/my-referrals/clients/${r.id}`}
+                    >
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-slate-900">
+                          {r.clientName}
+                        </p>
+                        <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                          {r.company}
+                        </p>
+                      </div>
+                    </Link>
                   </td>
 
                   <td className="px-5 py-2 text-center">
