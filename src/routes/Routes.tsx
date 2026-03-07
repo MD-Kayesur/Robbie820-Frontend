@@ -3,12 +3,6 @@ import RootLayout from "@/Layout/RootLayout/RootLayout";
 
 import NotFound from "@/pages/NotFound";
  
-import ReferrerLayout from "@/Layout/ReferrerLayout/ReferrerLayout";
-import ReferrerDashboard from "@/pages/Referrer/ReferrerDashboard/ReferrerDashboard";
-import ReferrerMyReferrals from "@/pages/Referrer/ReferrerMyReferrals/ReferrerMyReferrals";
-import ReferrerNotifications from "@/pages/Referrer/ReferrerNotifications/ReferrerNotifications";
-import ReferrerSettings from "@/pages/Referrer/ReferrerSettings/ReferrerSettings";
-
 import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
  
 import AdminRoutes from "./AdminRoutes";
@@ -33,6 +27,7 @@ import Login from "@/components/authentication/login/Login";
 import Signup from "@/components/authentication/Signup";
 import ForgotPasswordForm from "@/components/authentication/login/ForgotPasswordForm";
 import Home from "@/pages/Home/Home";
+import ReferrerLayout from "@/Layout/ReferrerLayout/ReferrerLayout";
 
 const routes = createBrowserRouter([
   {
