@@ -1,225 +1,196 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, Key, CheckCircle, ArrowLeft } from "lucide-react";
-import { toast } from "sonner";
-
 import { useNavigate } from "react-router-dom";
-
-// Validation schemas
-const forgotPasswordSchema = z.object({
-  email: z.string().email("Invalid email format"),
-});
-
-const verifyCodeSchema = z.object({
-  code: z.string().min(6, "Code must be 6 characters").max(6, "Code must be 6 characters"),
-});
-
-type ForgotPasswordInputs = z.infer<typeof forgotPasswordSchema>;
-type VerifyCodeInputs = z.infer<typeof verifyCodeSchema>;
-
-const AnimatedBackground = () => (
-  <div className="absolute inset-0 overflow-hidden">
-    <div className="absolute -top-20 -right-20 xs:-top-32 xs:-right-32 md:-top-40 md:-right-32 w-40 h-40 xs:w-60 xs:h-60 md:w-80 md:h-80 from-purple-500/20 to-pink-500/20 rounded-full blur-2xl xs:blur-3xl animate-float"></div>
-    <div className="absolute -bottom-20 -left-20 xs:-bottom-32 xs:-left-32 md:-bottom-40 md:-left-32 w-40 h-40 xs:w-60 xs:h-60 md:w-80 md:h-80  from-blue-500/20 to-cyan-500/20 rounded-full blur-2xl xs:blur-3xl animate-float-reverse"></div>
-    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 xs:w-72 xs:h-72 md:w-96 md:h-96 from-green-500/10 to-blue-500/10 rounded-full blur-2xl xs:blur-3xl animate-pulse-slow"></div>
-  </div>
-);
+import { Mail, ChevronLeft, ArrowRight } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 const ForgotPasswordForm: React.FC = () => {
-  const [step, setStep] = useState<"email" | "code" | "success">("email");
-  const [, setEmail] = useState("");
-  const [sentEmail, setSentEmail] = useState("");
-
   const navigate = useNavigate();
+  const [step, setStep] = useState<"email" | "otp">("email");
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState(["", "", "", "", ""]);
 
-  // Forms
-  const emailForm = useForm<ForgotPasswordInputs>({
-    resolver: zodResolver(forgotPasswordSchema),
-  });
+  const handleVerifyEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) {
+      toast.error("Please enter your email");
+      return;
+    }
 
-  const codeForm = useForm<VerifyCodeInputs>({
-    resolver: zodResolver(verifyCodeSchema),
-  });
+    setLoading(true);
+    // Simulate API call to send OTP
+    setTimeout(() => {
+      setLoading(false);
+      setStep("otp");
+      toast.success("OTP sent successfully!");
+    }, 1200);
+  };
 
+  const handleOtpChange = (index: number, value: string) => {
+    if (value.length > 1) return;
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
 
-
-  // Step 1: Send reset code
-  const onSendCode = async (data: ForgotPasswordInputs) => {
-    try {
-
-      setEmail(data.email);
-      setSentEmail(data.email);
-      setStep("code");
-    } catch (error: any) {
-      toast.error(error?.data?.message || "Failed to send reset code");
+    // Auto-focus next input
+    if (value && index < 4) {
+      const nextInput = document.getElementById(`otp-${index + 1}`);
+      nextInput?.focus();
     }
   };
 
-  // Step 2: Verify reset code
-  const onVerifyCode = async (_data: VerifyCodeInputs) => {
-    try {
-
-
-      // Extract token from response if available, otherwise use code as token
-
-      setStep("success");
-
-      // Navigate to reset password page with email and  
-
-    } catch (error: any) {
-      toast.error(error?.data?.message || "Invalid or expired code");
+  const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      const prevInput = document.getElementById(`otp-${index - 1}`);
+      prevInput?.focus();
     }
   };
 
-  // Render different steps
-  const renderStep = () => {
-    switch (step) {
-      case "email":
-        return (
-          <div className="w-full max-w-md bg-white/10 dark:bg-[#1A1C1D]/80 backdrop-blur-xl p-8 rounded-2xl shadow-lg border border-white/10 dark:border-gray-700/50 transition-colors">
-            <button
-              onClick={() => navigate("/login")}
-              className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white mb-6 cursor-pointer"
-            >
-              <ArrowLeft size={16} />
-              Back to Login
-            </button>
-
-            <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">Forgot Password?</h2>
-            <p className="text-gray-700 dark:text-gray-300 text-sm mb-6">
-              Enter your email and we'll send you a verification code
-            </p>
-
-            <form onSubmit={emailForm.handleSubmit(onSendCode)} className="space-y-4">
-              {/* Email Input */}
-              <div>
-                <label className="block text-sm font-medium text-gray-800 dark:text-white mb-1.5">Email *</label>
-                <div className="relative">
-                  <input
-                    type="email"
-                    {...emailForm.register("email")}
-                    placeholder="Enter your email"
-                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#10B981] focus:border-[#10B981] transition-colors hover:border-[#10B981]"
-                  />
-                  <Mail className="absolute left-3 top-3 text-gray-400 dark:text-gray-400" size={18} />
-                </div>
-                {emailForm.formState.errors.email && (
-                  <p className="text-red-500 text-xs mt-1">{emailForm.formState.errors.email.message}</p>
-                )}
-              </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-
-                className="w-full cursor-pointer bg-[#10B981] hover:bg-[#0ea571] text-white py-3 rounded-lg font-medium transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-
-              </button>
-            </form>
-          </div>
-        );
-
-      case "code":
-        return (
-          <div className="w-full max-w-md bg-white/10 dark:bg-[#1A1C1D]/80 backdrop-blur-xl p-8 rounded-2xl shadow-lg border border-white/10 dark:border-gray-700/50 transition-colors">
-            <button
-              onClick={() => setStep("email")}
-              className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white mb-6 cursor-pointer"
-            >
-              <ArrowLeft size={16} />
-              Back
-            </button>
-
-            <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">Enter Verification Code</h2>
-            <p className="text-gray-700 dark:text-gray-300 text-sm mb-4">
-              We sent a 6-digit code to <strong className="text-gray-800 dark:text-white">{sentEmail}</strong>
-            </p>
-            <p className="text-gray-600 dark:text-gray-400 text-xs mb-6">
-              Check your email and enter the code below
-            </p>
-
-            <form onSubmit={codeForm.handleSubmit(onVerifyCode)} className="space-y-4">
-              {/* Code Input */}
-              <div>
-                <label className="block text-sm font-medium text-gray-800 dark:text-white mb-1.5">
-                  6-digit Code *
-                </label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    {...codeForm.register("code")}
-                    placeholder="Enter 6-digit code"
-                    maxLength={6}
-                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#10B981] focus:border-[#10B981] transition-colors hover:border-[#10B981] text-center text-lg tracking-widest"
-                  />
-                  <Key className="absolute left-3 top-3 text-gray-400 dark:text-gray-400" size={18} />
-                </div>
-                {codeForm.formState.errors.code && (
-                  <p className="text-red-500 text-xs mt-1">{codeForm.formState.errors.code.message}</p>
-                )}
-              </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-
-                className="w-full cursor-pointer bg-[#10B981] hover:bg-[#0ea571] text-white py-3 rounded-lg font-medium transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-
-              </button>
-
-              {/* Resend Code */}
-              <div className="text-center pt-4">
-                <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                  Didn't receive code?
-                </p>
-                <button
-                  type="button"
-
-                  className="text-sm font-semibold text-[#10B981] hover:text-[#0ea571] dark:text-[#10B981] dark:hover:text-[#0ea571] cursor-pointer underline transition-colors"
-                >
-                  Resend Code
-                </button>
-              </div>
-            </form>
-          </div>
-        );
-
-      case "success":
-        return (
-          <div className="w-full max-w-md bg-white/10 dark:bg-[#1A1C1D]/80 backdrop-blur-xl p-8 rounded-2xl shadow-lg border border-white/10 dark:border-gray-700/50 text-center">
-            <CheckCircle className="h-16 w-16 text-green-400 mx-auto mb-4 animate-pulse" />
-            <h2 className="text-2xl font-bold mb-2 text-gray-800 dark:text-white">Code Verified!</h2>
-            <p className="text-gray-700 dark:text-gray-300 mb-6 text-sm">
-              Your code has been verified. Redirecting to password reset page...
-            </p>
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#10B981] mx-auto"></div>
-          </div>
-        );
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (otp.some((digit) => !digit)) {
+      toast.error("Please enter the full 5-digit code");
+      return;
     }
+
+    setLoading(true);
+    // Simulate OTP verification
+    setTimeout(() => {
+      setLoading(false);
+      toast.success("Code verified! You can now reset your password.");
+      // navigate to reset password page...
+    }, 1500);
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col items-center justify-center p-6 relative">
+      {/* Content Card */}
+      <div className="w-full max-w-125 bg-white rounded-4xl border border-sky-100 shadow-xl shadow-sky-500/5 p-10 relative">
+        {/* Back Button */}
+        <button
+          onClick={() => (step === "otp" ? setStep("email") : navigate(-1))}
+          className="absolute -left-20 top-0 hidden lg:flex items-center justify-center w-12 h-12 bg-white rounded-xl border border-slate-100 text-slate-400 hover:text-sky-500 hover:border-sky-500 transition-all shadow-sm"
+        >
+          <ChevronLeft size={24} strokeWidth={3} />
+        </button>
 
-      <div className="min-h-screen text-white flex items-center justify-center p-1 xs:p-2 md:p-4 relative overflow-hidden">
-        <AnimatedBackground />
-        <div className="relative z-10 w-full flex items-center justify-center">
-          {renderStep()}
+        {/* Mobile Back Button */}
+        <button
+          onClick={() => (step === "otp" ? setStep("email") : navigate(-1))}
+          className="lg:hidden mb-10 flex items-center gap-2 text-sky-500 font-bold text-sm uppercase tracking-wider transition-colors"
+        >
+          <ChevronLeft size={18} strokeWidth={3} />
+          Back
+        </button>
+
+        <div className="text-center">
+          {step === "email" ? (
+            <>
+              <h1 className="text-3xl font-black text-slate-900 tracking-tight mb-3">
+                Recover Password
+              </h1>
+              <p className="text-slate-400 font-bold mb-10 leading-relaxed px-4">
+                Once verified, the next time you log in, you'll be required to
+                enter the verification code.
+              </p>
+
+              <form
+                onSubmit={handleVerifyEmail}
+                className="space-y-6 text-left"
+              >
+                <div className="space-y-2">
+                  <label className="text-[15px] font-bold text-slate-600 ml-1">
+                    Email address
+                  </label>
+                  <div className="relative group">
+                    <Mail
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-sky-500 transition-colors"
+                      size={20}
+                    />
+                    <input
+                      type="email"
+                      placeholder="georgia.young@example.com"
+                      className="w-full h-14 pl-12 pr-4 rounded-xl border border-slate-100 bg-slate-50/50 font-medium text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full h-16 bg-sky-500 hover:bg-sky-600 text-white font-black text-xl rounded-2xl shadow-2xl shadow-sky-500/30 flex items-center justify-center gap-3 transition-all duration-300 active:scale-95 disabled:opacity-70 mt-8"
+                >
+                  {loading ? (
+                    <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <>
+                      Verify
+                      <ArrowRight size={24} strokeWidth={3} />
+                    </>
+                  )}
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              <h1 className="text-2xl font-black text-slate-900 tracking-tight mb-2">
+                Enter the code we sent to
+              </h1>
+              <h2 className="text-2xl font-black text-slate-900 tracking-tight mb-3">
+                {email || "yourmail@gmail.com"}
+              </h2>
+              <p className="text-slate-400 font-bold mb-8">
+                We sent 5 digit code to your email address.
+              </p>
+
+              <div className="bg-[#FCFDFF] rounded-3xl border border-sky-100 p-8 mb-8">
+                <h3 className="text-xl font-black text-slate-800 mb-4">
+                  OTP Required
+                </h3>
+                <p className="text-slate-400 font-bold text-sm mb-8">
+                  Enter the 5 digits OTP code we've sent in your number{" "}
+                  {email || "yourmail@gmail.com"}
+                </p>
+
+                <div className="flex justify-between gap-3">
+                  {otp.map((digit, index) => (
+                    <input
+                      key={index}
+                      id={`otp-${index}`}
+                      type="text"
+                      maxLength={1}
+                      value={digit}
+                      onChange={(e) => handleOtpChange(index, e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(index, e)}
+                      className="w-full h-14 text-center text-xl font-black text-slate-800 bg-slate-100 border-none rounded-xl focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all outline-none"
+                      placeholder="-"
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <button
+                onClick={handleVerifyOtp}
+                disabled={loading}
+                className="w-full h-16 bg-sky-500 hover:bg-sky-600 text-white font-black text-xl rounded-2xl shadow-2xl shadow-sky-500/30 flex items-center justify-center gap-3 transition-all duration-300 active:scale-95 disabled:opacity-70"
+              >
+                {loading ? (
+                  <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <>
+                    Verify
+                    <ArrowRight size={24} strokeWidth={3} />
+                  </>
+                )}
+              </button>
+            </>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
 export default ForgotPasswordForm;
-
-
-
-
-
-

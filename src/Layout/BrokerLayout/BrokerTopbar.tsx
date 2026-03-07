@@ -32,7 +32,6 @@ const BrokerTopbar = () => {
                 </button>
             </div>
         </header>
-    );
-};
+    );};
 
 export default BrokerTopbar;
