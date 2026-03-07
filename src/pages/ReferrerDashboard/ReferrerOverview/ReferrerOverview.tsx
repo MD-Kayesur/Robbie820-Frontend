@@ -40,20 +40,23 @@ function ymToLabel(ym: string) {
   const [y, m] = ym.split("-").map(Number);
   return `${MONTHS[(m ?? 1) - 1]} ${y}`;
 }
+
 function rangeToLabel(start: string, end: string) {
   return `${ymToLabel(start)} - ${ymToLabel(end)}`;
 }
+
 function ymToNum(ym: string) {
   const [y, m] = ym.split("-").map(Number);
   return (y ?? 0) * 100 + (m ?? 0);
 }
+
 function clampRange(start: string, end: string) {
   return ymToNum(start) <= ymToNum(end)
     ? { start, end }
     : { start: end, end: start };
 }
+
 function buildMonthOptions() {
-  // matches your screenshot timeframe vibe; adjust as needed
   const out: Array<{ value: string; label: string }> = [];
   for (let y = 2025; y <= 2026; y++) {
     for (let m = 1; m <= 12; m++) {
@@ -63,11 +66,13 @@ function buildMonthOptions() {
   }
   return out;
 }
+
 const MONTH_OPTIONS = buildMonthOptions();
 
 /* ------------------------------ icons ----------------------------- */
 function MetricIcon({ name }: { name: Metric["icon"] }) {
-  const cls = "h-6 w-6 text-[#00B4FE]";
+  const cls = "h-5 w-5 sm:h-6 sm:w-6 text-[#00B4FE]";
+
   switch (name) {
     case "users":
       return <Users className={cls} />;
@@ -98,10 +103,10 @@ function PillToggle({
       type="button"
       onClick={onClick}
       className={cn(
-        "py-1.5  rounded-sm px-8 text-sm font-medium transition",
+        "flex-1 rounded-md px-4 py-2 text-xs font-medium transition sm:flex-none sm:px-8 sm:text-sm",
         active
           ? "bg-black text-white"
-          : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50",
+          : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50",
       )}
     >
       {children}
@@ -114,34 +119,34 @@ function MetricCard({ m }: { m: Metric }) {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className={cn(
-        "relative rounded-xl bg-white p-3.5",
-        "border border-sky-200/80",
-      )}
+      className="relative rounded-2xl border border-sky-200/90 bg-white p-4 sm:p-5"
     >
       <div className="flex items-start justify-between gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#00B4FE33]">
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#00B4FE33] sm:h-12 sm:w-12">
           <MetricIcon name={m.icon} />
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-start gap-2 sm:gap-2.5">
           {m.change ? (
-            <div className="inline-flex items-center gap-2.5 rounded-full bg-[#1B72311A] px-3.5 py-1.5 text-sm text-[#1B7231]">
-              {m.change}
-              <ChevronUp className="h-4.25 w-4.25" />
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-[#1B723166] bg-[#1B72311A] px-3 py-1 text-xs text-[#1B7231] sm:gap-2 sm:px-3.5 sm:py-1.5 sm:text-sm">
+              <span>{m.change}</span>
+              <ChevronUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </div>
           ) : (
             <div className="h-7" />
           )}
-          <Info className="h-4 w-4 text-black  rotate-180" />
+
+          <Info className="mt-0.5 h-4 w-4 rotate-180 text-black" />
         </div>
       </div>
 
-      <div className="mt-6.25">
-        <p className="text-sm uppercase tracking-wide text-[#666666]">
+      <div className="mt-8 sm:mt-10">
+        <p className="text-xs uppercase tracking-wide text-[#666666] sm:text-sm">
           {m.label}
         </p>
-        <p className="mt-3 text-2xl font-medium text-black">{m.value}</p>
+        <p className="mt-2.5 text-[22px] font-medium leading-none text-black sm:mt-3 sm:text-4xl">
+          {m.value}
+        </p>
       </div>
     </motion.div>
   );
@@ -149,25 +154,31 @@ function MetricCard({ m }: { m: Metric }) {
 
 function StageBox({ s }: { s: DealStage }) {
   const tone = s.tone ?? "neutral";
+
   const border =
     tone === "blue"
       ? "border-[#00B4FE99]"
       : tone === "amber"
-        ? "border-[#00B4FE99]"
-        : "border-[#00B4FE99]";
+        ? "border-[#E7C26D]"
+        : tone === "white-blue"
+          ? "border-[#00B4FE99]"
+          : "border-[#00B4FE99]";
+
   const bg =
     tone === "blue"
-      ? "bg-[#E5F7FF]"
+      ? "bg-[#DFF4FF]"
       : tone === "amber"
         ? "bg-[#FFFBF2]"
         : tone === "white-blue"
-          ? "bg-[#F2FBFF]"
+          ? "bg-[#F5FCFF]"
           : "bg-[#F8FAFC]";
 
   return (
-    <div className={cn("rounded-xl border p-6", border, bg)}>
-      <div className="text-2xl font-medium text-black">{s.count}</div>
-      <div className="mt-3 text-sm uppercase tracking-wide text-slate-400">
+    <div className={cn("rounded-2xl border p-4 sm:p-5 lg:p-6", border, bg)}>
+      <div className="text-3xl font-medium leading-none text-black sm:text-4xl">
+        {s.count}
+      </div>
+      <div className="mt-3 text-xs uppercase tracking-wide text-slate-500 sm:text-sm">
         {s.label}
       </div>
     </div>
@@ -176,23 +187,64 @@ function StageBox({ s }: { s: DealStage }) {
 
 function StatusBadge({ status }: { status: ActivityRow["status"] }) {
   const cls = {
-    "LOAN SETTLED": "bg-[#00B4FE33] text-sky-700 border-sky-200",
-    "LOAN LODGED": "bg-slate-100 text-slate-700 border-slate-200",
-    "AWAITING REFERRAL FEE": "bg-amber-100 text-amber-700 border-amber-200",
-    "REFERRAL SENT": "bg-slate-100 text-slate-600 border-slate-200",
-    "FEE PAID": "bg-[#00B4FE33] text-sky-700 border-sky-200",
+    "LOAN SETTLED": "border-sky-200 bg-[#00B4FE33] text-sky-700",
+    "LOAN LODGED": "border-slate-300 bg-slate-100 text-slate-700",
+    "AWAITING REFERRAL FEE": "border-amber-300 bg-amber-100 text-amber-700",
+    "REFERRAL SENT": "border-slate-300 bg-slate-100 text-slate-700",
+    "FEE PAID": "border-emerald-200 bg-emerald-50 text-emerald-700",
   }[status];
 
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border px-4 py-1.5",
-        "text-[10px] font-semibold uppercase tracking-wide",
+        "inline-flex items-center rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-wide sm:px-4 sm:py-1.5",
         cls,
       )}
     >
       {status}
     </span>
+  );
+}
+
+function ActivityMobileCard({
+  item,
+  selected,
+  onClick,
+}: {
+  item: ActivityRow;
+  selected: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "w-full border-b border-slate-200 px-4 py-4 text-left transition last:border-b-0",
+        selected && "bg-sky-50/60",
+      )}
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-base font-medium text-black">
+            {item.clientName}
+          </p>
+          <p className="mt-1 text-sm leading-5 text-slate-500">
+            {item.company}
+          </p>
+          <div className="mt-3">
+            <StatusBadge status={item.status} />
+          </div>
+        </div>
+
+        <div className="shrink-0 text-right">
+          <p className="text-xl font-medium leading-none text-black">
+            {item.referralFee}
+          </p>
+          <p className="mt-2 text-sm text-slate-500">Commission</p>
+        </div>
+      </div>
+    </button>
   );
 }
 
@@ -203,11 +255,9 @@ export default function ReferrerOverview() {
   const [showAll, setShowAll] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  // ✅ calendar dropdown state
   const [calOpen, setCalOpen] = useState(false);
   const calRef = useRef<HTMLDivElement | null>(null);
 
-  // close on outside click + esc
   useEffect(() => {
     if (!calOpen) return;
 
@@ -215,19 +265,20 @@ export default function ReferrerOverview() {
       if (!calRef.current) return;
       if (!calRef.current.contains(e.target as Node)) setCalOpen(false);
     };
+
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setCalOpen(false);
     };
 
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
+
     return () => {
       document.removeEventListener("mousedown", onDown);
       document.removeEventListener("keydown", onKey);
     };
   }, [calOpen]);
 
-  // switch dataset based on period (mocked)
   const data = useMemo(
     () => dashboardDataMock[filters.period],
     [filters.period],
@@ -235,7 +286,6 @@ export default function ReferrerOverview() {
 
   const metrics = useMemo(() => data.metrics, [data.metrics]);
   const stages = useMemo(() => data.stages, [data.stages]);
-
   const filteredActivities = data.activities;
 
   const visibleActivities = useMemo(() => {
@@ -243,17 +293,15 @@ export default function ReferrerOverview() {
     return filteredActivities.slice(0, 5);
   }, [showAll, filteredActivities]);
 
-  // ✅ apply calendar range (mock behavior)
   const applyRange = (start: string, end: string) => {
     const r = clampRange(start, end);
     const label = rangeToLabel(r.start, r.end);
 
-    // rule: same month => MTD, otherwise FYTD (you can change)
     const nextPeriod: DashboardFilters["period"] =
       r.start === r.end ? "MTD" : "FYTD";
 
-    setFilters((p) => ({
-      ...p,
+    setFilters((prev) => ({
+      ...prev,
       period: nextPeriod,
       range: r,
       dateRangeLabel: label,
@@ -262,15 +310,15 @@ export default function ReferrerOverview() {
   };
 
   return (
-    <div className="mx-auto max-w-400 bg-white p-6">
+    <div className="mx-auto w-full max-w-400 bg-white px-4 pb-6 pt-4 sm:px-6 sm:pb-8 sm:pt-6 lg:px-8">
       {/* top controls row */}
-      <div className="flex flex-wrap items-center gap-8.5">
-        <div className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white p-2.5">
+      <div className="flex flex-col gap-3 sm:gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div className="inline-flex w-full items-center gap-1 rounded-xl border border-slate-200 bg-white p-1.5 sm:w-auto sm:rounded-lg sm:p-2">
           <PillToggle
             active={filters.period === "MTD"}
             onClick={() =>
-              setFilters((p) => ({
-                ...p,
+              setFilters((prev) => ({
+                ...prev,
                 period: "MTD",
                 dateRangeLabel: dashboardDataMock.MTD.dateRangeLabel,
               }))
@@ -282,8 +330,8 @@ export default function ReferrerOverview() {
           <PillToggle
             active={filters.period === "FYTD"}
             onClick={() =>
-              setFilters((p) => ({
-                ...p,
+              setFilters((prev) => ({
+                ...prev,
                 period: "FYTD",
                 dateRangeLabel: dashboardDataMock.FYTD.dateRangeLabel,
               }))
@@ -293,46 +341,45 @@ export default function ReferrerOverview() {
           </PillToggle>
         </div>
 
-        {/* ✅ Custom calendar dropdown */}
-        <div ref={calRef} className="relative">
+        <div ref={calRef} className="relative w-full sm:w-auto">
           <button
             type="button"
             onClick={() => setCalOpen((v) => !v)}
             className={cn(
-              "ml-2 inline-flex py-4.5 items-center gap-8 rounded-md border border-slate-200 bg-white px-2.5",
-              "text-sm font-medium text-slate-700 hover:bg-slate-50",
+              "inline-flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 sm:w-auto sm:gap-6 sm:rounded-md sm:px-4 sm:py-4",
             )}
           >
-            <CalendarDays className="h-4.5 w-4.5  mb-0.5" />
-            <div className="flex items-center gap-2">
-              {filters.dateRangeLabel}
-              <ChevronDown
-                className={cn(
-                  "h-4.5 w-4.5 transition mb-0.5",
-                  calOpen && "rotate-180",
-                )}
-              />
+            <div className="flex items-center gap-3">
+              <CalendarDays className="h-4.5 w-4.5" />
+              <span className="truncate">{filters.dateRangeLabel}</span>
             </div>
+
+            <ChevronDown
+              className={cn(
+                "h-4.5 w-4.5 shrink-0 transition",
+                calOpen && "rotate-180",
+              )}
+            />
           </button>
 
           {calOpen ? (
-            <div className="absolute left-2 top-12 z-50 w-90 rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+            <div className="absolute left-0 top-[calc(100%+8px)] z-50 w-full rounded-2xl border border-slate-200 bg-white p-4 shadow-lg sm:w-90">
               <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
                 Custom range (months)
               </p>
 
-              <div className="mt-4 grid grid-cols-2 gap-3">
+              <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div className="space-y-2">
                   <p className="text-xs font-semibold text-slate-700">Start</p>
                   <select
                     value={filters.range.start}
                     onChange={(e) =>
-                      setFilters((p) => ({
-                        ...p,
-                        range: { ...p.range, start: e.target.value },
+                      setFilters((prev) => ({
+                        ...prev,
+                        range: { ...prev.range, start: e.target.value },
                       }))
                     }
-                    className="h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-slate-200"
+                    className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-slate-200"
                   >
                     {MONTH_OPTIONS.map((o) => (
                       <option key={o.value} value={o.value}>
@@ -347,12 +394,12 @@ export default function ReferrerOverview() {
                   <select
                     value={filters.range.end}
                     onChange={(e) =>
-                      setFilters((p) => ({
-                        ...p,
-                        range: { ...p.range, end: e.target.value },
+                      setFilters((prev) => ({
+                        ...prev,
+                        range: { ...prev.range, end: e.target.value },
                       }))
                     }
-                    className="h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-slate-200"
+                    className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-slate-200"
                   >
                     {MONTH_OPTIONS.map((o) => (
                       <option key={o.value} value={o.value}>
@@ -363,22 +410,21 @@ export default function ReferrerOverview() {
                 </div>
               </div>
 
-              <div className="mt-4 rounded-lg bg-slate-50 px-3 py-2 text-xs text-slate-600">
+              <div className="mt-4 rounded-xl bg-slate-50 px-3 py-2.5 text-xs text-slate-600">
                 Preview:{" "}
                 <span className="font-semibold text-slate-800">
                   {rangeToLabel(filters.range.start, filters.range.end)}
                 </span>
               </div>
 
-              <div className="mt-4 flex items-center justify-end gap-3">
+              <div className="mt-4 flex items-center justify-end gap-2.5">
                 <button
                   type="button"
                   onClick={() => {
-                    // reset to mock default
                     setFilters(dashboardFiltersMock);
                     setCalOpen(false);
                   }}
-                  className="h-9 rounded-md border border-slate-200 bg-white px-4 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                  className="h-10 rounded-xl border border-slate-200 bg-white px-4 text-xs font-semibold text-slate-700 hover:bg-slate-50"
                 >
                   Reset
                 </button>
@@ -388,7 +434,7 @@ export default function ReferrerOverview() {
                   onClick={() =>
                     applyRange(filters.range.start, filters.range.end)
                   }
-                  className="h-9 rounded-md bg-black px-5 text-xs font-semibold text-white hover:bg-slate-900"
+                  className="h-10 rounded-xl bg-black px-5 text-xs font-semibold text-white hover:bg-slate-900"
                 >
                   Apply
                 </button>
@@ -399,123 +445,150 @@ export default function ReferrerOverview() {
       </div>
 
       {/* metrics */}
-      <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="mt-5 grid grid-cols-1 gap-4 sm:mt-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {metrics.map((m) => (
           <MetricCard key={m.id} m={m} />
         ))}
       </div>
 
       {/* Deal stage overview */}
-      <section className="mt-10 rounded-2xl border border-slate-200 bg-white p-6">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="flex p-2.5 items-center justify-center rounded-lg bg-[#00B4FE33]">
-              <ListFilter className="h-6 w-6 text-[#00B4FE]" />
+      <section className="mt-8 border-t border-slate-200 pt-8 sm:mt-10 sm:pt-10">
+        <div className="rounded-2xl bg-white">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#00B4FE33] sm:h-11 sm:w-11">
+                <ListFilter className="h-5 w-5 text-[#00B4FE] sm:h-6 sm:w-6" />
+              </div>
+
+              <h3 className="text-base font-medium uppercase tracking-wide text-black sm:text-lg">
+                Deal Stage Overview
+              </h3>
             </div>
-            <h3 className="text-lg font-medium uppercase tracking-wide text-black">
-              Deal Stage Overview
-            </h3>
+
+            <div className="inline-flex w-fit items-center gap-2 rounded-full bg-[#00B4FE33] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-[#00B4FE] sm:px-4 sm:text-xs">
+              <span>LIVE TRACKING</span>
+              <span className="h-2 w-2 rounded-full bg-[#00B4FE]" />
+            </div>
           </div>
 
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#00B4FE33] px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-[#00B4FE]">
-            <span className="mt-1">LIVE TRACKING</span>
-            <span className="h-2 w-2 rounded-full bg-[#00B4FE]" />
+          <div className="mt-5 grid grid-cols-2 gap-4 sm:mt-6 lg:grid-cols-4">
+            {stages.map((s) => (
+              <StageBox key={s.id} s={s} />
+            ))}
           </div>
-        </div>
-
-        <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
-          {stages.map((s) => (
-            <StageBox key={s.id} s={s} />
-          ))}
         </div>
       </section>
 
       {/* Recent Activity */}
-      <section className="mt-10 overflow-hidden rounded-2xl border border-slate-200 bg-white">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 px-6 py-4">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#00B4FE33]">
-              <ActivityIcon className="h-6 w-6 text-[#00B4FE]" />
-            </div>
-            <div className="space-y-1">
-              <h3 className="text-lg font-medium text-black">
+      <section className="mt-8 border-t border-slate-200 pt-8 sm:mt-10 sm:pt-10">
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+          <div className="flex flex-col gap-3 border-b border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#00B4FE33] sm:h-11 sm:w-11">
+                <ActivityIcon className="h-5 w-5 text-[#00B4FE] sm:h-6 sm:w-6" />
+              </div>
+
+              <h3 className="text-base font-medium text-black sm:text-lg">
                 Recent Activity
               </h3>
             </div>
+
+            <button
+              type="button"
+              onClick={() => setShowAll((prev) => !prev)}
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-[#00B4FE] hover:underline sm:text-base"
+            >
+              {showAll ? (
+                <>
+                  <span>view less</span>
+                  <ArrowDownRight className="h-4 w-4" />
+                </>
+              ) : (
+                <>
+                  <span>view all portfolios</span>
+                  <ArrowUpRight className="h-4 w-4" />
+                </>
+              )}
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setShowAll((p) => !p)}
-            className="text-base font-medium text-[#00B4FE] hover:underline"
-          >
-            {showAll ? (
-              <div className="flex items-center gap-1.5">
-                <span>view less</span>
-                <ArrowDownRight className="h-4 w-4" />
-              </div>
+          {/* mobile list */}
+          <div className="block md:hidden">
+            {visibleActivities.length > 0 ? (
+              visibleActivities.map((a) => (
+                <ActivityMobileCard
+                  key={a.id}
+                  item={a}
+                  selected={selectedId === a.id}
+                  onClick={() => setSelectedId(a.id)}
+                />
+              ))
             ) : (
-              <div className="flex items-center gap-1.5">
-                <span>view all portfolios</span>
-                <ArrowUpRight className="h-4 w-4" />
+              <div className="px-4 py-10 text-center text-sm text-slate-500">
+                No activity found.
               </div>
             )}
-          </button>
-        </div>
+          </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-195">
-            <thead>
-              <tr className="bg-[#F5F5F5]">
-                <th className="px-8.5 py-5.5 font-normal text-left text-black">
-                  CLIENT NAME
-                </th>
-                <th className="px-8.5 py-5.5 font-normal text-left text-black">
-                  STATUS
-                </th>
-                <th className="px-8.5 py-5.5 font-normal text-right text-black">
-                  REFERRAL FEE
-                </th>
-              </tr>
-            </thead>
-
-            <tbody className="divide-y divide-slate-200">
-              {visibleActivities.map((a) => (
-                <tr
-                  key={a.id}
-                  onClick={() => setSelectedId(a.id)}
-                  className={cn(
-                    "cursor-pointer hover:bg-slate-50",
-                    selectedId === a.id && "bg-sky-50/60",
-                  )}
-                >
-                  <td className="px-8.5 py-5.5">
-                    <div className="font-medium text-black">{a.clientName}</div>
-                    <div className="mt-2.5 text-sm text-slate-400">
-                      {a.company}
-                    </div>
-                  </td>
-                  <td className="px-8.5 py-5.5">
-                    <StatusBadge status={a.status} />
-                  </td>
-                  <td className="px-8.5 py-5.5 text-right  text-black">
-                    {a.referralFee}
-                  </td>
+          {/* desktop table */}
+          <div className="hidden overflow-x-auto md:block">
+            <table className="w-full min-w-195">
+              <thead>
+                <tr className="bg-[#F5F5F5]">
+                  <th className="px-6 py-4 text-left font-normal text-black lg:px-8">
+                    CLIENT NAME
+                  </th>
+                  <th className="px-6 py-4 text-left font-normal text-black lg:px-8">
+                    STATUS
+                  </th>
+                  <th className="px-6 py-4 text-right font-normal text-black lg:px-8">
+                    REFERRAL FEE
+                  </th>
                 </tr>
-              ))}
+              </thead>
 
-              {visibleActivities.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan={3}
-                    className="px-6 py-12 text-center text-sm text-slate-500"
+              <tbody className="divide-y divide-slate-200">
+                {visibleActivities.map((a) => (
+                  <tr
+                    key={a.id}
+                    onClick={() => setSelectedId(a.id)}
+                    className={cn(
+                      "cursor-pointer transition hover:bg-slate-50",
+                      selectedId === a.id && "bg-sky-50/60",
+                    )}
                   >
-                    No activity found.
-                  </td>
-                </tr>
-              ) : null}
-            </tbody>
-          </table>
+                    <td className="px-6 py-5 lg:px-8">
+                      <div className="font-medium text-black">
+                        {a.clientName}
+                      </div>
+                      <div className="mt-2 text-sm text-slate-400">
+                        {a.company}
+                      </div>
+                    </td>
+
+                    <td className="px-6 py-5 lg:px-8">
+                      <StatusBadge status={a.status} />
+                    </td>
+
+                    <td className="px-6 py-5 text-right text-black lg:px-8">
+                      {a.referralFee}
+                    </td>
+                  </tr>
+                ))}
+
+                {visibleActivities.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={3}
+                      className="px-6 py-12 text-center text-sm text-slate-500"
+                    >
+                      No activity found.
+                    </td>
+                  </tr>
+                ) : null}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
     </div>

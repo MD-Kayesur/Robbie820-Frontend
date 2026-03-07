@@ -10,6 +10,7 @@ import type {
   ProfileForm,
   SettingsTab,
   TeamMember,
+  TeamRole,
 } from "./types";
 
 import {
@@ -26,10 +27,24 @@ import TeamManagementTab from "@/components/ReferrerDashboardCom/RSettingsCom/Te
 import AlertsTab from "@/components/ReferrerDashboardCom/RSettingsCom/AlertsTab";
 import LegalDocumentsTab from "@/components/ReferrerDashboardCom/RSettingsCom/LegalDocumentsTab";
 import BankingDetailsTab from "@/components/ReferrerDashboardCom/RSettingsCom/BankingDetailsTab";
+import TMTNewMemberModal from "@/components/ReferrerDashboardCom/RSettingsCom/modals/TMTNewMemberModal";
 
 function cn(...s: Array<string | false | null | undefined>) {
   return s.filter(Boolean).join(" ");
 }
+
+type InvitePayload = {
+  fullName: string;
+  email: string;
+  role: TeamRole;
+  permissions: {
+    submitReferrals: boolean;
+    viewOwnReferralsOnly: boolean;
+    viewCommission: boolean;
+  };
+  additionalSeatCost: number;
+  newMonthlyTotal: number;
+};
 
 const ReferrerSettings = () => {
   const [tab, setTab] = useState<SettingsTab>("My Profile");
@@ -40,23 +55,27 @@ const ReferrerSettings = () => {
   const [alertStages, setAlertStages] = useState<AlertStage[]>(alertStagesMock);
   const [docs, setDocs] = useState<LegalDocument[]>(legalDocsMock);
   const [banking, setBanking] = useState<BankingForm>(bankingMock);
+  const [memberModalOpen, setMemberModalOpen] = useState(false);
 
   const tabs = useMemo(() => tabsMock as unknown as SettingsTab[], []);
 
   function onAddMember() {
-    // eslint-disable-next-line no-alert
-    const name = prompt("Member name (mock):");
-    if (!name) return;
-    const email = prompt("Member email (mock):") || "new@partnerportal.com";
+    setMemberModalOpen(true);
+  }
+
+  function onInviteMember(payload: InvitePayload) {
+    const permissionLabel = payload.permissions.viewCommission
+      ? "Admin"
+      : "Member";
 
     setTeam((prev) => [
       ...prev,
       {
         id: `t_${Date.now()}`,
-        name,
-        email,
-        role: "Staff Member",
-        permission: "Member",
+        name: payload.fullName,
+        email: payload.email,
+        role: payload.role,
+        permission: permissionLabel,
         referrals: 0,
         joined: new Date().toISOString().slice(0, 10),
       },
@@ -74,7 +93,6 @@ const ReferrerSettings = () => {
   }
 
   function onUploadDoc() {
-    // eslint-disable-next-line no-alert
     const title = prompt("Document title (mock):");
     if (!title) return;
 
@@ -92,73 +110,87 @@ const ReferrerSettings = () => {
 
   function onDownloadDoc(id: string) {
     const d = docs.find((x) => x.id === id);
-    // eslint-disable-next-line no-alert
     alert(`Download (mock): ${d?.title ?? id}`);
   }
 
   return (
-    <div className="mx-auto max-w-400 bg-white p-6">
-      {/* top tabs */}
-      <div className="mb-6 flex flex-wrap items-center gap-7 border-b border-slate-200 pb-3">
-        {tabs.map((t) => {
-          const active = t === tab;
-          return (
-            <button
-              key={t}
-              type="button"
-              onClick={() => setTab(t)}
-              className={cn(
-                "relative pb-2 text-xs font-semibold tracking-wide",
-                active
-                  ? "text-slate-900"
-                  : "text-slate-500 hover:text-slate-700",
-              )}
-            >
-              {t.toUpperCase()}
-              <span
+    <div className="mx-auto w-full max-w-375 bg-white px-4 pb-10 pt-5 sm:px-6 md:px-8 md:pb-12 md:pt-8 clash">
+      {/* tabs */}
+      <div className="overflow-x-auto no-scrollbar">
+        <div className="mb-6 flex min-w-max items-center gap-8 md:mb-8 md:gap-10">
+          {tabs.map((t) => {
+            const active = t === tab;
+
+            return (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setTab(t)}
                 className={cn(
-                  "absolute left-0 right-0 -bottom-px h-0.5 rounded-full transition",
-                  active ? "bg-sky-500" : "bg-transparent",
+                  "relative shrink-0 pb-3 text-left text-[15px] font-normal uppercase tracking-normal text-black transition md:pb-4 md:text-sm",
+                  active ? "" : "hover:text-slate-700",
                 )}
-              />
-            </button>
-          );
-        })}
+              >
+                <span>{t}</span>
+
+                <span
+                  className={cn(
+                    "absolute bottom-0 left-0 right-0 h-0.5 rounded-full transition",
+                    active ? "bg-[#00B4FE]" : "bg-transparent",
+                  )}
+                />
+              </button>
+            );
+          })}
+        </div>
       </div>
 
+      {/* divider */}
+      <div className="mb-7 h-px w-full bg-[#D9D9D9] md:mb-8" />
+
       {/* content */}
-      {tab === "My Profile" ? (
-        <MyProfileTab value={profile} onSave={setProfile} />
-      ) : null}
+      <div>
+        {tab === "My Profile" ? (
+          <MyProfileTab value={profile} onSave={setProfile} />
+        ) : null}
 
-      {tab === "Team Management" ? (
-        <TeamManagementTab
-          members={team}
-          onAdd={onAddMember}
-          onRemove={onRemoveMember}
-        />
-      ) : null}
+        {tab === "Team Management" ? (
+          <TeamManagementTab
+            members={team}
+            onAdd={onAddMember}
+            onRemove={onRemoveMember}
+          />
+        ) : null}
 
-      {tab === "Alerts" ? (
-        <AlertsTab
-          prefs={alertPrefs}
-          stages={alertStages}
-          onChangePrefs={setAlertPrefs}
-          onToggleStage={onToggleStage}
-        />
-      ) : null}
+        {tab === "Alerts" ? (
+          <AlertsTab
+            prefs={alertPrefs}
+            stages={alertStages}
+            onChangePrefs={setAlertPrefs}
+            onToggleStage={onToggleStage}
+          />
+        ) : null}
 
-      {tab === "Legal Documents" ? (
-        <LegalDocumentsTab
-          docs={docs}
-          onUpload={onUploadDoc}
-          onDownload={onDownloadDoc}
-        />
-      ) : null}
+        {tab === "Legal Documents" ? (
+          <LegalDocumentsTab
+            docs={docs}
+            onUpload={onUploadDoc}
+            onDownload={onDownloadDoc}
+          />
+        ) : null}
 
-      {tab === "Banking Details" ? (
-        <BankingDetailsTab value={banking} onSave={setBanking} />
-      ) : null}
+        {tab === "Banking Details" ? (
+          <BankingDetailsTab value={banking} onSave={setBanking} />
+        ) : null}
+      </div>
+
+      <TMTNewMemberModal
+        open={memberModalOpen}
+        onClose={() => setMemberModalOpen(false)}
+        onSubmit={onInviteMember}
+        baseMonthlyTotal={150}
+        seatCost={25}
+      />
     </div>
   );
 };
