@@ -1,14 +1,21 @@
 import { Outlet } from "react-router-dom";
+import { useState } from "react";
 import ReferrerSidebar from "./ReferrerSidebar";
 import ReferrerTopbar from "./ReferrerTopbar";
 
 const ReferrerLayout = () => {
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+
   return (
-    <div className="h-screen w-full bg-white flex overflow-hidden font-sans selection:bg-sky-100 selection:text-sky-900">
-      <ReferrerSidebar />
-      <div className="flex-1 flex flex-col h-full overflow-hidden">
-        <ReferrerTopbar />
-        <main className="flex-1 overflow-y-auto no-scrollbar scroll-smooth">
+    <div className="flex h-screen w-full overflow-hidden bg-white font-sans selection:bg-sky-100 selection:text-sky-900">
+      <ReferrerSidebar
+        mobileOpen={mobileSidebarOpen}
+        onClose={() => setMobileSidebarOpen(false)}
+      />
+
+      <div className="flex h-full flex-1 flex-col overflow-hidden">
+        <ReferrerTopbar onOpenSidebar={() => setMobileSidebarOpen(true)} />
+        <main className="no-scrollbar flex-1 overflow-y-auto scroll-smooth">
           <Outlet />
         </main>
       </div>
