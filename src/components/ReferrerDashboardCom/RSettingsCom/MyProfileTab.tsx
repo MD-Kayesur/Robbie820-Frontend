@@ -1,39 +1,10 @@
 // src/components/ReferrerDashboardCom/RSettingsCom/MyProfileTab.tsx
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Save, Trash2 } from "lucide-react";
 import { ProfileForm } from "@/pages/ReferrerDashboard/ReferrerSettings/types";
-
-function cn(...s: Array<string | false | null | undefined>) {
-  return s.filter(Boolean).join(" ");
-}
-
-function Toggle({
-  value,
-  onChange,
-}: {
-  value: boolean;
-  onChange: (v: boolean) => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={() => onChange(!value)}
-      className={cn(
-        "relative inline-flex h-7 w-12 items-center rounded-full transition",
-        value ? "bg-sky-500" : "bg-slate-200",
-      )}
-      aria-pressed={value}
-    >
-      <span
-        className={cn(
-          "inline-block h-6 w-6 rounded-full bg-white transition",
-          value ? "translate-x-6" : "translate-x-1",
-        )}
-      />
-    </button>
-  );
-}
+import { cn } from "@/hooks/useCn";
+import { Toggle } from "@/hooks/useToggle2";
 
 function Field({
   label,
@@ -43,15 +14,19 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <div className="space-y-2">
-      <p className="text-xs font-semibold text-slate-700">{label}</p>
-      {children}
+    <div className="relative pt-3">
+      <div className="relative rounded-lg border border-gray-300 px-5 pb-3 pt-4">
+        <span className="absolute -top-2 left-8 bg-white px-3 text-sm leading-3.5 text-black">
+          {label}
+        </span>
+        {children}
+      </div>
     </div>
   );
 }
 
 const inputBase =
-  "h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-800 outline-none focus:ring-2 focus:ring-sky-200";
+  "w-full border-0 bg-transparent text-xs outline-none ring-0 focus:border-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0";
 
 export default function MyProfileTab({
   value,
@@ -64,21 +39,15 @@ export default function MyProfileTab({
 
   useEffect(() => setForm(value), [value]);
 
-  const dirty = useMemo(
-    () => JSON.stringify(form) !== JSON.stringify(value),
-    [form, value],
-  );
-
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* main card */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:px-6 py-8">
+        {/* header */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-slate-900">
-              Personal Information
-            </p>
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="font-medium text-black">Personal Information</p>
+            <p className="mt-2 text-sm text-[#666666]">
               Update your account details and contact information.
             </p>
           </div>
@@ -86,23 +55,20 @@ export default function MyProfileTab({
           <button
             type="button"
             onClick={() => onSave(form)}
-            disabled={!dirty}
             className={cn(
-              "inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold transition",
-              dirty
-                ? "bg-sky-500 text-white hover:opacity-95"
-                : "cursor-not-allowed bg-slate-100 text-slate-400",
+              "inline-flex py-2.5 items-center gap-2.5 rounded-sm px-5 text-sm font-medium transition bg-[#00B4FE] text-white hover:opacity-95 leading-4",
             )}
           >
-            <Save className="h-4 w-4" />
+            <Save className="h-5 w-5" />
             Save Change
           </button>
         </div>
 
-        <div className="mt-6 grid gap-5 sm:grid-cols-2">
+        {/* form */}
+        <div className="mt-9 grid gap-7 sm:grid-cols-2">
           <Field label="Full Name">
             <input
-              className={inputBase}
+              className={cn(inputBase, "text-[#CDCDCD]")}
               value={form.fullName}
               onChange={(e) =>
                 setForm((p) => ({ ...p, fullName: e.target.value }))
@@ -113,7 +79,7 @@ export default function MyProfileTab({
 
           <Field label="E-mail">
             <input
-              className={inputBase}
+              className={cn(inputBase, "text-[#CDCDCD]")}
               value={form.email}
               onChange={(e) =>
                 setForm((p) => ({ ...p, email: e.target.value }))
@@ -124,7 +90,7 @@ export default function MyProfileTab({
 
           <Field label="Business Name">
             <input
-              className={inputBase}
+              className={cn(inputBase, "text-[#CDCDCD]")}
               value={form.businessName}
               onChange={(e) =>
                 setForm((p) => ({ ...p, businessName: e.target.value }))
@@ -134,24 +100,25 @@ export default function MyProfileTab({
           </Field>
 
           <Field label="Verification Status">
-            <div className={cn(inputBase, "flex items-center")}>
-              <span className="text-emerald-600 text-sm font-semibold">
+            <div className={cn(inputBase, "flex items-center px-6")}>
+              <span className="text-[#1B7231] text-xs">
                 {form.verificationStatus}
               </span>
             </div>
           </Field>
 
-          <Field label="Account Status">
+          <div className="px-11.5">
+            <h1 className="text-sm text-black py-1.5">Account Status</h1>
             <div className="flex items-center gap-3">
-              <span className="inline-flex h-9 items-center rounded-full bg-emerald-100 px-4 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-200">
+              <span className="inline-flex items-center rounded-full bg-[#15D9461A] px-6 py-2 text-xs text-[#15D946] ring-1 ring-[#15D946]">
                 {form.accountStatus}
               </span>
             </div>
-          </Field>
+          </div>
 
           <Field label="Mobile Number">
             <input
-              className={inputBase}
+              className={cn(inputBase, "text-[#1B7231] px-6")}
               value={form.mobileNumber}
               onChange={(e) =>
                 setForm((p) => ({ ...p, mobileNumber: e.target.value }))
@@ -180,7 +147,7 @@ export default function MyProfileTab({
 
             <Field label="ABN Number">
               <input
-                className={inputBase}
+                className={cn(inputBase, "text-black")}
                 value={form.abnNumber}
                 onChange={(e) =>
                   setForm((p) => ({ ...p, abnNumber: e.target.value }))
@@ -196,10 +163,8 @@ export default function MyProfileTab({
       <div className="rounded-2xl border border-red-200 bg-red-50 p-5 sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm font-semibold text-slate-900">
-              Personal Information
-            </p>
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="font-medium text-black">Personal Information</p>
+            <p className="mt-2 text-sm text-[#666666]">
               Update your account details and contact information.
             </p>
           </div>
@@ -210,7 +175,7 @@ export default function MyProfileTab({
               // eslint-disable-next-line no-alert
               alert("Delete account (mock).");
             }}
-            className="inline-flex h-10 items-center gap-2 rounded-xl border border-red-300 bg-white px-4 text-sm font-semibold text-red-500 hover:bg-red-50"
+            className="inline-flex h-10 items-center gap-2 rounded-xl border border-[#D76C6C] bg-white px-4 text-sm font-medium text-[#D76C6C] leading-4 hover:bg-red-50"
           >
             <Trash2 className="h-4 w-4" />
             Delete Account

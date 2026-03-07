@@ -97,9 +97,9 @@ const ReferrerSettings = () => {
   }
 
   return (
-    <div className="mx-auto max-w-400 bg-white p-6">
+    <div className="mx-auto max-w-5xl bg-white py-9 clash">
       {/* top tabs */}
-      <div className="mb-6 flex flex-wrap items-center gap-7 border-b border-slate-200 pb-3">
+      <div className="mb-6 flex flex-wrap items-center gap-4 px-6">
         {tabs.map((t) => {
           const active = t === tab;
           return (
@@ -108,17 +108,15 @@ const ReferrerSettings = () => {
               type="button"
               onClick={() => setTab(t)}
               className={cn(
-                "relative pb-2 text-xs font-semibold tracking-wide",
-                active
-                  ? "text-slate-900"
-                  : "text-slate-500 hover:text-slate-700",
+                "relative text-sm text-black",
+                active ? "" : "hover:text-slate-700",
               )}
             >
-              {t.toUpperCase()}
+              <span className="px-2.5 py-1.5">{t.toUpperCase()}</span>
               <span
                 className={cn(
                   "absolute left-0 right-0 -bottom-px h-0.5 rounded-full transition",
-                  active ? "bg-sky-500" : "bg-transparent",
+                  active ? "bg-[#00B4FE]" : "bg-transparent",
                 )}
               />
             </button>

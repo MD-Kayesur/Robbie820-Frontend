@@ -1,14 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "@/Layout/RootLayout/RootLayout";
-
 import NotFound from "@/pages/NotFound";
-
 import ReferrerLayout from "@/Layout/ReferrerLayout/ReferrerLayout";
-
 import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
-
 import AdminRoutes from "./AdminRoutes";
-
 import BrokerLayout from "@/Layout/BrokerLayout/BrokerLayout";
 import BrokerDashboard from "@/pages/BrokerDashboard/BrokerDashboard/BrokerDashboard";
 import BrokerMyReferrals from "@/pages/BrokerDashboard/BrokerMyReferrals/BrokerMyReferrals";

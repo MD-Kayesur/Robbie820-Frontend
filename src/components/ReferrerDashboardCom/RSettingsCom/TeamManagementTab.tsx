@@ -1,14 +1,17 @@
 // src/components/ReferrerDashboardCom/RSettingsCom/TeamManagementTab.tsx
 import React, { useMemo, useState } from "react";
-import { MoreVertical, UserPlus, Shield, UserRound } from "lucide-react";
+import {
+  MoreVertical,
+  UserPlus,
+  UserRound,
+  Users,
+  ShieldCheck,
+} from "lucide-react";
 import {
   TeamMember,
   TeamPermission,
 } from "@/pages/ReferrerDashboard/ReferrerSettings/types";
-
-function cn(...s: Array<string | false | null | undefined>) {
-  return s.filter(Boolean).join(" ");
-}
+import { cn } from "@/hooks/useCn";
 
 function useOutsideClose<T extends HTMLElement>(
   open: boolean,
@@ -31,7 +34,7 @@ function useOutsideClose<T extends HTMLElement>(
 
 function PermPill({ value }: { value: TeamPermission }) {
   return (
-    <span className="inline-flex min-w-35 items-center justify-center gap-2 rounded-full bg-sky-100 px-4 py-2 text-sm font-semibold text-slate-900">
+    <span className="inline-flex min-w-35 items-center justify-center gap-2 rounded-full bg-sky-100 px-4 py-2 text-sm font-medium text-slate-900 leading-3">
       <UserRound className="h-4 w-4 text-slate-700" />
       {value}
     </span>
@@ -49,7 +52,7 @@ function RowActions({ onRemove }: { onRemove: () => void }) {
         onClick={() => setOpen((v) => !v)}
         className="grid h-9 w-9 place-items-center rounded-lg hover:bg-slate-50 active:scale-[0.99] transition"
       >
-        <MoreVertical className="h-4 w-4 text-slate-500" />
+        <MoreVertical className="h-4 w-4 text-black" />
       </button>
 
       {open ? (
@@ -82,17 +85,17 @@ export default function TeamManagementTab({
   const rows = useMemo(() => members, [members]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* blue header */}
-      <div className="rounded-2xl bg-sky-500 px-6 py-6 text-white">
+      <div className="rounded-2xl bg-[#00B4FE] px-6 py-6 text-white">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-white/15 ring-1 ring-white/20">
-              <UserRound className="h-5 w-5" />
+            <div className="mt-1 grid h-10 w-10 place-items-center rounded-xl bg-white/15 ring-1 ring-white/20">
+              <Users className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-lg font-semibold">Business Team</p>
-              <p className="text-sm text-white/85">
+              <p className="text-xl font-medium">Business Team</p>
+              <p className="text-sm">
                 Manage employees and their permissions for referral submissions.
               </p>
             </div>
@@ -101,7 +104,7 @@ export default function TeamManagementTab({
           <button
             type="button"
             onClick={onAdd}
-            className="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-4 text-sm font-semibold text-slate-900 hover:bg-white/95"
+            className="inline-flex h-10 items-center gap-2 rounded-sm bg-white px-4 text-sm font-medium text-slate-900 hover:bg-white/95"
           >
             <UserPlus className="h-4 w-4" />
             Add Team Member
@@ -110,7 +113,7 @@ export default function TeamManagementTab({
       </div>
 
       {/* table */}
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white px-5 py-3 ">
         <div className="w-full overflow-x-auto">
           <table className="w-full min-w-230">
             <thead>
@@ -126,7 +129,7 @@ export default function TeamManagementTab({
                   <th
                     key={h}
                     className={cn(
-                      "px-6 py-4 text-left text-xs font-semibold tracking-wide text-slate-500",
+                      "py-4 text-left text-lg font-medium tracking-wide text-[#333333]",
                       h === "REFERRALS" || h === "JOINED" ? "text-right" : "",
                     )}
                   >
@@ -136,33 +139,33 @@ export default function TeamManagementTab({
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-slate-200">
+            <tbody>
               {rows.map((m) => (
                 <tr key={m.id} className="hover:bg-slate-50/60">
-                  <td className="px-6 py-4">
-                    <p className="text-sm font-semibold text-slate-900">
+                  <td className="py-4">
+                    <p className="text-base font-medium text-slate-900">
                       {m.name}
                     </p>
-                    <p className="text-xs text-slate-500">{m.email}</p>
+                    <p className="text-sm text-slate-500">{m.email}</p>
                   </td>
 
-                  <td className="px-6 py-4 text-sm font-semibold text-slate-900">
+                  <td className="py-4 text-sm font-medium text-slate-900">
                     {m.role}
                   </td>
 
-                  <td className="px-6 py-4">
+                  <td className="py-4">
                     <PermPill value={m.permission} />
                   </td>
 
-                  <td className="px-6 py-4 text-right text-sm font-semibold text-slate-900">
+                  <td className="py-4 text-center text-lg font-medium text-slate-900">
                     {m.referrals}
                   </td>
 
-                  <td className="px-6 py-4 text-right text-sm font-semibold text-slate-900">
+                  <td className="py-4 text-right font-medium text-slate-900">
                     {m.joined}
                   </td>
 
-                  <td className="px-3 py-4">
+                  <td className="py-4">
                     <RowActions onRemove={() => onRemove(m.id)} />
                   </td>
                 </tr>
@@ -173,16 +176,16 @@ export default function TeamManagementTab({
       </div>
 
       {/* about */}
-      <div className="rounded-2xl border border-sky-200 bg-sky-50 px-5 py-5">
-        <div className="flex items-start gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-xl bg-sky-500/10 text-sky-700 ring-1 ring-sky-200">
-            <Shield className="h-5 w-5" />
+      <div className="rounded-2xl border border-sky-200 bg-sky-50 px-8.5 py-6">
+        <div className="flex items-start gap-6">
+          <div className="grid p-3 place-items-center rounded-xl bg-[#00B4FE] text-white ring-1 ring-sky-200">
+            <ShieldCheck size={24} />
           </div>
           <div className="min-w-0">
-            <p className="text-base font-semibold text-slate-900">
+            <p className="text-xl font-medium text-slate-900">
               About Team Permissions
             </p>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="text-[#666666]">
               Admins can manage team members, view all commissions, and access
               business settings. Members can only submit new referrals and view
               progress for leads they personally introduced.
