@@ -1,103 +1,127 @@
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "@/store/Slices/AuthSlice/authSlice";
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, ChevronLeft } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
-const loginSchema = z.object({
-  email: z.string().email("Invalid email format"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
+const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [role] = useState<'referrer' | 'broker'>((localStorage.getItem('userRole') as any) || 'referrer');
 
-type LoginFormInputs = z.infer<typeof loginSchema>;
-
-const Login = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema),
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
   });
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  const onSubmit = (data: LoginFormInputs) => {
-    console.log("Login Data:", data);
 
-    // Simulate API call and success
-    const userData = {
-      name: "Logged User",
-      email: data.email,
-      role: data.email.includes("admin") ? "admin" : "user", // Dummy logic for roles
-    };
-
-    dispatch(setCredentials({
-      user: userData,
-      token: "dummy-access-token-" + Math.random().toString(36).substr(2, 9)
-    }));
-
-    if (userData.role === "admin") {
-      navigate("/admin");
-    } else {
-      navigate("/user/all");
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.email || !formData.password) {
+      toast.error('Please fill in all fields');
+      return;
     }
+
+    setLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      setLoading(false);
+      toast.success('Logged in successfully!');
+
+      // Redirect based on selected role
+      if (role === 'broker') {
+        navigate('/broker-dashboard');
+      } else {
+        navigate('/referrer-dashboard');
+      }
+    }, 1500);
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-950">
-      <div className="w-full max-w-md bg-white dark:bg-[#1A1C1D] dark:border dark:border-gray-800 p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-center text-gray-900 dark:text-white">Login</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
-          {/* Email Field */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Email
-            </label>
-            <input
-              type="email"
-              {...register("email")}
-              className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white"
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
-            )}
-          </div>
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col items-center justify-center p-6">
+      {/* Content Card */}
+      <div className="w-full max-w-[500px] bg-white rounded-[2rem] border border-sky-100 shadow-xl shadow-sky-500/5 p-10 relative">
 
-          {/* Password Field */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Password
-            </label>
-            <input
-              type="password"
-              {...register("password")}
-              className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white"
-            />
-            {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password.message}</p>
-            )}
-          </div>
+        {/* Back Button */}
+        <Link
+          to="/signup"
+          className="absolute left-10 top-10 flex items-center gap-2 text-sky-500 font-bold text-sm uppercase tracking-wider hover:text-sky-600 transition-colors"
+        >
+          <ChevronLeft size={18} strokeWidth={3} />
+          Back to signup
+        </Link>
 
-          <div className="mb-3">
-            <p className="text-gray-600 dark:text-gray-400">
-              Already have an account?{" "}
-              <Link to="/signup" className="text-blue-500 hover:text-blue-600 dark:text-blue-400">
-                Sign up here
-              </Link>
-            </p>
-          </div>
+        <div className="mt-12 text-center">
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight mb-8">
+            Welcome back
+          </h1>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition-colors"
-          >
-            Login
-          </button>
-        </form>
+
+
+          <form onSubmit={handleLogin} className="space-y-6 text-left">
+            <div className="space-y-2">
+              <label className="text-[15px] font-bold text-slate-600 ml-1">Email address</label>
+              <div className="relative group">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-sky-500 transition-colors" size={20} />
+                <input
+                  type="email"
+                  placeholder="georgia.young@example.com"
+                  className="w-full h-14 pl-12 pr-4 rounded-xl border border-slate-100 bg-slate-50/50 font-medium text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2 relative">
+              <label className="text-[15px] font-bold text-slate-600 ml-1">Password</label>
+              <div className="relative group">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-sky-500 transition-colors" size={20} />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="•••••"
+                  className="w-full h-14 pl-12 pr-12 rounded-xl border border-slate-100 bg-slate-50/50 font-medium text-slate-900 focus:outline-none focus:border-sky-500 focus:bg-white transition-all"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+              <div className="flex justify-end pt-1">
+                <Link to="/forgot-password" className="text-sm font-bold text-slate-400 hover:text-sky-500 transition-colors">
+                  Forgot Password?
+                </Link>
+              </div>
+            </div>
+
+            {/* Primary Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full h-16 bg-sky-500 hover:bg-sky-600 text-white font-black text-xl rounded-2xl shadow-2xl shadow-sky-500/30 flex items-center justify-center gap-3 transition-all duration-300 active:scale-95 disabled:opacity-70 disabled:active:scale-100 mt-8"
+            >
+              {loading ? (
+                <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <>
+                  Log In
+                  <ArrowRight size={24} strokeWidth={3} />
+                </>
+              )}
+            </button>
+          </form>
+
+          {/* Footer Link */}
+          <div className="mt-10 font-bold text-slate-400">
+            Don't have an account? <Link to="/signup" className="text-sky-500">Sign Up</Link>
+          </div>
+        </div>
       </div>
     </div>
   );
