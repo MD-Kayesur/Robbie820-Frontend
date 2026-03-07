@@ -79,7 +79,7 @@ const ReferrerSidebar = ({ mobileOpen, onClose }: Props) => {
       <aside
         ref={sidebarRef}
         className={cn(
-          "fixed left-0 top-0 z-50 flex h-full w-70 flex-col bg-[#F5F5F5] px-8 py-8 transition-transform duration-300 md:static md:z-0 md:w-64 md:translate-x-0 md:py-11",
+          "fixed left-0 top-0 z-50 flex h-full w-70 flex-col overflow-y-auto bg-[#F5F5F5] px-8 py-8 transition-transform duration-300 md:static md:z-0 md:w-64 md:translate-x-0 md:py-11",
           mobileOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >

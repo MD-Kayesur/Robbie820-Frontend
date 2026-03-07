@@ -14,8 +14,8 @@ const ReferrerLayout = () => {
       />
 
       <div className="flex h-full flex-1 flex-col overflow-hidden">
-        <ReferrerTopbar onOpenSidebar={() => setMobileSidebarOpen(true)} />
         <main className="no-scrollbar flex-1 overflow-y-auto scroll-smooth">
+          <ReferrerTopbar onOpenSidebar={() => setMobileSidebarOpen(true)} />
           <Outlet />
         </main>
       </div>
