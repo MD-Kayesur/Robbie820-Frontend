@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 const AdminRoutes = () => {
-  const isAdmin = true; // replace with Redux or auth logic
+  const isAdmin = true;
 
   return isAdmin ? <Outlet /> : <Navigate to="/login" replace />;
 };

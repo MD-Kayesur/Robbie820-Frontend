@@ -1,6 +1,6 @@
 // src/pages/SuperAdmin/SubscriptionsCom/ActionsMenu.tsx
+import { useOutsideClose } from "@/hooks/useOutsideClose";
 import { Eye, RotateCcw, FileText } from "lucide-react";
-import { useOutsideClose } from "./utils";
 
 export function ActionsMenu({
   open,
