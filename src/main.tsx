@@ -4,8 +4,8 @@ import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-import routes from "./routes/routes";
-
+import routes from "./routes/Routes";
+ 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
