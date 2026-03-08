@@ -36,7 +36,7 @@ const BrokerLayout = () => {
         <BrokerTopbar onMenuClick={() => setMobileOpen(true)} />
 
         {/* desktop has no topbar */}
-        <main className="min-w-0 flex-1 overflow-y-auto">
+        <main className="min-w-0 mx-7.5 my-10  flex-1 overflow-y-auto">
           <Outlet />
         </main>
       </div>

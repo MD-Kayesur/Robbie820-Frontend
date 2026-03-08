@@ -5,7 +5,6 @@ import ReferrerLayout from "@/Layout/ReferrerLayout/ReferrerLayout";
 import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
 import AdminRoutes from "./AdminRoutes";
 import BrokerLayout from "@/Layout/BrokerLayout/BrokerLayout";
-import BrokerDashboard from "@/pages/BrokerDashboard/BrokerDashboard/BrokerDashboard";
 import BrokerMyReferrals from "@/pages/BrokerDashboard/BrokerMyReferrals/BrokerMyReferrals";
 import BrokerPartnerProfile from "@/pages/BrokerDashboard/BrokerPartnerProfile/BrokerPartnerProfile";
 import BrokerTeamManagement from "@/pages/BrokerDashboard/BrokerTeamManagement/BrokerTeamManagement";
@@ -30,6 +29,8 @@ import Login from "@/pages/Authentication/Login/Login";
 import Signup from "@/pages/Authentication/Signup/Signup";
 import AuthenticationLayout from "@/Layout/AuthenticationLayout/AuthenticationLayout";
 import RecoverPassword from "@/pages/Authentication/RecoverPassword/RecoverPassword";
+import BrokerOverview from "@/pages/BrokerDashboard/BrokerOverview/BrokerOverview";
+import BrokerLeadDetails from "@/pages/BrokerDashboard/BrokerLeadDetails/BrokerLeadDetails";
 
 const routes = createBrowserRouter([
   {
@@ -88,8 +89,9 @@ const routes = createBrowserRouter([
         path: "/broker-dashboard",
         element: <BrokerLayout />,
         children: [
-          { index: true, element: <BrokerDashboard /> },
-          { path: "overview", element: <BrokerDashboard /> },
+          { index: true, element: <BrokerOverview /> },
+          { path: "overview", element: <BrokerOverview /> },
+          { path: "leads/:id", element: <BrokerLeadDetails /> },
           { path: "my-referrals", element: <BrokerMyReferrals /> },
           { path: "partner-profile", element: <BrokerPartnerProfile /> },
           { path: "team-management", element: <BrokerTeamManagement /> },
