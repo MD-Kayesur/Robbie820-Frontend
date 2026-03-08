@@ -20,15 +20,16 @@ import SuperAdminAuditLogs from "@/pages/SuperAdminDashboard/SuperAdminAuditLogs
 import SuperAdminSettings from "@/pages/SuperAdminDashboard/SuperAdminSettings/SuperAdminSettings";
 import SuperAdminDashboard from "@/pages/SuperAdminDashboard/SuperAdminDashboard/SuperAdminDashboard";
 import SuperAdminLayoutNoTopbar from "@/Layout/SuperAdminLayout/SuperAdminLayoutNoTopbar";
-import Login from "@/components/authentication/login/Login";
-import Signup from "@/components/authentication/Signup";
-import ForgotPasswordForm from "@/components/authentication/login/ForgotPasswordForm";
 import Home from "@/pages/Home/Home";
 import ReferrerOverview from "@/pages/ReferrerDashboard/ReferrerOverview/ReferrerOverview";
 import ReferrerMyReferrals from "@/pages/ReferrerDashboard/ReferrerMyReferrals/ReferrerMyReferrals";
 import ReferrerNotifications from "@/pages/ReferrerDashboard/ReferrerNotifications/ReferrerNotifications";
 import ReferrerSettings from "@/pages/ReferrerDashboard/ReferrerSettings/ReferrerSettings";
 import ReferrerClientDetails from "@/pages/ReferrerDashboard/ReferrerClientDetails/ReferrerClientDetails";
+import Login from "@/pages/Authentication/Login/Login";
+import Signup from "@/pages/Authentication/Signup/Signup";
+import AuthenticationLayout from "@/Layout/AuthenticationLayout/AuthenticationLayout";
+import RecoverPassword from "@/pages/Authentication/RecoverPassword/RecoverPassword";
 
 const routes = createBrowserRouter([
   {
@@ -40,20 +41,26 @@ const routes = createBrowserRouter([
         element: <Home />,
       },
 
+      // authentication routes
       {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/signup",
-        element: <Signup />,
-      },
-      {
-        path: "/forgot-password",
-        element: <ForgotPasswordForm />,
+        element: <AuthenticationLayout />,
+        children: [
+          {
+            path: "/login",
+            element: <Login />,
+          },
+          {
+            path: "/signup",
+            element: <Signup />,
+          },
+          {
+            path: "/recover-password",
+            element: <RecoverPassword />,
+          },
+        ],
       },
 
-      // referrer
+      // referrer dashboard routes
       {
         path: "/referrer-dashboard",
         element: <ReferrerLayout />,
@@ -76,7 +83,7 @@ const routes = createBrowserRouter([
         ],
       },
 
-      // broker
+      // broker dashboard routes
       {
         path: "/broker-dashboard",
         element: <BrokerLayout />,
@@ -93,7 +100,7 @@ const routes = createBrowserRouter([
         ],
       },
 
-      // admin
+      // super admin dashboard routes
       {
         path: "/super-admin",
         element: <AdminRoutes />,
