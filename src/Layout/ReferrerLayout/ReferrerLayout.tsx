@@ -7,7 +7,7 @@ const ReferrerLayout = () => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-white font-sans selection:bg-sky-100 selection:text-sky-900">
+    <div className="flex h-screen w-full overflow-hidden bg-white selection:bg-sky-100 selection:text-sky-900">
       <ReferrerSidebar
         mobileOpen={mobileSidebarOpen}
         onClose={() => setMobileSidebarOpen(false)}

@@ -10,7 +10,7 @@ import { cn } from "@/hooks/useCn";
 
 function Row({ label, right }: { label: string; right: React.ReactNode }) {
   return (
-    <div className="flex items-start justify-between gap-4 border-t border-slate-100 py-4">
+    <div className="flex flex-col gap-3 border-t border-slate-100 py-4 sm:flex-row sm:items-start sm:justify-between">
       <div className="min-w-0">
         <p className="text-sm font-semibold text-slate-900">{label}</p>
       </div>
@@ -53,10 +53,8 @@ function DropdownSelect<V extends string>({
         aria-labelledby={labelId}
         onClick={() => setOpen((p) => !p)}
         className={cn(
-          "w-full rounded-xl px-4 py-3 text-left text-sm text-black",
-          "bg-[#F3F3F5] ring-1 ring-transparent hover:ring-slate-200",
-          "outline-none focus:ring-slate-300",
-          "flex items-center justify-between gap-3",
+          "flex w-full items-center justify-between gap-3 rounded-xl bg-[#F3F3F5] px-4 py-3 text-left text-sm text-black",
+          "ring-1 ring-transparent outline-none hover:ring-slate-200 focus:ring-slate-300",
           className,
         )}
       >
@@ -74,9 +72,7 @@ function DropdownSelect<V extends string>({
           role="listbox"
           tabIndex={-1}
           className={cn(
-            "absolute left-0 top-[calc(100%+8px)] z-50 w-full overflow-hidden",
-            "rounded-2xl border border-slate-200 bg-white shadow-xl",
-            "p-2",
+            "absolute left-0 top-[calc(100%+8px)] z-50 w-full overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-xl",
             menuClassName,
           )}
         >
@@ -93,8 +89,7 @@ function DropdownSelect<V extends string>({
                   setOpen(false);
                 }}
                 className={cn(
-                  "w-full rounded-xl px-3 py-2.5 text-left text-sm",
-                  "flex items-center justify-between gap-3",
+                  "flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-left text-sm",
                   active
                     ? "bg-slate-100 text-slate-900"
                     : "text-slate-900 hover:bg-slate-50",
@@ -115,7 +110,6 @@ function DropdownSelect<V extends string>({
   );
 }
 
-/* ------------------------------ page ------------------------------ */
 export default function SystemBehaviorTab() {
   const [s, setS] = useState<SystemBehaviorSettings>(systemBehaviorMock);
 
@@ -152,20 +146,16 @@ export default function SystemBehaviorTab() {
   );
 
   return (
-    <div className="space-y-5.5 inter">
-      {/* Operational Settings */}
+    <div className="space-y-5 inter">
       <div className="rounded-2xl border border-slate-200 bg-white">
-        {/* Header */}
-        <div className="p-5.5">
+        <div className="p-4 sm:p-5.5">
           <h2 className="text-base font-semibold text-black">
             Operational Settings
           </h2>
         </div>
 
-        {/* Content */}
-        <div className="px-5.5 pb-5.5">
+        <div className="px-4 pb-4 sm:px-5.5 sm:pb-5.5">
           <div className="space-y-4">
-            {/* Default Expected Referrer Payment Rule */}
             <div>
               <label
                 id="paymentRuleLabel"
@@ -190,13 +180,12 @@ export default function SystemBehaviorTab() {
               </div>
             </div>
 
-            {/* Overdue Commission Reminder */}
             <div>
               <label className="flex items-center gap-2 text-xs font-medium text-slate-700">
                 Overdue Commission Reminder{" "}
                 <Info className="h-4 w-4 text-slate-400" />
               </label>
-              <div className="mt-2 flex max-w-md items-center gap-3">
+              <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:max-w-md sm:items-center sm:gap-3">
                 <input
                   value={s.overdueCommissionReminderDays}
                   onChange={(e) =>
@@ -209,7 +198,7 @@ export default function SystemBehaviorTab() {
                   }
                   type="number"
                   step="1"
-                  className="h-11 max-w-xs rounded-xl bg-[#F3F3F5] px-4 text-sm text-black outline-none ring-1 ring-transparent focus:ring-slate-300"
+                  className="h-11 w-full rounded-xl bg-[#F3F3F5] px-4 text-sm text-black outline-none ring-1 ring-transparent focus:ring-slate-300 sm:max-w-xs"
                 />
                 <p className="text-sm text-slate-500">
                   days after expected date
@@ -218,7 +207,6 @@ export default function SystemBehaviorTab() {
             </div>
           </div>
 
-          {/* Default Subscription Auto-Renew */}
           <div className="mt-6">
             <Row
               label="Default Subscription Auto-Renew"
@@ -232,13 +220,12 @@ export default function SystemBehaviorTab() {
               }
             />
 
-            {/* Failed Payment Grace Period */}
             <div className="border-t border-slate-100 py-4">
               <label className="flex items-center gap-2 text-xs font-medium text-slate-700">
                 Failed Payment Grace Period{" "}
                 <Info className="h-4 w-4 text-slate-400" />
               </label>
-              <div className="mt-2 flex max-w-md items-center gap-3">
+              <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:max-w-md sm:items-center sm:gap-3">
                 <input
                   value={s.failedPaymentGracePeriodDays}
                   onChange={(e) =>
@@ -249,13 +236,12 @@ export default function SystemBehaviorTab() {
                   }
                   type="number"
                   step="1"
-                  className="h-11 w-28 rounded-xl bg-[#F3F3F5] px-4 text-sm text-black outline-none ring-1 ring-transparent focus:ring-slate-300"
+                  className="h-11 w-full rounded-xl bg-[#F3F3F5] px-4 text-sm text-black outline-none ring-1 ring-transparent focus:ring-slate-300 sm:w-28"
                 />
                 <p className="text-sm text-slate-500">days</p>
               </div>
             </div>
 
-            {/* Account Suspension Rule */}
             <div className="border-t border-slate-100 py-4">
               <label
                 id="suspensionRuleLabel"
@@ -280,8 +266,7 @@ export default function SystemBehaviorTab() {
         </div>
       </div>
 
-      {/* Payment Rules */}
-      <div className="rounded-2xl border border-[#BEDBFF] bg-[#EFF6FF] px-6 py-4">
+      <div className="rounded-2xl border border-[#BEDBFF] bg-[#EFF6FF] px-4 py-4 sm:px-6">
         <p className="text-sm text-[#1C398E]">
           <span className="font-bold">Important:</span> Changes to payment and
           suspension rules will apply to all new transactions going forward.

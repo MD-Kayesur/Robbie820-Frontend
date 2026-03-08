@@ -1,16 +1,31 @@
-import { Search, Bell } from "lucide-react";
+import { Search, Bell, Menu } from "lucide-react";
 
-const SuperAdminTopbar = () => {
+type SuperAdminTopbarProps = {
+  onMenuClick?: () => void;
+};
+
+const SuperAdminTopbar = ({ onMenuClick }: SuperAdminTopbarProps) => {
   return (
-    <header className="relative z-50 w-full bg-white">
-      <div className="mx-auto flex h-20 items-center justify-between px-6 lg:px-10">
-        {/* Left: Title */}
-        <h2 className="text-xl font-semibold px-9 tracking-tight text-black sm:text-2xl">
-          Platform Overview
-        </h2>
+    <header className="relative z-40 w-full bg-white">
+      <div className="mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-10">
+        {/* Left */}
+        <div className="flex items-center gap-3 sm:gap-4">
+          <button
+            type="button"
+            onClick={onMenuClick}
+            aria-label="Open menu"
+            className="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50 lg:hidden"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
 
-        {/* Right: Search + actions */}
-        <div className="flex items-center gap-4 sm:gap-6">
+          <h2 className="text-lg font-semibold tracking-tight text-black sm:text-xl lg:px-9 lg:text-2xl">
+            Platform Overview
+          </h2>
+        </div>
+
+        {/* Right */}
+        <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
           {/* Search */}
           <div className="relative hidden w-105 max-w-130 md:block">
             <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />

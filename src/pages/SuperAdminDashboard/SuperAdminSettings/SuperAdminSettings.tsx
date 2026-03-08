@@ -42,11 +42,11 @@ export default function SuperAdminSettings() {
   }, [activeTab]);
 
   return (
-    <div className="p-10">
-      {/* Header row (matches screenshot vibe) */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+    <div className="bg-white p-4 sm:p-6 lg:p-10">
+      {/* Header row */}
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="min-w-0">
-          <h1 className="text-2xl font-black text-[#101828] tracking-tight">
+          <h1 className="text-xl font-black tracking-tight text-[#101828] sm:text-2xl">
             Platform Configuration
           </h1>
           <p className="mt-1 text-sm text-[#4A5565]">
@@ -54,10 +54,9 @@ export default function SuperAdminSettings() {
           </p>
         </div>
 
-        <div className="flex items-center gap-9 ">
+        <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between lg:w-auto lg:gap-6">
           <div className="flex items-center gap-2 text-sm text-[#4A5565]">
             <Clock className="mb-[1.5px] h-4 w-4 shrink-0" />
-
             <span className="leading-none">
               Last updated:{" "}
               <span className="font-semibold">{lastUpdatedText}</span>
@@ -68,11 +67,9 @@ export default function SuperAdminSettings() {
             type="button"
             onClick={() => {
               setLastUpdatedText("Just now");
-              // Place your save handler here
-              // eslint-disable-next-line no-console
               console.log("Save changes clicked");
             }}
-            className="inline-flex h-10 items-center justify-center gap-3 rounded-lg bg-[#101828] px-4 text-sm font-medium text-white shadow-sm hover:opacity-95"
+            className="inline-flex h-11 w-full items-center justify-center gap-3 rounded-lg bg-[#101828] px-4 text-sm font-medium text-white shadow-sm hover:opacity-95 sm:w-auto sm:h-10"
           >
             <Save className="h-4 w-4" />
             <span className="mt-px">Save changes</span>
@@ -81,8 +78,8 @@ export default function SuperAdminSettings() {
       </div>
 
       {/* Tabs */}
-      <div className="mt-6">
-        <div className="inline-flex rounded-full bg-[#ECECF0] p-1">
+      <div className="mt-6 overflow-x-auto">
+        <div className="inline-flex min-w-max rounded-2xl bg-[#ECECF0] p-1 sm:rounded-full">
           {tabs.map((t) => {
             const active = t === activeTab;
             return (
@@ -91,7 +88,7 @@ export default function SuperAdminSettings() {
                 type="button"
                 onClick={() => setActiveTab(t)}
                 className={cn(
-                  "h-9 rounded-full px-4 text-sm font-medium text-[#0A0A0A] transition",
+                  "h-9 whitespace-nowrap rounded-xl px-4 text-sm font-medium text-[#0A0A0A] transition sm:rounded-full",
                   active ? "bg-white shadow-sm" : "hover:text-[#4A5565]",
                 )}
               >
@@ -103,7 +100,7 @@ export default function SuperAdminSettings() {
       </div>
 
       {/* Body */}
-      <div className="mt-8.5">{Active}</div>
+      <div className="mt-6 sm:mt-8.5">{Active}</div>
     </div>
   );
 }

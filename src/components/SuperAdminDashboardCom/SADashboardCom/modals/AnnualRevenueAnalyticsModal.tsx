@@ -1,9 +1,10 @@
 // src/components/AdminDashboardCom/ADComModals/AnnualRevenueAnalyticsModal.tsx
-"use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Download, Search } from "lucide-react";
+import { useOutsideClose } from "@/hooks/useOutsideClose";
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 
 export type RevenueRow = {
   label: string;
@@ -20,7 +21,8 @@ export function AnnualRevenueAnalyticsModal({
   data: RevenueRow[];
 }) {
   const [q, setQ] = useState("");
-  const panelRef = useRef<HTMLDivElement>(null);
+  const panelRef = useOutsideClose<HTMLDivElement>(open, onClose);
+  useLockBodyScroll(open);
 
   const list = useMemo(() => {
     const s = q.trim().toLowerCase();
@@ -28,37 +30,6 @@ export function AnnualRevenueAnalyticsModal({
     const m = (v: string) => v.toLowerCase().includes(s);
     return data.filter((x) => m(x.label) || m(x.value));
   }, [q, data]);
-
-  // Close on ESC + lock scroll while open
-  useEffect(() => {
-    if (!open) return;
-
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-
-    document.addEventListener("keydown", onKeyDown);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = prevOverflow;
-    };
-  }, [open, onClose]);
-
-  // Close on outside click
-  useEffect(() => {
-    if (!open) return;
-
-    const onMouseDown = (e: MouseEvent) => {
-      if (!panelRef.current) return;
-      if (!panelRef.current.contains(e.target as Node)) onClose();
-    };
-
-    document.addEventListener("mousedown", onMouseDown);
-    return () => document.removeEventListener("mousedown", onMouseDown);
-  }, [open, onClose]);
 
   return (
     <AnimatePresence>

@@ -1,7 +1,6 @@
 // src/pages/SuperAdmin/SuperAdminAuditLogs.tsx
-"use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   AlertTriangle,
   Calendar,
@@ -14,7 +13,6 @@ import {
   Search,
   ShieldAlert,
   UserCog,
-  X,
 } from "lucide-react";
 import { AuditRow, Option } from "./types";
 import {
@@ -25,54 +23,11 @@ import {
   userOptions,
 } from "./mock";
 import { cn } from "@/hooks/useCn";
+import { useOutsideClose } from "@/hooks/useOutsideClose";
+import { MobileLogCard } from "@/components/SuperAdminDashboardCom/SAAuditLogsCom/MobileLogCard";
+import { RowDetailsModal } from "@/components/SuperAdminDashboardCom/SAAuditLogsCom/modals/RowDetailsModal";
 
-function useEscClose(open: boolean, onClose: () => void) {
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
-}
-
-function useLockBodyScroll(open: boolean) {
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [open]);
-}
-
-function useOutsideClose<T extends HTMLElement>(
-  open: boolean,
-  onClose: () => void,
-) {
-  const ref = useRef<T | null>(null);
-
-  useEffect(() => {
-    if (!open) return;
-
-    const onDown = (e: MouseEvent) => {
-      const el = ref.current;
-      if (!el) return;
-      if (!el.contains(e.target as Node)) onClose();
-    };
-
-    document.addEventListener("mousedown", onDown);
-    return () => document.removeEventListener("mousedown", onDown);
-  }, [open, onClose]);
-
-  return ref;
-}
-
-/* ----------------------------- small ui bits ----------------------------- */
-
-function Pill({
+export function Pill({
   tone = "slate",
   children,
 }: {
@@ -104,7 +59,11 @@ function Pill({
   );
 }
 
-function StatusPill({ status }: { status: "Success" | "Warning" | "Failed" }) {
+export function StatusPill({
+  status,
+}: {
+  status: "Success" | "Warning" | "Failed";
+}) {
   if (status === "Success") return <Pill tone="emerald">Success</Pill>;
   if (status === "Warning") return <Pill tone="amber">Warning</Pill>;
   return <Pill tone="rose">Failed</Pill>;
@@ -127,33 +86,37 @@ function SelectMenu({
 }) {
   const [open, setOpen] = useState(false);
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
-  useEscClose(open, () => setOpen(false));
 
   const selected = options.find((o) => o.value === value) ?? options[0];
 
   return (
-    <div ref={ref} className={cn("relative", className)}>
+    <div ref={ref} className={cn("relative w-full sm:w-auto", className)}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-[#0A0A0A]",
-          "hover:bg-slate-50",
+          "inline-flex h-11 w-full items-center justify-between gap-2 rounded-2xl border border-slate-200 bg-white px-3.5 text-xs font-medium text-[#0A0A0A]",
+          "hover:bg-slate-50 sm:h-auto sm:w-auto sm:py-2",
         )}
       >
-        {icon ? <span className="text-slate-600">{icon}</span> : null}
-        <span className="max-w-42.5 truncate">{selected?.label}</span>
+        <span className="flex min-w-0 items-center gap-2">
+          {icon ? (
+            <span className="shrink-0 text-slate-600">{icon}</span>
+          ) : null}
+          <span className="truncate">{selected?.label}</span>
+        </span>
+
         {open ? (
-          <ChevronUp className="h-4 w-4 text-slate-500" />
+          <ChevronUp className="h-4 w-4 shrink-0 text-slate-500" />
         ) : (
-          <ChevronDown className="h-4 w-4 text-slate-500" />
+          <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />
         )}
       </button>
 
       {open ? (
         <div
           className={cn(
-            "absolute z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl",
+            "absolute z-50 mt-2 w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl sm:w-64",
             align === "right" ? "right-0" : "left-0",
           )}
         >
@@ -186,120 +149,6 @@ function SelectMenu({
     </div>
   );
 }
-
-/* ----------------------------- modal ----------------------------- */
-
-function RowDetailsModal({
-  open,
-  row,
-  onClose,
-}: {
-  open: boolean;
-  row: AuditRow | null;
-  onClose: () => void;
-}) {
-  useLockBodyScroll(open);
-  useEscClose(open, onClose);
-
-  if (!open || !row) return null;
-
-  const roleTone =
-    row.role === "Platform Owner"
-      ? "indigo"
-      : row.role === "Super Admin"
-        ? "sky"
-        : row.role === "Broker"
-          ? "slate"
-          : row.role === "Referrer"
-            ? "amber"
-            : "rose";
-
-  return (
-    <div className="fixed inset-0 z-80 flex items-center justify-center p-4">
-      <button
-        aria-label="Close"
-        onClick={onClose}
-        className="absolute inset-0 bg-black/40"
-      />
-      <div className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
-        <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-5 sm:px-6">
-          <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
-              <h3 className="truncate text-lg font-black text-[#101828]">
-                Log Details
-              </h3>
-              <Pill tone={roleTone as any}>{row.role}</Pill>
-              <StatusPill status={row.status} />
-            </div>
-            <p className="mt-1 text-sm font-semibold text-slate-600">
-              {new Date(row.at).toLocaleString()}
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="grid h-10 w-10 place-items-center rounded-2xl border border-slate-200 bg-white text-[#364153] hover:bg-slate-50"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </div>
-
-        <div className="space-y-4 px-5 py-5 sm:px-6">
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-              <p className="text-xs font-extrabold text-[#4A5565]">User</p>
-              <p className="mt-1 text-sm font-black text-[#101828]">
-                {row.user}
-              </p>
-            </div>
-            <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-              <p className="text-xs font-extrabold text-[#4A5565]">
-                Action Type
-              </p>
-              <p className="mt-1 text-sm font-black text-[#101828]">
-                {row.actionType}
-              </p>
-            </div>
-            <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-              <p className="text-xs font-extrabold text-[#4A5565]">
-                Affected Account
-              </p>
-              <p className="mt-1 text-sm font-black text-[#101828]">
-                {row.affectedAccount}
-              </p>
-            </div>
-            <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-              <p className="text-xs font-extrabold text-[#4A5565]">
-                IP Address
-              </p>
-              <p className="mt-1 text-sm font-black text-[#101828]">{row.ip}</p>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-slate-200 bg-white p-4">
-            <p className="text-xs font-extrabold text-[#4A5565]">Description</p>
-            <p className="mt-1 text-sm font-semibold text-[#0A0A0A]">
-              {row.description}
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-end gap-3 border-t border-slate-200 px-5 py-4 sm:px-6">
-          <button
-            type="button"
-            onClick={onClose}
-            className="h-11 rounded-2xl border border-slate-200 bg-white px-5 text-sm font-extrabold text-[#0A0A0A] hover:bg-slate-50"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ----------------------------- page ----------------------------- */
 
 function msAgo(ms: number) {
   const m = Math.max(1, Math.round(ms / 60000));
@@ -363,7 +212,6 @@ const SuperAdminAuditLogs = () => {
   const [actionFilter, setActionFilter] = useState(actionOptions[0].value);
   const [range, setRange] = useState(rangeOptions[1].value);
 
-  // only used when range = custom
   const [from, setFrom] = useState<string>(() => {
     const d = new Date(now - 7 * 24 * 60 * 60 * 1000);
     return d.toISOString().slice(0, 10);
@@ -401,7 +249,6 @@ const SuperAdminAuditLogs = () => {
     if (range === "30d")
       return { start: now - 30 * 24 * 60 * 60 * 1000, end: now };
 
-    // custom
     const start = new Date(from);
     start.setHours(0, 0, 0, 0);
     const end2 = new Date(to);
@@ -482,11 +329,11 @@ const SuperAdminAuditLogs = () => {
   };
 
   return (
-    <div className="p-6 sm:p-10 bg-white">
+    <div className="bg-white p-4 sm:p-6 lg:p-10">
       {/* Header row */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tighter text-[#101828]">
+          <h1 className="text-xl font-semibold tracking-tighter text-[#101828] sm:text-2xl">
             Audit Logs
           </h1>
           <p className="mt-1 text-sm text-[#4A5565]">
@@ -494,15 +341,15 @@ const SuperAdminAuditLogs = () => {
           </p>
         </div>
 
-        <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto lg:items-center lg:justify-end">
-          <div className="relative w-full lg:w-85">
+        <div className="flex w-full items-center gap-3 lg:w-auto lg:justify-end">
+          <div className="relative flex-1 min-w-0 lg:w-85 lg:flex-none">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search logs..."
               className={cn(
-                "h-11 w-full rounded-lg  border border-[#E5E7EB] bg-[#F9FAFB] pl-10 pr-3.5 text-sm font-semibold text-[#0A0A0A]",
+                "h-11 w-full rounded-lg border border-[#E5E7EB] bg-[#F9FAFB] pl-10 pr-3.5 text-sm font-semibold text-[#0A0A0A]",
                 "placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-slate-200",
               )}
             />
@@ -513,7 +360,7 @@ const SuperAdminAuditLogs = () => {
             onClick={onExport}
             className={cn(
               "inline-flex h-11 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-medium text-[#0A0A0A]",
-              "hover:bg-slate-50",
+              "hover:bg-slate-50 shrink-0",
             )}
           >
             <Download className="h-4 w-4" />
@@ -535,7 +382,7 @@ const SuperAdminAuditLogs = () => {
       </div>
 
       {/* Filters row */}
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
+      <div className="mt-5 flex items-start justify-end gap-3">
         <SelectMenu
           value={userFilter}
           onChange={setUserFilter}
@@ -548,7 +395,7 @@ const SuperAdminAuditLogs = () => {
           options={actionOptions}
         />
 
-        <div className="flex flex-col items-end gap-2">
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:items-end">
           <SelectMenu
             value={range}
             onChange={setRange}
@@ -557,8 +404,8 @@ const SuperAdminAuditLogs = () => {
           />
 
           {range === "custom" ? (
-            <div className="w-full max-w-90 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
-              <div className="grid grid-cols-2 gap-3">
+            <div className="w-full rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:w-90">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div className="space-y-1">
                   <p className="text-xs font-extrabold text-[#4A5565]">From</p>
                   <input
@@ -601,7 +448,7 @@ const SuperAdminAuditLogs = () => {
             </div>
           </div>
 
-          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="mt-5 grid grid-cols-2 gap-4">
             <div className="rounded-2xl bg-[#F9FAFB] p-4">
               <p className="text-xs text-[#4A5565]">Total Impersonations</p>
               <p className="mt-1 text-2xl font-bold text-[#101828]">
@@ -663,7 +510,7 @@ const SuperAdminAuditLogs = () => {
                 className={cn(
                   "relative overflow-hidden rounded-2xl p-5",
                   a.tone === "high"
-                    ? "border-l-8 border-[#E7000B] bg-[#FEF2F2 ]"
+                    ? "border-l-8 border-[#E7000B] bg-[#FEF2F2]"
                     : "border-l-8 border-[#F97316] bg-[#FFF7ED]",
                   "before:absolute before:left-0 before:top-0 before:h-full before:w-1.5 before:rounded-l-2xl",
                 )}
@@ -707,14 +554,14 @@ const SuperAdminAuditLogs = () => {
 
           <button
             type="button"
-            className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-2xl border border-rose-200 bg-white text-sm font-medium  text-[#C10007] hover:bg-[#FFE2E2]"
+            className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-2xl border border-rose-200 bg-white text-sm font-medium text-[#C10007] hover:bg-[#FFE2E2]"
           >
             View Security Events
           </button>
         </div>
       </div>
 
-      {/* Table */}
+      {/* Table / Mobile cards */}
       <div className="mt-8">
         <div className="mb-3">
           <h2 className="font-semibold text-[#101828]">Activity Log</h2>
@@ -723,7 +570,27 @@ const SuperAdminAuditLogs = () => {
           </p>
         </div>
 
-        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        {/* mobile */}
+        <div className="space-y-4 lg:hidden">
+          {filtered.length === 0 ? (
+            <div className="rounded-xl border border-slate-200 bg-white px-5 py-10 text-center shadow-sm">
+              <p className="text-sm font-bold text-[#4A5565]">
+                No logs match your filters.
+              </p>
+              <p className="mt-1 text-xs font-semibold text-slate-400">
+                Try changing {actionTypeLabel}, {rangeLabel}, or the search
+                query.
+              </p>
+            </div>
+          ) : (
+            filtered.map((r) => (
+              <MobileLogCard key={r.id} row={r} onView={openDetails} />
+            ))
+          )}
+        </div>
+
+        {/* desktop */}
+        <div className="hidden overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm lg:block">
           <div className="overflow-x-auto">
             <table className="w-full min-w-245">
               <thead>

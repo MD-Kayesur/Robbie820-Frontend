@@ -1,30 +1,8 @@
-// src/components/SuperAdminDashboardCom/SAIntegrationsCom/modals/IntegrationDetailsModal.tsx
-
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { X, RotateCcw, CheckCircle2, TrendingUp } from "lucide-react";
 import { cn } from "@/hooks/useCn";
-
-function useEscClose(open: boolean, onClose: () => void) {
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
-}
-
-function useLockBodyScroll(open: boolean) {
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [open]);
-}
+import { useOutsideClose } from "@/hooks/useOutsideClose";
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 
 export type ConnStatus = "Connected" | "Warning" | "Disconnected";
 
@@ -47,26 +25,12 @@ export default function IntegrationDetailsModal({
   onClose: () => void;
   item: IntegrationCardData | null;
 }) {
-  const panelRef = useRef<HTMLDivElement>(null);
+  const panelRef = useOutsideClose<HTMLDivElement>(open, onClose);
 
-  useEscClose(open, onClose);
   useLockBodyScroll(open);
-
-  useEffect(() => {
-    if (!open) return;
-
-    const onDown = (e: MouseEvent) => {
-      if (!panelRef.current) return;
-      if (!panelRef.current.contains(e.target as Node)) onClose();
-    };
-
-    document.addEventListener("mousedown", onDown);
-    return () => document.removeEventListener("mousedown", onDown);
-  }, [open, onClose]);
 
   if (!open || !item) return null;
 
-  // demo data (wire to API later)
   const webhookUrl = "https://apirefernow.com/webhooks/salesforce";
   const metrics = {
     totalApiCalls24h: 1847,
@@ -134,7 +98,6 @@ export default function IntegrationDetailsModal({
     <div className="fixed inset-0 z-200">
       <div className="absolute inset-0 bg-black/45" />
 
-      {/* scrollable overlay */}
       <div className="absolute inset-0 overflow-y-auto p-3 sm:p-6">
         <div className="flex min-h-full items-start justify-center sm:items-center">
           <div
@@ -145,7 +108,6 @@ export default function IntegrationDetailsModal({
               "max-h-[calc(100vh-1.5rem)] sm:max-h-[calc(100vh-3rem)]",
             )}
           >
-            {/* header (fixed) */}
             <div className="shrink-0 flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-5">
               <div className="min-w-0">
                 <div className="truncate text-lg font-extrabold text-slate-900">
@@ -166,9 +128,7 @@ export default function IntegrationDetailsModal({
               </button>
             </div>
 
-            {/* body (only scroll area) */}
-            <div className="flex-1 min-h-0 overflow-y-auto px-6 py-5">
-              {/* Integration Overview */}
+            <div className="min-h-0 flex-1 overflow-y-auto px-6 py-5">
               <div className="rounded-xl bg-[#F9FAFB] p-5">
                 <div className="text-base font-extrabold text-slate-900">
                   Integration Overview
@@ -211,7 +171,6 @@ export default function IntegrationDetailsModal({
                 </div>
               </div>
 
-              {/* Sync Metrics */}
               <div className="mt-5 rounded-3xl border border-[#BEDBFF] bg-[#EFF6FF] p-5">
                 <div className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-blue-600" />
@@ -244,7 +203,6 @@ export default function IntegrationDetailsModal({
                 </div>
               </div>
 
-              {/* Supported Event Types */}
               <div className="mt-5 rounded-3xl bg-[#F9FAFB] p-5">
                 <div className="text-base font-extrabold text-slate-900">
                   Supported Event Types
@@ -257,7 +215,7 @@ export default function IntegrationDetailsModal({
                       className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="inline-flex h-6 w-6 items-center justify-center ">
+                        <div className="inline-flex h-6 w-6 items-center justify-center">
                           <CheckCircle2 className="h-4 w-4 text-[#00A63E]" />
                         </div>
                         <div className="text-sm font-medium text-black">
@@ -273,7 +231,6 @@ export default function IntegrationDetailsModal({
                 </div>
               </div>
 
-              {/* Retry Controls */}
               <div className="mt-5 rounded-3xl border border-orange-200 bg-orange-50/60 p-5">
                 <div className="text-base font-semibold text-slate-900">
                   Retry Controls
@@ -294,7 +251,6 @@ export default function IntegrationDetailsModal({
               </div>
             </div>
 
-            {/* Footer */}
             <div className="shrink-0 border-t border-slate-200 px-6 py-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
               <div className="space-y-3">
                 <button
@@ -306,7 +262,7 @@ export default function IntegrationDetailsModal({
 
                 <button
                   type="button"
-                  className="h-12 w-full rounded-2xl bg-[#D4183D] text-sm font-medium  text-white hover:opacity-95"
+                  className="h-12 w-full rounded-2xl bg-[#D4183D] text-sm font-medium text-white hover:opacity-95"
                 >
                   Disable Integration
                 </button>

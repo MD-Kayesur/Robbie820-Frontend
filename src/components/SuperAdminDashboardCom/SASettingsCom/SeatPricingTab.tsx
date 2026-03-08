@@ -19,7 +19,7 @@ function Row({
   right: React.ReactNode;
 }) {
   return (
-    <div className="flex items-start justify-between gap-4 border-t border-slate-100 py-4">
+    <div className="flex flex-col gap-3 border-t border-slate-100 py-4 sm:flex-row sm:items-start sm:justify-between">
       <div className="min-w-0">
         <div className="flex items-center gap-2">
           <p className="text-sm text-slate-900">{label}</p>
@@ -48,18 +48,15 @@ export default function SeatPricingTab() {
   }, [s]);
 
   return (
-    <div className="space-y-5.5">
-      {/* Worker Seat Configuration */}
+    <div className="space-y-5">
       <div className="rounded-2xl border border-slate-200 bg-white">
-        {/* Header */}
-        <div className="p-5.5">
+        <div className="p-4 sm:p-5.5">
           <h2 className="text-base font-semibold text-black">
             Broker Seat Configuration
           </h2>
         </div>
 
-        {/* Body */}
-        <div className="px-5.5">
+        <div className="px-4 pb-4 sm:px-5.5">
           <div className="space-y-4">
             <div>
               <label className="flex items-center gap-2 text-xs font-medium text-slate-700">
@@ -76,7 +73,7 @@ export default function SeatPricingTab() {
                 }
                 type="number"
                 step="1"
-                className="mt-2 py-2 w-full max-w-xs rounded-xl bg-[#F3F3F5] px-3 text-sm text-black"
+                className="mt-2 w-full rounded-xl bg-[#F3F3F5] px-3 py-2 text-sm text-black sm:max-w-xs"
               />
             </div>
 
@@ -95,7 +92,7 @@ export default function SeatPricingTab() {
                 }
                 type="number"
                 step="1"
-                className="mt-2 py-2 w-full max-w-xs rounded-xl bg-[#F3F3F5] px-3 text-sm text-black"
+                className="mt-2 w-full rounded-xl bg-[#F3F3F5] px-3 py-2 text-sm text-black sm:max-w-xs"
               />
             </div>
           </div>
@@ -127,19 +124,16 @@ export default function SeatPricingTab() {
         </div>
       </div>
 
-      {/* Preview */}
       <div className="rounded-2xl border border-[#B9F8CF] bg-[#F0FDF4]">
-        {/* Header */}
-        <div className="px-5.5 pt-5.5 inter">
+        <div className="px-4 pt-4 inter sm:px-5.5 sm:pt-5.5">
           <h3 className="text-base font-semibold text-slate-900">
             Pricing Logic Preview
           </h3>
         </div>
 
-        {/* Body */}
-        <div className="p-5.5">
-          <div className="rounded-2xl bg-white px-5 py-4">
-            <div className="grid grid-cols-2 gap-y-2 text-sm inter">
+        <div className="p-4 sm:p-5.5">
+          <div className="rounded-2xl bg-white px-4 py-4 sm:px-5">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm inter">
               <p className="text-slate-500">Base Plan:</p>
               <p className="text-right font-semibold text-slate-900">
                 ${preview.base} / month
@@ -156,14 +150,13 @@ export default function SeatPricingTab() {
               </p>
             </div>
 
-            {/* horizontal separator */}
             <div className="mt-4 h-px bg-slate-200" />
 
             <div className="mt-4 rounded-xl border border-slate-200 bg-[#F9FAFB] px-4 py-3">
               <p className="text-xs font-bold text-slate-900 inter">
                 Example: {preview.totalSeats} Seats Total
               </p>
-              <div className="mt-2 grid grid-cols-2 gap-y-1 text-sm consolas">
+              <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm consolas">
                 <p className="text-slate-500">Base Plan:</p>
                 <p className="text-right text-slate-900">${preview.base}</p>
 
@@ -182,7 +175,7 @@ export default function SeatPricingTab() {
                 </p>
               </div>
             </div>
-            <p className="mt-3 text-[11px] text-slate-500 inter">
+            <p className="mt-3 wrap-break-word text-[11px] text-slate-500 inter">
               Calculation: ${preview.base} + ({preview.additionalSeats} x $
               {preview.price}) = ${preview.total}
             </p>

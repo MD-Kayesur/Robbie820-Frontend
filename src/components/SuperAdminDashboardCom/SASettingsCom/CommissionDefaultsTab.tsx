@@ -19,7 +19,7 @@ function Row({
   right: React.ReactNode;
 }) {
   return (
-    <div className="flex items-start justify-between gap-4 border-t border-slate-100 py-4">
+    <div className="flex flex-col gap-3 border-t border-slate-100 py-4 sm:flex-row sm:items-start sm:justify-between">
       <div className="min-w-0">
         <div className="flex items-center gap-2">
           <p className="text-sm text-slate-900">{label}</p>
@@ -51,20 +51,17 @@ export default function CommissionDefaultsTab() {
   }, [s]);
 
   return (
-    <div className="space-y-5.5">
+    <div className="space-y-5">
       {/* Commission Engine */}
       <div className="rounded-2xl border border-slate-200 bg-white">
-        {/* Header */}
-        <div className="p-5.5">
+        <div className="p-4 sm:p-5.5">
           <h2 className="text-base font-semibold text-black">
             Commission Engine Settings
           </h2>
         </div>
 
-        {/* Content */}
-        <div className="px-5.5 pb-5.5">
-          {/* numeric inputs (no top border for first section chunk) */}
-          <div className="space-y-5.5">
+        <div className="px-4 pb-4 sm:px-5.5 sm:pb-5.5">
+          <div className="space-y-5">
             <div>
               <label className="flex items-center gap-2 text-xs font-medium text-slate-700">
                 Default Bank Commission Rate (%){" "}
@@ -80,7 +77,7 @@ export default function CommissionDefaultsTab() {
                 }
                 type="number"
                 step="0.01"
-                className="mt-2 py-2 w-full max-w-xs rounded-xl bg-[#F3F3F5] px-3 text-sm text-black"
+                className="mt-2 w-full rounded-xl bg-[#F3F3F5] px-3 py-2 text-sm text-black sm:max-w-xs"
               />
             </div>
 
@@ -99,7 +96,7 @@ export default function CommissionDefaultsTab() {
                 }
                 type="number"
                 step="0.01"
-                className="mt-2 py-2 w-full max-w-xs rounded-xl bg-[#F3F3F5] px-3 text-sm text-black"
+                className="mt-2 w-full rounded-xl bg-[#F3F3F5] px-3 py-2 text-sm text-black sm:max-w-xs"
               />
               <p className="mt-1 text-xs text-slate-500">
                 Example: 1.1 for 10% GST
@@ -121,7 +118,7 @@ export default function CommissionDefaultsTab() {
                 }
                 type="number"
                 step="0.01"
-                className="mt-2 py-2 w-full max-w-xs rounded-xl bg-[#F3F3F5] px-3 text-sm text-black"
+                className="mt-2 w-full rounded-xl bg-[#F3F3F5] px-3 py-2 text-sm text-black sm:max-w-xs"
               />
               <p className="mt-1 text-xs text-slate-500">
                 If 5% aggregator fee → 0.95 multiplier
@@ -167,7 +164,7 @@ export default function CommissionDefaultsTab() {
                 }
                 type="number"
                 step="1"
-                className="mt-2 py-2 w-full max-w-xs rounded-xl bg-[#F3F3F5] px-3 text-sm text-black"
+                className="mt-2 w-full rounded-xl bg-[#F3F3F5] px-3 py-2 text-sm text-black sm:max-w-xs"
               />
             </div>
           </div>
@@ -176,17 +173,15 @@ export default function CommissionDefaultsTab() {
 
       {/* Preview */}
       <div className="rounded-2xl border border-[#BEDBFF] bg-[#EFF6FF]">
-        {/* Header */}
-        <div className="px-5.5 pt-5.5 inter">
+        <div className="px-4 pt-4 inter sm:px-5.5 sm:pt-5.5">
           <h3 className="text-base font-semibold text-slate-900">
             Example Calculation Preview
           </h3>
         </div>
 
-        {/* Body */}
-        <div className="p-5.5 consolas">
-          <div className="rounded-2xl border border-slate-200 bg-white px-5 py-4">
-            <div className="grid grid-cols-2 gap-y-2 text-sm">
+        <div className="p-4 consolas sm:p-5.5">
+          <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 sm:px-5">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
               <p className="text-[#4A5565]">Loan Amount:</p>
               <p className="text-right font-bold text-[#101828]">
                 ${preview.loan.toLocaleString()}
@@ -213,7 +208,7 @@ export default function CommissionDefaultsTab() {
               </p>
             </div>
 
-            <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-4">
+            <div className="mt-4 flex items-center justify-between gap-4 border-t border-slate-200 pt-4">
               <p className="text-sm font-bold text-slate-900">
                 Calculated Commission:
               </p>
@@ -222,7 +217,7 @@ export default function CommissionDefaultsTab() {
               </p>
             </div>
           </div>
-          <p className="mt-3 text-xs text-slate-500 inter">
+          <p className="mt-3 wrap-break-word text-xs text-slate-500 inter">
             Formula: {preview.formula} = $
             {Math.round(preview.commission).toLocaleString()}
           </p>
