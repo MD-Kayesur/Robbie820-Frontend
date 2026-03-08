@@ -13,12 +13,49 @@ import {
   TrendingUp,
 } from "lucide-react";
 
+function MobileRevenueCard({
+  plan,
+  activeAccounts,
+  monthlyRevenue,
+  contribution,
+}: {
+  plan: string;
+  activeAccounts: number;
+  monthlyRevenue: number;
+  contribution: number;
+}) {
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-4">
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-base font-semibold text-black">{plan}</p>
+        <span className="inline-flex rounded-xl bg-[#DBEAFE] px-3 py-1 text-xs font-semibold text-[#00B4FE]">
+          {contribution.toFixed(1)}%
+        </span>
+      </div>
+
+      <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+        <div className="rounded-xl bg-slate-50 p-3">
+          <p className="text-slate-500">Active Accounts</p>
+          <p className="mt-1 font-semibold text-black">{activeAccounts}</p>
+        </div>
+
+        <div className="rounded-xl bg-slate-50 p-3">
+          <p className="text-slate-500">Monthly Revenue</p>
+          <p className="mt-1 font-semibold text-black">
+            ${monthlyRevenue.toLocaleString()}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function RevenueAnalyticsTab() {
   return (
     <div className="mt-6">
       <div className="font-semibold text-black">Financial Overview</div>
 
-      <div className="mt-3 grid grid-cols-1 gap-5.5 md:grid-cols-4">
+      <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
         <StatCard
           title="MRR"
           value="$158,800"
@@ -49,15 +86,49 @@ export function RevenueAnalyticsTab() {
         />
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 sm:p-4">
         <RevenueLineChart data={revenueTrendMock} />
       </div>
 
       <div className="mt-6">
-        <div className="font-semibold text-black">Financial Overview</div>
+        <div className="font-semibold text-black">Revenue by Plan</div>
 
-        <div className="overflow-x-auto mt-3 text-xs ">
-          <table className="w-full table-auto">
+        {/* mobile cards */}
+        <div className="mt-3 space-y-4 lg:hidden">
+          {revenueByPlanMock.map((r) => (
+            <MobileRevenueCard key={r.plan} {...r} />
+          ))}
+
+          <div className="rounded-2xl border border-slate-200 bg-slate-50/40 p-4">
+            <div className="flex items-center justify-between gap-3">
+              <p className="font-semibold text-black">Total</p>
+              <p className="font-semibold text-black">100%</p>
+            </div>
+
+            <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+              <div className="rounded-xl bg-white p-3">
+                <p className="text-slate-500">Active Accounts</p>
+                <p className="mt-1 font-semibold text-black">
+                  {revenueByPlanMock.reduce((a, b) => a + b.activeAccounts, 0)}
+                </p>
+              </div>
+
+              <div className="rounded-xl bg-white p-3">
+                <p className="text-slate-500">Monthly Revenue</p>
+                <p className="mt-1 font-semibold text-[#15D946]">
+                  $
+                  {revenueByPlanMock
+                    .reduce((a, b) => a + b.monthlyRevenue, 0)
+                    .toLocaleString()}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* desktop table */}
+        <div className="mt-3 hidden overflow-x-auto lg:block">
+          <table className="w-full table-auto text-xs">
             <thead>
               <tr className="border-t border-slate-200 bg-[#F9FAFB] text-black">
                 <th className="px-5 py-3 text-left font-semibold">Plan</th>
@@ -77,7 +148,7 @@ export function RevenueAnalyticsTab() {
               {revenueByPlanMock.map((r) => (
                 <tr key={r.plan}>
                   <td className="px-5 py-3 font-semibold">{r.plan}</td>
-                  <td className="px-5 py-3 ">{r.activeAccounts}</td>
+                  <td className="px-5 py-3">{r.activeAccounts}</td>
                   <td className="px-5 py-3 text-right font-semibold">
                     ${r.monthlyRevenue.toLocaleString()}
                   </td>
@@ -90,7 +161,7 @@ export function RevenueAnalyticsTab() {
               ))}
 
               <tr className="bg-slate-50/40">
-                <td className="px-5 py-3 font-semibold  text-black">Total</td>
+                <td className="px-5 py-3 font-semibold text-black">Total</td>
                 <td className="px-5 py-3 font-semibold text-black">
                   {revenueByPlanMock.reduce((a, b) => a + b.activeAccounts, 0)}
                 </td>
@@ -100,7 +171,7 @@ export function RevenueAnalyticsTab() {
                     .reduce((a, b) => a + b.monthlyRevenue, 0)
                     .toLocaleString()}
                 </td>
-                <td className="px-5 py-3 text-right font-semi bold text-black">
+                <td className="px-5 py-3 text-right font-semibold text-black">
                   100%
                 </td>
               </tr>

@@ -16,16 +16,17 @@ export function SegmentedTabs({
   ];
 
   return (
-    <div className="inline-flex items-center rounded-full bg-slate-100 p-1">
+    <div className="inline-flex w-full flex-col rounded-2xl bg-slate-100 p-1 sm:w-auto sm:flex-row sm:items-center sm:rounded-full">
       {items.map((t) => {
         const active = tab === t;
+
         return (
           <button
             key={t}
             type="button"
             onClick={() => onChange(t)}
             className={cn(
-              "p-2 rounded-full px-5 text-sm font-semibold transition",
+              "rounded-xl px-4 py-2.5 text-sm font-semibold transition sm:rounded-full sm:px-5 sm:py-2",
               active ? "bg-white text-slate-900 shadow-sm" : "text-slate-600",
             )}
           >

@@ -1,3 +1,6 @@
+// src/Layout/SuperAdminLayout/SuperAdminSidebar.tsx
+
+import React from "react";
 import { NavLink } from "react-router-dom";
 import {
   LayoutGrid,
@@ -7,17 +10,48 @@ import {
   FileText,
   Settings,
   Zap,
+  X,
 } from "lucide-react";
 
 type ItemProps = {
   to: string;
   icon: React.ElementType;
   label: string;
+  onClick?: () => void;
+  end?: boolean;
 };
 
-const SidebarItem = ({ to, icon: Icon, label }: ItemProps) => (
+type SuperAdminSidebarProps = {
+  mobileOpen?: boolean;
+  onClose?: () => void;
+};
+
+const navItems = [
+  { to: "/super-admin", icon: LayoutGrid, label: "Dashboard", end: true },
+  {
+    to: "/super-admin/user-management",
+    icon: Users,
+    label: "User Management",
+  },
+  {
+    to: "/super-admin/subscriptions",
+    icon: CreditCard,
+    label: "Subscriptions",
+  },
+  {
+    to: "/super-admin/integrations",
+    icon: GitBranch,
+    label: "Integrations",
+  },
+  { to: "/super-admin/audit-logs", icon: FileText, label: "Audit Logs" },
+  { to: "/super-admin/settings", icon: Settings, label: "System Settings" },
+];
+
+const SidebarItem = ({ to, icon: Icon, label, onClick, end }: ItemProps) => (
   <NavLink
     to={to}
+    end={end}
+    onClick={onClick}
     className={({ isActive }) =>
       [
         "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition",
@@ -25,58 +59,95 @@ const SidebarItem = ({ to, icon: Icon, label }: ItemProps) => (
       ].join(" ")
     }
   >
-    <Icon className="h-5 w-5" />
+    <Icon className="h-5 w-5 shrink-0" />
     <span className="truncate">{label}</span>
   </NavLink>
 );
 
-const SuperAdminSidebar = () => {
+function SidebarContent({ onItemClick }: { onItemClick?: () => void }) {
   return (
-    <aside className="w-60 h-full bg-[#F5F5F5] px-5 py-6">
-      {/* Brand */}
-      <div className="flex items-center gap-3 px-2">
+    <>
+      <div className="hidden lg:flex items-center gap-3 px-2">
         <div className="grid h-9 w-9 place-items-center rounded-xl bg-sky-500">
-          <Zap className="h-5 w-5 text-white fill-white" />
+          <Zap className="h-5 w-5 fill-white text-white" />
         </div>
         <span className="text-[15px] font-semibold text-slate-900">
           SuperAdmin
         </span>
       </div>
 
-      {/* Nav */}
       <nav className="mt-6 space-y-6">
-        <SidebarItem
-          to="/super-admin/dashboard"
-          icon={LayoutGrid}
-          label="Dashboard"
-        />
-        <SidebarItem
-          to="/super-admin/user-management"
-          icon={Users}
-          label="User Management"
-        />
-        <SidebarItem
-          to="/super-admin/subscriptions"
-          icon={CreditCard}
-          label="Subscriptions"
-        />
-        <SidebarItem
-          to="/super-admin/integrations"
-          icon={GitBranch}
-          label="Integrations"
-        />
-        <SidebarItem
-          to="/super-admin/audit-logs"
-          icon={FileText}
-          label="Audit Logs"
-        />
-        <SidebarItem
-          to="/super-admin/settings"
-          icon={Settings}
-          label="System Settings"
-        />
+        {navItems.map((item) => (
+          <SidebarItem
+            key={item.to}
+            to={item.to}
+            icon={item.icon}
+            label={item.label}
+            onClick={onItemClick}
+            end={item.end}
+          />
+        ))}
       </nav>
-    </aside>
+    </>
+  );
+}
+
+const SuperAdminSidebar = ({
+  mobileOpen = false,
+  onClose,
+}: SuperAdminSidebarProps) => {
+  return (
+    <>
+      {/* Desktop sidebar */}
+      <aside className="hidden h-full w-60 shrink-0 bg-[#F5F5F5] px-5 py-6 lg:block">
+        <SidebarContent />
+      </aside>
+
+      {/* Mobile drawer */}
+      <div
+        className={[
+          "fixed inset-0 z-50 lg:hidden",
+          mobileOpen ? "pointer-events-auto" : "pointer-events-none",
+        ].join(" ")}
+      >
+        <div
+          onClick={onClose}
+          className={[
+            "absolute inset-0 bg-black/35 transition-opacity duration-300",
+            mobileOpen ? "opacity-100" : "opacity-0",
+          ].join(" ")}
+        />
+
+        <aside
+          className={[
+            "absolute left-0 top-0 h-full w-60 bg-[#F5F5F5] px-5 py-6 shadow-xl transition-transform duration-300",
+            mobileOpen ? "translate-x-0" : "-translate-x-full",
+          ].join(" ")}
+        >
+          <div className="mb-6 flex items-center justify-between">
+            <div className="flex items-center gap-3 px-2">
+              <div className="grid h-9 w-9 place-items-center rounded-xl bg-sky-500">
+                <Zap className="h-5 w-5 fill-white text-white" />
+              </div>
+              <span className="text-[15px] font-semibold text-slate-900">
+                SuperAdmin
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close menu"
+              className="p-2 rounded-xl bg-white text-black transition hover:bg-slate-50"
+            >
+              <X size={24} />
+            </button>
+          </div>
+
+          <SidebarContent onItemClick={onClose} />
+        </aside>
+      </div>
+    </>
   );
 };
 
