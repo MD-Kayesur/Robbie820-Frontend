@@ -46,7 +46,7 @@ const Login: React.FC = () => {
       <div className="rounded-3xl border border-[#B9D8FF] bg-transparent px-6 py-7 sm:px-7 sm:py-8">
         <Link
           to="/signup"
-          className="mb-10 mx-auto flex items-center justify-center gap-2 uppercase text-[#00B4FE] transition hover:opacity-80 leading-6"
+          className="mb-3 sm:mb-10 mx-auto flex items-center justify-center gap-2 uppercase text-[#00B4FE] transition hover:opacity-80 leading-6"
         >
           <ArrowLeft className="h-5 w-5" strokeWidth={2.2} />
           Back to account type
