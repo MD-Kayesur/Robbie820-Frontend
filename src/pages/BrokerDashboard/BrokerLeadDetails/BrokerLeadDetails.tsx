@@ -54,7 +54,7 @@ function SectionCard({
   return (
     <section
       className={cn(
-        "rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5",
+        "flex flex-col rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5",
         className,
       )}
     >
@@ -281,9 +281,9 @@ export default function BrokerLeadDetails() {
         </div>
 
         {/* top grid */}
-        <div className="grid items-stretch gap-5.5 xl:grid-cols-[minmax(0,1fr)_220px]">
+        <div className="grid items-stretch gap-5.5 xl:grid-cols-[minmax(0,1fr)_320px]">
           {/* left column */}
-          <div className="flex h-full flex-col gap-5.5">
+          <div className="flex h-full flex-col space-y-6">
             <SectionCard title="Client Details">
               <div className="grid gap-5 sm:grid-cols-2">
                 <ReadonlyField label="Full Name" value={lead.borrowerName} />
@@ -468,6 +468,7 @@ export default function BrokerLeadDetails() {
             </SectionCard>
 
             <SectionCard
+              className="flex-1"
               title="Lead Milestone History"
               headerLeft={<span className="sr-only">Milestone history</span>}
             >
@@ -484,7 +485,8 @@ export default function BrokerLeadDetails() {
         </div>
 
         {/* lower grid */}
-        <div className="grid gap-4 xl:grid-cols-[206px_minmax(0,1fr)]">
+        <div className="grid gap-4 xl:grid-cols-[320px_minmax(0,1fr)]">
+          {/* left column */}
           <SectionCard title="CRM Sync">
             <div className="space-y-4">
               <ReadonlyField
@@ -512,6 +514,7 @@ export default function BrokerLeadDetails() {
             </div>
           </SectionCard>
 
+          {/* right column */}
           <SectionCard
             title="Broker Notes"
             headerLeft={
@@ -544,23 +547,23 @@ export default function BrokerLeadDetails() {
         {/* summary strip */}
         <section className="rounded-2xl border border-[#57BFFF] bg-white p-3">
           <div className="grid gap-3 md:grid-cols-3">
-            <div className="rounded-xl border border-[#E5E7EB] bg-white p-4">
-              <p className="text-[12px] text-[#555]">AGREEMENT SPLIT</p>
-              <p className="mt-2 text-[20px] font-semibold">
+            <div className="rounded-xl border border-[#E5E7EB] bg-white p-2.5">
+              <p className="text-[13px] text-black">AGREEMENT SPLIT</p>
+              <p className="mt-4 text-sm font-semibold">
                 {lead.agreementSplitPercent}%
               </p>
             </div>
 
-            <div className="rounded-xl border border-[#E5E7EB] bg-white p-4">
-              <p className="text-[12px] text-[#555]">NET COMMISSION</p>
-              <p className="mt-2 text-[20px] font-semibold">
+            <div className="rounded-xl border border-[#E5E7EB] bg-white p-2.5">
+              <p className="text-[13px] text-black">NET COMMISSION</p>
+              <p className="mt-4 text-sm font-semibold">
                 {formatMoney(lead.netCommission)}
               </p>
             </div>
 
-            <div className="rounded-xl border border-[#E5E7EB] bg-white p-4">
-              <p className="text-[12px] text-[#555]">Referrer Fee Expected</p>
-              <p className="mt-2 text-[28px] font-semibold text-[#1BAEF5]">
+            <div className="rounded-xl border border-[#E5E7EB] bg-white p-2.5">
+              <p className="text-[13px] text-black">Referrer Fee Expected</p>
+              <p className="mt-4 text-2xl font-semibold text-[#1BAEF5]">
                 {formatMoney(lead.referrerFeeExpected)}
               </p>
             </div>
@@ -580,7 +583,7 @@ export default function BrokerLeadDetails() {
             </div>
 
             <div className="flex max-w-107.5 items-start gap-2 text-[12px] leading-5 text-[#58727E]">
-              <CircleAlert className="mt-0.5 h-4 w-4 shrink-0" />
+              <CircleAlert className="mt-0.5 h-4 w-4 shrink-0 text-black" />
               <p>
                 Automatically calculated as end of the following month after
                 settlement. Example: If settlement occurs on 15 Jan, payment

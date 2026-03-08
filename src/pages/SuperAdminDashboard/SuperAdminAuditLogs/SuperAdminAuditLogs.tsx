@@ -22,10 +22,10 @@ import {
   rangeOptions,
   userOptions,
 } from "./mock";
-import { cn } from "@/hooks/useCn";
-import { useOutsideClose } from "@/hooks/useOutsideClose";
 import { MobileLogCard } from "@/components/SuperAdminDashboardCom/SAAuditLogsCom/MobileLogCard";
 import { RowDetailsModal } from "@/components/SuperAdminDashboardCom/SAAuditLogsCom/modals/RowDetailsModal";
+import { cn } from "@/hooks/useCn";
+import { useOutsideClose } from "@/hooks/useOutsideClose";
 
 export function Pill({
   tone = "slate",
