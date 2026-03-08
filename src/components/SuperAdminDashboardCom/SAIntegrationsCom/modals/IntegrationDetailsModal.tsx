@@ -1,8 +1,8 @@
 import React from "react";
 import { X, RotateCcw, CheckCircle2, TrendingUp } from "lucide-react";
-import { cn } from "@/hooks/useCn";
 import { useOutsideClose } from "@/hooks/useOutsideClose";
 import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
+import { cn } from "@/hooks/useCn";
 
 export type ConnStatus = "Connected" | "Warning" | "Disconnected";
 

@@ -2,7 +2,6 @@
 import { useMemo, useState } from "react";
 import { Info, MoreVertical } from "lucide-react";
 import IntegrationDetailsModal from "@/components/SuperAdminDashboardCom/SAIntegrationsCom/modals/IntegrationDetailsModal";
-import { cn } from "@/hooks/useCn";
 import { integrationCardsMock, webhookRowsMock } from "./mock";
 import type {
   AlertTone,
@@ -15,6 +14,7 @@ import { StatusDropdown } from "@/components/SuperAdminDashboardCom/SAIntegratio
 import { IntegrationCard } from "@/components/SuperAdminDashboardCom/SAIntegrationsCom/IntegrationCard";
 import { EmailServicesCard } from "@/components/SuperAdminDashboardCom/SAIntegrationsCom/EmailServicesCard";
 import { SystemAlertsCard } from "@/components/SuperAdminDashboardCom/SAIntegrationsCom/SystemAlertsCard";
+import { cn } from "@/hooks/useCn";
 
 export function StatusPill({ status }: { status: ConnStatus }) {
   const cls =
