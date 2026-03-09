@@ -29,14 +29,14 @@ import {
   getAllocatedTeamMemberLabel,
 } from "../BrokerOverview/utils";
 
-const leadStageOptions: LeadStatus[] = [
-  "NEW REFERRAL",
-  "CONTACTED",
-  "APPLICATION STARTED",
-  "SUBMITTED TO LENDER",
-  "APPROVED",
-  "FUNDED",
-];
+// const leadStageOptions: LeadStatus[] = [
+//   "NEW REFERRAL",
+//   "CONTACTED",
+//   "APPLICATION STARTED",
+//   "SUBMITTED TO LENDER",
+//   "APPROVED",
+//   "FUNDED",
+// ];
 
 const paymentStatusOptions: PaymentStatus[] = [
   "Pending",
