@@ -8,7 +8,7 @@ interface CommonWrapperProps {
 
 const CommonWrapper = ({ children, className }: CommonWrapperProps) => {
     return (
-        <div className={cn("px-4 md:px-[150px]", className)}>
+        <div className={cn("pl-4   ", className)}>
             {children}
         </div>
     );
