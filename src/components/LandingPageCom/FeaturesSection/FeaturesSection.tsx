@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import {
   Calculator,
   Users,
@@ -7,6 +6,7 @@ import {
   BarChart3,
   Link as LinkIcon,
 } from "lucide-react";
+import CommonWrapper from "../CommonWrapper/CommonWrapper";
 
 const features = [
   {
@@ -55,39 +55,23 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section className="py-32 bg-slate-50/50">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="features" className="py-32 bg-slate-50/50 clash">
+      <CommonWrapper className="px-6 lg:px-[150px]">
         {/* Header content */}
-        <div className="text-center mb-24">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-black text-sky-500 tracking-tight mb-6"
-          >
+        <div className="text-center mb-24   mx-auto">
+          <h2 className="text-4xl md:text-5xl font-normal text-sky-500 tracking-tight mb-6">
             Everything You Need To Manage Referrals
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-xl text-slate-400 font-bold uppercase tracking-widest"
-          >
-            Powerful Features Designed For Brokers, Referral Partners,
-          </motion.p>
+          </h2>
+          <p className="text-xl text-black font-normal leading-relaxed">
+            Powerful Features Designed For Brokers, Referral Partners, And Team Members.
+          </p>
         </div>
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, idx) => (
-            <motion.div
+            <div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
               className="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-sky-500/5 transition-all duration-500 group"
             >
               <div
@@ -95,18 +79,20 @@ const FeaturesSection = () => {
               >
                 <feature.icon className="w-7 h-7" />
               </div>
-              <h3 className="text-2xl font-black text-slate-800 tracking-tight mb-4 group-hover:text-sky-500 transition-colors">
+              <h3 className="text-2xl font-normal text-black tracking-tight mb-4   transition-colors">
                 {feature.title}
               </h3>
-              <p className="text-slate-400 font-bold leading-relaxed text-[15px]">
+              <p className="text-black font-normal leading-relaxed text-[15px]">
                 {feature.description}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </div>
+      </CommonWrapper>
     </section>
   );
 };
 
+
 export default FeaturesSection;
+
