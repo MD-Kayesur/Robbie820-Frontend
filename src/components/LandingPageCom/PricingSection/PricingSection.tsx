@@ -59,7 +59,7 @@ const PricingSection = () => {
   );
 
   return (
-    <section id="pricing" className="py-24 bg-white relative overflow-hidden">
+    <section id="pricing" className="py-24 bg-white relative overflow-hidden clash">
       {/* Background Grid and Rectify decoration */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         {/* Thin grid lines */}
@@ -105,21 +105,19 @@ const PricingSection = () => {
             <div className="bg-slate-100 p-1 rounded-full flex items-center shadow-inner border border-slate-200">
               <button
                 onClick={() => setBillingCycle("monthly")}
-                className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
-                  billingCycle === "monthly"
+                className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${billingCycle === "monthly"
                     ? "bg-sky-500 text-white shadow-lg"
                     : "text-slate-400 hover:text-slate-600"
-                }`}
+                  }`}
               >
                 Monthly
               </button>
               <button
                 onClick={() => setBillingCycle("yearly")}
-                className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
-                  billingCycle === "yearly"
+                className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${billingCycle === "yearly"
                     ? "bg-sky-500 text-white shadow-lg"
                     : "text-slate-400 hover:text-slate-600"
-                }`}
+                  }`}
               >
                 Yearly
               </button>
@@ -135,11 +133,10 @@ const PricingSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
-              className={`relative bg-white rounded-[2.5rem] p-10 border-2 transition-all duration-500 hover:shadow-2xl flex flex-col ${
-                plan.popular
+              className={`relative bg-white rounded-[2.5rem] p-10 border-2 transition-all duration-500 hover:shadow-2xl flex flex-col ${plan.popular
                   ? "border-sky-500 shadow-xl shadow-sky-500/10 scale-105 z-10"
                   : "border-slate-100 shadow-lg hover:-translate-y-2"
-              }`}
+                }`}
             >
               {plan.popular && (
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white text-[11px] font-black uppercase tracking-widest py-1.5 px-6 rounded-full shadow-lg shadow-orange-500/30">
@@ -181,11 +178,10 @@ const PricingSection = () => {
               </ul>
 
               <Button
-                className={`w-full h-14 rounded-xl text-lg font-bold transition-all duration-300 ${
-                  plan.popular
+                className={`w-full h-14 rounded-xl text-lg font-bold transition-all duration-300 ${plan.popular
                     ? "bg-sky-500 hover:bg-sky-600 text-white shadow-lg shadow-sky-500/25"
                     : "bg-sky-500 hover:bg-sky-600 text-white"
-                }`}
+                  }`}
               >
                 {plan.buttonText}
               </Button>

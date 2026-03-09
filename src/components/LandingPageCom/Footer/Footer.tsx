@@ -5,7 +5,7 @@ const Footer = () => {
   const navigate = useNavigate();
 
   return (
-    <footer className="bg-[#DFF5FF] pt-20 pb-10 px-6 md:px-12 text-[#2D3E50]">
+    <footer className="bg-[#DFF5FF] pt-20 pb-10 px-6 md:px-12 text-[#2D3E50] clash">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
           {/* Left Column: Logo & Description */}

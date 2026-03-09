@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import {
   Calculator,
   Users,
@@ -55,39 +54,23 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section id="features" className="py-32 bg-slate-50/50">
+    <section id="features" className="py-32 bg-slate-50/50 clash">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header content */}
         <div className="text-center mb-24">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-black text-sky-500 tracking-tight mb-6"
-          >
+          <h2 className="text-4xl md:text-5xl font-black text-sky-500 tracking-tight mb-6">
             Everything You Need To Manage Referrals
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-xl text-slate-400 font-bold uppercase tracking-widest"
-          >
+          </h2>
+          <p className="text-xl text-slate-400 font-bold uppercase tracking-widest">
             Powerful Features Designed For Brokers, Referral Partners,
-          </motion.p>
+          </p>
         </div>
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, idx) => (
-            <motion.div
+            <div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
               className="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-sky-500/5 transition-all duration-500 group"
             >
               <div
@@ -101,7 +84,7 @@ const FeaturesSection = () => {
               <p className="text-slate-400 font-bold leading-relaxed text-[15px]">
                 {feature.description}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
@@ -110,3 +93,4 @@ const FeaturesSection = () => {
 };
 
 export default FeaturesSection;
+
