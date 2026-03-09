@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Calendar, Download, Plus, Search } from "lucide-react";
 
 import { cn } from "@/hooks/useCn";
-import CreateLeadModal from "@/components/BrokerDashboardCom/BOverviewCom/modals/CreateLeadModal";
+import CreateLeadModal from "@/components/BrokerDashboardCom/BOverviewCom/CreateLeadModal";
 import { Lead, RangeKey } from "../BrokerOverview/types";
 import { brokerTeamMembers, referrerOptions } from "../BrokerOverview/mock";
 

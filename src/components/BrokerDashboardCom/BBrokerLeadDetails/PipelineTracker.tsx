@@ -1,6 +1,6 @@
 import { CheckCircle2 } from "lucide-react";
 import { cn } from "@/hooks/useCn";
-import type { LeadStatus } from "../../BrokerOverview/types";
+import type { LeadStatus } from "../../../pages/BrokerDashboard/BrokerOverview/types";
 
 type PipelineTrackerProps = {
   stage: LeadStatus;

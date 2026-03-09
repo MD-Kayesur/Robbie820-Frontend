@@ -13,7 +13,7 @@ import type { Lead, LeadStatus, RangeKey } from "./types";
 import { brokerTeamMembers, leadsMock, referrerOptions } from "./mock";
 import { formatShortMoney } from "./utils";
 
-import CreateLeadModal from "../../../components/BrokerDashboardCom/BOverviewCom/modals/CreateLeadModal";
+import CreateLeadModal from "../../../components/BrokerDashboardCom/BOverviewCom/CreateLeadModal";
 import OverviewHeader from "../../../components/BrokerDashboardCom/BOverviewCom/OverviewHeader";
 import OverviewFilters from "../../../components/BrokerDashboardCom/BOverviewCom/OverviewFilters";
 import LoanValueChart from "../../../components/BrokerDashboardCom/BOverviewCom/LoanValueChart";
