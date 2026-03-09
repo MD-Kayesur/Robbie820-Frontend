@@ -133,19 +133,19 @@ const BrokerSubscription = () => {
 
   return (
     <>
-      <div className="space-y-5 bg-[#F8FAFC] p-3 sm:p-4 lg:p-6">
-        <div>
-          <h1 className="text-[28px] font-semibold tracking-[-0.03em] text-[#111827]">
+      <div className="space-y-5">
+        <div className="min-w-0">
+          <h1 className="text-[24px] font-semibold tracking-[-0.03em] text-[#111827] sm:text-[28px]">
             Subscription & Billing
           </h1>
-          <p className="mt-1 text-sm text-[#6B7280]">
+          <p className="mt-1 text-sm leading-6 text-[#6B7280]">
             Manage your plan, seats, billing details, and invoices.
           </p>
         </div>
 
         <div className="flex items-start gap-2 rounded-xl border border-[#D8EAF7] bg-[#EEF8FF] px-4 py-3 text-[12px] text-[#1D9BF0]">
           <CircleAlert className="mt-0.5 h-4 w-4 shrink-0" />
-          <p>
+          <p className="leading-5">
             Your subscription controls the number of active deals, referral
             partners, and broker seats available in your account.
           </p>
@@ -157,7 +157,7 @@ const BrokerSubscription = () => {
               <div className="flex flex-col gap-5 lg:flex-row lg:justify-between">
                 <div className="min-w-0">
                   <p className="text-xs text-[#6B7280]">Active Plan</p>
-                  <h2 className="mt-1 text-[28px] font-medium tracking-[-0.03em] text-[#111827]">
+                  <h2 className="mt-1 wrap-break-word text-[24px] font-medium tracking-[-0.03em] text-[#111827] sm:text-[28px]">
                     {currentPlanMock.planName}
                   </h2>
 
@@ -170,7 +170,7 @@ const BrokerSubscription = () => {
                       {currentPlanMock.features.map((feature) => (
                         <div
                           key={feature.id}
-                          className="flex items-start gap-2 text-[13px] text-[#6B7280]"
+                          className="flex items-start gap-2 text-[13px] leading-5 text-[#6B7280]"
                         >
                           <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#22C55E]" />
                           <span>{feature.label}</span>
@@ -181,7 +181,7 @@ const BrokerSubscription = () => {
                 </div>
 
                 <div className="shrink-0 text-left lg:text-right">
-                  <p className="text-[40px] font-semibold tracking-[-0.04em] text-[#111827]">
+                  <p className="text-[32px] font-semibold tracking-[-0.04em] text-[#111827] sm:text-[40px]">
                     ${currentPlanMock.price}
                   </p>
                   <p className="-mt-1 text-xs text-[#9CA3AF]">
@@ -221,7 +221,7 @@ const BrokerSubscription = () => {
                 Team Seat Usage
               </h3>
 
-              <div className="mt-4 flex items-center justify-between text-[12px] text-[#6B7280]">
+              <div className="mt-4 flex items-center justify-between gap-3 text-[12px] text-[#6B7280]">
                 <span>
                   {seatUsageMock.usedSeats} of {seatUsageMock.totalSeats} broker
                   seats used
@@ -236,7 +236,7 @@ const BrokerSubscription = () => {
                 />
               </div>
 
-              <p className="mt-3 text-[12px] text-[#9CA3AF]">
+              <p className="mt-3 text-[12px] leading-5 text-[#9CA3AF]">
                 Each additional broker seat adds $
                 {seatUsageMock.additionalSeatMonthlyCost}/month.
               </p>
@@ -250,20 +250,30 @@ const BrokerSubscription = () => {
             </section>
 
             <section className="rounded-2xl border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-5">
-              <div className="flex items-center justify-between gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <h3 className="text-[16px] font-medium text-[#111827]">
                   Invoice History
                 </h3>
                 <button
                   type="button"
-                  className="text-[12px] text-[#111827] transition hover:text-sky-600"
+                  className="text-left text-[12px] text-[#111827] transition hover:text-sky-600 sm:text-right"
                 >
                   View All Invoices
                 </button>
               </div>
 
-              <div className="mt-4 overflow-x-auto">
-                <table className="min-w-[760px] w-full border-separate border-spacing-0">
+              <div className="mt-4 space-y-4 lg:hidden">
+                {invoicesMock.map((invoice) => (
+                  <InvoiceMobileCard
+                    key={invoice.id}
+                    invoice={invoice}
+                    onOpen={() => openInvoicePreview(invoice)}
+                  />
+                ))}
+              </div>
+
+              <div className="mt-4 hidden overflow-x-auto lg:block">
+                <table className="w-full min-w-190 border-separate border-spacing-0">
                   <thead>
                     <tr className="text-left text-[12px] text-[#6B7280]">
                       <th className="px-4 py-3 font-medium">Invoice Date</th>
@@ -322,45 +332,42 @@ const BrokerSubscription = () => {
             <section className="rounded-2xl bg-[#0EA5E9] p-4 text-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
               <h3 className="text-[16px] font-medium">Payment Method</h3>
 
-              <div className="mt-4 space-y-3">
-                {paymentMethods.map((method) => (
-                  <div
-                    key={method.id}
-                    className={cn(
-                      "rounded-xl border px-3 py-3",
-                      method.type === "card"
-                        ? "border-[#D8EAF7] bg-white text-[#111827]"
-                        : "border-[#D8EAF7] bg-white text-[#111827]",
-                    )}
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className="mt-0.5 flex h-7 w-7 items-center justify-center rounded-md bg-[#EAF2FF] text-[#4F7CFF]">
-                        {method.type === "card" ? (
-                          <CreditCard className="h-4 w-4" />
-                        ) : (
-                          <Building2 className="h-4 w-4" />
-                        )}
-                      </div>
-
-                      <div className="min-w-0 flex-1">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <p className="text-[13px] font-medium">
-                            {method.label}
-                          </p>
-                          {method.isDefault ? (
-                            <span className="inline-flex rounded-full border border-[#D8EAF7] bg-[#EEF8FF] px-2 py-0.5 text-[10px] text-[#60A5FA]">
-                              Default
-                            </span>
-                          ) : null}
+              {activePaymentMethod ? (
+                <div className="mt-4 space-y-3">
+                  {paymentMethods.map((method) => (
+                    <div
+                      key={method.id}
+                      className="rounded-xl border border-[#D8EAF7] bg-white px-3 py-3 text-[#111827]"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#EAF2FF] text-[#4F7CFF]">
+                          {method.type === "card" ? (
+                            <CreditCard className="h-4 w-4" />
+                          ) : (
+                            <Building2 className="h-4 w-4" />
+                          )}
                         </div>
-                        <p className="mt-1 text-[11px] text-[#9CA3AF]">
-                          {method.subLabel}
-                        </p>
+
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <p className="text-[13px] font-medium">
+                              {method.label}
+                            </p>
+                            {method.isDefault ? (
+                              <span className="inline-flex rounded-full border border-[#D8EAF7] bg-[#EEF8FF] px-2 py-0.5 text-[10px] text-[#60A5FA]">
+                                Default
+                              </span>
+                            ) : null}
+                          </div>
+                          <p className="mt-1 wrap-break-word text-[11px] text-[#9CA3AF]">
+                            {method.subLabel}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              ) : null}
 
               <button
                 type="button"
@@ -371,7 +378,7 @@ const BrokerSubscription = () => {
               </button>
 
               <div className="mt-4 flex items-center gap-2 text-[10px] text-[#DFF6FF]">
-                <ShieldCheck className="h-3.5 w-3.5" />
+                <ShieldCheck className="h-3.5 w-3.5 shrink-0" />
                 <span>256-bit SSL encrypted payments</span>
               </div>
             </section>
@@ -394,7 +401,7 @@ const BrokerSubscription = () => {
                 effect after the current billing period ends.
               </p>
               <p className="mt-3 text-[12px] leading-5 text-[#6B7280]">
-                Cancellation requires 30 days' notice.
+                Cancellation requires 30 days&apos; notice.
               </p>
             </section>
           </div>
@@ -433,6 +440,58 @@ const BrokerSubscription = () => {
   );
 };
 
+function InvoiceMobileCard({
+  invoice,
+  onOpen,
+}: {
+  invoice: InvoiceRow;
+  onOpen: () => void;
+}) {
+  return (
+    <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-sm font-medium text-[#111827]">
+            {invoice.planName}
+          </p>
+          <p className="mt-1 text-xs text-[#9CA3AF]">{invoice.invoiceRef}</p>
+        </div>
+
+        <button
+          type="button"
+          onClick={onOpen}
+          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-[#111827] transition hover:bg-slate-100"
+        >
+          <Download className="h-4 w-4" />
+        </button>
+      </div>
+
+      <div className="mt-4 grid grid-cols-2 gap-4 text-[13px]">
+        <div>
+          <p className="text-[11px] text-[#6B7280]">Invoice Date</p>
+          <p className="mt-1 font-medium text-[#111827]">
+            {invoice.invoiceDate}
+          </p>
+        </div>
+
+        <div>
+          <p className="text-[11px] text-[#6B7280]">Amount</p>
+          <p className="mt-1 font-semibold text-[#111827]">
+            {formatMoney(invoice.amount)}
+          </p>
+        </div>
+
+        <div className="col-span-2">
+          <p className="text-[11px] text-[#6B7280]">Status</p>
+          <span className="mt-1 inline-flex h-6 items-center rounded-full bg-[#DCFCE7] px-2.5 text-[11px] font-medium text-[#22C55E]">
+            {invoice.status}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function PlanSelectionModal({
   cycle,
   onCycleChange,
@@ -446,12 +505,12 @@ function PlanSelectionModal({
 }) {
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/40 p-3 sm:p-6">
-      <div className="mx-auto w-full max-w-[900px] rounded-[24px] border border-[#D1D5DB] bg-white p-5 shadow-[0_30px_90px_rgba(0,0,0,0.18)] sm:p-7">
+      <div className="mx-auto w-full max-w-225 rounded-3xl border border-[#D1D5DB] bg-white p-4 shadow-[0_30px_90px_rgba(0,0,0,0.18)] sm:p-7">
         <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-[#D1D5DB] text-[#6B7280] transition hover:bg-slate-50"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-[#D1D5DB] text-[#6B7280] transition hover:bg-slate-50"
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
@@ -461,10 +520,10 @@ function PlanSelectionModal({
         </div>
 
         <div className="mt-4 text-center">
-          <h2 className="text-[24px] font-semibold tracking-[-0.03em] text-[#0EA5E9]">
+          <h2 className="text-[22px] font-semibold tracking-[-0.03em] text-[#0EA5E9] sm:text-[24px]">
             How ReferNow Works
           </h2>
-          <p className="mt-2 text-[16px] text-[#111827]">
+          <p className="mt-2 text-[15px] text-[#111827] sm:text-[16px]">
             Choose The Plan That Fits Your Business. No Hidden Fees.
           </p>
 
@@ -473,7 +532,7 @@ function PlanSelectionModal({
               type="button"
               onClick={() => onCycleChange("monthly")}
               className={cn(
-                "rounded-full px-6 py-3 text-sm font-medium transition",
+                "rounded-full px-4 py-2.5 text-sm font-medium transition sm:px-6 sm:py-3",
                 cycle === "monthly"
                   ? "bg-[#0EA5E9] text-white shadow-sm"
                   : "text-[#6B7280]",
@@ -485,7 +544,7 @@ function PlanSelectionModal({
               type="button"
               onClick={() => onCycleChange("yearly")}
               className={cn(
-                "rounded-full px-6 py-3 text-sm font-medium transition",
+                "rounded-full px-4 py-2.5 text-sm font-medium transition sm:px-6 sm:py-3",
                 cycle === "yearly"
                   ? "bg-[#0EA5E9] text-white shadow-sm"
                   : "text-[#6B7280]",
@@ -496,7 +555,7 @@ function PlanSelectionModal({
           </div>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-5 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-5 lg:mt-12 lg:grid-cols-3">
           {plans.map((plan) => (
             <div
               key={plan.id}
@@ -517,7 +576,7 @@ function PlanSelectionModal({
               <p className="mt-3 text-[16px] text-[#111827]">{plan.tagline}</p>
 
               <div className="mt-5 flex items-end gap-1">
-                <span className="text-[44px] font-semibold tracking-[-0.04em] text-[#111827]">
+                <span className="text-[38px] font-semibold tracking-[-0.04em] text-[#111827] sm:text-[44px]">
                   {plan.priceLabel}
                 </span>
                 {plan.priceSuffix ? (
@@ -531,7 +590,7 @@ function PlanSelectionModal({
                 {plan.features.map((feature, index) => (
                   <div
                     key={`${plan.id}-${index}`}
-                    className="flex items-start gap-2 text-[14px] text-[#6B7280]"
+                    className="flex items-start gap-2 text-[14px] leading-5 text-[#6B7280]"
                   >
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#22C55E]" />
                     <span>{feature}</span>
@@ -549,7 +608,7 @@ function PlanSelectionModal({
           ))}
         </div>
 
-        <p className="mt-10 text-center text-[14px] text-[#111827]">
+        <p className="mt-8 text-center text-[13px] text-[#111827] sm:mt-10 sm:text-[14px]">
           2025 ReferNow Mortgage Solutions. All Rights Reserved.
         </p>
       </div>
@@ -592,10 +651,10 @@ function UpdatePaymentMethodModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-3 sm:p-6">
-      <div className="w-full max-w-[470px] rounded-[20px] bg-white p-5 shadow-[0_30px_90px_rgba(0,0,0,0.28)] sm:max-w-[520px]">
+      <div className="w-full max-w-117.5 rounded-[20px] bg-white p-4 shadow-[0_30px_90px_rgba(0,0,0,0.28)] sm:max-w-130 sm:p-5">
         <div className="flex items-start justify-between gap-4">
-          <div>
-            <h2 className="text-[22px] font-semibold tracking-[-0.03em] text-[#111827]">
+          <div className="min-w-0">
+            <h2 className="text-[20px] font-semibold tracking-[-0.03em] text-[#111827] sm:text-[22px]">
               Update Payment Method
             </h2>
             <p className="mt-1 text-[14px] text-[#374151]">
@@ -606,25 +665,25 @@ function UpdatePaymentMethodModal({
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[#111827] transition hover:bg-slate-100"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[#111827] transition hover:bg-slate-100"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         <div className="mt-5 rounded-xl bg-[#DDF4FF] p-2">
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             <button
               type="button"
               onClick={() => switchType("card")}
               className={cn(
-                "flex h-11 items-center justify-center gap-2 rounded-md border text-[14px] font-medium transition",
+                "flex h-11 items-center justify-center gap-2 rounded-md border px-3 text-[14px] font-medium transition",
                 form.type === "card"
                   ? "border-[#A7D8F5] bg-white text-[#111827]"
                   : "border-transparent bg-transparent text-[#111827]",
               )}
             >
-              <CreditCard className="h-4 w-4" />
+              <CreditCard className="h-4 w-4 shrink-0" />
               Credit/Debit Card
             </button>
 
@@ -632,13 +691,13 @@ function UpdatePaymentMethodModal({
               type="button"
               onClick={() => switchType("bank")}
               className={cn(
-                "flex h-11 items-center justify-center gap-2 rounded-md border text-[14px] font-medium transition",
+                "flex h-11 items-center justify-center gap-2 rounded-md border px-3 text-[14px] font-medium transition",
                 form.type === "bank"
                   ? "border-[#A7D8F5] bg-white text-[#111827]"
                   : "border-transparent bg-transparent text-[#111827]",
               )}
             >
-              <Building2 className="h-4 w-4" />
+              <Building2 className="h-4 w-4 shrink-0" />
               Bank Direct Debit
             </button>
           </div>
@@ -695,20 +754,20 @@ function UpdatePaymentMethodModal({
         )}
 
         <div className="mt-6">
-          <label className="flex items-center gap-3 text-[14px] text-[#374151]">
+          <label className="flex items-start gap-3 text-[14px] text-[#374151]">
             <input
               type="checkbox"
               checked={form.isDefault}
               onChange={(e) =>
                 onChange({ ...form, isDefault: e.target.checked })
               }
-              className="h-4 w-4 rounded border-[#D1D5DB] accent-[#0EA5E9]"
+              className="mt-0.5 h-4 w-4 rounded border-[#D1D5DB] accent-[#0EA5E9]"
             />
-            Set as default payment method
+            <span>Set as default payment method</span>
           </label>
 
-          <div className="mt-4 flex items-center gap-3 text-[13px] text-[#9CA3AF]">
-            <ShieldCheck className="h-5 w-5 text-[#22C55E]" />
+          <div className="mt-4 flex items-start gap-3 text-[13px] leading-5 text-[#9CA3AF]">
+            <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#22C55E]" />
             <span>Your payment is secured with 256-bit SSL encryption.</span>
           </div>
         </div>
@@ -718,7 +777,7 @@ function UpdatePaymentMethodModal({
             <button
               type="button"
               onClick={onClose}
-              className="inline-flex h-11 items-center justify-center rounded-md border border-[#D1D5DB] bg-white px-5 text-[14px] font-medium text-[#111827] transition hover:bg-slate-50"
+              className="inline-flex h-11 w-full items-center justify-center rounded-md border border-[#D1D5DB] bg-white px-5 text-[14px] font-medium text-[#111827] transition hover:bg-slate-50 sm:w-auto"
             >
               Cancel
             </button>
@@ -726,7 +785,7 @@ function UpdatePaymentMethodModal({
             <button
               type="button"
               onClick={onSave}
-              className="inline-flex h-11 items-center justify-center rounded-md bg-black px-5 text-[14px] font-medium text-white transition hover:bg-slate-900"
+              className="inline-flex h-11 w-full items-center justify-center rounded-md bg-black px-5 text-[14px] font-medium text-white transition hover:bg-slate-900 sm:w-auto"
             >
               Save Payment Method
             </button>
@@ -750,17 +809,17 @@ function InvoicePreviewModal({
 }) {
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/45 p-3 sm:p-6">
-      <div className="mx-auto w-full max-w-[640px] rounded-[22px] border border-[#CBD5E1] bg-[#F3FAFF] p-4 shadow-[0_30px_80px_rgba(0,0,0,0.22)] sm:p-6">
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
+      <div className="mx-auto w-full max-w-160 rounded-[22px] border border-[#CBD5E1] bg-[#F3FAFF] p-4 shadow-[0_30px_80px_rgba(0,0,0,0.22)] sm:p-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex min-w-0 items-center gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-[#D1D5DB] bg-white text-[#6B7280] transition hover:bg-slate-50"
+              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-[#D1D5DB] bg-white text-[#6B7280] transition hover:bg-slate-50"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
-            <span className="text-sm text-[#374151]">
+            <span className="truncate text-sm text-[#374151]">
               Back Subscription & Billing
             </span>
           </div>
@@ -768,29 +827,29 @@ function InvoicePreviewModal({
           <button
             type="button"
             onClick={onDownload}
-            className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-[#020617] px-3 text-[12px] font-medium text-white transition hover:bg-slate-900"
+            className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-md bg-[#020617] px-3 text-[12px] font-medium text-white transition hover:bg-slate-900 sm:w-auto"
           >
             <Download className="h-3.5 w-3.5" />
             Download PDF
           </button>
         </div>
 
-        <div className="mt-5 rounded-xl border border-[#D8EAF7] bg-white p-5 sm:p-7">
+        <div className="mt-5 rounded-xl border border-[#D8EAF7] bg-white p-4 sm:p-7">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <h2 className="text-[28px] font-semibold tracking-[-0.03em] text-[#111827]">
+            <div className="min-w-0">
+              <h2 className="text-[24px] font-semibold tracking-[-0.03em] text-[#111827] sm:text-[28px]">
                 {invoiceDetailsMock.fromName}
               </h2>
               <p className="mt-1 text-[14px] text-[#6B7280]">
                 {invoiceDetailsMock.fromDepartment}
               </p>
-              <p className="mt-1 text-[14px] text-[#6B7280]">
+              <p className="mt-1 break-all text-[14px] text-[#6B7280]">
                 {invoiceDetailsMock.fromEmail}
               </p>
             </div>
 
             <div className="text-left sm:text-right">
-              <h3 className="text-[22px] font-semibold text-[#111827]">
+              <h3 className="text-[20px] font-semibold text-[#111827] sm:text-[22px]">
                 Invoice #{invoiceRef}
               </h3>
               <p className="mt-1 text-[12px] text-[#9CA3AF]">
@@ -804,19 +863,51 @@ function InvoicePreviewModal({
 
           <div className="mt-5 border-t border-[#E5E7EB] pt-5">
             <p className="text-[14px] font-medium text-[#374151]">BILL TO</p>
-            <p className="mt-1 text-[22px] font-semibold text-[#111827]">
+            <p className="mt-1 text-[20px] font-semibold text-[#111827] sm:text-[22px]">
               {invoiceDetailsMock.billToName}
             </p>
             <p className="mt-1 text-[14px] text-[#6B7280]">
               {invoiceDetailsMock.billToContact}
             </p>
-            <p className="mt-1 text-[14px] text-[#6B7280]">
+            <p className="mt-1 break-all text-[14px] text-[#6B7280]">
               {invoiceDetailsMock.billToEmail}
             </p>
           </div>
 
-          <div className="mt-5 overflow-x-auto">
-            <table className="min-w-[520px] w-full border-separate border-spacing-0">
+          <div className="mt-5 space-y-3 md:hidden">
+            {invoiceDetailsMock.items.map((item) => (
+              <div
+                key={item.id}
+                className="rounded-xl border border-[#E5E7EB] p-4 text-[14px]"
+              >
+                <p className="font-medium text-[#111827]">{item.description}</p>
+
+                <div className="mt-3 grid grid-cols-2 gap-3 text-[#6B7280]">
+                  <div>
+                    <p className="text-[11px]">Quantity</p>
+                    <p className="mt-1 font-medium text-[#111827]">
+                      {item.quantity}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[11px]">Unit Price</p>
+                    <p className="mt-1 font-medium text-[#111827]">
+                      {formatMoney2(item.unitPrice)}
+                    </p>
+                  </div>
+                  <div className="col-span-2">
+                    <p className="text-[11px]">Amount</p>
+                    <p className="mt-1 font-semibold text-[#111827]">
+                      {formatMoney2(item.amount)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-5 hidden overflow-x-auto md:block">
+            <table className="w-full min-w-130 border-separate border-spacing-0">
               <thead>
                 <tr className="text-left text-[14px] text-[#374151]">
                   <th className="border-b border-[#E5E7EB] px-1 py-2 font-medium">
@@ -851,7 +942,7 @@ function InvoicePreviewModal({
           </div>
 
           <div className="mt-4 flex justify-end">
-            <div className="w-full max-w-[210px] space-y-2 text-[14px] text-[#6B7280]">
+            <div className="w-full max-w-65 space-y-2 text-[14px] text-[#6B7280]">
               <div className="flex items-center justify-between">
                 <span>Subtotal</span>
                 <span className="font-medium text-[#111827]">
@@ -900,7 +991,7 @@ function InvoicePreviewModal({
               <button
                 type="button"
                 onClick={onPrint}
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-[#D1D5DB] bg-white px-4 text-[14px] font-medium text-[#111827] transition hover:bg-slate-50"
+                className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-md border border-[#D1D5DB] bg-white px-4 text-[14px] font-medium text-[#111827] transition hover:bg-slate-50 sm:w-auto"
               >
                 <Printer className="h-4 w-4" />
                 Print Invoice
@@ -908,7 +999,7 @@ function InvoicePreviewModal({
               <button
                 type="button"
                 onClick={onDownload}
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#020617] px-4 text-[14px] font-medium text-white transition hover:bg-slate-900"
+                className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-[#020617] px-4 text-[14px] font-medium text-white transition hover:bg-slate-900 sm:w-auto"
               >
                 <Download className="h-4 w-4" />
                 Download PDF
@@ -917,7 +1008,7 @@ function InvoicePreviewModal({
           </div>
         </div>
 
-        <p className="mt-4 text-center text-[13px] text-[#9CA3AF]">
+        <p className="mt-4 text-center text-[13px] leading-5 text-[#9CA3AF]">
           {invoiceDetailsMock.footerNote}
         </p>
       </div>
