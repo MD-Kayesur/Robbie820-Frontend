@@ -47,7 +47,7 @@ const Home = () => {
     <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] font-sans selection:bg-sky-100 overflow-x-hidden no-scrollbar">
       {/* Navbar Section */}
       <header className="fixed top-0 left-0 right-0 z-50 pt-4 md:pt-8 px-4 md:px-8 clash">
-        <div className="max-w-[1440px] mx-auto md:px-[80px] lg:px-[150px]">
+        <div className="  mx-auto md:px-[80px] lg:px-[150px]">
           <nav className="w-full bg-white/90 backdrop-blur-xl border-2 border-gray-100 rounded-2xl px-4 md:px-8 py-3 flex items-center justify-between">
             {/* Logo */}
             <div
