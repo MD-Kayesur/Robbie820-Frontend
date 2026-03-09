@@ -8,6 +8,7 @@ import {
   MoreVertical,
   UserRound,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import type {
   MonthRange,
@@ -26,14 +27,13 @@ import { useOutsideClose } from "@/hooks/useOutsideClose";
 
 /* ----------------------------- helpers ----------------------------- */
 function monthLabel(ym: string) {
-  // ym: YYYY-MM
   const [y, m] = ym.split("-").map(Number);
   const d = new Date(y, (m || 1) - 1, 1);
   return d.toLocaleString(undefined, { month: "short", year: "numeric" });
 }
 
 function inMonthRange(dateISO: string, range: MonthRange) {
-  const ym = dateISO.slice(0, 7); // YYYY-MM
+  const ym = dateISO.slice(0, 7);
   return ym >= range.from && ym <= range.to;
 }
 
@@ -46,22 +46,21 @@ function toMoney(n: number) {
 }
 
 function statusPill(status: ReferralRow["status"]) {
-  // Match screenshot vibe: blue (settled/paid), grey (lodged/sent), warm yellow (awaiting)
   switch (status) {
     case "Loan Settled":
-      return "bg-sky-100 text-sky-700 ring-1 ring-sky-200";
+      return "border border-[#14A3FF] bg-[#D6EEFB] text-[#14A3FF]";
     case "Fee Paid":
-      return "bg-sky-100 text-sky-700 ring-1 ring-sky-200";
+      return "border border-[#14A3FF] bg-[#D6EEFB] text-[#14A3FF]";
     case "Awaiting Referral Fee":
-      return "bg-amber-100 text-amber-700 ring-1 ring-amber-200";
+      return "border border-[#C89A1C] bg-[#F4EFD9] text-[#C89A1C]";
     case "Loan Lodged":
-      return "bg-slate-200 text-slate-700 ring-1 ring-slate-300";
+      return "border border-[#B6B6B6] bg-[#D9D9D9] text-black";
     case "Referral Sent":
-      return "bg-slate-200 text-slate-700 ring-1 ring-slate-300";
+      return "border border-[#B6B6B6] bg-[#D9D9D9] text-black";
     case "Not Progressed":
-      return "bg-slate-200 text-slate-700 ring-1 ring-slate-300";
+      return "border border-[#B6B6B6] bg-[#D9D9D9] text-black";
     default:
-      return "bg-slate-200 text-slate-700 ring-1 ring-slate-300";
+      return "border border-[#B6B6B6] bg-[#D9D9D9] text-black";
   }
 }
 
@@ -76,7 +75,7 @@ function presetToRange(preset: TimePreset): MonthRange | null {
   if (preset === "All Time") return null;
   if (preset === "This Month") return { from: ym(y, m), to: ym(y, m) };
 
-  const fromMonthIndex = y * 12 + (m - 1) - 2; // inclusive
+  const fromMonthIndex = y * 12 + (m - 1) - 2;
   const fromY = Math.floor(fromMonthIndex / 12);
   const fromM = (fromMonthIndex % 12) + 1;
 
@@ -100,17 +99,18 @@ function SelectLikeButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "h-11 min-w-35 rounded-xl border border-slate-200 bg-white px-3",
-        "flex items-center justify-between gap-3 text-sm text-slate-700",
-        "hover:bg-slate-50 active:scale-[0.99] transition",
+        "flex h-16 w-full items-center justify-between gap-3 rounded-[18px] border bg-white px-5 text-left transition active:scale-[0.99]",
+        "border-[#D6DEDD] text-[#6F7B82] hover:bg-slate-50",
         className,
       )}
     >
-      <span className="flex items-center gap-2 min-w-0">
-        {leftIcon ? <span className="text-slate-400">{leftIcon}</span> : null}
-        <span className="truncate">{value}</span>
+      <span className="flex min-w-0 items-center gap-3">
+        {leftIcon ? (
+          <span className="shrink-0 text-[#6F7B82]">{leftIcon}</span>
+        ) : null}
+        <span className="truncate text-[16px] sm:text-lg">{value}</span>
       </span>
-      <ChevronDown className="h-4 w-4 text-slate-400" />
+      <ChevronDown className="h-6 w-6 shrink-0 text-black" />
     </button>
   );
 }
@@ -127,10 +127,11 @@ function Menu({
   className?: string;
 }) {
   if (!open) return null;
+
   return (
     <div
       className={cn(
-        "absolute z-50 mt-2 w-60 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg",
+        "absolute z-50 mt-2 w-full min-w-55 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg",
         className,
       )}
       role="menu"
@@ -165,18 +166,15 @@ function RowActions({
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className={cn(
-          "grid h-9 w-9 place-items-center rounded-lg",
-          "hover:bg-slate-50 active:scale-[0.98] transition",
-        )}
+        className="grid h-9 w-9 place-items-center rounded-lg transition hover:bg-slate-50 active:scale-[0.98]"
         aria-haspopup="menu"
         aria-expanded={open}
       >
-        <MoreVertical className="h-4 w-4 text-slate-500" />
+        <MoreVertical className="h-5 w-5 text-black" />
       </button>
 
       {open ? (
-        <div className="absolute right-0 top-10 z-50 w-50 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
+        <div className="absolute right-0 top-10 z-50 w-44 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
           <button
             type="button"
             onClick={() => {
@@ -203,14 +201,64 @@ function RowActions({
   );
 }
 
+function MobileReferralCard({
+  row,
+  onEdit,
+  onRemove,
+}: {
+  row: ReferralRow;
+  onEdit: () => void;
+  onRemove: () => void;
+}) {
+  return (
+    <div className="border-b border-[#CFCFCF] bg-white p-7 last:border-b-0">
+      <div className="flex items-start justify-between gap-4">
+        <Link
+          to={`/referrer-dashboard/my-referrals/clients/${row.id}`}
+          className="min-w-0 flex-1"
+        >
+          <p className="truncate text-[22px] font-semibold leading-none text-black">
+            {row.clientName}
+          </p>
+          <p className="mt-4 text-[18px] leading-none text-[#6B6B6B]">
+            {row.company}
+          </p>
+        </Link>
+
+        <RowActions onEdit={onEdit} onRemove={onRemove} />
+      </div>
+
+      <div className="mt-7 flex items-end justify-between gap-4">
+        <span
+          className={cn(
+            "inline-flex max-w-full items-center rounded-full px-6 py-3 text-[14px] font-medium uppercase leading-none",
+            statusPill(row.status),
+          )}
+        >
+          <span className="truncate">{row.status}</span>
+        </span>
+
+        <div className="shrink-0 text-right">
+          <p className="text-[22px] font-semibold leading-none text-black">
+            {row.expectedRefFee == null
+              ? "Pending"
+              : toMoney(row.expectedRefFee)}
+          </p>
+          <p className="mt-4 text-[18px] leading-none text-[#6B6B6B]">
+            Commission
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ------------------------------ page ------------------------------ */
 export const ReferrerMyReferrals = () => {
   const [rows, setRows] = useState<ReferralRow[]>(referralsMock);
 
   const [status, setStatus] = useState<StatusFilter>("All Statuses");
   const [timePreset, setTimePreset] = useState<TimePreset>("All Time");
-
-  // Range is always visible (like screenshot). Presets can overwrite it.
   const [range, setRange] = useState<MonthRange>(defaultRange);
 
   const [statusOpen, setStatusOpen] = useState(false);
@@ -247,128 +295,159 @@ export const ReferrerMyReferrals = () => {
   }
 
   return (
-    <div className="mx-auto max-w-400 bg-white p-6">
-      {/* filters bar */}
-      <div
-        className={cn(
-          "w-full rounded-2xl border border-slate-200 bg-white",
-          "px-3 py-3 sm:px-4",
-          "flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between",
-        )}
-      >
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-          {/* Status (Static) */}
-          <div className="relative">
-            <div className="flex min-w-25 items-center justify-start gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700">
-              <Filter className="h-4 w-4 text-slate-500" />
-              <span>Status</span>
+    <div className="mx-auto w-full max-w-400 bg-white px-4 pb-24 pt-4 sm:px-6 md:px-8 md:pb-8">
+      {/* filters */}
+      <div className="rounded-3xl border border-[#BFE6FF] bg-white p-4 sm:p-5 md:rounded-2xl md:border-slate-200 md:p-4">
+        <div className="grid grid-cols-1 gap-4 md:flex md:flex-wrap md:items-center md:justify-between">
+          <div className="grid grid-cols-2 gap-4 md:flex md:flex-wrap md:items-center md:gap-4">
+            {/* label */}
+            <div className="col-span-1">
+              <button
+                type="button"
+                className={cn(
+                  "flex h-16 w-full items-center justify-center gap-3 rounded-[18px] border bg-white px-5",
+                  "border-[#D6DEDD] text-[#6F7B82]",
+                  "md:h-11 md:min-w-27.5 md:justify-start md:rounded-xl md:border-slate-200 md:px-3 md:text-sm",
+                )}
+              >
+                <Filter className="h-7 w-7 md:h-4 md:w-4" />
+                <span className="text-[16px] sm:text-lg md:text-sm">
+                  Status
+                </span>
+              </button>
             </div>
-          </div>
 
-          <div className="relative" ref={statusRef}>
-            <SelectLikeButton
-              value={status}
-              onClick={() => {
-                setStatusOpen((v) => !v);
-                setTimeOpen(false);
-                setRangeOpen(false);
-              }}
-            />
-            <Menu
-              open={statusOpen}
-              items={statusOptions}
-              onPick={(v) => {
-                setStatus(v as StatusFilter);
-                setStatusOpen(false);
-              }}
-            />
-          </div>
+            {/* status */}
+            <div className="col-span-1 relative" ref={statusRef}>
+              <SelectLikeButton
+                value={status}
+                onClick={() => {
+                  setStatusOpen((v) => !v);
+                  setTimeOpen(false);
+                  setRangeOpen(false);
+                }}
+                className="md:h-11 md:min-w-45 md:rounded-xl md:border-slate-200 md:px-3 md:text-sm"
+              />
+              <Menu
+                open={statusOpen}
+                items={statusOptions}
+                onPick={(v) => {
+                  setStatus(v as StatusFilter);
+                  setStatusOpen(false);
+                }}
+              />
+            </div>
 
-          {/* Time preset */}
-          <div className="relative" ref={timeRef}>
-            <SelectLikeButton
-              value={timePreset}
-              onClick={() => {
-                setTimeOpen((v) => !v);
-                setStatusOpen(false);
-                setRangeOpen(false);
-              }}
-            />
-            <Menu
-              open={timeOpen}
-              items={timeOptions}
-              onPick={(v) => {
-                applyPreset(v as TimePreset);
-                setTimeOpen(false);
-              }}
-            />
-          </div>
+            {/* time */}
+            <div className="col-span-1 relative" ref={timeRef}>
+              <SelectLikeButton
+                value={timePreset}
+                onClick={() => {
+                  setTimeOpen((v) => !v);
+                  setStatusOpen(false);
+                  setRangeOpen(false);
+                }}
+                className="md:h-11 md:min-w-40 md:rounded-xl md:border-slate-200 md:px-3 md:text-sm"
+              />
+              <Menu
+                open={timeOpen}
+                items={timeOptions}
+                onPick={(v) => {
+                  applyPreset(v as TimePreset);
+                  setTimeOpen(false);
+                }}
+              />
+            </div>
 
-          {/* Month range */}
-          <div className="relative" ref={rangeRef}>
-            <SelectLikeButton
-              leftIcon={<Calendar className="h-4 w-4" />}
-              value={rangeLabel}
-              onClick={() => {
-                setRangeOpen((v) => !v);
-                setStatusOpen(false);
-                setTimeOpen(false);
-              }}
-              className="min-w-60"
-            />
+            {/* range */}
+            <div className="col-span-1 relative" ref={rangeRef}>
+              <SelectLikeButton
+                leftIcon={<Calendar className="h-7 w-7 md:h-4 md:w-4" />}
+                value={rangeLabel}
+                onClick={() => {
+                  setRangeOpen((v) => !v);
+                  setStatusOpen(false);
+                  setTimeOpen(false);
+                }}
+                className="md:h-11 md:min-w-60 md:rounded-xl md:border-slate-200 md:px-3 md:text-sm"
+              />
 
-            {rangeOpen ? (
-              <div className="absolute left-0 z-50 mt-2 w-100 rounded-2xl border border-slate-200 bg-white p-4 shadow-lg">
-                <div className="grid gap-3">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1.5">
-                      <p className="text-xs font-semibold text-slate-600">
-                        From
-                      </p>
-                      <input
-                        type="month"
-                        value={range.from}
-                        onChange={(e) =>
-                          setRange((r) => ({ ...r, from: e.target.value }))
-                        }
-                        className={cn(
-                          "h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700",
-                          "outline-none focus:ring-2 focus:ring-sky-200",
-                        )}
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <p className="text-xs font-semibold text-slate-600">To</p>
-                      <input
-                        type="month"
-                        value={range.to}
-                        onChange={(e) =>
-                          setRange((r) => ({ ...r, to: e.target.value }))
-                        }
-                        className={cn(
-                          "h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700",
-                          "outline-none focus:ring-2 focus:ring-sky-200",
-                        )}
-                      />
+              {rangeOpen ? (
+                <div className="absolute left-0 z-50 mt-2 w-[320px] max-w-[calc(100vw-2rem)] rounded-2xl border border-slate-200 bg-white p-4 shadow-lg md:w-100">
+                  <div className="grid gap-3">
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                      <div className="space-y-1.5">
+                        <p className="text-xs font-semibold text-slate-600">
+                          From
+                        </p>
+                        <input
+                          type="month"
+                          value={range.from}
+                          onChange={(e) =>
+                            setRange((r) => ({ ...r, from: e.target.value }))
+                          }
+                          className={cn(
+                            "h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700",
+                            "outline-none focus:ring-2 focus:ring-sky-200",
+                          )}
+                        />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <p className="text-xs font-semibold text-slate-600">
+                          To
+                        </p>
+                        <input
+                          type="month"
+                          value={range.to}
+                          onChange={(e) =>
+                            setRange((r) => ({ ...r, to: e.target.value }))
+                          }
+                          className={cn(
+                            "h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700",
+                            "outline-none focus:ring-2 focus:ring-sky-200",
+                          )}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ) : null}
+              ) : null}
+            </div>
           </div>
-        </div>
 
-        <p className="text-sm text-slate-500 sm:text-right">
-          showing{" "}
-          <span className="font-semibold text-slate-700">
-            {filtered.length}
-          </span>{" "}
-          results
-        </p>
+          <p className="text-[18px] leading-none text-black md:text-sm md:text-slate-500">
+            showing{" "}
+            <span className="font-semibold md:text-slate-700">
+              {filtered.length}
+            </span>{" "}
+            results
+          </p>
+        </div>
       </div>
 
-      {/* table */}
-      <div className="mt-4 overflow-hidden rounded-2xl border border-slate-200 bg-white">
+      {/* mobile cards */}
+      <div className="mt-6 overflow-hidden border border-[#CFCFCF] bg-white md:hidden">
+        {filtered.length === 0 ? (
+          <div className="px-6 py-12 text-center text-sm text-slate-500">
+            No referrals found for the selected filters.
+          </div>
+        ) : (
+          filtered.map((r) => (
+            <MobileReferralCard
+              key={r.id}
+              row={r}
+              onEdit={() => {
+                alert(`Edit referral: ${r.clientName} (${r.company})`);
+              }}
+              onRemove={() => onRemoveRow(r.id)}
+            />
+          ))
+        )}
+      </div>
+
+      {/* desktop table */}
+      <div className="mt-4 hidden overflow-hidden rounded-2xl border border-slate-200 bg-white md:block">
         <div className="w-full overflow-x-auto">
           <table className="w-full min-w-230">
             <thead>
@@ -392,7 +471,7 @@ export const ReferrerMyReferrals = () => {
                     <th
                       key={h}
                       className={cn(
-                        "px-5 py-2 text-lg font-medium tracking-wide text-black",
+                        "px-5 py-4 text-sm font-medium tracking-wide text-black lg:text-base",
                         align,
                       )}
                     >
@@ -406,18 +485,22 @@ export const ReferrerMyReferrals = () => {
             <tbody>
               {filtered.map((r) => (
                 <tr key={r.id} className="hover:bg-slate-50/60">
-                  <td className="px-5 py-2">
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold text-slate-900">
-                        {r.clientName}
-                      </p>
-                      <p className="truncate text-xs font-medium uppercase tracking-wide text-slate-400">
-                        {r.company}
-                      </p>
-                    </div>
+                  <td className="px-5 py-4">
+                    <Link
+                      to={`/referrer-dashboard/my-referrals/clients/${r.id}`}
+                    >
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-slate-900 lg:text-base">
+                          {r.clientName}
+                        </p>
+                        <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                          {r.company}
+                        </p>
+                      </div>
+                    </Link>
                   </td>
 
-                  <td className="px-5 py-2 text-center">
+                  <td className="px-5 py-4 text-center">
                     <span
                       className={cn(
                         "inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold",
@@ -428,7 +511,7 @@ export const ReferrerMyReferrals = () => {
                     </span>
                   </td>
 
-                  <td className="px-5 py-2">
+                  <td className="px-5 py-4">
                     <div className="flex items-center gap-2 text-sm text-slate-700">
                       <UserRound className="h-4 w-4 text-slate-400" />
                       <span className="font-semibold text-slate-800">
@@ -437,7 +520,7 @@ export const ReferrerMyReferrals = () => {
                     </div>
                   </td>
 
-                  <td className="px-5 py-2 text-right">
+                  <td className="px-5 py-4 text-right">
                     <span className="text-sm font-semibold text-slate-900">
                       {r.expectedRefFee == null
                         ? "Pending"
@@ -445,18 +528,15 @@ export const ReferrerMyReferrals = () => {
                     </span>
                   </td>
 
-                  <td className="py-2 text-center">
+                  <td className="px-5 py-4 text-right">
                     <span className="text-sm font-semibold text-slate-900">
                       {r.dateSubmitted}
                     </span>
                   </td>
 
-                  <td className="py-4 text-left">
+                  <td className="px-5 py-4 text-left">
                     <RowActions
                       onEdit={() => {
-                        // mock behaviour: edit does not change data, but stays functional
-                        // You can replace this with a modal later.
-                        // eslint-disable-next-line no-alert
                         alert(`Edit referral: ${r.clientName} (${r.company})`);
                       }}
                       onRemove={() => onRemoveRow(r.id)}

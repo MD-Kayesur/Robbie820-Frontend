@@ -6,37 +6,8 @@ import {
   AlertPrefs,
   AlertStage,
 } from "@/pages/ReferrerDashboard/ReferrerSettings/types";
-
-function cn(...s: Array<string | false | null | undefined>) {
-  return s.filter(Boolean).join(" ");
-}
-
-function Toggle({
-  value,
-  onChange,
-}: {
-  value: boolean;
-  onChange: (v: boolean) => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={() => onChange(!value)}
-      className={cn(
-        "relative inline-flex h-7 w-12 items-center rounded-full transition",
-        value ? "bg-sky-500" : "bg-slate-200",
-      )}
-      aria-pressed={value}
-    >
-      <span
-        className={cn(
-          "inline-block h-6 w-6 rounded-full bg-white transition",
-          value ? "translate-x-6" : "translate-x-1",
-        )}
-      />
-    </button>
-  );
-}
+import { Toggle } from "@/hooks/useToggle2";
+import { cn } from "@/hooks/useCn";
 
 function PrefCard({
   icon,
@@ -52,17 +23,61 @@ function PrefCard({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4 rounded-2xl border border-sky-200 bg-white px-5 py-4">
-      <div className="flex items-start gap-3">
-        <div className="grid h-10 w-10 place-items-center rounded-xl bg-sky-50 text-slate-900 ring-1 ring-sky-200">
+    <div
+      className={cn(
+        "flex items-center justify-between gap-4 rounded-3xl border border-sky-200 bg-white",
+        "px-6 py-8 md:rounded-2xl md:p-6",
+      )}
+    >
+      <div className="flex min-w-0 items-center gap-5 md:items-start md:gap-4">
+        <div
+          className={cn(
+            "grid h-14 w-14 shrink-0 place-items-center rounded-[10px] border border-sky-300 bg-[#00B4FE26] text-black",
+            "md:h-12 md:w-12 md:rounded-lg",
+          )}
+        >
           {icon}
         </div>
-        <div>
-          <p className="text-sm font-semibold text-slate-900">{title}</p>
-          <p className="mt-1 text-xs text-slate-500">{subtitle}</p>
+
+        <div className="min-w-0">
+          <p className="text-[16px] font-medium leading-none text-black md:text-base">
+            {title}
+          </p>
+          <p className="mt-2 text-[14px] leading-6 text-[#666666] md:mt-1 md:text-sm md:leading-5">
+            {subtitle}
+          </p>
         </div>
       </div>
-      <Toggle value={value} onChange={onChange} />
+
+      <div className="shrink-0">
+        <Toggle value={value} onChange={onChange} />
+      </div>
+    </div>
+  );
+}
+
+function StageCard({
+  label,
+  enabled,
+  onToggle,
+}: {
+  label: string;
+  enabled: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex items-center justify-between gap-4 rounded-3xl border border-sky-200 bg-white",
+        "px-6 py-10 md:rounded-2xl md:p-6",
+      )}
+    >
+      <p className="text-[16px] font-medium leading-none text-black md:text-sm">
+        {label}
+      </p>
+      <div className="shrink-0">
+        <Toggle value={enabled} onChange={onToggle} />
+      </div>
     </div>
   );
 }
@@ -79,26 +94,29 @@ export default function AlertsTab({
   onToggleStage: (id: string) => void;
 }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
+    <div className="space-y-8 md:space-y-6">
+      {/* header */}
       <div>
-        <p className="text-base font-semibold text-slate-900">
+        <p className="text-[18px] font-medium text-black md:text-lg">
           Notification Preferences
         </p>
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-3 max-w-140 text-[16px] leading-8 text-[#666666] md:mt-1 md:text-sm md:leading-6">
           Manage how and when you receive alerts regarding your referrals.
         </p>
       </div>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+      {/* prefs */}
+      <div className="grid gap-6 md:grid-cols-2 md:gap-4">
         <PrefCard
-          icon={<Mail className="h-5 w-5" />}
+          icon={<Mail className="h-7 w-7 md:h-5 md:w-5" />}
           title="Email Notifications"
           subtitle="Daily summary and instant status alerts."
           value={prefs.emailNotifications}
           onChange={(v) => onChangePrefs({ ...prefs, emailNotifications: v })}
         />
+
         <PrefCard
-          icon={<Smartphone className="h-5 w-5" />}
+          icon={<Smartphone className="h-7 w-7 md:h-5 md:w-5" />}
           title="SMS Notifications"
           subtitle="Critical payment and settlement alerts."
           value={prefs.smsNotifications}
@@ -106,19 +124,25 @@ export default function AlertsTab({
         />
       </div>
 
-      <p className="mt-8 text-sm font-semibold text-slate-900">
-        REFERRAL STAGES TO TRIGGER ALERTS
-      </p>
+      {/* divider */}
+      <div className="h-px w-full bg-[#D9D9D9]" />
 
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+      {/* stages header */}
+      <div>
+        <p className="text-[18px] font-medium uppercase text-black md:text-lg">
+          Referral Stages to Trigger Alerts
+        </p>
+      </div>
+
+      {/* stages */}
+      <div className="grid gap-6 md:grid-cols-2 md:gap-5">
         {stages.map((s) => (
-          <div
+          <StageCard
             key={s.id}
-            className="flex items-center justify-between rounded-2xl border border-sky-200 bg-white px-5 py-4"
-          >
-            <p className="text-sm font-semibold text-slate-900">{s.label}</p>
-            <Toggle value={s.enabled} onChange={() => onToggleStage(s.id)} />
-          </div>
+            label={s.label}
+            enabled={s.enabled}
+            onToggle={() => onToggleStage(s.id)}
+          />
         ))}
       </div>
     </div>

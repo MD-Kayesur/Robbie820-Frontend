@@ -1,7 +1,6 @@
-// src/components/SuperAdmin/SuperAdminDashboard.tsx
-"use client";
+// src/pages/SuperAdminDashboard/SuperAdminDashboard/SuperAdminDashboard.tsx
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Users,
@@ -21,28 +20,21 @@ import {
   ChevronUp,
 } from "lucide-react";
 
-import {
-  TotalLicensedUsersModal,
-  type UserRow,
-} from "../../../components/SuperAdminDashboardCom/SADashboardCom/modals/TotalLicensedUsersModal";
+import { TotalLicensedUsersModal } from "../../../components/SuperAdminDashboardCom/SADashboardCom/modals/TotalLicensedUsersModal";
 import { TotalRegisteredAccountsModal } from "../../../components/SuperAdminDashboardCom/SADashboardCom/modals/TotalRegisteredAccountsModal";
-import {
-  ActiveSubscriptionsModal,
-  type SubscriptionRow,
-} from "../../../components/SuperAdminDashboardCom/SADashboardCom/modals/ActiveSubscriptionsModal";
-import {
-  AnnualRevenueAnalyticsModal,
-  type RevenueRow,
-} from "../../../components/SuperAdminDashboardCom/SADashboardCom/modals/AnnualRevenueAnalyticsModal";
+import { ActiveSubscriptionsModal } from "../../../components/SuperAdminDashboardCom/SADashboardCom/modals/ActiveSubscriptionsModal";
+import { AnnualRevenueAnalyticsModal } from "../../../components/SuperAdminDashboardCom/SADashboardCom/modals/AnnualRevenueAnalyticsModal";
 
-type Tone = "indigo" | "blue" | "emerald" | "amber";
-
-const toneStyles: Record<Tone, { iconWrap: string; icon: string }> = {
-  indigo: { iconWrap: "bg-indigo-50", icon: "text-indigo-600" },
-  blue: { iconWrap: "bg-sky-50", icon: "text-sky-600" },
-  emerald: { iconWrap: "bg-emerald-50", icon: "text-emerald-600" },
-  amber: { iconWrap: "bg-amber-50", icon: "text-amber-600" },
-};
+import { dashboardMock, toneStyles } from "./mock";
+import type {
+  ChipProps,
+  GrowthCardProps,
+  LinkRowProps,
+  MetricCardProps,
+  ModalType,
+  SnapshotCardProps,
+} from "./types";
+import { useOutsideClose } from "@/hooks/useOutsideClose";
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return <h2 className="text-sm font-semibold text-slate-700">{children}</h2>;
@@ -55,14 +47,7 @@ function MetricCard({
   icon: Icon,
   tone,
   onInfo,
-}: {
-  title: string;
-  value: string;
-  change: string;
-  icon: React.ElementType;
-  tone: Tone;
-  onInfo?: () => void;
-}) {
+}: MetricCardProps) {
   const t = toneStyles[tone];
   const isUp = change.trim().startsWith("+");
 
@@ -120,17 +105,7 @@ function MetricCard({
   );
 }
 
-function GrowthCard({
-  title,
-  value,
-  change,
-  icon: Icon,
-}: {
-  title: string;
-  value: string;
-  change: string;
-  icon: React.ElementType;
-}) {
+function GrowthCard({ title, value, change, icon: Icon }: GrowthCardProps) {
   const isUp = change.trim().startsWith("+");
 
   return (
@@ -165,13 +140,7 @@ function GrowthCard({
   );
 }
 
-function SnapshotCard({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
+function SnapshotCard({ title, children }: SnapshotCardProps) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
       <h3 className="text-sm font-semibold text-slate-700">{title}</h3>
@@ -180,7 +149,7 @@ function SnapshotCard({
   );
 }
 
-function LinkRow({ label }: { label: string }) {
+function LinkRow({ label }: LinkRowProps) {
   return (
     <button
       type="button"
@@ -191,11 +160,12 @@ function LinkRow({ label }: { label: string }) {
   );
 }
 
-function Chip({ kind, label }: { kind: "healthy" | "warning"; label: string }) {
+function Chip({ kind, label }: ChipProps) {
   const cls =
     kind === "healthy"
       ? "bg-emerald-50 text-emerald-700 border-emerald-100"
       : "bg-amber-50 text-amber-700 border-amber-100";
+
   return (
     <span
       className={[
@@ -208,115 +178,30 @@ function Chip({ kind, label }: { kind: "healthy" | "warning"; label: string }) {
   );
 }
 
-type ModalType =
-  | "licensedUsers"
-  | "registeredAccounts"
-  | "activeSubscriptions"
-  | "annualRevenue";
-
 export default function SuperAdminDashboard() {
   const [range, setRange] = useState("Month to Date (MTD)");
   const [open, setOpen] = useState(false);
   const [modal, setModal] = useState<ModalType | null>(null);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useOutsideClose<HTMLDivElement>(open, () =>
+    setOpen(false),
+  );
 
-  // close when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // --- mock data
-  const licensedUsers: UserRow[] = [
-    {
-      name: "John Smith",
-      email: "john@example.com",
-      date: "Feb 15, 2026",
-      status: "Active",
-    },
-    {
-      name: "Sarah Johnson",
-      email: "sarah@example.com",
-      date: "Feb 14, 2026",
-      status: "Active",
-    },
-    {
-      name: "Michael Brown",
-      email: "michael@example.com",
-      date: "Feb 13, 2026",
-      status: "Active",
-    },
-    {
-      name: "Emily Davis",
-      email: "emily@example.com",
-      date: "Feb 12, 2026",
-      status: "Active",
-    },
-    {
-      name: "David Wilson",
-      email: "david@example.com",
-      date: "Feb 11, 2026",
-      status: "Inactive",
-    },
-  ];
-
-  const subscriptions: SubscriptionRow[] = [
-    {
-      plan: "Pro Plan - Acme Corp",
-      email: "billing@acme.com",
-      price: "$299/mo",
-      status: "Active",
-    },
-    {
-      plan: "Enterprise - TechCo",
-      email: "finance@techco.com",
-      price: "$999/mo",
-      status: "Active",
-    },
-    {
-      plan: "Pro Plan - StartupXYZ",
-      email: "admin@startupxyz.com",
-      price: "$299/mo",
-      status: "Active",
-    },
-    {
-      plan: "Business - GlobalInc",
-      email: "billing@globalinc.com",
-      price: "$599/mo",
-      status: "Active",
-    },
-  ];
-
-  const annualRevenue: RevenueRow[] = [
-    { label: "Pro Plan Revenue", value: "$45,600" },
-    { label: "Enterprise Revenue", value: "$89,400" },
-    { label: "Business Plan Revenue", value: "$23,800" },
-  ];
-
-  const ranges = [
-    "Month to Date (MTD)",
-    "Year to Date (YTD)",
-    "Last 6 Months",
-    "Custom Range",
-  ];
+  const {
+    licensedUsers,
+    registeredAccounts,
+    subscriptions,
+    annualRevenue,
+    ranges,
+    systemHealth,
+  } = dashboardMock;
 
   return (
     <div className="min-h-screen bg-white">
       <div className="px-8 pb-6 pt-2">
-        {/* top filter */}
         <div
           ref={dropdownRef}
-          className="relative px-7 pt-3.5 flex items-center justify-between border-t border-slate-200"
+          className="relative flex items-center justify-between border-t border-slate-200 px-7 pt-3.5"
         >
           <button
             type="button"
@@ -338,6 +223,7 @@ export default function SuperAdminDashboard() {
               {ranges.map((item) => (
                 <button
                   key={item}
+                  type="button"
                   onClick={() => {
                     setRange(item);
                     setOpen(false);
@@ -357,8 +243,7 @@ export default function SuperAdminDashboard() {
           </p>
         </div>
 
-        {/* Key Metrics */}
-        <div className="pt-7 px-7 mt-3 border-t border-slate-200">
+        <div className="mt-3 border-t border-slate-200 px-7 pt-7">
           <SectionTitle>Key Metrics</SectionTitle>
 
           <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
@@ -404,7 +289,6 @@ export default function SuperAdminDashboard() {
           </div>
         </div>
 
-        {/* Growth Metrics */}
         <div className="mt-9 px-7">
           <SectionTitle>Growth Metrics</SectionTitle>
 
@@ -430,7 +314,6 @@ export default function SuperAdminDashboard() {
           </div>
         </div>
 
-        {/* Platform Control Snapshot */}
         <div className="mt-9 px-7">
           <SectionTitle>Platform Control Snapshot</SectionTitle>
 
@@ -475,27 +358,28 @@ export default function SuperAdminDashboard() {
                   Platform wide
                 </div>
               </div>
+
               <div className="flex justify-between">
                 <div className="flex flex-col justify-between text-sm">
                   <div className="text-black">Market Paid</div>
-                  <div className="font-semibold text-emerald-600 text-[16px]">
+                  <div className="text-[16px] font-semibold text-emerald-600">
                     $742,100
                   </div>
                 </div>
 
                 <div className="flex flex-col justify-between text-sm">
                   <div className="text-black">Pending</div>
-                  <div className="font-semibold text-rose-500 text-[16px]">
+                  <div className="text-[16px] font-semibold text-rose-500">
                     $105,150
                   </div>
                 </div>
               </div>
+
               <LinkRow label="View Commission Details" />
             </SnapshotCard>
           </div>
         </div>
 
-        {/* System Health */}
         <div className="mt-9 px-7">
           <SectionTitle>System Health</SectionTitle>
 
@@ -507,16 +391,10 @@ export default function SuperAdminDashboard() {
             </div>
 
             <div className="divide-y divide-slate-100">
-              {[
-                { label: "CRM Sync Status", status: "healthy" as const },
-                { label: "Payment Gateway Status", status: "healthy" as const },
-                { label: "Email Delivery Service", status: "warning" as const },
-                { label: "API Performance", status: "healthy" as const },
-                { label: "Background Job Queue", status: "healthy" as const },
-              ].map((r) => (
+              {systemHealth.map((r) => (
                 <div
                   key={r.label}
-                  className="flex items-center justify-between px-6 py-3 space-y-3"
+                  className="flex items-center justify-between space-y-3 px-6 py-3"
                 >
                   <div className="text-sm text-slate-600">{r.label}</div>
                   <Chip
@@ -539,7 +417,6 @@ export default function SuperAdminDashboard() {
         </div>
       </div>
 
-      {/* Modals */}
       <TotalLicensedUsersModal
         open={modal === "licensedUsers"}
         onClose={() => setModal(null)}
@@ -549,7 +426,7 @@ export default function SuperAdminDashboard() {
       <TotalRegisteredAccountsModal
         open={modal === "registeredAccounts"}
         onClose={() => setModal(null)}
-        data={licensedUsers}
+        data={registeredAccounts}
       />
 
       <ActiveSubscriptionsModal

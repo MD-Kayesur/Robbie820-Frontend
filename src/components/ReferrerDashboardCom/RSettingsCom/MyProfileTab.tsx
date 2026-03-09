@@ -1,57 +1,34 @@
 // src/components/ReferrerDashboardCom/RSettingsCom/MyProfileTab.tsx
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Save, Trash2 } from "lucide-react";
 import { ProfileForm } from "@/pages/ReferrerDashboard/ReferrerSettings/types";
-
-function cn(...s: Array<string | false | null | undefined>) {
-  return s.filter(Boolean).join(" ");
-}
-
-function Toggle({
-  value,
-  onChange,
-}: {
-  value: boolean;
-  onChange: (v: boolean) => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={() => onChange(!value)}
-      className={cn(
-        "relative inline-flex h-7 w-12 items-center rounded-full transition",
-        value ? "bg-sky-500" : "bg-slate-200",
-      )}
-      aria-pressed={value}
-    >
-      <span
-        className={cn(
-          "inline-block h-6 w-6 rounded-full bg-white transition",
-          value ? "translate-x-6" : "translate-x-1",
-        )}
-      />
-    </button>
-  );
-}
+import { cn } from "@/hooks/useCn";
+import { Toggle } from "@/hooks/useToggle2";
 
 function Field({
   label,
   children,
+  className,
 }: {
   label: string;
   children: React.ReactNode;
+  className?: string;
 }) {
   return (
-    <div className="space-y-2">
-      <p className="text-xs font-semibold text-slate-700">{label}</p>
-      {children}
+    <div className={cn("relative pt-3", className)}>
+      <div className="relative min-h-21 rounded-[18px] border border-[#AFAFAF] bg-white px-7 pb-5 pt-7 md:min-h-18 md:rounded-lg md:px-5 md:pb-3 md:pt-4">
+        <span className="absolute -top-3 left-8 bg-white px-3 text-[15px] leading-none text-black md:-top-2 md:left-6 md:text-sm md:leading-3.5">
+          {label}
+        </span>
+        {children}
+      </div>
     </div>
   );
 }
 
 const inputBase =
-  "h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-800 outline-none focus:ring-2 focus:ring-sky-200";
+  "w-full border-0 bg-transparent p-0 text-[17px] outline-none ring-0 placeholder:text-[#D0D0D0] focus:border-0 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 md:text-sm";
 
 export default function MyProfileTab({
   value,
@@ -64,86 +41,66 @@ export default function MyProfileTab({
 
   useEffect(() => setForm(value), [value]);
 
-  const dirty = useMemo(
-    () => JSON.stringify(form) !== JSON.stringify(value),
-    [form, value],
-  );
-
   return (
-    <div className="space-y-6">
-      {/* main card */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="min-w-0">
-            <p className="text-sm font-semibold text-slate-900">
-              Personal Information
-            </p>
-            <p className="mt-1 text-xs text-slate-500">
-              Update your account details and contact information.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => onSave(form)}
-            disabled={!dirty}
-            className={cn(
-              "inline-flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold transition",
-              dirty
-                ? "bg-sky-500 text-white hover:opacity-95"
-                : "cursor-not-allowed bg-slate-100 text-slate-400",
-            )}
-          >
-            <Save className="h-4 w-4" />
-            Save Change
-          </button>
+    <div className="space-y-8 md:space-y-6">
+      {/* main section */}
+      <div className="bg-white">
+        {/* header */}
+        <div className="px-0">
+          <p className="text-[18px] font-medium text-black md:text-base">
+            Personal Information
+          </p>
+          <p className="mt-3 max-w-155 text-[16px] leading-8 text-[#666666] md:mt-2 md:text-sm md:leading-6">
+            Update your account details and contact information.
+          </p>
         </div>
 
-        <div className="mt-6 grid gap-5 sm:grid-cols-2">
+        {/* form */}
+        <div className="mt-8 grid gap-7 md:mt-7 md:grid-cols-2 md:gap-6">
           <Field label="Full Name">
             <input
-              className={inputBase}
+              className={cn(inputBase, "text-[#CDCDCD]")}
               value={form.fullName}
               onChange={(e) =>
                 setForm((p) => ({ ...p, fullName: e.target.value }))
               }
-              placeholder="Full name"
+              placeholder="Cameron Williamson"
             />
           </Field>
 
           <Field label="E-mail">
             <input
-              className={inputBase}
+              className={cn(inputBase, "text-[#CDCDCD]")}
               value={form.email}
               onChange={(e) =>
                 setForm((p) => ({ ...p, email: e.target.value }))
               }
-              placeholder="email@example.com"
+              placeholder="debra.holt@example.com"
             />
           </Field>
 
           <Field label="Business Name">
             <input
-              className={inputBase}
+              className={cn(inputBase, "uppercase text-[#CDCDCD]")}
               value={form.businessName}
               onChange={(e) =>
                 setForm((p) => ({ ...p, businessName: e.target.value }))
               }
-              placeholder="Business"
+              placeholder="TECHFLOW SOLUTIONS"
             />
           </Field>
 
           <Field label="Verification Status">
-            <div className={cn(inputBase, "flex items-center")}>
-              <span className="text-emerald-600 text-sm font-semibold">
+            <div className="flex min-h-8 items-center">
+              <span className="text-[17px] text-[#1B7231] md:text-sm">
                 {form.verificationStatus}
               </span>
             </div>
           </Field>
 
           <Field label="Account Status">
-            <div className="flex items-center gap-3">
-              <span className="inline-flex h-9 items-center rounded-full bg-emerald-100 px-4 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-200">
+            <div className="flex min-h-8 items-center">
+              <span className="inline-flex items-center rounded-full border border-[#4ADE80] bg-[#15D9461A] px-6 py-2 text-[16px] leading-none text-[#15D946] md:px-5 md:py-1.5 md:text-sm">
                 {form.accountStatus}
               </span>
             </div>
@@ -151,7 +108,7 @@ export default function MyProfileTab({
 
           <Field label="Mobile Number">
             <input
-              className={inputBase}
+              className={cn(inputBase, "text-[#1B7231]")}
               value={form.mobileNumber}
               onChange={(e) =>
                 setForm((p) => ({ ...p, mobileNumber: e.target.value }))
@@ -160,46 +117,55 @@ export default function MyProfileTab({
             />
           </Field>
 
-          <div className="sm:col-span-2 grid gap-5 sm:grid-cols-2">
-            <div className="rounded-xl border border-slate-200 p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-semibold text-slate-700">
-                    GST Registered
-                  </p>
-                  <p className="mt-1 text-sm text-slate-700">
-                    {form.gstRegistered ? "yes" : "no"}
-                  </p>
-                </div>
-                <Toggle
-                  value={form.gstRegistered}
-                  onChange={(v) => setForm((p) => ({ ...p, gstRegistered: v }))}
-                />
-              </div>
-            </div>
+          <Field label="GST Registered" className="md:col-span-1">
+            <div className="flex min-h-8 items-center justify-between gap-4">
+              <span className="text-[17px] lowercase text-black md:text-sm">
+                {form.gstRegistered ? "yes" : "no"}
+              </span>
 
-            <Field label="ABN Number">
-              <input
-                className={inputBase}
-                value={form.abnNumber}
-                onChange={(e) =>
-                  setForm((p) => ({ ...p, abnNumber: e.target.value }))
-                }
-                placeholder="ABN"
+              <Toggle
+                value={form.gstRegistered}
+                onChange={(v) => setForm((p) => ({ ...p, gstRegistered: v }))}
               />
-            </Field>
-          </div>
+            </div>
+          </Field>
+
+          <Field label="ABN Number">
+            <input
+              className={cn(
+                inputBase,
+                "tracking-[0.18em] text-black md:tracking-[0.12em]",
+              )}
+              value={form.abnNumber}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, abnNumber: e.target.value }))
+              }
+              placeholder="xxxxxxxxxxxxxxxx"
+            />
+          </Field>
         </div>
+
+        {/* save button */}
+        <button
+          type="button"
+          onClick={() => onSave(form)}
+          className={cn(
+            "mt-8 inline-flex h-17 w-full items-center justify-center gap-3 rounded-lg bg-[#00B4FE] px-6 text-[18px] font-medium text-white transition hover:opacity-95 md:mt-7 md:h-12 md:w-auto md:rounded-sm md:px-5 md:text-sm",
+          )}
+        >
+          <Save className="h-6 w-6 md:h-5 md:w-5" />
+          Save Change
+        </button>
       </div>
 
       {/* delete card */}
-      <div className="rounded-2xl border border-red-200 bg-red-50 p-5 sm:p-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="rounded-3xl border border-[#F0A4A4] bg-[#FFF6F6] px-6 py-8 md:rounded-2xl md:px-6 md:py-6">
+        <div className="flex flex-col gap-6">
           <div>
-            <p className="text-sm font-semibold text-slate-900">
+            <p className="text-[18px] font-medium text-black md:text-base">
               Personal Information
             </p>
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="mt-3 max-w-105 text-[16px] leading-8 text-[#666666] md:mt-2 md:text-sm md:leading-6">
               Update your account details and contact information.
             </p>
           </div>
@@ -207,12 +173,11 @@ export default function MyProfileTab({
           <button
             type="button"
             onClick={() => {
-              // eslint-disable-next-line no-alert
               alert("Delete account (mock).");
             }}
-            className="inline-flex h-10 items-center gap-2 rounded-xl border border-red-300 bg-white px-4 text-sm font-semibold text-red-500 hover:bg-red-50"
+            className="inline-flex h-17 w-full items-center justify-center gap-3 rounded-[10px] border border-[#F0A4A4] bg-white px-6 text-[18px] font-medium text-[#E57373] transition hover:bg-red-50 md:h-11 md:w-auto md:rounded-xl md:px-5 md:text-sm"
           >
-            <Trash2 className="h-4 w-4" />
+            <Trash2 className="h-6 w-6 md:h-4 md:w-4" />
             Delete Account
           </button>
         </div>

@@ -21,22 +21,22 @@ export function Dropdown<T extends string>({
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
 
   return (
-    <div ref={ref} className="relative  z-50">
+    <div ref={ref} className="relative z-50 w-full sm:w-auto">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex h-10 items-center justify-between gap-3 rounded-xl border border-slate-200 bg-[#F3F3F5] px-4 text-sm font-semibold text-slate-800  hover:bg-slate-50",
+          "inline-flex h-11 w-full items-center justify-between gap-3 rounded-xl border border-slate-200 bg-[#F3F3F5] px-4 text-sm font-semibold text-slate-800 hover:bg-slate-50 sm:h-10 sm:w-auto",
         )}
         style={{ minWidth: minW }}
         aria-label={label ?? "Dropdown"}
       >
-        {value}
-        <ChevronDown className="h-4 w-4 text-slate-500" />
+        <span className="truncate">{value}</span>
+        <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-55 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
+        <div className="absolute right-0 top-full mt-2 w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg sm:w-55">
           {options.map((opt) => (
             <button
               key={opt}

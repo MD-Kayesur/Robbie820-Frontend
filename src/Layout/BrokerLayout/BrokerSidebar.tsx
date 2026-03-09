@@ -1,114 +1,188 @@
+import React, { useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
-  LayoutDashboard,
-  Users,
-  UserCircle,
-  Settings,
-  LogOut,
-  Briefcase,
-  PieChart,
   Bell,
+  LayoutGrid,
+  LogOut,
+  Settings as SettingsIcon,
+  User,
+  Users,
+  BarChart3,
   CreditCard,
+  UserCircle2,
+  X,
 } from "lucide-react";
+import { cn } from "@/hooks/useCn";
 
-const SidebarItem = ({ to, icon: Icon, label }: any) => (
-  <NavLink
-    to={to}
-    className={({ isActive }) =>
-      `flex items-center gap-4 px-6 py-4 rounded-xl transition-all duration-300 group ${
-        isActive
-          ? "bg-sky-400 text-white shadow-lg shadow-sky-100"
-          : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
-      }`
-    }
-  >
-    <Icon className="w-5 h-5 shrink-0" />
-    <span className="font-black text-[13px] tracking-tight uppercase">
-      {label}
-    </span>
-  </NavLink>
-);
+type ItemProps = {
+  to: string;
+  icon: React.ElementType;
+  label: string;
+  end?: boolean;
+  onClick?: () => void;
+};
 
-const BrokerSidebar = () => {
+type Props = {
+  mobileOpen: boolean;
+  onClose: () => void;
+};
+
+const SidebarItem = ({ to, icon: Icon, label, end, onClick }: ItemProps) => {
+  return (
+    <NavLink
+      to={to}
+      end={end}
+      onClick={onClick}
+      className={({ isActive }) =>
+        cn(
+          "flex items-center gap-1.5 rounded-sm px-3 py-2 transition",
+          isActive ? "bg-[#67C5F0]" : "hover:bg-[#00B4FE1A]",
+        )
+      }
+    >
+      <Icon className="h-6 w-6 shrink-0 text-black" strokeWidth={2} />
+      <span className="text-black">{label}</span>
+    </NavLink>
+  );
+};
+
+const BrokerSidebar = ({ mobileOpen, onClose }: Props) => {
   const navigate = useNavigate();
+  const sidebarRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (sidebarRef.current && !sidebarRef.current.contains(target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [mobileOpen, onClose]);
+
+  const handleSignOut = () => {
+    localStorage.clear();
+    window.location.href = "/login";
+  };
 
   return (
-    <aside className="w-70 h-full bg-white border-r border-slate-100 flex flex-col p-6 overflow-y-auto no-scrollbar">
-      {/* Logo */}
-      <div className="flex flex-col mb-12 px-2">
-        <div
-          className="flex items-center gap-2 cursor-pointer"
-          onClick={() => navigate("/")}
-        >
-          <span className="text-2xl font-black tracking-tighter text-sky-500">
-            Refer Now
-          </span>
+    <>
+      {/* Mobile overlay */}
+      <div
+        className={cn(
+          "fixed inset-0 z-40 bg-black/30 transition-opacity lg:hidden",
+          mobileOpen
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0",
+        )}
+      />
+
+      <aside
+        ref={sidebarRef}
+        className={cn(
+          "fixed left-0 top-0 z-50 flex h-screen sm:w-70 flex-col overflow-y-auto bg-[#F3F3F3] px-4 py-6 sm:px-8 sm:py-11 transition-transform duration-300 lg:static lg:z-0 lg:w-72.5 lg:translate-x-0 lg:border-r lg:border-slate-200",
+          mobileOpen ? "translate-x-0" : "-translate-x-full",
+        )}
+      >
+        <div className="mb-12.5 flex items-start justify-between">
+          <button
+            type="button"
+            onClick={() => {
+              navigate("/");
+              onClose();
+            }}
+            className="text-left text-[#00B4FE]"
+          >
+            <h1 className="text-2xl font-semibold leading-6">Refer Now</h1>
+            <p className="text-[10px] font-medium uppercase leading-2.5">
+              Seamlessly
+              <br />
+              Connected
+            </p>
+          </button>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-xl bg-white p-2 text-black shadow-sm lg:hidden"
+            aria-label="Close sidebar"
+          >
+            <X className="h-5 w-5" />
+          </button>
         </div>
-        <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] leading-tight">
-          Seamlessly Connected
-        </p>
-      </div>
 
-      {/* Nav Items */}
-      <nav className="flex-1 space-y-1">
-        <SidebarItem
-          to="/broker-dashboard/overview"
-          icon={LayoutDashboard}
-          label="Overview"
-        />
-        <SidebarItem
-          to="/broker-dashboard/my-referrals"
-          icon={Users}
-          label="My Referrals"
-        />
-        <SidebarItem
-          to="/broker-dashboard/partner-profile"
-          icon={UserCircle}
-          label="Partner Profile"
-        />
-        <SidebarItem
-          to="/broker-dashboard/team-management"
-          icon={Briefcase}
-          label="Team Management"
-        />
-        <SidebarItem
-          to="/broker-dashboard/report"
-          icon={PieChart}
-          label="Report"
-        />
-        <SidebarItem
-          to="/broker-dashboard/notifications"
-          icon={Bell}
-          label="Notifications"
-        />
-        <SidebarItem
-          to="/broker-dashboard/subscription"
-          icon={CreditCard}
-          label="Subscription"
-        />
-        <SidebarItem
-          to="/broker-dashboard/settings"
-          icon={Settings}
-          label="Settings"
-        />
-      </nav>
+        <nav className="space-y-4 sm:space-y-7.5">
+          <SidebarItem
+            to="/broker-dashboard"
+            icon={LayoutGrid}
+            label="Overview"
+            end
+            onClick={onClose}
+          />
+          <SidebarItem
+            to="/broker-dashboard/my-referrals"
+            icon={User}
+            label="My Referrals"
+            onClick={onClose}
+          />
+          <SidebarItem
+            to="/broker-dashboard/partner-profile"
+            icon={UserCircle2}
+            label="Partner Profile"
+            onClick={onClose}
+          />
+          <SidebarItem
+            to="/broker-dashboard/team-management"
+            icon={Users}
+            label="Team Management"
+            onClick={onClose}
+          />
+          <SidebarItem
+            to="/broker-dashboard/report"
+            icon={BarChart3}
+            label="Report"
+            onClick={onClose}
+          />
+          <SidebarItem
+            to="/broker-dashboard/notifications"
+            icon={Bell}
+            label="Notifications"
+            onClick={onClose}
+          />
+          <SidebarItem
+            to="/broker-dashboard/subscription"
+            icon={CreditCard}
+            label="Subscription"
+            onClick={onClose}
+          />
+          <SidebarItem
+            to="/broker-dashboard/settings"
+            icon={SettingsIcon}
+            label="Settings"
+            onClick={onClose}
+          />
+        </nav>
 
-      {/* Logout Footer */}
-      <div className="mt-8 pt-8 border-t border-slate-50">
-        <button
-          onClick={() => {
-            localStorage.clear();
-            window.location.href = "/login";
-          }}
-          className="flex items-center gap-4 w-full p-4 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-2xl transition-all group"
-        >
-          <LogOut className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-          <span className="font-black text-[13px] tracking-tight uppercase">
-            Sign Out
-          </span>
-        </button>
-      </div>
-    </aside>
+        <div className="mt-auto pt-10">
+          <div className="mb-6 h-px w-full bg-[#E5E5E5]" />
+
+          <button
+            type="button"
+            onClick={handleSignOut}
+            className="flex w-full items-center gap-1.5 px-4 text-left transition hover:bg-[#00B4FE1A]"
+          >
+            <LogOut className="h-6 w-6 text-black" strokeWidth={2} />
+            <span className="text-black">Sign Out</span>
+          </button>
+        </div>
+      </aside>
+    </>
   );
 };
 

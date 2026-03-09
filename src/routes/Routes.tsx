@@ -1,16 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "@/Layout/RootLayout/RootLayout";
-
 import NotFound from "@/pages/NotFound";
-
 import ReferrerLayout from "@/Layout/ReferrerLayout/ReferrerLayout";
-
 import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
-
 import AdminRoutes from "./AdminRoutes";
-
 import BrokerLayout from "@/Layout/BrokerLayout/BrokerLayout";
-import BrokerDashboard from "@/pages/BrokerDashboard/BrokerDashboard/BrokerDashboard";
 import BrokerMyReferrals from "@/pages/BrokerDashboard/BrokerMyReferrals/BrokerMyReferrals";
 import BrokerPartnerProfile from "@/pages/BrokerDashboard/BrokerPartnerProfile/BrokerPartnerProfile";
 import BrokerTeamManagement from "@/pages/BrokerDashboard/BrokerTeamManagement/BrokerTeamManagement";
@@ -25,14 +19,18 @@ import SuperAdminAuditLogs from "@/pages/SuperAdminDashboard/SuperAdminAuditLogs
 import SuperAdminSettings from "@/pages/SuperAdminDashboard/SuperAdminSettings/SuperAdminSettings";
 import SuperAdminDashboard from "@/pages/SuperAdminDashboard/SuperAdminDashboard/SuperAdminDashboard";
 import SuperAdminLayoutNoTopbar from "@/Layout/SuperAdminLayout/SuperAdminLayoutNoTopbar";
-import Login from "@/components/authentication/login/Login";
-import Signup from "@/components/authentication/Signup";
-import ForgotPasswordForm from "@/components/authentication/login/ForgotPasswordForm";
 import Home from "@/pages/Home/Home";
 import ReferrerOverview from "@/pages/ReferrerDashboard/ReferrerOverview/ReferrerOverview";
 import ReferrerMyReferrals from "@/pages/ReferrerDashboard/ReferrerMyReferrals/ReferrerMyReferrals";
 import ReferrerNotifications from "@/pages/ReferrerDashboard/ReferrerNotifications/ReferrerNotifications";
 import ReferrerSettings from "@/pages/ReferrerDashboard/ReferrerSettings/ReferrerSettings";
+import ReferrerClientDetails from "@/pages/ReferrerDashboard/ReferrerClientDetails/ReferrerClientDetails";
+import Login from "@/pages/Authentication/Login/Login";
+import Signup from "@/pages/Authentication/Signup/Signup";
+import AuthenticationLayout from "@/Layout/AuthenticationLayout/AuthenticationLayout";
+import RecoverPassword from "@/pages/Authentication/RecoverPassword/RecoverPassword";
+import BrokerOverview from "@/pages/BrokerDashboard/BrokerOverview/BrokerOverview";
+import BrokerLeadDetails from "@/pages/BrokerDashboard/BrokerLeadDetails/BrokerLeadDetails";
 
 const routes = createBrowserRouter([
   {
@@ -44,39 +42,56 @@ const routes = createBrowserRouter([
         element: <Home />,
       },
 
+      // authentication routes
       {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/signup",
-        element: <Signup />,
-      },
-      {
-        path: "/forgot-password",
-        element: <ForgotPasswordForm />,
+        element: <AuthenticationLayout />,
+        children: [
+          {
+            path: "/login",
+            element: <Login />,
+          },
+          {
+            path: "/signup",
+            element: <Signup />,
+          },
+          {
+            path: "/recover-password",
+            element: <RecoverPassword />,
+          },
+        ],
       },
 
-      // referrer
+      // referrer dashboard routes
       {
         path: "/referrer-dashboard",
         element: <ReferrerLayout />,
         children: [
           { index: true, element: <ReferrerOverview /> },
-          { path: "overview", element: <ReferrerOverview /> },
-          { path: "my-referrals", element: <ReferrerMyReferrals /> },
+          {
+            path: "overview",
+            element: <ReferrerOverview />,
+          },
+          {
+            path: "my-referrals",
+            element: <ReferrerMyReferrals />,
+          },
+          {
+            path: "my-referrals/clients/:id",
+            element: <ReferrerClientDetails />,
+          },
           { path: "notifications", element: <ReferrerNotifications /> },
           { path: "settings", element: <ReferrerSettings /> },
         ],
       },
 
-      // broker
+      // broker dashboard routes
       {
         path: "/broker-dashboard",
         element: <BrokerLayout />,
         children: [
-          { index: true, element: <BrokerDashboard /> },
-          { path: "overview", element: <BrokerDashboard /> },
+          { index: true, element: <BrokerOverview /> },
+          { path: "overview", element: <BrokerOverview /> },
+          { path: "leads/:id", element: <BrokerLeadDetails /> },
           { path: "my-referrals", element: <BrokerMyReferrals /> },
           { path: "partner-profile", element: <BrokerPartnerProfile /> },
           { path: "team-management", element: <BrokerTeamManagement /> },
@@ -87,7 +102,7 @@ const routes = createBrowserRouter([
         ],
       },
 
-      // admin
+      // super admin dashboard routes
       {
         path: "/super-admin",
         element: <AdminRoutes />,

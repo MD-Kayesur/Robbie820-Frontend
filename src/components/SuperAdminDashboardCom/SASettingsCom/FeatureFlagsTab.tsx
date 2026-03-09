@@ -10,22 +10,20 @@ export default function FeatureFlagsTab() {
   const [flags, setFlags] = useState<FeatureFlag[]>(featureFlagsMock);
 
   return (
-    <div className="space-y-5.5">
+    <div className="space-y-5 inter">
       <div className="rounded-2xl border border-slate-200 bg-white">
-        {/* Header */}
-        <div className="pt-5.5 px-5.5">
+        <div className="px-4 pt-4 sm:px-5.5 sm:pt-5.5">
           <h2 className="text-base font-semibold text-black inter">
             Platform Feature Controls
           </h2>
         </div>
 
-        {/* Content */}
-        <div className="px-6 inter">
+        <div className="px-4 sm:px-6 inter">
           {flags.map((f, idx) => (
             <div
               key={f.key}
               className={cn(
-                "flex items-start justify-between gap-4 py-4",
+                "flex flex-col gap-3 py-4 sm:flex-row sm:items-start sm:justify-between",
                 idx === 0 ? "" : "border-t border-slate-100",
               )}
             >
@@ -51,7 +49,6 @@ export default function FeatureFlagsTab() {
         </div>
       </div>
 
-      {/* Note */}
       <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 inter">
         <p className="text-xs text-[#7B3306]">
           <span className="font-bold">Note:</span> Disabling features may affect

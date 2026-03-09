@@ -10,62 +10,61 @@ export default function DefaultTemplatesTab() {
   const [items] = useState<TemplateItem[]>(templatesMock);
 
   return (
-    <div className="space-y-5.5 inter">
-      {/* Agreement & Email Templates */}
+    <div className="space-y-5 inter">
       <div className="rounded-2xl border border-slate-200 bg-white">
-        {/* Header */}
-        <div className="p-5.5">
+        <div className="p-4 sm:p-5.5">
           <h2 className="text-base font-semibold text-black">
             Agreement &amp; Email Templates
           </h2>
         </div>
 
-        {/* Content */}
-        <div className="px-5.5 pb-5.5">
+        <div className="px-4 pb-4 sm:px-5.5 sm:pb-5.5">
           <div className="space-y-3">
             {items.map((t) => (
               <div
                 key={t.id}
-                className="flex items-start justify-between gap-4 rounded-2xl border border-slate-200 bg-[#F9FAFB] px-4 py-4"
+                className="rounded-2xl border border-slate-200 bg-[#F9FAFB] px-4 py-4"
               >
-                <div className="flex min-w-0 items-start gap-3">
-                  <div className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-lg bg-[#DBEAFE]">
-                    <FileText className="h-4.5 w-4.5 text-[#155DFC]" />
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="flex min-w-0 items-start gap-3">
+                    <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#DBEAFE]">
+                      <FileText className="h-4.5 w-4.5 text-[#155DFC]" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-slate-900">
+                        {t.title}
+                      </p>
+                      <p className="mt-1 truncate text-xs text-slate-500">
+                        {t.subtitle}
+                      </p>
+                    </div>
                   </div>
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold text-slate-900">
-                      {t.title}
-                    </p>
-                    <p className="mt-1 truncate text-xs text-slate-500">
-                      {t.subtitle}
-                    </p>
+
+                  <div className="grid grid-cols-2 gap-2 sm:flex sm:shrink-0 sm:items-center">
+                    <button
+                      type="button"
+                      onClick={() => console.log("Preview", t.id)}
+                      className={cn(
+                        "inline-flex h-9 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3",
+                        "text-xs font-semibold text-slate-700 hover:bg-slate-50",
+                      )}
+                    >
+                      <Eye className="h-4 w-4" />
+                      Preview
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => console.log("Edit", t.id)}
+                      className={cn(
+                        "inline-flex h-9 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3",
+                        "text-xs font-semibold text-slate-700 hover:bg-slate-50",
+                      )}
+                    >
+                      <SquarePen className="h-4 w-4" />
+                      Edit
+                    </button>
                   </div>
-                </div>
-
-                <div className="flex shrink-0 items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => console.log("Preview", t.id)}
-                    className={cn(
-                      "inline-flex h-9 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3",
-                      "text-xs font-semibold text-slate-700 hover:bg-slate-50",
-                    )}
-                  >
-                    <Eye className="h-4 w-4" />
-                    Preview
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => console.log("Edit", t.id)}
-                    className={cn(
-                      "inline-flex h-9 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3",
-                      "text-xs font-semibold text-slate-700 hover:bg-slate-50",
-                    )}
-                  >
-                    <SquarePen className="h-4 w-4" />
-                    Edit
-                  </button>
                 </div>
               </div>
             ))}
@@ -73,7 +72,7 @@ export default function DefaultTemplatesTab() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-violet-200 bg-violet-50/60 px-6 py-4">
+      <div className="rounded-2xl border border-violet-200 bg-violet-50/60 px-4 py-4 sm:px-6">
         <p className="text-sm text-violet-900">
           <span className="font-bold">Note:</span> Template changes will apply
           to all new documents and emails. Existing sent communications will not
