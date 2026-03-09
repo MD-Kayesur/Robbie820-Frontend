@@ -13,10 +13,10 @@ export default function OverviewHeader({
   return (
     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
       <div>
-        <h1 className="text-[28px] font-semibold leading-none text-[#111827]">
+        <h1 className="text-xl font-medium leading-none text-[#111827]">
           Broker Dashboard
         </h1>
-        <p className="mt-2 text-[14px] text-[#9CA3AF]">
+        <p className="mt-1 text-[14px] text-[#9CA3AF]">
           overview of your referral pipeline and performance
         </p>
       </div>
@@ -38,7 +38,7 @@ export default function OverviewHeader({
           className="relative inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-[#E5E7EB] bg-white text-[#444]"
         >
           <span className="sr-only">Notifications</span>
-          <Bell size={18} />
+          <Bell size={24} />
         </button>
       </div>
     </div>

@@ -8,6 +8,7 @@ import {
   MoreHorizontal,
   Plus,
   RefreshCw,
+  Search,
   UserPlus,
   X,
 } from "lucide-react";
@@ -233,7 +234,7 @@ function FilterDropdown<T extends string>({
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         className={cn(
-          "flex h-11 w-full items-center justify-between rounded-[10px] border bg-white px-4 text-left text-[13px] font-medium text-[#374151] transition",
+          "flex h-11 w-full items-center justify-between rounded-[10px] border bg-[#F3F3F5] px-4 text-left text-[13px] font-medium text-[#374151] transition",
           open ? "border-[#3B82F6] ring-1 ring-[#3B82F6]" : "border-[#E5E7EB]",
         )}
       >
@@ -375,18 +376,19 @@ function ExportModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 px-4 py-6">
       <div
         ref={modalRef}
-        className="max-h-[95vh] w-full max-w-239 overflow-y-auto rounded-[28px] bg-white p-6 shadow-[0_28px_80px_rgba(0,0,0,0.28)] sm:p-8"
+        className="max-h-[95vh] w-full max-w-120 overflow-y-auto rounded-sm bg-white p-5 shadow-[0_28px_80px_rgba(0,0,0,0.28)] sm:p-6"
       >
-        <div className="flex items-start gap-4 border-b border-[#E5E7EB] pb-5">
-          <div className="flex h-22 w-22 items-center justify-center rounded-[20px] bg-[#D8EEF9]">
-            <Download className="h-10 w-10 text-[#0EA5E9]" strokeWidth={1.8} />
+        {/* Header */}
+        <div className="flex items-start gap-3 border-b border-[#E5E7EB] pb-4">
+          <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-[#D8EEF9]">
+            <Download className="h-7 w-7 text-[#0EA5E9]" strokeWidth={1.8} />
           </div>
 
           <div className="min-w-0 flex-1 pt-1">
-            <h2 className="text-[28px] font-semibold leading-none text-black sm:text-[34px]">
+            <h2 className="text-[22px] font-semibold leading-none text-black sm:text-[24px]">
               Export Referrals
             </h2>
-            <p className="mt-3 text-[18px] text-[#6B7280] sm:text-[20px]">
+            <p className="mt-1 text-[14px] text-[#6B7280]">
               Generate a detailed CSV report
             </p>
           </div>
@@ -394,20 +396,21 @@ function ExportModal({
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-black transition hover:bg-[#F3F4F6]"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full text-black transition hover:bg-[#F3F4F6]"
           >
-            <X className="h-8 w-8" strokeWidth={1.8} />
+            <X className="h-5 w-5" strokeWidth={1.8} />
           </button>
         </div>
 
-        <div className="mt-8 space-y-8">
+        <div className="mt-6 space-y-7">
+          {/* Date Range */}
           <section>
-            <div className="mb-5 flex items-center gap-4">
-              <Calendar className="h-9 w-9 text-black" strokeWidth={1.8} />
-              <h3 className="text-[26px] font-medium text-black">Date Range</h3>
+            <div className="mb-4 flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-black" strokeWidth={1.8} />
+              <h3 className="text-[18px] font-medium text-black">Date Range</h3>
             </div>
 
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {dateOptions.map((option) => {
                 const active = dateRange === option;
                 return (
@@ -416,7 +419,7 @@ function ExportModal({
                     type="button"
                     onClick={() => setDateRange(option)}
                     className={cn(
-                      "h-17 rounded-[18px] border text-[22px] font-normal transition",
+                      "h-11 rounded-xl border text-[14px] transition",
                       active
                         ? "border-[#11A9F3] bg-[#EDF7FC] text-[#11A9F3]"
                         : "border-[#11A9F3] bg-white text-[#11A9F3]",
@@ -429,15 +432,16 @@ function ExportModal({
             </div>
           </section>
 
+          {/* Export Scope */}
           <section>
-            <div className="mb-5 flex items-center gap-4">
-              <Calendar className="h-9 w-9 text-black" strokeWidth={1.8} />
-              <h3 className="text-[26px] font-medium text-black">
+            <div className="mb-4 flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-black" strokeWidth={1.8} />
+              <h3 className="text-[18px] font-medium text-black">
                 Export Scope
               </h3>
             </div>
 
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {scopeOptions.map((option) => {
                 const active = exportScope === option;
                 return (
@@ -446,7 +450,7 @@ function ExportModal({
                     type="button"
                     onClick={() => setExportScope(option)}
                     className={cn(
-                      "h-17 rounded-[18px] border text-[22px] font-normal transition",
+                      "h-11 rounded-xl border text-[14px] transition",
                       active
                         ? "border-[#11A9F3] bg-[#EDF7FC] text-[#11A9F3]"
                         : "border-[#11A9F3] bg-white text-[#11A9F3]",
@@ -459,38 +463,40 @@ function ExportModal({
             </div>
           </section>
 
+          {/* Include Fields */}
           <section>
-            <div className="mb-5 flex items-center gap-4">
-              <Calendar className="h-9 w-9 text-black" strokeWidth={1.8} />
-              <h3 className="text-[26px] font-medium text-black">
+            <div className="mb-4 flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-black" strokeWidth={1.8} />
+              <h3 className="text-[18px] font-medium text-black">
                 Include Fields
               </h3>
             </div>
 
-            <div className="rounded-xl border border-[#D1D5DB] px-7 py-6">
-              <div className="space-y-5">
+            <div className="rounded-lg border border-[#D1D5DB] px-5 py-4 bg-[#F5F5F5]">
+              <div className="space-y-3">
                 {includeRows.map(([label, key]) => (
                   <button
                     key={key}
                     type="button"
                     onClick={() => toggleField(key)}
-                    className="flex w-full items-center justify-between gap-4 text-left"
+                    className="flex w-full items-center justify-between gap-3 text-left"
                   >
-                    <span className="text-[22px] text-black">{label}</span>
+                    <span className="text-[14px] text-black">{label}</span>
+
                     <span
                       className={cn(
-                        "flex h-8 w-8 items-center justify-center rounded-md border",
+                        "flex h-5 w-5 items-center justify-center rounded border",
                         fields[key]
-                          ? "border-[#11A9F3] bg-white text-[#11A9F3]"
-                          : "border-[#CBD5E1] bg-white text-transparent",
+                          ? "border-[#11A9F3] text-[#11A9F3]"
+                          : "border-[#CBD5E1] text-transparent",
                       )}
                     >
                       <svg
                         viewBox="0 0 20 20"
-                        className="h-4 w-4"
+                        className="h-3 w-3"
                         fill="none"
                         stroke="currentColor"
-                        strokeWidth="2.2"
+                        strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       >
@@ -504,20 +510,21 @@ function ExportModal({
           </section>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        {/* Footer */}
+        <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
           <button
             type="button"
             onClick={onClose}
-            className="h-18 rounded-[18px] bg-[#CDE8F4] px-6 text-left text-[24px] font-medium text-black transition hover:opacity-90"
+            className="h-11 rounded-xl bg-[#CDE8F4] px-5 text-[15px] font-medium text-black transition hover:opacity-90"
           >
             Cancel
           </button>
 
           <button
             type="button"
-            className="inline-flex h-18 items-center justify-center gap-3 rounded-[18px] bg-[#11A9F3] px-6 text-[24px] font-medium text-white transition hover:opacity-90"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#11A9F3] px-5 text-[15px] font-medium text-white transition hover:opacity-90"
           >
-            <Download className="h-8 w-8" strokeWidth={1.9} />
+            <Download className="h-4 w-4" strokeWidth={1.9} />
             Export CSV
           </button>
         </div>
@@ -648,10 +655,10 @@ const BrokerMyReferrals = () => {
       <div className="space-y-4">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
           <div>
-            <h1 className="text-[20px] font-medium leading-6 text-[#111827]">
+            <h1 className="text-lg font-medium leading-6 text-[#111827]">
               Referral Management
             </h1>
-            <p className="mt-2 text-[14px] text-[#6B7280]">
+            <p className="mt-1 text-[14px] text-[#6B7280]">
               monitor and track incoming leads from your partner network.
             </p>
           </div>
@@ -660,7 +667,7 @@ const BrokerMyReferrals = () => {
             <button
               type="button"
               onClick={() => setExportOpen(true)}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#D3ECF7] px-4 text-[13px] font-medium text-[#374151] transition hover:opacity-90"
+              className="inline-flex h-8 items-center justify-center gap-2 rounded-md bg-[#D3ECF7] px-4 text-[13px] font-medium text-[#374151] transition hover:opacity-90"
             >
               <Download className="h-4 w-4" />
               EXPORT CSV
@@ -669,7 +676,7 @@ const BrokerMyReferrals = () => {
             <button
               type="button"
               onClick={() => setCreateLeadOpen(true)}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#12A9F4] px-4 text-[13px] font-medium text-white transition hover:opacity-90"
+              className="inline-flex h-8 items-center justify-center gap-2 rounded-md bg-[#12A9F4] px-4 text-[13px] font-medium text-white transition hover:opacity-90"
             >
               <Plus className="h-4 w-4" />
               Create Lead
@@ -680,16 +687,7 @@ const BrokerMyReferrals = () => {
         <div className="rounded-2xl border border-[#E5E7EB] bg-white p-3">
           <div className="grid grid-cols-1 gap-3 xl:grid-cols-[1.25fr_1fr_1fr_1fr_160px]">
             <div className="relative">
-              <svg
-                viewBox="0 0 20 20"
-                className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9CA3AF]"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-              >
-                <circle cx="9" cy="9" r="5.5" />
-                <path d="M13.5 13.5L17 17" strokeLinecap="round" />
-              </svg>
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#A8A8A8]" />
 
               <input
                 value={search}

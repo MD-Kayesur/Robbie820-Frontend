@@ -1,13 +1,6 @@
 // src/components/BrokerDashboardCom/BOverviewCom/modals/CreateLeadModal.tsx
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  CalendarDays,
-  Check,
-  ChevronDown,
-  DollarSign,
-  TrendingUp,
-  X,
-} from "lucide-react";
+import { Check, ChevronDown, DollarSign, TrendingUp, X } from "lucide-react";
 import { cn } from "@/hooks/useCn";
 import { useOutsideClose } from "@/hooks/useOutsideClose";
 import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
@@ -87,7 +80,7 @@ function SelectMenu<T extends string>({
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         className={cn(
-          "flex h-12 w-full items-center justify-between rounded-[14px] border border-transparent bg-[#F3F4F6] px-4 text-left text-[14px] text-[#2A2A2A] outline-none transition",
+          "flex h-12 w-full items-center justify-between rounded-[14px] border border-transparent bg-[#EBEBEB] px-4 text-left text-[14px] text-[#2A2A2A] outline-none transition",
           "hover:border-[#D1D5DB] focus:border-[#2563EB] focus:bg-white",
         )}
       >
@@ -97,7 +90,7 @@ function SelectMenu<T extends string>({
 
         <ChevronDown
           className={cn(
-            "h-4 w-4 shrink-0 text-[#9CA3AF] transition-transform",
+            "h-4 w-4 shrink-0 transition-transform",
             open && "rotate-180",
           )}
         />
@@ -195,7 +188,7 @@ function TextInput({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         className={cn(
-          "h-12 w-full rounded-[14px] border border-transparent bg-[#F3F4F6] px-4 text-[14px] text-[#111827] outline-none transition",
+          "h-12 w-full rounded-[14px] border border-transparent bg-[#EBEBEB] px-4 text-[14px] text-[#111827] outline-none transition",
           "placeholder:text-[#9CA3AF] hover:border-[#D1D5DB] focus:border-[#2563EB] focus:bg-white",
           icon ? "pr-11" : undefined,
         )}
@@ -358,7 +351,7 @@ export default function CreateLeadModal({
             role="dialog"
             aria-modal="true"
             aria-labelledby="create-lead-modal-title"
-            className="relative flex w-full max-w-5xl max-h-[calc(100vh-24px)] flex-col overflow-hidden rounded-[28px] bg-white shadow-[0_24px_80px_rgba(0,0,0,0.22)] sm:max-h-[calc(100vh-48px)]"
+            className="relative flex w-full max-w-3xl max-h-[calc(100vh-24px)] flex-col overflow-hidden rounded-sm bg-white shadow-[0_24px_80px_rgba(0,0,0,0.22)] sm:max-h-[calc(100vh-48px)]"
           >
             <div className="flex items-start justify-between gap-4 px-6 py-6 sm:px-8">
               <div>
@@ -385,7 +378,7 @@ export default function CreateLeadModal({
             </div>
 
             <div className="min-h-0 flex-1 overflow-y-auto px-6 pb-6 sm:px-8">
-              <div className="space-y-8">
+              <div className="space-y-6">
                 <section className="space-y-5">
                   <SectionTitle title="Borrower Information" />
 
@@ -521,7 +514,6 @@ export default function CreateLeadModal({
                           }))
                         }
                         placeholder="mm/dd/yy"
-                        icon={<CalendarDays className="h-4 w-4" />}
                       />
                     </Field>
                   </div>

@@ -57,25 +57,25 @@ export default function OverviewFilters({
 
   return (
     <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="inline-flex rounded-xl border border-[#E5E7EB] bg-white p-1">
-          {rangeOptions.map((item) => (
-            <button
-              key={item}
-              type="button"
-              onClick={() => onRangeChange(item)}
-              className={cn(
-                "rounded-md px-4 py-2 text-[12px] font-medium transition sm:px-5",
-                range === item
-                  ? "bg-black text-white"
-                  : "text-[#222] hover:bg-[#F4F4F5]",
-              )}
-            >
-              {formatRangeLabel(item)}
-            </button>
-          ))}
-        </div>
+      <div className="inline-flex rounded-xl border border-[#E5E7EB] bg-white p-1">
+        {rangeOptions.map((item) => (
+          <button
+            key={item}
+            type="button"
+            onClick={() => onRangeChange(item)}
+            className={cn(
+              "rounded-md px-4 py-2 text-[12px] font-medium transition sm:px-5",
+              range === item
+                ? "bg-black text-white"
+                : "text-[#222] hover:bg-[#F4F4F5]",
+            )}
+          >
+            {formatRangeLabel(item)}
+          </button>
+        ))}
+      </div>
 
+      <div className="flex flex-wrap items-center gap-3">
         <div className="relative">
           <button
             type="button"
@@ -196,16 +196,16 @@ export default function OverviewFilters({
             </>
           )}
         </div>
-      </div>
 
-      <button
-        type="button"
-        onClick={onCreateLead}
-        className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#1BAEF5] px-5 text-[13px] font-medium text-white transition hover:bg-[#129fe2]"
-      >
-        <Plus className="h-4 w-4" />
-        Create Lead
-      </button>
+        <button
+          type="button"
+          onClick={onCreateLead}
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#1BAEF5] px-5 text-[13px] font-medium text-white transition hover:bg-[#129fe2]"
+        >
+          <Plus className="h-4 w-4" />
+          Create Lead
+        </button>
+      </div>
     </div>
   );
 }

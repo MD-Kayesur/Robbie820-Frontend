@@ -43,12 +43,10 @@ function getRelativeTimeLabel(date: string) {
 
 function ActionMenu({
   lead,
-  onOpenDetails,
   onUpdateStatus,
   onAddNote,
 }: {
   lead: Lead;
-  onOpenDetails: (id: string) => void;
   onUpdateStatus?: (id: string) => void;
   onAddNote?: (id: string) => void;
 }) {
@@ -95,14 +93,6 @@ function ActionMenu({
             <div className="flex flex-col">
               <button
                 type="button"
-                onClick={() => handleAction(onOpenDetails)}
-                className="rounded-xl px-4 py-3 text-left text-[14px] font-medium text-[#2A2A2A] transition hover:bg-[#F7F7F7]"
-              >
-                View
-              </button>
-
-              <button
-                type="button"
                 onClick={() => handleAction(onUpdateStatus)}
                 className="rounded-xl px-4 py-3 text-left text-[14px] font-medium text-[#2A2A2A] transition hover:bg-[#F7F7F7]"
               >
@@ -134,6 +124,7 @@ export default function RecentLeadsTable({
 
   return (
     <section className="overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white">
+      {/* header */}
       <div className="flex items-center justify-between px-4 py-4 sm:px-5">
         <div>
           <h2 className="text-[18px] font-semibold text-[#111827]">
@@ -144,112 +135,171 @@ export default function RecentLeadsTable({
           </p>
         </div>
 
-        <button
-          type="button"
-          className="inline-flex items-center gap-1 text-[13px] font-medium text-[#1BAEF5]"
-        >
+        <button className="text-[13px] font-medium text-[#1BAEF5]">
           View All
         </button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-275 w-full border-collapse">
+      {/* ---------------- MOBILE CARDS ---------------- */}
+      <div className="space-y-4 px-4 pb-4 lg:hidden">
+        {tableRows.map((row) => {
+          const lead = leads.find((l) => l.id === row.id);
+          if (!lead) return null;
+
+          return (
+            <div
+              key={row.id}
+              className="rounded-xl border border-slate-200 p-4"
+            >
+              <div className="flex items-start justify-between">
+                <div className="font-medium text-[#111827]">{row.name}</div>
+                <span
+                  className={cn(
+                    "inline-flex rounded-full border px-2.5 py-1 text-[11px] font-medium",
+                    statusClassMap[row.status],
+                  )}
+                >
+                  {row.status}
+                </span>
+              </div>
+
+              <div className="mt-3 space-y-2 text-sm text-[#6B7280]">
+                <div className="flex justify-between">
+                  <span>Referrer</span>
+                  <span className="text-black">{row.ref}</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span>Loan Amount</span>
+                  <span className="text-black">{formatMoney(row.amount)}</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span>Rate</span>
+                  <span className="text-black">{row.rate.toFixed(2)}%</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span>Commission</span>
+                  <span className="font-medium text-[#16A34A]">
+                    {formatMoney(row.commission)}
+                  </span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span>Updated</span>
+                  <span>{getRelativeTimeLabel(lead.lastSyncAt)}</span>
+                </div>
+              </div>
+
+              <div className="mt-4 flex gap-2">
+                <button
+                  onClick={() => onOpenDetails(row.id)}
+                  className="flex-1 rounded-xl border border-slate-200 py-2 text-xs font-medium text-black"
+                >
+                  View
+                </button>
+
+                <ActionMenu
+                  lead={lead}
+                  onUpdateStatus={onUpdateStatus}
+                  onAddNote={onAddNote}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ---------------- DESKTOP TABLE ---------------- */}
+      <div className="hidden overflow-x-auto lg:block">
+        <table className="w-full min-w-275 border-collapse">
           <thead>
             <tr className="border-b border-[#ECECEC] text-left">
-              <th className="px-5 py-3 text-[11px] font-medium uppercase tracking-wide text-[#6B7280]">
-                Borrower Name
-              </th>
-              <th className="px-5 py-3 text-[11px] font-medium uppercase tracking-wide text-[#6B7280]">
-                Referrer
-              </th>
-              <th className="px-5 py-3 text-[11px] font-medium uppercase tracking-wide text-[#6B7280]">
-                Loan Amount
-              </th>
-              <th className="px-5 py-3 text-[11px] font-medium uppercase tracking-wide text-[#6B7280]">
-                Stage
-              </th>
-              <th className="px-5 py-3 text-[11px] font-medium uppercase tracking-wide text-[#6B7280]">
-                Interest Rate
-              </th>
-              <th className="px-5 py-3 text-[11px] font-medium uppercase tracking-wide text-[#6B7280]">
-                Commission
-              </th>
-              <th className="px-5 py-3 text-[11px] font-medium uppercase tracking-wide text-[#6B7280]">
-                Last Updated
-              </th>
-              <th className="px-5 py-3 text-center text-[11px] font-medium uppercase tracking-wide text-[#6B7280]">
-                Actions
-              </th>
+              {[
+                "Borrower Name",
+                "Referrer",
+                "Loan Amount",
+                "Stage",
+                "Interest Rate",
+                "Commission",
+                "Last Updated",
+                "Actions",
+              ].map((h) => (
+                <th
+                  key={h}
+                  className="px-5 py-3 text-xs font-medium uppercase tracking-wide text-[#6B7280]"
+                >
+                  {h}
+                </th>
+              ))}
             </tr>
           </thead>
 
           <tbody>
-            {tableRows.length ? (
-              tableRows.map((row) => {
-                const fullLead = leads.find((lead) => lead.id === row.id);
-                if (!fullLead) return null;
+            {tableRows.map((row) => {
+              const lead = leads.find((l) => l.id === row.id);
+              if (!lead) return null;
 
-                return (
-                  <tr
-                    key={row.id}
-                    className="border-b border-[#F3F4F6] last:border-b-0"
-                  >
-                    <td className="px-5 py-4 text-[14px] font-medium text-[#111827]">
-                      {row.name}
-                    </td>
+              return (
+                <tr
+                  key={row.id}
+                  className="border-b border-[#F3F4F6] last:border-b-0"
+                >
+                  <td className="px-5 py-4 text-sm font-medium text-[#111827]">
+                    {row.name}
+                  </td>
 
-                    <td className="px-5 py-4 text-[14px] text-[#6B7280]">
-                      {row.ref}
-                    </td>
+                  <td className="px-5 py-4 text-sm text-[#6B7280]">
+                    {row.ref}
+                  </td>
 
-                    <td className="px-5 py-4 text-[14px] text-[#111827]">
-                      {formatMoney(row.amount)}
-                    </td>
+                  <td className="px-5 py-4 text-sm text-[#111827]">
+                    {formatMoney(row.amount)}
+                  </td>
 
-                    <td className="px-5 py-4">
-                      <span
-                        className={cn(
-                          "inline-flex rounded-full border px-2.5 py-1 text-[12px] font-medium",
-                          statusClassMap[row.status],
-                        )}
+                  <td className="px-5 py-4">
+                    <span
+                      className={cn(
+                        "inline-flex rounded-full border px-2.5 py-1 text-[12px] font-medium",
+                        statusClassMap[row.status],
+                      )}
+                    >
+                      {row.status}
+                    </span>
+                  </td>
+
+                  <td className="px-5 py-4 text-sm text-[#6B7280]">
+                    {row.rate.toFixed(2)}%
+                  </td>
+
+                  <td className="px-5 py-4 text-sm font-medium text-[#16A34A]">
+                    {formatMoney(row.commission)}
+                  </td>
+
+                  <td className="px-5 py-4 text-sm text-[#9CA3AF]">
+                    {getRelativeTimeLabel(lead.lastSyncAt)}
+                  </td>
+
+                  <td className="px-5 py-4">
+                    <div className="flex items-center justify-center gap-2">
+                      <button
+                        onClick={() => onOpenDetails(row.id)}
+                        className="rounded-xl border border-slate-200 px-2 py-1 text-xs font-medium text-black"
                       >
-                        {row.status}
-                      </span>
-                    </td>
+                        View
+                      </button>
 
-                    <td className="px-5 py-4 text-[14px] text-[#6B7280]">
-                      {row.rate.toFixed(2)}%
-                    </td>
-
-                    <td className="px-5 py-4 text-[14px] font-medium text-[#16A34A]">
-                      {formatMoney(row.commission)}
-                    </td>
-
-                    <td className="px-5 py-4 text-[14px] text-[#9CA3AF]">
-                      {getRelativeTimeLabel(fullLead.lastSyncAt)}
-                    </td>
-
-                    <td className="px-5 py-4 text-center">
                       <ActionMenu
-                        lead={fullLead}
-                        onOpenDetails={onOpenDetails}
+                        lead={lead}
                         onUpdateStatus={onUpdateStatus}
                         onAddNote={onAddNote}
                       />
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
-              <tr>
-                <td
-                  colSpan={8}
-                  className="px-5 py-10 text-center text-[14px] text-[#8D8D8D]"
-                >
-                  No referrals found for the current filters.
-                </td>
-              </tr>
-            )}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
