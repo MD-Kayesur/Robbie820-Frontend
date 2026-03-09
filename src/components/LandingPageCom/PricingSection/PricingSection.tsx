@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -81,24 +80,12 @@ const PricingSection = () => {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl md:text-4xl font-black text-sky-500 tracking-tight mb-4"
-          >
+          <h2 className="text-3xl md:text-4xl font-normal text-sky-500 tracking-tight mb-4">
             How ReferNow Works
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-lg text-slate-500 font-bold mb-10"
-          >
+          </h2>
+          <p className="text-lg text-black font-normal mb-10">
             Choose The Plan That Fits Your Business. No Hidden Fees.
-          </motion.p>
+          </p>
 
           {/* Toggle */}
           <div className="flex justify-center mb-16">
@@ -106,8 +93,8 @@ const PricingSection = () => {
               <button
                 onClick={() => setBillingCycle("monthly")}
                 className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${billingCycle === "monthly"
-                    ? "bg-sky-500 text-white shadow-lg"
-                    : "text-slate-400 hover:text-slate-600"
+                  ? "bg-sky-500 text-white shadow-lg"
+                  : "text-slate-400 hover:text-slate-600"
                   }`}
               >
                 Monthly
@@ -115,8 +102,8 @@ const PricingSection = () => {
               <button
                 onClick={() => setBillingCycle("yearly")}
                 className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${billingCycle === "yearly"
-                    ? "bg-sky-500 text-white shadow-lg"
-                    : "text-slate-400 hover:text-slate-600"
+                  ? "bg-sky-500 text-white shadow-lg"
+                  : "text-slate-400 hover:text-slate-600"
                   }`}
               >
                 Yearly
@@ -127,38 +114,34 @@ const PricingSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {plans.map((plan, idx) => (
-            <motion.div
+            <div
               key={idx}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
               className={`relative bg-white rounded-[2.5rem] p-10 border-2 transition-all duration-500 hover:shadow-2xl flex flex-col ${plan.popular
-                  ? "border-sky-500 shadow-xl shadow-sky-500/10 scale-105 z-10"
-                  : "border-slate-100 shadow-lg hover:-translate-y-2"
+                ? "border-sky-500 shadow-xl shadow-sky-500/10 scale-105 z-10"
+                : "border-slate-100 shadow-lg hover:-translate-y-2"
                 }`}
             >
               {plan.popular && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white text-[11px] font-black uppercase tracking-widest py-1.5 px-6 rounded-full shadow-lg shadow-orange-500/30">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white text-[11px] font-normal uppercase tracking-widest py-1.5 px-6 rounded-full shadow-lg shadow-orange-500/30">
                   Most Popular
                 </div>
               )}
 
               <div className="mb-8">
                 <h3
-                  className={`text-xl font-bold mb-4 ${plan.popular ? "text-sky-500" : "text-slate-400"}`}
+                  className={`text-xl font-normal mb-4 ${plan.popular ? "text-sky-500" : "text-slate-400"}`}
                 >
                   {plan.name}
                 </h3>
-                <p className="text-slate-700 font-bold mb-6">
+                <p className="text-slate-700 font-normal mb-6">
                   {plan.description}
                 </p>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black text-slate-900 tracking-tight">
+                  <span className="text-4xl font-normal text-slate-900 tracking-tight">
                     {plan.price}
                   </span>
                   {plan.price.includes("$") && (
-                    <span className="text-slate-400 font-bold">/Month</span>
+                    <span className="text-slate-400 font-normal">/Month</span>
                   )}
                 </div>
               </div>
@@ -170,7 +153,7 @@ const PricingSection = () => {
                       size={18}
                       className="text-emerald-500 shrink-0 mt-0.5 stroke-[3px]"
                     />
-                    <span className="text-[15px] font-bold text-slate-500 leading-tight">
+                    <span className="text-[15px] font-normal text-slate-500 leading-tight">
                       {feature}
                     </span>
                   </li>
@@ -178,14 +161,14 @@ const PricingSection = () => {
               </ul>
 
               <Button
-                className={`w-full h-14 rounded-xl text-lg font-bold transition-all duration-300 ${plan.popular
-                    ? "bg-sky-500 hover:bg-sky-600 text-white shadow-lg shadow-sky-500/25"
-                    : "bg-sky-500 hover:bg-sky-600 text-white"
+                className={`w-full h-14 rounded-xl text-lg font-normal transition-all duration-300 ${plan.popular
+                  ? "bg-sky-500 hover:bg-sky-600 text-white shadow-lg shadow-sky-500/25"
+                  : "bg-sky-500 hover:bg-sky-600 text-white"
                   }`}
               >
                 {plan.buttonText}
               </Button>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

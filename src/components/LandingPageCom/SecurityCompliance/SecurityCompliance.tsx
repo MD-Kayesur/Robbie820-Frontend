@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Lock, EyeOff, Shield, FileText } from "lucide-react";
 import securityImage from "../../../assets/security_compliance.png";
 
@@ -39,13 +38,7 @@ const SecurityCompliance = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
           {/* Left content: Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, x: -50 }}
-            whileInView={{ opacity: 1, scale: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex-1 relative order-2 lg:order-1"
-          >
+          <div className="flex-1 relative order-2 lg:order-1">
             <div className="relative z-10 w-full group">
               <div className="absolute inset-0 bg-slate-200/50 rounded-[2.5rem] rotate-2 transition-transform duration-500 group-hover:rotate-0" />
               <img
@@ -57,41 +50,25 @@ const SecurityCompliance = () => {
 
             {/* Decorative background shape */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-50 rounded-full blur-[100px] -z-10 opacity-50" />
-          </motion.div>
+          </div>
 
           {/* Right content: Features */}
           <div className="flex-1 order-1 lg:order-2">
             <div className="mb-14">
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="text-3xl md:text-4xl font-black text-sky-500 tracking-tight mb-4"
-              >
+              <h2 className="text-3xl md:text-4xl font-normal text-sky-500 tracking-tight mb-4">
                 Built For Security & Compliance
-              </motion.h2>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-lg text-slate-500 font-medium leading-relaxed max-w-xl"
-              >
+              </h2>
+              <p className="text-lg text-slate-500 font-normal leading-relaxed max-w-xl">
                 Your Financial Data Deserves Enterprise-Grade Protection. We
                 Take Security Seriously So You Can Focus On Growing Your
                 Business.
-              </motion.p>
+              </p>
             </div>
 
             <div className="space-y-8">
               {securityFeatures.map((feature, idx) => (
-                <motion.div
+                <div
                   key={idx}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
                   className="flex items-start gap-6 group"
                 >
                   <div
@@ -100,14 +77,14 @@ const SecurityCompliance = () => {
                     <feature.icon size={26} strokeWidth={2.5} />
                   </div>
                   <div className="space-y-1.5">
-                    <h3 className="text-xl font-black text-slate-800 tracking-tight group-hover:text-sky-500 transition-colors">
+                    <h3 className="text-xl font-semibold text-black tracking-tight group-hover:text-sky-500 transition-colors">
                       {feature.title}
                     </h3>
-                    <p className="text-slate-400 font-bold leading-relaxed text-[15px] max-w-lg">
+                    <p className="text-black font-normal leading-relaxed text-[15px] max-w-lg">
                       {feature.description}
                     </p>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>

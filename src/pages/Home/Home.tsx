@@ -8,7 +8,7 @@ import HowItWorks from "@/components/LandingPageCom/HowItWorks/HowItWorks";
 import SecurityCompliance from "@/components/LandingPageCom/SecurityCompliance/SecurityCompliance";
 import PricingSection from "@/components/LandingPageCom/PricingSection/PricingSection";
 import Footer from "@/components/LandingPageCom/Footer/Footer";
-
+import logo from "@/assets/refer_now_logo.png";
 const Home = () => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("");
@@ -47,19 +47,14 @@ const Home = () => {
     <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] font-sans selection:bg-sky-100 overflow-x-hidden no-scrollbar">
       {/* Navbar Section */}
       <header className="fixed top-0 left-0 right-0 z-50 pt-8 px-4 md:px-8 clash">
-        <div className="mx-[150px]">
-          <nav className="w-full bg-white/90 backdrop-blur-xl border border-white/50 rounded-4xl px-8 py-5 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+        <div className="mx-[150px]  ">
+          <nav className="w-full bg-white/90 backdrop-blur-xl border-2 border-gray-100 rounded-2xl px-8 py-3 flex items-center justify-between  ">
             {/* Logo */}
             <div
-              className="flex items-center gap-2.5 cursor-pointer group"
+              className="flex w-40 items-center gap-2.5 cursor-pointer group"
               onClick={() => navigate("/")}
             >
-              <div className="w-9 h-9 bg-sky-500 rounded-xl flex items-center justify-center shadow-lg shadow-sky-500/30 group-hover:scale-110 transition-transform duration-300">
-                <span className="text-white font-black text-xl">R</span>
-              </div>
-              <span className="text-2xl font-bold tracking-tight text-[#1E293B]">
-                Refer<span className="text-sky-500">Now</span>
-              </span>
+              <img src={logo} alt="" />
             </div>
 
             {/* Navigation Items */}
@@ -72,7 +67,7 @@ const Home = () => {
                     key={item}
                     href={`#${sectionId}`}
                     onClick={() => setActiveSection(sectionId)}
-                    className={`text-[15px] font-semibold transition-all duration-300 relative group ${isActive ? "text-sky-500" : "text-slate-500 hover:text-sky-500"
+                    className={`text-[15px] font-normal transition-all duration-300 relative group ${isActive ? "text-sky-500" : "text-slate-500 hover:text-sky-500"
                       }`}
                   >
                     {item}
@@ -88,7 +83,7 @@ const Home = () => {
             {/* Header Button */}
             <Button
               onClick={handleGetStarted}
-              className="bg-sky-500 hover:bg-sky-600 text-white font-bold h-12 px-8 rounded-xl transition-all duration-300 active:scale-95 shadow-lg shadow-sky-500/25"
+              className="bg-sky-500 hover:bg-sky-600 text-white font-normal h-12 px-8 rounded-xl transition-all duration-300 active:scale-95 shadow-lg shadow-sky-500/25"
             >
               Get Started
             </Button>

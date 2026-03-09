@@ -6,6 +6,7 @@ import {
   BarChart3,
   Link as LinkIcon,
 } from "lucide-react";
+import CommonWrapper from "../CommonWrapper/CommonWrapper";
 
 const features = [
   {
@@ -55,14 +56,14 @@ const features = [
 const FeaturesSection = () => {
   return (
     <section id="features" className="py-32 bg-slate-50/50 clash">
-      <div className="max-w-7xl mx-auto px-6">
+      <CommonWrapper className="px-6 lg:px-[150px]">
         {/* Header content */}
-        <div className="text-center mb-24">
-          <h2 className="text-4xl md:text-5xl font-black text-sky-500 tracking-tight mb-6">
+        <div className="text-center mb-24   mx-auto">
+          <h2 className="text-4xl md:text-5xl font-normal text-sky-500 tracking-tight mb-6">
             Everything You Need To Manage Referrals
           </h2>
-          <p className="text-xl text-slate-400 font-bold uppercase tracking-widest">
-            Powerful Features Designed For Brokers, Referral Partners,
+          <p className="text-xl text-black font-normal leading-relaxed">
+            Powerful Features Designed For Brokers, Referral Partners, And Team Members.
           </p>
         </div>
 
@@ -78,19 +79,20 @@ const FeaturesSection = () => {
               >
                 <feature.icon className="w-7 h-7" />
               </div>
-              <h3 className="text-2xl font-black text-slate-800 tracking-tight mb-4 group-hover:text-sky-500 transition-colors">
+              <h3 className="text-2xl font-normal text-black tracking-tight mb-4   transition-colors">
                 {feature.title}
               </h3>
-              <p className="text-slate-400 font-bold leading-relaxed text-[15px]">
+              <p className="text-black font-normal leading-relaxed text-[15px]">
                 {feature.description}
               </p>
             </div>
           ))}
         </div>
-      </div>
+      </CommonWrapper>
     </section>
   );
 };
+
 
 export default FeaturesSection;
 

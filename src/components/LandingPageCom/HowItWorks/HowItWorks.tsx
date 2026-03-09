@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import howItWorksImage from "../../../assets/how_it_works_refernow.png";
 
 const steps = [
@@ -61,59 +60,37 @@ const HowItWorks = () => {
           {/* Left content: Steps */}
           <div className="flex-1">
             <div className="mb-14">
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="text-3xl md:text-4xl font-black text-sky-500 tracking-tight mb-4"
-              >
+              <h2 className="text-3xl md:text-4xl font-normal text-sky-500 tracking-tight mb-4">
                 How ReferNow Works
-              </motion.h2>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-lg text-slate-500 font-bold"
-              >
+              </h2>
+              <p className="text-lg text-black  font-normal">
                 From Signup To Payout In Four Simple Steps
-              </motion.p>
+              </p>
               <div className="w-full h-px bg-slate-100 my-10" />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12">
               {steps.map((step, idx) => (
-                <motion.div
+                <div
                   key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
                   className="flex flex-col items-start group"
                 >
                   <div className="mb-6">
                     <HexagonIcon number={step.number} />
                   </div>
-                  <h3 className="text-[1.3rem] font-black text-slate-800 tracking-tight mb-3">
+                  <h3 className="text-[1.3rem] font-normal text-black tracking-tight mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-slate-400 font-bold leading-relaxed text-[15px]">
+                  <p className="text-black font-normal leading-relaxed text-[15px]">
                     {step.description}
                   </p>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
 
           {/* Right content: Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, x: 50 }}
-            whileInView={{ opacity: 1, scale: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex-1 relative"
-          >
+          <div className="flex-1 relative">
             <div className="relative z-10 w-full group">
               <div className="absolute inset-0 bg-sky-500/20 rounded-[2.5rem] -rotate-3 transition-transform duration-500 group-hover:rotate-0" />
               <img
@@ -126,7 +103,7 @@ const HowItWorks = () => {
             {/* Decorative background shape */}
             <div className="absolute -top-12 -right-12 w-32 h-32 bg-sky-100 rounded-full blur-3xl -z-10 animate-pulse" />
             <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-blue-50 rounded-full blur-3xl -z-10" />
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
