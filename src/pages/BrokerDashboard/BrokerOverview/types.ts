@@ -1,27 +1,44 @@
+// src/pages/BrokerDashboard/BrokerOverview/types.ts
+
 export type RangeKey = "monthly" | "mtd" | "fytd";
 
 export type LeadStatus =
-  | "NEW LEAD"
+  | "NEW REFERRAL"
   | "CONTACTED"
-  | "APPLICATION IN PROGRESS"
+  | "APPLICATION STARTED"
   | "SUBMITTED TO LENDER"
-  | "UNDER REVIEW"
   | "APPROVED"
-  | "AWAITING REFERRAL FEE"
-  | "FUNDED"
-  | "SETTLEMENT COMPLETED";
+  | "FUNDED";
 
 export type CRMStatus = "Operational" | "Syncing" | "Disconnected";
 
 export type AgreementType =
-  | "Standard Commission Split"
-  | "Custom Split"
+  | "Standard Partnership Agreement"
+  | "Revenue Share"
   | "Flat Referral Fee";
+
+export type LoanType =
+  | "Home Loan"
+  | "Refinance"
+  | "Commercial Loan"
+  | "Investment Property"
+  | "Construction Loan";
+
+export type PaymentStatus = "Pending" | "Scheduled" | "Paid" | "Failed";
 
 export type TeamMember = {
   id: string;
   name: string;
   role: string;
+};
+
+export type ReferrerOption = {
+  id: string;
+  name: string;
+  companyName: string;
+  agreementType: AgreementType;
+  commissionPercent: number;
+  totalReferrals: number;
 };
 
 export type LeadNote = {
@@ -35,6 +52,8 @@ export type MilestoneItem = {
   id: string;
   label: string;
   date: string;
+  time?: string;
+  tone?: "neutral" | "info" | "warning" | "success" | "pending";
 };
 
 export type Lead = {
@@ -53,6 +72,7 @@ export type Lead = {
   leadCreatedDate: string;
 
   estimatedLoanAmount: number;
+  loanType: LoanType;
   interestRate: number;
   expectedSettlementDate: string;
 
@@ -70,9 +90,14 @@ export type Lead = {
   milestoneHistory: MilestoneItem[];
 
   agreementSplitPercent: number;
-  netCommission: number;
+  totalCommission: number;
+  brokerCommission: number;
   referrerFeeExpected: number;
   expectedReferrerPaymentDate: string;
+
+  paymentStatus: PaymentStatus;
+  paymentDate: string;
+  paymentNotes: string;
 };
 
 export type LeadTableRow = {
@@ -88,18 +113,42 @@ export type LeadTableRow = {
 };
 
 export type CreateLeadStage =
-  | "New Lead"
+  | "New Referral"
   | "Contacted"
-  | "Application in Progress"
-  | "Submitted to Lender"
-  | "Settled";
+  | "Application Started"
+  | "Submitted to Lender";
 
 export type CreateLeadForm = {
   fullName: string;
   email: string;
   mobile: string;
   companyName: string;
+
+  referrerId: string;
+  agreementType: AgreementType | "";
+  referrerCommissionPercent: string;
+
   estimatedLoanAmount: string;
+  loanType: LoanType | "";
+  interestRate: string;
+  expectedSettlementDate: string;
+
   leadStage: CreateLeadStage;
   assignTo: string;
+};
+
+export type EditLeadForm = {
+  fullName: string;
+  email: string;
+  mobile: string;
+  companyName: string;
+
+  estimatedLoanAmount: string;
+  interestRate: string;
+  expectedSettlementDate: string;
+
+  leadStage: LeadStatus;
+  paymentStatus: PaymentStatus;
+  paymentDate: string;
+  paymentNotes: string;
 };

@@ -1,3 +1,4 @@
+// src/pages/BrokerDashboard/BrokerOverview/utils.ts
 import type {
   CreateLeadForm,
   CreateLeadStage,
@@ -5,6 +6,7 @@ import type {
   LeadStatus,
   LeadTableRow,
   RangeKey,
+  ReferrerOption,
   TeamMember,
 } from "./types";
 
@@ -27,20 +29,58 @@ export function getTodayDate() {
   return new Date().toISOString().slice(0, 10);
 }
 
+export function getCurrentTimeLabel(date = new Date()) {
+  return date.toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+export function formatDisplayDate(date: string) {
+  if (!date) return "-";
+
+  const parsed = new Date(date);
+  if (Number.isNaN(parsed.getTime())) return date;
+
+  return parsed.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
 export function mapCreateStageToLeadStatus(stage: CreateLeadStage): LeadStatus {
   switch (stage) {
-    case "New Lead":
-      return "NEW LEAD";
+    case "New Referral":
+      return "NEW REFERRAL";
     case "Contacted":
       return "CONTACTED";
-    case "Application in Progress":
-      return "APPLICATION IN PROGRESS";
+    case "Application Started":
+      return "APPLICATION STARTED";
     case "Submitted to Lender":
       return "SUBMITTED TO LENDER";
-    case "Settled":
-      return "SETTLEMENT COMPLETED";
     default:
-      return "NEW LEAD";
+      return "NEW REFERRAL";
+  }
+}
+
+export function mapLeadStatusToCreateStage(
+  status: LeadStatus,
+): CreateLeadStage {
+  switch (status) {
+    case "NEW REFERRAL":
+      return "New Referral";
+    case "CONTACTED":
+      return "Contacted";
+    case "APPLICATION STARTED":
+      return "Application Started";
+    case "SUBMITTED TO LENDER":
+      return "Submitted to Lender";
+    case "APPROVED":
+    case "FUNDED":
+      return "Submitted to Lender";
+    default:
+      return "New Referral";
   }
 }
 
@@ -48,7 +88,7 @@ export function mapLeadToTableRow(lead: Lead): LeadTableRow {
   return {
     id: lead.id,
     name: lead.borrowerName,
-    ref: lead.refSource,
+    ref: lead.referrerName,
     amount: lead.estimatedLoanAmount,
     date: lead.leadCreatedDate,
     status: lead.leadStage,
@@ -68,68 +108,123 @@ export function getAllocatedTeamMemberName(
   );
 }
 
+export function getAllocatedTeamMemberLabel(
+  teamMembers: TeamMember[],
+  allocatedTeamMemberId: string,
+) {
+  const member = teamMembers.find((item) => item.id === allocatedTeamMemberId);
+  if (!member) return "-";
+  return `${member.name} - ${member.role}`;
+}
+
+export function getReferrerById(
+  referrers: ReferrerOption[],
+  referrerId: string,
+) {
+  return referrers.find((item) => item.id === referrerId);
+}
+
+export function calculateCommissionValues(
+  amount: number,
+  referrerCommissionPercent: number,
+) {
+  const totalCommission = Number((amount * 0.01).toFixed(2));
+  const referrerFeeExpected = Number(
+    ((totalCommission * referrerCommissionPercent) / 100).toFixed(2),
+  );
+  const brokerCommission = Number(
+    (totalCommission - referrerFeeExpected).toFixed(2),
+  );
+
+  return {
+    totalCommission,
+    brokerCommission,
+    referrerFeeExpected,
+  };
+}
+
 export function buildLeadFromCreateForm({
   form,
   timeline,
   teamMembers,
+  referrers,
 }: {
   form: CreateLeadForm;
   timeline: RangeKey;
   teamMembers: TeamMember[];
+  referrers: ReferrerOption[];
 }): Lead {
   const amount = parseMoneyInput(form.estimatedLoanAmount);
-  const commissionPercent = 50;
-  const agreementSplitPercent = 40;
-  const referrerFeeExpected = Number((amount * 0.0045333333).toFixed(2));
-  const netCommission = Number((referrerFeeExpected / 0.4).toFixed(2));
+  const referrer = getReferrerById(referrers, form.referrerId);
+  const referrerCommissionPercent = Number(form.referrerCommissionPercent) || 0;
+
+  const { totalCommission, brokerCommission, referrerFeeExpected } =
+    calculateCommissionValues(amount, referrerCommissionPercent);
+
   const selectedMember = teamMembers.find((m) => m.id === form.assignTo);
+  const now = new Date();
+  const leadId = `lead-${Date.now()}`;
+  const createdDate = getTodayDate();
 
   return {
-    id: `lead-${Date.now()}`,
+    id: leadId,
 
     borrowerName: form.fullName.trim(),
     borrowerEmail: form.email.trim(),
     mobileNumber: form.mobile.trim(),
     companyName: form.companyName.trim(),
 
-    refSource: form.companyName.trim().toLowerCase() || "manual entry",
+    refSource: referrer?.companyName?.toLowerCase() || "partner referral",
     timeline,
 
     leadStage: mapCreateStageToLeadStatus(form.leadStage),
     allocatedTeamMemberId: form.assignTo,
-    leadCreatedDate: getTodayDate(),
+    leadCreatedDate: createdDate,
 
     estimatedLoanAmount: amount,
-    interestRate: 5.5,
-    expectedSettlementDate: "",
+    loanType: form.loanType || "Home Loan",
+    interestRate: Number(form.interestRate) || 0,
+    expectedSettlementDate: form.expectedSettlementDate,
 
-    referrerName: "Alex Partners",
-    partnerCompany: "Partners Financial Group",
-    agreementType: "Standard Commission Split",
-    referrerCommissionPercent: commissionPercent,
+    referrerName: referrer?.name || "Unknown Referrer",
+    partnerCompany: referrer?.companyName || "Unknown Company",
+    agreementType:
+      form.agreementType ||
+      referrer?.agreementType ||
+      "Standard Partnership Agreement",
+    referrerCommissionPercent,
 
     crmConnectedSystem: "Salesforce",
     crmStatus: "Operational",
     crmAutoSync: true,
-    lastSyncAt: new Date().toISOString(),
+    lastSyncAt: now.toISOString(),
 
     notes: [],
     milestoneHistory: [
       {
         id: `milestone-${Date.now()}`,
-        label: "Lead Created",
-        date: new Date().toLocaleString(),
+        label: "Referral Created",
+        date: formatDisplayDate(createdDate),
+        time: getCurrentTimeLabel(now),
+        tone: "info",
       },
       {
         id: `milestone-team-${Date.now() + 1}`,
-        label: `Allocated to ${selectedMember?.name ?? "Team Member"}`,
-        date: new Date().toLocaleString(),
+        label: `Assigned to ${selectedMember?.name ?? "Team Member"}`,
+        date: formatDisplayDate(createdDate),
+        time: getCurrentTimeLabel(now),
+        tone: "neutral",
       },
     ],
 
-    agreementSplitPercent,
-    netCommission,
+    agreementSplitPercent: referrerCommissionPercent,
+    totalCommission,
+    brokerCommission,
     referrerFeeExpected,
-    expectedReferrerPaymentDate: "",
+    expectedReferrerPaymentDate: form.expectedSettlementDate || "",
+
+    paymentStatus: "Pending",
+    paymentDate: "",
+    paymentNotes: "",
   };
 }
