@@ -1,3 +1,4 @@
+// src/pages/BrokerDashboard/BrokerSettings/components/AppPreferencesTab.tsx
 import { Bell, ChevronDown, Clock3, Globe2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -63,15 +64,15 @@ const AppPreferencesTab = ({
 
   return (
     <div ref={wrapperRef}>
-      <section className="rounded-[20px] border border-[#DADDE3] bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-6">
+      <section className="rounded-[20px] border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-6">
         <div className="flex items-center gap-3">
-          <Globe2 className="h-8 w-8 text-[#111827]" />
-          <h2 className="text-[22px] font-semibold uppercase tracking-[-0.03em] text-[#111827]">
+          <Globe2 className="h-6 w-6 text-[#111827] sm:h-8 sm:w-8" />
+          <h2 className="text-[18px] font-semibold uppercase tracking-[-0.03em] text-[#111827] sm:text-[22px]">
             Localization & Workspace
           </h2>
         </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div className="mt-6 grid grid-cols-1 gap-5 md:mt-8 md:grid-cols-2">
           <div className="relative">
             <SelectButton
               label="TIMEZONE"
@@ -126,14 +127,14 @@ const AppPreferencesTab = ({
           </div>
         </div>
 
-        <div className="mt-12 flex items-center gap-3">
-          <Bell className="h-7 w-7 text-[#6B7280]" />
-          <h2 className="text-[22px] font-semibold uppercase tracking-[-0.03em] text-[#111827]">
+        <div className="mt-10 flex items-center gap-3 sm:mt-12">
+          <Bell className="h-6 w-6 text-[#6B7280] sm:h-7 sm:w-7" />
+          <h2 className="text-[18px] font-semibold uppercase tracking-[-0.03em] text-[#111827] sm:text-[22px]">
             Notification Routing
           </h2>
         </div>
 
-        <div className="mt-8 space-y-8">
+        <div className="mt-6 space-y-6 sm:mt-8 sm:space-y-8">
           <PreferenceRow
             title="Referrer Payment Reminder"
             description="Notify when a referrer payment is due after a loan settlement."
@@ -153,8 +154,8 @@ const AppPreferencesTab = ({
               }
             />
 
-            <div className="relative mt-4 w-[220px]">
-              <label className="mb-2 block text-[13px] font-medium uppercase text-[#111827]">
+            <div className="relative mt-4 w-full sm:w-[220px]">
+              <label className="mb-2 block text-[12px] font-medium uppercase text-[#111827] sm:text-[13px]">
                 STAGNATION PERIOD
               </label>
 
@@ -165,19 +166,19 @@ const AppPreferencesTab = ({
                     prev === "stagnation" ? null : "stagnation",
                   )
                 }
-                className="flex h-11 w-full items-center justify-between rounded-[10px] border border-[#A7D8F5] bg-[#DDF4FF] px-4 text-[15px] text-[#374151]"
+                className="flex h-11 w-full items-center justify-between rounded-[10px] border border-[#A7D8F5] bg-[#DDF4FF] px-4 text-[14px] text-[#374151] sm:text-[15px]"
               >
-                <span>{selectedStagnation}</span>
+                <span className="truncate">{selectedStagnation}</span>
                 <ChevronDown
                   className={cn(
-                    "h-4 w-4 transition",
+                    "h-4 w-4 shrink-0 transition",
                     openMenu === "stagnation" && "rotate-180",
                   )}
                 />
               </button>
 
               {openMenu === "stagnation" ? (
-                <Dropdown className="top-[calc(100%+8px)] w-full rounded-none border-[#D1D5DB]">
+                <Dropdown className="top-[calc(100%+8px)] w-full border-[#D1D5DB]">
                   {stagnationOptions.map((option) => (
                     <DropdownRow
                       key={option.value}
@@ -218,10 +219,14 @@ function PreferenceRow({
   onChange: (value: boolean) => void;
 }) {
   return (
-    <div className="flex items-start justify-between gap-4">
-      <div>
-        <h3 className="text-[18px] font-semibold text-[#111827]">{title}</h3>
-        <p className="mt-1 text-[16px] text-[#6B7280]">{description}</p>
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div className="min-w-0">
+        <h3 className="text-[16px] font-semibold text-[#111827] sm:text-[18px]">
+          {title}
+        </h3>
+        <p className="mt-1 text-[14px] leading-6 text-[#6B7280] sm:text-[16px]">
+          {description}
+        </p>
       </div>
 
       <Toggle checked={checked} onChange={onChange} />
@@ -244,22 +249,24 @@ function SelectButton({
 }) {
   return (
     <div>
-      <label className="mb-2 block text-[13px] font-medium uppercase text-[#8B8F97]">
+      <label className="mb-2 block text-[12px] font-medium uppercase text-[#8B8F97] sm:text-[13px]">
         {label}
       </label>
 
       <button
         type="button"
         onClick={onClick}
-        className="flex h-12 w-full items-center justify-between rounded-[12px] border border-[#EEF2F7] bg-[#F8FAFC] px-4 text-left text-[15px] text-[#6B7280]"
+        className="flex h-11 w-full items-center justify-between rounded-[12px] border border-[#EEF2F7] bg-[#F8FAFC] px-4 text-left text-[14px] text-[#6B7280] sm:h-12 sm:text-[15px]"
       >
-        <span className="flex items-center gap-2">
-          {icon ? <span className="text-[#94A3B8]">{icon}</span> : null}
-          <span>{value}</span>
+        <span className="flex min-w-0 items-center gap-2">
+          {icon ? (
+            <span className="shrink-0 text-[#94A3B8]">{icon}</span>
+          ) : null}
+          <span className="truncate">{value}</span>
         </span>
         <ChevronDown
           className={cn(
-            "h-5 w-5 text-[#111827] transition",
+            "h-5 w-5 shrink-0 text-[#111827] transition",
             open && "rotate-180",
           )}
         />
@@ -302,7 +309,9 @@ function DropdownRow({
       onClick={onClick}
       className={cn(
         "w-full border-b border-[#E5E7EB] px-4 text-left text-[#111827] transition last:border-b-0 hover:bg-[#F8FAFC]",
-        large ? "h-[60px] text-center text-[26px]" : "h-12 text-[15px]",
+        large
+          ? "min-h-[52px] py-3 text-sm sm:min-h-[60px] sm:text-center sm:text-[18px]"
+          : "h-11 text-[14px] sm:h-12 sm:text-[15px]",
       )}
     >
       {label}
