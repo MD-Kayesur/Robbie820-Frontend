@@ -1,156 +1,216 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   Calendar,
-  Check,
   ChevronDown,
   Download,
   Eye,
-  FilePlus2,
+  FileText,
   MoreHorizontal,
   Plus,
-  X,
   RefreshCw,
   Search,
+  UserPlus,
+  X,
 } from "lucide-react";
+
 import { cn } from "@/hooks/useCn";
 import { useOutsideClose } from "@/hooks/useOutsideClose";
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
+import CreateLeadModal from "@/components/BrokerDashboardCom/BOverviewCom/modals/CreateLeadModal";
+import { Lead, RangeKey } from "../BrokerOverview/types";
+import { brokerTeamMembers, referrerOptions } from "../BrokerOverview/mock";
 
-type ReferralStatus =
-  | "New"
-  | "Qualified"
-  | "In Progress"
-  | "Converted"
-  | "Disqualified";
+type PipelineStage =
+  | "New Referral"
+  | "Contacted"
+  | "Application Started"
+  | "Submitted to Lender"
+  | "Approved"
+  | "Funded"
+  | "Closed / Not Proceeding";
+
+type CommissionStatus = "Pending" | "Approved" | "Paid" | "Scheduled";
 
 type ReferralRow = {
   id: number;
-  clientName: string;
-  referrerName: string;
-  company: string;
-  status: ReferralStatus;
+  borrowerName: string;
+  referrer: string;
+  loanAmount: number;
+  pipelineStage: PipelineStage;
   expectedCommission: number;
-  basedOn: number;
+  commissionStatus: CommissionStatus;
   dateSubmitted: string;
-  referredByTeam: string;
+  assignedTeamMember: string;
+  settlementDate: string;
 };
 
-const allStatuses = [
-  "All Statuses",
-  "New",
-  "Qualified",
-  "In Progress",
-  "Converted",
-  "Disqualified",
+const stageOptions = [
+  "Stage",
+  "New Referral",
+  "Contacted",
+  "Application Started",
+  "Submitted to Lender",
+  "Approved",
+  "Funded",
+  "Closed / Not Proceeding",
 ] as const;
 
-const allReferrers = [
-  "All Referrers",
-  "Tom Harris",
-  "Alice Wong",
-  "Sarah Connor",
-  "Mark Stevens",
-  "Alex Partners",
-  "Partners Financial Group",
+const referrerFilterOptions = [
+  "Referrer",
+  "ABC Realty Group",
+  "Elite Financial Partners",
+  "Premier Mortgage Solutions",
+  "Summit Property Advisors",
 ] as const;
 
-const allTeamMembers = [
-  "All Team Members",
-  "Marcus Broker (You)",
-  "Sarah Team",
-  "John Staff",
+const teamMemberOptions = [
+  "Team Members",
+  "John Broker",
+  "Sarah Smith",
+  "Mike Johnson",
 ] as const;
 
-const rows: ReferralRow[] = [
+const referralRows: ReferralRow[] = [
   {
     id: 1,
-    clientName: "Sarah Jenkins",
-    referrerName: "Tom Harris",
-    company: "Prime Estates",
-    status: "New",
-    expectedCommission: 4200,
-    basedOn: 350000,
-    dateSubmitted: "Nov 28, 2023",
-    referredByTeam: "Marcus Broker (You)",
+    borrowerName: "Sarah Mitchell",
+    referrer: "ABC Realty Group",
+    loanAmount: 450000,
+    pipelineStage: "Submitted to Lender",
+    expectedCommission: 4500,
+    commissionStatus: "Pending",
+    dateSubmitted: "Mar 1, 2026",
+    assignedTeamMember: "John Broker",
+    settlementDate: "Apr 12, 2026",
   },
   {
     id: 2,
-    clientName: "Michael Chen",
-    referrerName: "Alice Wong",
-    company: "Metro Partners",
-    status: "Qualified",
-    expectedCommission: 4200,
-    basedOn: 350000,
-    dateSubmitted: "Nov 28, 2023",
-    referredByTeam: "Sarah Team",
+    borrowerName: "James Rodriguez",
+    referrer: "Elite Financial Partners",
+    loanAmount: 780000,
+    pipelineStage: "Approved",
+    expectedCommission: 7800,
+    commissionStatus: "Approved",
+    dateSubmitted: "Feb 28, 2026",
+    assignedTeamMember: "Sarah Smith",
+    settlementDate: "Mar 29, 2026",
   },
   {
     id: 3,
-    clientName: "Robert Fox",
-    referrerName: "Sarah Connor",
-    company: "Elite Realty",
-    status: "In Progress",
-    expectedCommission: 4200,
-    basedOn: 350000,
-    dateSubmitted: "Nov 28, 2023",
-    referredByTeam: "John Staff",
+    borrowerName: "Emily Chen",
+    referrer: "ABC Realty Group",
+    loanAmount: 325000,
+    pipelineStage: "Application Started",
+    expectedCommission: 3250,
+    commissionStatus: "Pending",
+    dateSubmitted: "Mar 5, 2026",
+    assignedTeamMember: "Mike Johnson",
+    settlementDate: "Apr 15, 2026",
   },
   {
     id: 4,
-    clientName: "Emily Blunt",
-    referrerName: "Tom Harris",
-    company: "Prime Estates",
-    status: "Converted",
-    expectedCommission: 4200,
-    basedOn: 350000,
-    dateSubmitted: "Nov 28, 2023",
-    referredByTeam: "Marcus Broker (You)",
+    borrowerName: "Michael Thompson",
+    referrer: "Premier Mortgage Solutions",
+    loanAmount: 590000,
+    pipelineStage: "Funded",
+    expectedCommission: 5900,
+    commissionStatus: "Paid",
+    dateSubmitted: "Feb 15, 2026",
+    assignedTeamMember: "John Broker",
+    settlementDate: "Feb 28, 2026",
   },
   {
     id: 5,
-    clientName: "David Wright",
-    referrerName: "Mark Stevens",
-    company: "Direct Ref",
-    status: "Disqualified",
-    expectedCommission: 4200,
-    basedOn: 350000,
-    dateSubmitted: "Nov 28, 2023",
-    referredByTeam: "Sarah Team",
+    borrowerName: "Lisa Anderson",
+    referrer: "Elite Financial Partners",
+    loanAmount: 410000,
+    pipelineStage: "Contacted",
+    expectedCommission: 4100,
+    commissionStatus: "Pending",
+    dateSubmitted: "Mar 7, 2026",
+    assignedTeamMember: "Sarah Smith",
+    settlementDate: "Apr 9, 2026",
   },
   {
     id: 6,
-    clientName: "Jessica Alba",
-    referrerName: "Alice Wong",
-    company: "Metro Partners",
-    status: "In Progress",
-    expectedCommission: 4200,
-    basedOn: 350000,
-    dateSubmitted: "Nov 28, 2023",
-    referredByTeam: "John Staff",
+    borrowerName: "David Park",
+    referrer: "Summit Property Advisors",
+    loanAmount: 875000,
+    pipelineStage: "New Referral",
+    expectedCommission: 8750,
+    commissionStatus: "Pending",
+    dateSubmitted: "Mar 8, 2026",
+    assignedTeamMember: "Mike Johnson",
+    settlementDate: "Apr 22, 2026",
   },
   {
     id: 7,
-    clientName: "Kevin Hart",
-    referrerName: "Tom Harris",
-    company: "Prime Estates",
-    status: "New",
-    expectedCommission: 4200,
-    basedOn: 350000,
-    dateSubmitted: "Nov 28, 2023",
-    referredByTeam: "Marcus Broker (You)",
+    borrowerName: "Jennifer Williams",
+    referrer: "ABC Realty Group",
+    loanAmount: 520000,
+    pipelineStage: "Approved",
+    expectedCommission: 5200,
+    commissionStatus: "Scheduled",
+    dateSubmitted: "Feb 20, 2026",
+    assignedTeamMember: "John Broker",
+    settlementDate: "Mar 18, 2026",
+  },
+  {
+    id: 8,
+    borrowerName: "Robert Martinez",
+    referrer: "Premier Mortgage Solutions",
+    loanAmount: 395000,
+    pipelineStage: "Submitted to Lender",
+    expectedCommission: 3950,
+    commissionStatus: "Pending",
+    dateSubmitted: "Mar 3, 2026",
+    assignedTeamMember: "Sarah Smith",
+    settlementDate: "Apr 10, 2026",
   },
 ];
 
-function StatusPill({ status }: { status: ReferralStatus }) {
-  const tone = {
-    New: "text-[#149C44]",
-    Qualified: "text-[#7C3AED]",
-    "In Progress": "text-[#D89B00]",
-    Converted: "text-[#149C44]",
-    Disqualified: "text-[#6B7280]",
-  }[status];
+function formatMoney(amount: number) {
+  return `$${amount.toLocaleString()}`;
+}
+
+function StageBadge({ stage }: { stage: PipelineStage }) {
+  const stageClasses: Record<PipelineStage, string> = {
+    "New Referral": "bg-[#E8F0FF] text-[#2563EB]",
+    Contacted: "bg-[#F3E8FF] text-[#9333EA]",
+    "Application Started": "bg-[#FEF3C7] text-[#D97706]",
+    "Submitted to Lender": "bg-[#FFF1E8] text-[#F97316]",
+    Approved: "bg-[#DCFCE7] text-[#16A34A]",
+    Funded: "bg-[#DCFCE7] text-[#16A34A]",
+    "Closed / Not Proceeding": "bg-[#F3F4F6] text-[#6B7280]",
+  };
 
   return (
-    <span className={cn("text-[13px] font-medium uppercase", tone)}>
+    <span
+      className={cn(
+        "inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-medium leading-none whitespace-nowrap",
+        stageClasses[stage],
+      )}
+    >
+      {stage}
+    </span>
+  );
+}
+
+function CommissionStatusBadge({ status }: { status: CommissionStatus }) {
+  const statusClasses: Record<CommissionStatus, string> = {
+    Pending: "bg-[#F3F4F6] text-[#4B5563]",
+    Approved: "bg-[#E8F0FF] text-[#2563EB]",
+    Paid: "bg-[#DCFCE7] text-[#16A34A]",
+    Scheduled: "bg-[#FEF3C7] text-[#D97706]",
+  };
+
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-medium leading-none whitespace-nowrap",
+        statusClasses[status],
+      )}
+    >
       {status}
     </span>
   );
@@ -173,44 +233,40 @@ function FilterDropdown<T extends string>({
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between rounded-xl border border-[#E4E4E7] bg-[#F7F7F8] px-4 py-2 text-left text-[15px] font-medium text-[#111827]"
+        className={cn(
+          "flex h-11 w-full items-center justify-between rounded-[10px] border bg-[#F3F3F5] px-4 text-left text-[13px] font-medium text-[#374151] transition",
+          open ? "border-[#3B82F6] ring-1 ring-[#3B82F6]" : "border-[#E5E7EB]",
+        )}
       >
         <span className="truncate">{value}</span>
         <ChevronDown
           className={cn(
-            "h-4 w-4 shrink-0 text-[#9CA3AF] transition",
+            "h-4 w-4 shrink-0 text-[#4B5563] transition",
             open && "rotate-180",
           )}
         />
       </button>
 
-      {open && (
-        <div className="absolute left-0 top-[calc(100%+8px)] z-30 w-full rounded-2xl border border-[#E5E7EB] bg-white p-2 shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
-          <div className="space-y-1">
-            {options.map((option) => {
-              const selected = option === value;
-
-              return (
-                <button
-                  key={option}
-                  type="button"
-                  onClick={() => {
-                    onChange(option);
-                    setOpen(false);
-                  }}
-                  className={cn(
-                    "flex w-full items-center justify-between rounded-xl px-4 py-3 text-left text-[15px] text-[#111827] transition hover:bg-[#F3F4F6]",
-                    selected && "bg-[#F2F4F7]",
-                  )}
-                >
-                  <span>{option}</span>
-                  {selected && <Check className="h-4 w-4 text-[#6B7280]" />}
-                </button>
-              );
-            })}
-          </div>
+      {open ? (
+        <div className="absolute left-0 top-full z-30 mt-1 w-full overflow-hidden border border-[#A3A3A3] bg-white shadow-sm">
+          {options.map((option, index) => (
+            <button
+              key={option}
+              type="button"
+              onClick={() => {
+                onChange(option);
+                setOpen(false);
+              }}
+              className={cn(
+                "block w-full px-4 py-3 text-left text-[13px] text-[#374151] transition hover:bg-[#E8F1FF]",
+                (option === value || index === 0) && "bg-[#9EC5F8]",
+              )}
+            >
+              {option}
+            </button>
+          ))}
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
@@ -220,9 +276,22 @@ function RowMenu({ onView }: { onView: () => void }) {
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
 
   const items = [
-    { label: "View Lead Details", icon: Eye, onClick: onView },
-    { label: "Update Status", icon: RefreshCw, onClick: () => setOpen(false) },
-    { label: "Add Note", icon: FilePlus2, onClick: () => setOpen(false) },
+    { label: "View Details", icon: Eye, onClick: onView },
+    {
+      label: "Update Stage",
+      icon: RefreshCw,
+      onClick: () => setOpen(false),
+    },
+    {
+      label: "Add Internal Note",
+      icon: FileText,
+      onClick: () => setOpen(false),
+    },
+    {
+      label: "Assign Team Member",
+      icon: UserPlus,
+      onClick: () => setOpen(false),
+    },
   ];
 
   return (
@@ -230,33 +299,32 @@ function RowMenu({ onView }: { onView: () => void }) {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[#111827] transition hover:bg-[#F3F4F6]"
+        className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[#6B7280] transition hover:bg-[#F3F4F6]"
       >
-        <MoreHorizontal className="h-5 w-5" />
+        <MoreHorizontal className="h-4 w-4" />
       </button>
 
-      {open && (
-        <div className="absolute right-0 top-[calc(100%+8px)] z-30 min-w-67.5 overflow-hidden rounded-[18px] border border-[#E5E7EB] bg-white shadow-[0_18px_40px_rgba(0,0,0,0.12)]">
-          {items.map((item, index) => {
+      {open ? (
+        <div className="absolute right-0 top-[calc(100%+8px)] z-30 min-w-62.5 overflow-hidden rounded-[20px] border border-[#E5E7EB] bg-white shadow-[0_18px_40px_rgba(0,0,0,0.12)]">
+          {items.map((item) => {
             const Icon = item.icon;
-
             return (
               <button
                 key={item.label}
                 type="button"
-                onClick={item.onClick}
-                className={cn(
-                  "flex w-full items-center gap-3 px-5 py-4 text-left text-[15px] text-[#374151] transition hover:bg-[#F8FAFC]",
-                  index !== items.length - 1 && "border-b border-[#ECEFF3]",
-                )}
+                onClick={() => {
+                  item.onClick();
+                  setOpen(false);
+                }}
+                className="flex w-full items-center gap-4 px-6 py-4 text-left text-[15px] font-medium text-[#374151] transition hover:bg-[#F8FAFC]"
               >
-                <Icon className="h-4 w-4 text-[#9CA3AF]" />
+                <Icon className="h-5 w-5 text-[#6B7280]" strokeWidth={1.8} />
                 <span>{item.label}</span>
               </button>
             );
           })}
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
@@ -269,61 +337,58 @@ function ExportModal({
   onClose: () => void;
 }) {
   const [dateRange, setDateRange] = useState("Last 30 Days");
-  const [statusMode, setStatusMode] = useState("Selected");
+  const [exportScope, setExportScope] = useState("Filtered Results");
   const [fields, setFields] = useState({
-    clientName: true,
+    borrowerName: true,
     referrer: true,
-    status: true,
+    loanAmount: true,
+    stage: true,
     expectedCommission: true,
+    commissionStatus: true,
     dateSubmitted: true,
-    settledDate: true,
+    settlementDate: true,
   });
 
-  const ref = useOutsideClose<HTMLDivElement>(open, onClose);
-
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [open]);
+  useLockBodyScroll(open);
+  const modalRef = useOutsideClose<HTMLDivElement>(open, onClose);
 
   if (!open) return null;
 
-  const dateOptions = ["Last 30 Days", "MTD", "FYTD", "Custom"];
-  const statusOptions = ["All", "Selected"];
+  const dateOptions = ["Last 30 Days", "MTD", "FYTD", "Custom"] as const;
+  const scopeOptions = ["All Referrals", "Filtered Results"] as const;
+
+  const includeRows = [
+    ["Borrower Name", "borrowerName"],
+    ["Referrer", "referrer"],
+    ["Loan Amount", "loanAmount"],
+    ["Stage", "stage"],
+    ["Expected Commission", "expectedCommission"],
+    ["Commission Status", "commissionStatus"],
+    ["Date Submitted", "dateSubmitted"],
+    ["Settlement Date", "settlementDate"],
+  ] as const;
 
   const toggleField = (key: keyof typeof fields) => {
     setFields((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const includeRows = [
-    ["Client Name", "clientName"],
-    ["Referrer", "referrer"],
-    ["Status", "status"],
-    ["Expected Commission", "expectedCommission"],
-    ["Date Submitted", "dateSubmitted"],
-    ["Settled Date", "settledDate"],
-  ] as const;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 px-4 py-6">
       <div
-        ref={ref}
-        className="max-h-[95vh] w-full max-w-240 overflow-y-auto rounded-3xl bg-white p-6 shadow-2xl sm:p-8"
+        ref={modalRef}
+        className="max-h-[95vh] w-full max-w-120 overflow-y-auto rounded-sm bg-white p-5 shadow-[0_28px_80px_rgba(0,0,0,0.28)] sm:p-6"
       >
-        <div className="flex items-start gap-4 border-b border-[#E5E7EB] pb-5">
-          <div className="flex h-22 w-22 items-center justify-center rounded-[20px] bg-[#D8EEF9]">
-            <Download className="h-10 w-10 text-[#0EA5E9]" strokeWidth={1.8} />
+        {/* Header */}
+        <div className="flex items-start gap-3 border-b border-[#E5E7EB] pb-4">
+          <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-[#D8EEF9]">
+            <Download className="h-7 w-7 text-[#0EA5E9]" strokeWidth={1.8} />
           </div>
 
           <div className="min-w-0 flex-1 pt-1">
-            <h2 className="text-[28px] font-semibold leading-none text-black sm:text-[34px]">
+            <h2 className="text-[22px] font-semibold leading-none text-black sm:text-[24px]">
               Export Referrals
             </h2>
-            <p className="mt-3 text-[18px] text-[#6B7280] sm:text-[20px]">
+            <p className="mt-1 text-[14px] text-[#6B7280]">
               Generate a detailed CSV report
             </p>
           </div>
@@ -331,20 +396,21 @@ function ExportModal({
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-black transition hover:bg-[#F3F4F6]"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full text-black transition hover:bg-[#F3F4F6]"
           >
-            <X className="h-8 w-8" strokeWidth={1.8} />
+            <X className="h-5 w-5" strokeWidth={1.8} />
           </button>
         </div>
 
-        <div className="mt-8 space-y-8">
+        <div className="mt-6 space-y-7">
+          {/* Date Range */}
           <section>
-            <div className="mb-5 flex items-center gap-4">
-              <Calendar className="h-9 w-9 text-black" strokeWidth={1.8} />
-              <h3 className="text-[26px] font-medium text-black">Date Range</h3>
+            <div className="mb-4 flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-black" strokeWidth={1.8} />
+              <h3 className="text-[18px] font-medium text-black">Date Range</h3>
             </div>
 
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {dateOptions.map((option) => {
                 const active = dateRange === option;
                 return (
@@ -353,7 +419,7 @@ function ExportModal({
                     type="button"
                     onClick={() => setDateRange(option)}
                     className={cn(
-                      "h-17 rounded-[18px] border text-[22px] font-normal transition",
+                      "h-11 rounded-xl border text-[14px] transition",
                       active
                         ? "border-[#11A9F3] bg-[#EDF7FC] text-[#11A9F3]"
                         : "border-[#11A9F3] bg-white text-[#11A9F3]",
@@ -366,24 +432,25 @@ function ExportModal({
             </div>
           </section>
 
+          {/* Export Scope */}
           <section>
-            <div className="mb-5 flex items-center gap-4">
-              <Calendar className="h-9 w-9 text-black" strokeWidth={1.8} />
-              <h3 className="text-[26px] font-medium text-black">
-                Status Filter
+            <div className="mb-4 flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-black" strokeWidth={1.8} />
+              <h3 className="text-[18px] font-medium text-black">
+                Export Scope
               </h3>
             </div>
 
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-              {statusOptions.map((option) => {
-                const active = statusMode === option;
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {scopeOptions.map((option) => {
+                const active = exportScope === option;
                 return (
                   <button
                     key={option}
                     type="button"
-                    onClick={() => setStatusMode(option)}
+                    onClick={() => setExportScope(option)}
                     className={cn(
-                      "h-17 rounded-[18px] border text-[22px] font-normal transition",
+                      "h-11 rounded-xl border text-[14px] transition",
                       active
                         ? "border-[#11A9F3] bg-[#EDF7FC] text-[#11A9F3]"
                         : "border-[#11A9F3] bg-white text-[#11A9F3]",
@@ -396,33 +463,45 @@ function ExportModal({
             </div>
           </section>
 
+          {/* Include Fields */}
           <section>
-            <div className="mb-5 flex items-center gap-4">
-              <Calendar className="h-9 w-9 text-black" strokeWidth={1.8} />
-              <h3 className="text-[26px] font-medium text-black">
+            <div className="mb-4 flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-black" strokeWidth={1.8} />
+              <h3 className="text-[18px] font-medium text-black">
                 Include Fields
               </h3>
             </div>
 
-            <div className="rounded-xl border border-[#D1D5DB] px-7 py-6">
-              <div className="space-y-5">
+            <div className="rounded-lg border border-[#D1D5DB] px-5 py-4 bg-[#F5F5F5]">
+              <div className="space-y-3">
                 {includeRows.map(([label, key]) => (
                   <button
                     key={key}
                     type="button"
                     onClick={() => toggleField(key)}
-                    className="flex w-full items-center justify-between gap-4 text-left"
+                    className="flex w-full items-center justify-between gap-3 text-left"
                   >
-                    <span className="text-[22px] text-black">{label}</span>
+                    <span className="text-[14px] text-black">{label}</span>
+
                     <span
                       className={cn(
-                        "flex h-8 w-8 items-center justify-center rounded-md border",
+                        "flex h-5 w-5 items-center justify-center rounded border",
                         fields[key]
-                          ? "border-[#11A9F3] bg-white text-[#11A9F3]"
-                          : "border-[#CBD5E1] bg-white text-transparent",
+                          ? "border-[#11A9F3] text-[#11A9F3]"
+                          : "border-[#CBD5E1] text-transparent",
                       )}
                     >
-                      <Check className="h-5 w-5" />
+                      <svg
+                        viewBox="0 0 20 20"
+                        className="h-3 w-3"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M4.5 10.5l3.5 3.5 7-8" />
+                      </svg>
                     </span>
                   </button>
                 ))}
@@ -431,20 +510,21 @@ function ExportModal({
           </section>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        {/* Footer */}
+        <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
           <button
             type="button"
             onClick={onClose}
-            className="h-18 rounded-[18px] bg-[#CDE8F4] px-6 text-left text-[24px] font-medium text-black transition hover:opacity-90"
+            className="h-11 rounded-xl bg-[#CDE8F4] px-5 text-[15px] font-medium text-black transition hover:opacity-90"
           >
             Cancel
           </button>
 
           <button
             type="button"
-            className="inline-flex h-18 items-center justify-center gap-3 rounded-[18px] bg-[#11A9F3] px-6 text-[24px] font-medium text-white transition hover:opacity-90"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#11A9F3] px-5 text-[15px] font-medium text-white transition hover:opacity-90"
           >
-            <Download className="h-8 w-8" strokeWidth={1.9} />
+            <Download className="h-4 w-4" strokeWidth={1.9} />
             Export CSV
           </button>
         </div>
@@ -455,38 +535,45 @@ function ExportModal({
 
 const BrokerMyReferrals = () => {
   const [search, setSearch] = useState("");
-  const [status, setStatus] =
-    useState<(typeof allStatuses)[number]>("All Statuses");
   const [referrer, setReferrer] =
-    useState<(typeof allReferrers)[number]>("All Referrers");
+    useState<(typeof referrerFilterOptions)[number]>("Referrer");
+  const [stage, setStage] = useState<(typeof stageOptions)[number]>("Stage");
   const [teamMember, setTeamMember] =
-    useState<(typeof allTeamMembers)[number]>("All Team Members");
+    useState<(typeof teamMemberOptions)[number]>("Team Members");
   const [page, setPage] = useState(1);
   const [exportOpen, setExportOpen] = useState(false);
 
-  const perPage = 7;
+  const [createLeadOpen, setCreateLeadOpen] = useState(false);
+  const [leadRows, setLeadRows] = useState<ReferralRow[]>(referralRows);
+
+  const [range] = useState<RangeKey>("mtd");
+
+  const perPage = 8;
 
   const filteredRows = useMemo(() => {
-    return rows.filter((row) => {
-      const matchesSearch =
-        row.clientName.toLowerCase().includes(search.toLowerCase()) ||
-        row.referrerName.toLowerCase().includes(search.toLowerCase()) ||
-        row.company.toLowerCase().includes(search.toLowerCase());
+    return leadRows.filter((row) => {
+      const query = search.toLowerCase().trim();
 
-      const matchesStatus =
-        status === "All Statuses" ? true : row.status === status;
+      const matchesSearch =
+        query.length === 0
+          ? true
+          : row.borrowerName.toLowerCase().includes(query) ||
+            row.referrer.toLowerCase().includes(query);
 
       const matchesReferrer =
-        referrer === "All Referrers" ? true : row.referrerName === referrer;
+        referrer === "Referrer" ? true : row.referrer === referrer;
+
+      const matchesStage =
+        stage === "Stage" ? true : row.pipelineStage === stage;
 
       const matchesTeam =
-        teamMember === "All Team Members"
+        teamMember === "Team Members"
           ? true
-          : row.referredByTeam === teamMember;
+          : row.assignedTeamMember === teamMember;
 
-      return matchesSearch && matchesStatus && matchesReferrer && matchesTeam;
+      return matchesSearch && matchesReferrer && matchesStage && matchesTeam;
     });
-  }, [search, status, referrer, teamMember]);
+  }, [search, referrer, stage, teamMember]);
 
   const totalPages = Math.max(1, Math.ceil(filteredRows.length / perPage));
   const currentPage = Math.min(page, totalPages);
@@ -498,28 +585,89 @@ const BrokerMyReferrals = () => {
 
   useEffect(() => {
     setPage(1);
-  }, [search, status, referrer, teamMember]);
+  }, [search, referrer, stage, teamMember]);
+
+  const startResult =
+    filteredRows.length === 0 ? 0 : (currentPage - 1) * perPage + 1;
+  const endResult = Math.min(currentPage * perPage, filteredRows.length);
+
+  function mapLeadToReferralRow(lead: Lead): ReferralRow {
+    const commissionStatusMap: Record<string, CommissionStatus> = {
+      "NEW LEAD": "Pending",
+      CONTACTED: "Pending",
+      "APPLICATION IN PROGRESS": "Pending",
+      "SUBMITTED TO LENDER": "Approved",
+      APPROVED: "Approved",
+      "AWAITING REFERRAL FEE": "Scheduled",
+      FUNDED: "Paid",
+      "SETTLEMENT COMPLETE": "Paid",
+    };
+
+    const pipelineStageMap: Record<string, PipelineStage> = {
+      "NEW LEAD": "New Referral",
+      CONTACTED: "Contacted",
+      "APPLICATION IN PROGRESS": "Application Started",
+      "SUBMITTED TO LENDER": "Submitted to Lender",
+      APPROVED: "Approved",
+      FUNDED: "Funded",
+      "SETTLEMENT COMPLETE": "Funded",
+    };
+
+    return {
+      id: typeof lead.id === "number" ? lead.id : Date.now(),
+      borrowerName: lead.borrowerName,
+      referrer: lead.referrerName,
+      loanAmount: lead.estimatedLoanAmount,
+      pipelineStage:
+        pipelineStageMap[lead.leadStage] ?? "Closed / Not Proceeding",
+      expectedCommission: lead.referrerFeeExpected ?? 0,
+      commissionStatus: commissionStatusMap[lead.leadStage] ?? "Pending",
+      dateSubmitted: new Date(lead.leadCreatedDate).toLocaleDateString(
+        "en-US",
+        {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        },
+      ),
+      assignedTeamMember:
+        brokerTeamMembers.find((m) => m.id === lead.allocatedTeamMemberId)
+          ?.name || "Unassigned",
+      settlementDate: lead.expectedSettlementDate
+        ? new Date(lead.expectedSettlementDate).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          })
+        : "-",
+    };
+  }
+
+  const handleCreateLead = (newLead: Lead) => {
+    const newRow = mapLeadToReferralRow(newLead);
+
+    setLeadRows((prev) => [newRow, ...prev]);
+    setCreateLeadOpen(false);
+  };
 
   return (
     <>
-      <div className="space-y-5">
-        {/* Header */}
+      <div className="space-y-4">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-          {/* Header */}
           <div>
             <h1 className="text-lg font-medium leading-6 text-[#111827]">
               Referral Management
             </h1>
-            <p className="mt-2.5 text-[#6B7280] leading-4">
+            <p className="mt-1 text-[14px] text-[#6B7280]">
               monitor and track incoming leads from your partner network.
             </p>
           </div>
-          {/* Buttons */}
-          <div className="flex flex-col gap-6 sm:flex-row">
+
+          <div className="flex flex-col gap-4 sm:flex-row">
             <button
               type="button"
               onClick={() => setExportOpen(true)}
-              className="inline-flex py-2.5 items-center justify-center gap-2 rounded-lg bg-[#D3ECF7] px-5 text-[#374151] transition hover:opacity-90"
+              className="inline-flex h-8 items-center justify-center gap-2 rounded-md bg-[#D3ECF7] px-4 text-[13px] font-medium text-[#374151] transition hover:opacity-90"
             >
               <Download className="h-4 w-4" />
               EXPORT CSV
@@ -527,7 +675,8 @@ const BrokerMyReferrals = () => {
 
             <button
               type="button"
-              className="inline-flex py-2.5 items-center justify-center gap-2 rounded-lg bg-[#12A9F4] px-5 text-white transition hover:opacity-90"
+              onClick={() => setCreateLeadOpen(true)}
+              className="inline-flex h-8 items-center justify-center gap-2 rounded-md bg-[#12A9F4] px-4 text-[13px] font-medium text-white transition hover:opacity-90"
             >
               <Plus className="h-4 w-4" />
               Create Lead
@@ -535,40 +684,40 @@ const BrokerMyReferrals = () => {
           </div>
         </div>
 
-        {/* Table */}
-        <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4">
-          <div className="grid grid-cols-1 gap-3 xl:grid-cols-[1.25fr_1fr_1fr_1fr_210px]">
+        <div className="rounded-2xl border border-[#E5E7EB] bg-white p-3">
+          <div className="grid grid-cols-1 gap-3 xl:grid-cols-[1.25fr_1fr_1fr_1fr_160px]">
             <div className="relative">
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9CA3AF]" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#A8A8A8]" />
+
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search clients or referrers..."
-                className="py-2 w-full rounded-xl border border-[#E4E4E7] bg-[#F7F7F8] pl-11 pr-4 text-[14px] text-[#111827] outline-none placeholder:text-[#9CA3AF]"
+                className="h-11 w-full rounded-[10px] border border-[#E5E7EB] bg-[#F7F7F8] pl-10 pr-4 text-[13px] text-[#111827] outline-none placeholder:text-[#9CA3AF]"
               />
             </div>
 
             <FilterDropdown
-              value={status}
-              options={allStatuses}
-              onChange={setStatus}
-            />
-
-            <FilterDropdown
               value={referrer}
-              options={allReferrers}
+              options={referrerFilterOptions}
               onChange={setReferrer}
             />
 
             <FilterDropdown
+              value={stage}
+              options={stageOptions}
+              onChange={setStage}
+            />
+
+            <FilterDropdown
               value={teamMember}
-              options={allTeamMembers}
+              options={teamMemberOptions}
               onChange={setTeamMember}
             />
 
             <button
               type="button"
-              className="inline-flex items-center justify-center gap-3 rounded-xl border border-[#E4E4E7] bg-white px-4 text-[15px] font-medium text-[#111827] text-nowrap"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-[10px] border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#111827] whitespace-nowrap"
             >
               <Calendar className="h-4 w-4 text-[#111827]" />
               Nov 2025 - Jan 2026
@@ -576,24 +725,35 @@ const BrokerMyReferrals = () => {
           </div>
         </div>
 
-        {/* Table */}
         <div className="overflow-hidden rounded-[18px] border border-[#E5E7EB] bg-white">
           <div className="overflow-x-auto">
-            <table className="min-w-245 w-full">
+            <table className="min-w-300 w-full">
               <thead>
-                <tr className="border-b border-[#E5E7EB] font-medium text-black">
-                  <th className="px-8  py-10 text-left uppercase">
-                    Client Name
+                <tr className="border-b border-[#E5E7EB] bg-[#FAFAFA]">
+                  <th className="px-4 py-4 text-left text-[10px] font-medium uppercase tracking-wide text-[#6B7280]">
+                    Borrower Name
                   </th>
-                  <th className="px-4 py-10 text-left uppercase">Referrer</th>
-                  <th className="px-4 py-10 text-left uppercase">Status</th>
-                  <th className="px-4 py-10 text-left uppercase">
-                    Expected Comm.
+                  <th className="px-4 py-4 text-left text-[10px] font-medium uppercase tracking-wide text-[#6B7280]">
+                    Referrer
                   </th>
-                  <th className="px-4 py-10 text-left uppercase">
+                  <th className="px-4 py-4 text-left text-[10px] font-medium uppercase tracking-wide text-[#6B7280]">
+                    Loan Amount
+                  </th>
+                  <th className="px-4 py-4 text-left text-[10px] font-medium uppercase tracking-wide text-[#6B7280]">
+                    Pipeline Stage
+                  </th>
+                  <th className="px-4 py-4 text-left text-[10px] font-medium uppercase tracking-wide text-[#6B7280]">
+                    Expected Commission
+                  </th>
+                  <th className="px-4 py-4 text-left text-[10px] font-medium uppercase tracking-wide text-[#6B7280]">
+                    Commission Status
+                  </th>
+                  <th className="px-4 py-4 text-left text-[10px] font-medium uppercase tracking-wide text-[#6B7280]">
                     Date Submitted
                   </th>
-                  <th className="px-4 py-10 text-left uppercase">Action</th>
+                  <th className="px-4 py-4 text-left text-[10px] font-medium uppercase tracking-wide text-[#6B7280]">
+                    Actions
+                  </th>
                 </tr>
               </thead>
 
@@ -603,37 +763,35 @@ const BrokerMyReferrals = () => {
                     key={row.id}
                     className="border-b border-[#ECEFF3] last:border-b-0"
                   >
-                    <td className="px-8 py-5 text-[15px] font-medium uppercase text-[#4B5563]">
-                      {row.clientName}
+                    <td className="px-4 py-4 text-[12px] font-medium text-[#111827]">
+                      {row.borrowerName}
                     </td>
 
-                    <td className="px-4 py-5">
-                      <div className="text-[15px] font-medium uppercase text-[#4B5563]">
-                        {row.referrerName}
-                      </div>
-                      <div className="mt-1 text-[12px] uppercase text-[#8A8F98]">
-                        {row.company}
-                      </div>
+                    <td className="px-4 py-4 text-[12px] text-[#374151]">
+                      {row.referrer}
                     </td>
 
-                    <td className="px-4 py-5">
-                      <StatusPill status={row.status} />
+                    <td className="px-4 py-4 text-[12px] text-[#111827]">
+                      {formatMoney(row.loanAmount)}
                     </td>
 
-                    <td className="px-4 py-5">
-                      <div className="text-[15px] font-medium text-[#4B5563]">
-                        ${row.expectedCommission.toLocaleString()}
-                      </div>
-                      <div className="mt-1 text-[12px] uppercase text-[#8A8F98]">
-                        on ${row.basedOn.toLocaleString()}
-                      </div>
+                    <td className="px-4 py-4">
+                      <StageBadge stage={row.pipelineStage} />
                     </td>
 
-                    <td className="px-4 py-5 text-[15px] text-[#4B5563]">
+                    <td className="px-4 py-4 text-[12px] text-[#111827]">
+                      {formatMoney(row.expectedCommission)}
+                    </td>
+
+                    <td className="px-4 py-4">
+                      <CommissionStatusBadge status={row.commissionStatus} />
+                    </td>
+
+                    <td className="px-4 py-4 text-[12px] text-[#374151]">
                       {row.dateSubmitted}
                     </td>
 
-                    <td className="px-4 py-5">
+                    <td className="px-4 py-4">
                       <RowMenu
                         onView={() => console.log("View details:", row)}
                       />
@@ -641,35 +799,53 @@ const BrokerMyReferrals = () => {
                   </tr>
                 ))}
 
-                {paginatedRows.length === 0 && (
+                {paginatedRows.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={6}
-                      className="px-8 py-12 text-center text-[15px] text-[#6B7280]"
+                      colSpan={8}
+                      className="px-6 py-10 text-center text-[14px] text-[#6B7280]"
                     >
                       No referrals found.
                     </td>
                   </tr>
-                )}
+                ) : null}
               </tbody>
             </table>
           </div>
 
-          <div className="flex flex-col gap-4 px-6 py-6 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-[13px] uppercase text-[#12A9F4]">
-              Showing {paginatedRows.length} of {filteredRows.length} referrals
+          <div className="flex flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-[12px] text-[#6B7280]">
+              Showing {startResult} to {endResult} of {filteredRows.length}{" "}
+              results
             </p>
 
-            <div className="flex items-center gap-3 self-end">
+            <div className="flex items-center gap-2 self-end">
               <button
                 type="button"
                 onClick={() => setPage((prev) => Math.max(1, prev - 1))}
                 disabled={currentPage === 1}
-                className="inline-flex h-10 items-center gap-2 rounded-md bg-[#CDE8F4] px-5 text-[14px] text-black transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#D1D5DB] bg-white text-[#6B7280] transition disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <span className="text-lg leading-none">‹</span>
-                Next
+                ‹
               </button>
+
+              {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                (pageNumber) => (
+                  <button
+                    key={pageNumber}
+                    type="button"
+                    onClick={() => setPage(pageNumber)}
+                    className={cn(
+                      "inline-flex h-8 w-8 items-center justify-center rounded-md border text-[13px] transition",
+                      currentPage === pageNumber
+                        ? "border-[#2563EB] bg-[#2563EB] text-white"
+                        : "border-[#D1D5DB] bg-white text-[#6B7280]",
+                    )}
+                  >
+                    {pageNumber}
+                  </button>
+                ),
+              )}
 
               <button
                 type="button"
@@ -677,10 +853,9 @@ const BrokerMyReferrals = () => {
                   setPage((prev) => Math.min(totalPages, prev + 1))
                 }
                 disabled={currentPage === totalPages}
-                className="inline-flex h-10 items-center gap-2 rounded-md bg-black px-5 text-[14px] text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#D1D5DB] bg-white text-[#6B7280] transition disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Next
-                <span className="text-lg leading-none">›</span>
+                ›
               </button>
             </div>
           </div>
@@ -688,6 +863,15 @@ const BrokerMyReferrals = () => {
       </div>
 
       <ExportModal open={exportOpen} onClose={() => setExportOpen(false)} />
+
+      <CreateLeadModal
+        open={createLeadOpen}
+        onClose={() => setCreateLeadOpen(false)}
+        onCreate={handleCreateLead}
+        timeline={range}
+        teamMembers={brokerTeamMembers}
+        referrers={referrerOptions}
+      />
     </>
   );
 };

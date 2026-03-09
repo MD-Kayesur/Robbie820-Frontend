@@ -58,7 +58,10 @@ const Home = () => {
       </header>
 
       {/* Hero Section */}
-      <Hero onGetStarted={handleGetStarted} />
+      <Hero
+        onGetStarted={handleGetStarted}
+        className="pt-10 pb-20"
+      />
 
       {/* Dashboard Marquee Section */}
       <DashboardMarquee />

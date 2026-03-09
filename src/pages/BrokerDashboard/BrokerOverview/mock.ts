@@ -1,497 +1,411 @@
-import type { Lead, TeamMember } from "./types";
+// src/pages/BrokerDashboard/BrokerOverview/mock.ts
+
+import type { Lead, ReferrerOption, TeamMember } from "./types";
 
 export const brokerTeamMembers: TeamMember[] = [
-  { id: "tm-1", name: "Marcus Broker", role: "Broker" },
-  { id: "tm-2", name: "Sarah Team", role: "Team Member" },
-  { id: "tm-3", name: "John Staff", role: "Staff" },
+  { id: "tm-1", name: "Alex Thompson", role: "Senior Broker" },
+  { id: "tm-2", name: "Sam Rivera", role: "Loan Officer" },
+  { id: "tm-3", name: "Casey Morgan", role: "Broker" },
+  { id: "tm-4", name: "Jordan Lee", role: "Lead Specialist" },
+];
+
+export const referrerOptions: ReferrerOption[] = [
+  {
+    id: "ref-1",
+    name: "Sarah Johnson",
+    companyName: "Prime Realty Group",
+    agreementType: "Standard Partnership Agreement",
+    commissionPercent: 10,
+    totalReferrals: 42,
+  },
+  {
+    id: "ref-2",
+    name: "Michael Chen",
+    companyName: "Metro Finance Partners",
+    agreementType: "Revenue Share",
+    commissionPercent: 25,
+    totalReferrals: 31,
+  },
+  {
+    id: "ref-3",
+    name: "Emily Rodriguez",
+    companyName: "Elite Property Network",
+    agreementType: "Standard Partnership Agreement",
+    commissionPercent: 15,
+    totalReferrals: 35,
+  },
+  {
+    id: "ref-4",
+    name: "David Park",
+    companyName: "Urban Lending Partners",
+    agreementType: "Flat Referral Fee",
+    commissionPercent: 12,
+    totalReferrals: 21,
+  },
+  {
+    id: "ref-5",
+    name: "Jessica Williams",
+    companyName: "Growth Realty Co.",
+    agreementType: "Standard Partnership Agreement",
+    commissionPercent: 20,
+    totalReferrals: 69,
+  },
 ];
 
 export const leadsMock: Lead[] = [
   {
     id: "lead-1001",
-    borrowerName: "Emily Roberts",
-    borrowerEmail: "emily.roberts@example.com",
-    mobileNumber: "+61 412 345 678",
-    companyName: "Digital Ventures",
+    borrowerName: "James Anderson",
+    borrowerEmail: "james.anderson@email.com",
+    mobileNumber: "+1 (555) 234-5678",
+    companyName: "Anderson Enterprises LLC",
 
     refSource: "partner referral",
     timeline: "mtd",
 
-    leadStage: "CONTACTED",
+    leadStage: "SUBMITTED TO LENDER",
     allocatedTeamMemberId: "tm-1",
-    leadCreatedDate: "2026-02-15",
+    leadCreatedDate: "2026-03-05",
 
-    estimatedLoanAmount: 750000,
-    interestRate: 5.5,
-    expectedSettlementDate: "2026-02-29",
+    estimatedLoanAmount: 450000,
+    loanType: "Home Loan",
+    interestRate: 6.25,
+    expectedSettlementDate: "2026-04-15",
 
-    referrerName: "Alex Partners",
-    partnerCompany: "Partners Financial Group",
-    agreementType: "Standard Commission Split",
-    referrerCommissionPercent: 50,
+    referrerName: "Sarah Johnson",
+    partnerCompany: "Prime Realty Group",
+    agreementType: "Standard Partnership Agreement",
+    referrerCommissionPercent: 10,
 
     crmConnectedSystem: "Salesforce",
     crmStatus: "Operational",
     crmAutoSync: true,
-    lastSyncAt: "2026-02-25T12:00:00",
+    lastSyncAt: "2026-03-08T10:15:00",
 
     notes: [
       {
         id: "note-1",
-        content: "Borrower asked for a quick turnaround on pre-approval.",
-        createdAt: "2026-02-15T10:45:00",
-        author: "Marcus Broker",
+        content: "Borrower is responsive and submitted initial documents.",
+        createdAt: "2026-03-08T09:10:00",
+        author: "Alex Thompson",
       },
     ],
 
     milestoneHistory: [
-      { id: "m-1", label: "Lead Created", date: "February 10, 2026 10:30 AM" },
+      {
+        id: "m-1",
+        label: "Referral Created",
+        date: "Mar 5, 2026",
+        time: "9:30 AM",
+        tone: "info",
+      },
       {
         id: "m-2",
-        label: "Submitted to Lender",
-        date: "February 12, 2026 2:15 PM",
+        label: "Borrower Contacted",
+        date: "Mar 6, 2026",
+        time: "8:15 PM",
+        tone: "info",
       },
-      { id: "m-3", label: "Under Review", date: "February 14, 2026 11:40 AM" },
-      { id: "m-4", label: "Approved", date: "February 18, 2026 3:20 PM" },
+      {
+        id: "m-3",
+        label: "Application Started",
+        date: "Mar 6, 2026",
+        time: "10:00 AM",
+        tone: "warning",
+      },
+      {
+        id: "m-4",
+        label: "Submitted to Lender",
+        date: "Mar 7, 2026",
+        time: "11:45 AM",
+        tone: "pending",
+      },
       {
         id: "m-5",
-        label: "Settlement Completed",
-        date: "February 25, 2026 12:00 PM",
+        label: "Awaiting Approval",
+        date: "Mar 8, 2026",
+        time: "9:00 AM",
+        tone: "neutral",
       },
     ],
 
-    agreementSplitPercent: 40,
-    netCommission: 8500,
-    referrerFeeExpected: 3400,
-    expectedReferrerPaymentDate: "2026-02-29",
+    agreementSplitPercent: 10,
+    totalCommission: 4500,
+    brokerCommission: 4050,
+    referrerFeeExpected: 450,
+    expectedReferrerPaymentDate: "2026-04-20",
+
+    paymentStatus: "Scheduled",
+    paymentDate: "2026-04-20",
+    paymentNotes:
+      "Payment will be processed within 5 business days after settlement.",
   },
 
   {
     id: "lead-1002",
-    borrowerName: "Alice Henderson",
-    borrowerEmail: "alice@example.com",
-    mobileNumber: "+61 400 111 222",
-    companyName: "Prime Estates",
+    borrowerName: "Maria Garcia",
+    borrowerEmail: "maria.garcia@email.com",
+    mobileNumber: "+1 (555) 102-8891",
+    companyName: "Garcia Retail Co.",
 
-    refSource: "prime estates",
+    refSource: "partner referral",
     timeline: "mtd",
 
-    leadStage: "APPROVED",
-    allocatedTeamMemberId: "tm-1",
-    leadCreatedDate: "2026-02-20",
+    leadStage: "SUBMITTED TO LENDER",
+    allocatedTeamMemberId: "tm-2",
+    leadCreatedDate: "2026-03-01",
 
-    estimatedLoanAmount: 450000,
-    interestRate: 4.25,
-    expectedSettlementDate: "2026-03-15",
+    estimatedLoanAmount: 320000,
+    loanType: "Refinance",
+    interestRate: 6.5,
+    expectedSettlementDate: "2026-04-08",
 
-    referrerName: "Alex Partners",
-    partnerCompany: "Partners Financial Group",
-    agreementType: "Standard Commission Split",
-    referrerCommissionPercent: 50,
+    referrerName: "Michael Chen",
+    partnerCompany: "Metro Finance Partners",
+    agreementType: "Revenue Share",
+    referrerCommissionPercent: 25,
 
     crmConnectedSystem: "Salesforce",
     crmStatus: "Operational",
     crmAutoSync: true,
-    lastSyncAt: "2026-02-26T09:15:00",
+    lastSyncAt: "2026-03-08T08:00:00",
 
     notes: [],
     milestoneHistory: [
-      { id: "m-21", label: "Lead Created", date: "February 20, 2026 9:00 AM" },
-      { id: "m-22", label: "Approved", date: "February 24, 2026 1:20 PM" },
+      {
+        id: "m-21",
+        label: "Referral Created",
+        date: "Mar 1, 2026",
+        time: "8:00 AM",
+        tone: "info",
+      },
+      {
+        id: "m-22",
+        label: "Submitted to Lender",
+        date: "Mar 5, 2026",
+        time: "2:20 PM",
+        tone: "pending",
+      },
     ],
 
-    agreementSplitPercent: 40,
-    netCommission: 14062.5,
-    referrerFeeExpected: 5625,
-    expectedReferrerPaymentDate: "2026-03-31",
+    agreementSplitPercent: 25,
+    totalCommission: 3200,
+    brokerCommission: 2400,
+    referrerFeeExpected: 800,
+    expectedReferrerPaymentDate: "2026-04-15",
+
+    paymentStatus: "Pending",
+    paymentDate: "",
+    paymentNotes: "",
   },
 
   {
     id: "lead-1003",
-    borrowerName: "Diana Prince",
-    borrowerEmail: "diana@example.com",
-    mobileNumber: "+61 433 221 111",
-    companyName: "Zapier Hook",
+    borrowerName: "Robert Taylor",
+    borrowerEmail: "robert.taylor@email.com",
+    mobileNumber: "+1 (555) 888-1022",
+    companyName: "Taylor Holdings",
 
-    refSource: "zapier hook",
-    timeline: "fytd",
+    refSource: "partner referral",
+    timeline: "mtd",
 
-    leadStage: "FUNDED",
-    allocatedTeamMemberId: "tm-2",
-    leadCreatedDate: "2026-01-11",
+    leadStage: "APPLICATION STARTED",
+    allocatedTeamMemberId: "tm-3",
+    leadCreatedDate: "2026-03-03",
 
-    estimatedLoanAmount: 450000,
-    interestRate: 4.1,
-    expectedSettlementDate: "2026-02-21",
+    estimatedLoanAmount: 580000,
+    loanType: "Commercial Loan",
+    interestRate: 6.0,
+    expectedSettlementDate: "2026-04-25",
 
-    referrerName: "Alex Partners",
-    partnerCompany: "Partners Financial Group",
-    agreementType: "Standard Commission Split",
-    referrerCommissionPercent: 50,
+    referrerName: "Emily Rodriguez",
+    partnerCompany: "Elite Property Network",
+    agreementType: "Standard Partnership Agreement",
+    referrerCommissionPercent: 15,
 
     crmConnectedSystem: "Salesforce",
     crmStatus: "Operational",
     crmAutoSync: true,
-    lastSyncAt: "2026-02-21T16:00:00",
+    lastSyncAt: "2026-03-08T11:10:00",
 
-    notes: [
+    notes: [],
+    milestoneHistory: [
       {
-        id: "note-31",
-        content: "Funds released successfully.",
-        createdAt: "2026-02-21T16:30:00",
-        author: "Sarah Team",
+        id: "m-31",
+        label: "Referral Created",
+        date: "Mar 3, 2026",
+        time: "11:00 AM",
+        tone: "info",
+      },
+      {
+        id: "m-32",
+        label: "Application Started",
+        date: "Mar 4, 2026",
+        time: "1:30 PM",
+        tone: "warning",
       },
     ],
-    milestoneHistory: [
-      { id: "m-31", label: "Lead Created", date: "January 11, 2026 10:10 AM" },
-      { id: "m-32", label: "Funded", date: "February 21, 2026 4:00 PM" },
-    ],
 
-    agreementSplitPercent: 40,
-    netCommission: 23437.5,
-    referrerFeeExpected: 9375,
-    expectedReferrerPaymentDate: "2026-03-31",
+    agreementSplitPercent: 15,
+    totalCommission: 5000,
+    brokerCommission: 4250,
+    referrerFeeExpected: 750,
+    expectedReferrerPaymentDate: "2026-04-28",
+
+    paymentStatus: "Pending",
+    paymentDate: "",
+    paymentNotes: "",
   },
 
   {
     id: "lead-1004",
-    borrowerName: "Michael Turner",
-    borrowerEmail: "michael.turner@example.com",
-    mobileNumber: "+61 422 555 991",
-    companyName: "Turner Holdings",
+    borrowerName: "Lisa Thompson",
+    borrowerEmail: "lisa.thompson@email.com",
+    mobileNumber: "+1 (555) 762-8810",
+    companyName: "Thompson Ventures",
 
-    refSource: "partner referral",
+    refSource: "website",
     timeline: "mtd",
 
-    leadStage: "APPLICATION IN PROGRESS",
-    allocatedTeamMemberId: "tm-2",
-    leadCreatedDate: "2026-02-18",
+    leadStage: "CONTACTED",
+    allocatedTeamMemberId: "tm-4",
+    leadCreatedDate: "2026-03-06",
 
-    estimatedLoanAmount: 620000,
-    interestRate: 5.1,
-    expectedSettlementDate: "2026-03-20",
+    estimatedLoanAmount: 275000,
+    loanType: "Investment Property",
+    interestRate: 6.75,
+    expectedSettlementDate: "2026-04-18",
 
-    referrerName: "Alex Partners",
-    partnerCompany: "Partners Financial Group",
-    agreementType: "Standard Commission Split",
-    referrerCommissionPercent: 50,
+    referrerName: "David Park",
+    partnerCompany: "Urban Lending Partners",
+    agreementType: "Flat Referral Fee",
+    referrerCommissionPercent: 12,
 
     crmConnectedSystem: "Salesforce",
     crmStatus: "Operational",
     crmAutoSync: true,
-    lastSyncAt: "2026-02-26T10:00:00",
+    lastSyncAt: "2026-03-08T07:45:00",
 
     notes: [],
     milestoneHistory: [
-      { id: "m-41", label: "Lead Created", date: "February 18, 2026 11:00 AM" },
+      {
+        id: "m-41",
+        label: "Referral Created",
+        date: "Mar 6, 2026",
+        time: "9:20 AM",
+        tone: "info",
+      },
       {
         id: "m-42",
-        label: "Application In Progress",
-        date: "February 19, 2026 2:45 PM",
+        label: "Borrower Contacted",
+        date: "Mar 6, 2026",
+        time: "4:15 PM",
+        tone: "info",
       },
     ],
 
-    agreementSplitPercent: 40,
-    netCommission: 12400,
-    referrerFeeExpected: 4960,
-    expectedReferrerPaymentDate: "2026-03-30",
+    agreementSplitPercent: 12,
+    totalCommission: 2750,
+    brokerCommission: 2420,
+    referrerFeeExpected: 330,
+    expectedReferrerPaymentDate: "2026-04-22",
+
+    paymentStatus: "Pending",
+    paymentDate: "",
+    paymentNotes: "",
   },
 
   {
     id: "lead-1005",
-    borrowerName: "Oliver Bennett",
-    borrowerEmail: "oliver.bennett@example.com",
-    mobileNumber: "+61 455 200 998",
-    companyName: "Bennett Logistics",
-
-    refSource: "website",
-    timeline: "mtd",
-
-    leadStage: "UNDER REVIEW",
-    allocatedTeamMemberId: "tm-3",
-    leadCreatedDate: "2026-02-22",
-
-    estimatedLoanAmount: 880000,
-    interestRate: 4.9,
-    expectedSettlementDate: "2026-04-02",
-
-    referrerName: "Alex Partners",
-    partnerCompany: "Partners Financial Group",
-    agreementType: "Standard Commission Split",
-    referrerCommissionPercent: 50,
-
-    crmConnectedSystem: "Salesforce",
-    crmStatus: "Operational",
-    crmAutoSync: true,
-    lastSyncAt: "2026-02-27T09:30:00",
-
-    notes: [],
-    milestoneHistory: [
-      { id: "m-51", label: "Lead Created", date: "February 22, 2026 9:10 AM" },
-      {
-        id: "m-52",
-        label: "Under Review",
-        date: "February 25, 2026 3:30 PM",
-      },
-    ],
-
-    agreementSplitPercent: 40,
-    netCommission: 17600,
-    referrerFeeExpected: 7040,
-    expectedReferrerPaymentDate: "2026-04-10",
-  },
-
-  {
-    id: "lead-1006",
-    borrowerName: "Sophia Martinez",
-    borrowerEmail: "sophia.martinez@example.com",
-    mobileNumber: "+61 433 778 321",
-    companyName: "Martinez Retail Group",
-
-    refSource: "partner referral",
-    timeline: "fytd",
-
-    leadStage: "SUBMITTED TO LENDER",
-    allocatedTeamMemberId: "tm-1",
-    leadCreatedDate: "2026-01-29",
-
-    estimatedLoanAmount: 510000,
-    interestRate: 4.6,
-    expectedSettlementDate: "2026-03-18",
-
-    referrerName: "Alex Partners",
-    partnerCompany: "Partners Financial Group",
-    agreementType: "Standard Commission Split",
-    referrerCommissionPercent: 50,
-
-    crmConnectedSystem: "Salesforce",
-    crmStatus: "Operational",
-    crmAutoSync: true,
-    lastSyncAt: "2026-02-24T15:45:00",
-
-    notes: [],
-    milestoneHistory: [
-      { id: "m-61", label: "Lead Created", date: "January 29, 2026 10:20 AM" },
-      {
-        id: "m-62",
-        label: "Submitted to Lender",
-        date: "February 02, 2026 12:30 PM",
-      },
-    ],
-
-    agreementSplitPercent: 40,
-    netCommission: 10200,
-    referrerFeeExpected: 4080,
-    expectedReferrerPaymentDate: "2026-03-31",
-  },
-
-  {
-    id: "lead-1007",
-    borrowerName: "Daniel Carter",
-    borrowerEmail: "daniel.carter@example.com",
-    mobileNumber: "+61 477 654 123",
-    companyName: "Carter Constructions",
-
-    refSource: "prime estates",
-    timeline: "fytd",
-
-    leadStage: "NEW LEAD",
-    allocatedTeamMemberId: "tm-3",
-    leadCreatedDate: "2026-03-01",
-
-    estimatedLoanAmount: 390000,
-    interestRate: 5.3,
-    expectedSettlementDate: "2026-04-25",
-
-    referrerName: "Alex Partners",
-    partnerCompany: "Partners Financial Group",
-    agreementType: "Standard Commission Split",
-    referrerCommissionPercent: 50,
-
-    crmConnectedSystem: "Salesforce",
-    crmStatus: "Operational",
-    crmAutoSync: true,
-    lastSyncAt: "2026-03-01T10:05:00",
-
-    notes: [],
-    milestoneHistory: [
-      { id: "m-71", label: "Lead Created", date: "March 01, 2026 10:05 AM" },
-    ],
-
-    agreementSplitPercent: 40,
-    netCommission: 7800,
-    referrerFeeExpected: 3120,
-    expectedReferrerPaymentDate: "2026-04-30",
-  },
-
-  {
-    id: "lead-1008",
-    borrowerName: "Nathan Collins",
-    borrowerEmail: "nathan.collins@example.com",
-    mobileNumber: "+61 421 987 654",
-    companyName: "Collins Property Group",
+    borrowerName: "Kevin Martinez",
+    borrowerEmail: "kevin.martinez@email.com",
+    mobileNumber: "+1 (555) 982-4411",
+    companyName: "Martinez Property Group",
 
     refSource: "partner referral",
     timeline: "mtd",
 
-    leadStage: "CONTACTED",
-    allocatedTeamMemberId: "tm-2",
-    leadCreatedDate: "2026-03-02",
-
-    estimatedLoanAmount: 520000,
-    interestRate: 4.75,
-    expectedSettlementDate: "2026-04-10",
-
-    referrerName: "Alex Partners",
-    partnerCompany: "Partners Financial Group",
-    agreementType: "Standard Commission Split",
-    referrerCommissionPercent: 50,
-
-    crmConnectedSystem: "Salesforce",
-    crmStatus: "Operational",
-    crmAutoSync: true,
-    lastSyncAt: "2026-03-02T14:20:00",
-
-    notes: [],
-    milestoneHistory: [
-      { id: "m-81", label: "Lead Created", date: "March 02, 2026 11:10 AM" },
-      { id: "m-82", label: "Contacted", date: "March 02, 2026 2:20 PM" },
-    ],
-
-    agreementSplitPercent: 40,
-    netCommission: 10400,
-    referrerFeeExpected: 4160,
-    expectedReferrerPaymentDate: "2026-04-30",
-  },
-
-  {
-    id: "lead-1009",
-    borrowerName: "Isabella Wright",
-    borrowerEmail: "isabella.wright@example.com",
-    mobileNumber: "+61 434 210 998",
-    companyName: "Wright Investments",
-
-    refSource: "website",
-    timeline: "mtd",
-
-    leadStage: "NEW LEAD",
+    leadStage: "FUNDED",
     allocatedTeamMemberId: "tm-1",
-    leadCreatedDate: "2026-03-04",
+    leadCreatedDate: "2026-02-25",
 
-    estimatedLoanAmount: 610000,
-    interestRate: 5.2,
-    expectedSettlementDate: "2026-04-22",
+    estimatedLoanAmount: 300000,
+    loanType: "Construction Loan",
+    interestRate: 6.15,
+    expectedSettlementDate: "2026-03-30",
 
-    referrerName: "Alex Partners",
-    partnerCompany: "Partners Financial Group",
-    agreementType: "Standard Commission Split",
-    referrerCommissionPercent: 50,
-
-    crmConnectedSystem: "Salesforce",
-    crmStatus: "Operational",
-    crmAutoSync: true,
-    lastSyncAt: "2026-03-04T10:15:00",
-
-    notes: [],
-    milestoneHistory: [
-      { id: "m-91", label: "Lead Created", date: "March 04, 2026 10:15 AM" },
-    ],
-
-    agreementSplitPercent: 40,
-    netCommission: 12200,
-    referrerFeeExpected: 4880,
-    expectedReferrerPaymentDate: "2026-04-30",
-  },
-
-  {
-    id: "lead-1010",
-    borrowerName: "Lucas Anderson",
-    borrowerEmail: "lucas.anderson@example.com",
-    mobileNumber: "+61 488 345 112",
-    companyName: "Anderson Tech Pty Ltd",
-
-    refSource: "zapier hook",
-    timeline: "mtd",
-
-    leadStage: "UNDER REVIEW",
-    allocatedTeamMemberId: "tm-3",
-    leadCreatedDate: "2026-03-06",
-
-    estimatedLoanAmount: 720000,
-    interestRate: 4.55,
-    expectedSettlementDate: "2026-04-18",
-
-    referrerName: "Alex Partners",
-    partnerCompany: "Partners Financial Group",
-    agreementType: "Standard Commission Split",
-    referrerCommissionPercent: 50,
+    referrerName: "Jessica Williams",
+    partnerCompany: "Growth Realty Co.",
+    agreementType: "Standard Partnership Agreement",
+    referrerCommissionPercent: 20,
 
     crmConnectedSystem: "Salesforce",
     crmStatus: "Operational",
     crmAutoSync: true,
-    lastSyncAt: "2026-03-06T13:00:00",
+    lastSyncAt: "2026-03-08T12:10:00",
 
     notes: [
       {
-        id: "note-101",
-        content: "Lender requested additional financial documents.",
-        createdAt: "2026-03-06T14:15:00",
-        author: "Marcus Broker",
+        id: "note-51",
+        content: "Funds released successfully. Payment processing next.",
+        createdAt: "2026-03-08T12:20:00",
+        author: "Alex Thompson",
       },
     ],
 
     milestoneHistory: [
-      { id: "m-101", label: "Lead Created", date: "March 06, 2026 9:20 AM" },
-      { id: "m-102", label: "Under Review", date: "March 06, 2026 1:00 PM" },
-    ],
-
-    agreementSplitPercent: 40,
-    netCommission: 14400,
-    referrerFeeExpected: 5760,
-    expectedReferrerPaymentDate: "2026-04-30",
-  },
-
-  {
-    id: "lead-1011",
-    borrowerName: "Chloe Mitchell",
-    borrowerEmail: "chloe.mitchell@example.com",
-    mobileNumber: "+61 477 800 654",
-    companyName: "Mitchell Hospitality",
-
-    refSource: "prime estates",
-    timeline: "mtd",
-
-    leadStage: "APPLICATION IN PROGRESS",
-    allocatedTeamMemberId: "tm-2",
-    leadCreatedDate: "2026-03-07",
-
-    estimatedLoanAmount: 830000,
-    interestRate: 4.35,
-    expectedSettlementDate: "2026-04-25",
-
-    referrerName: "Alex Partners",
-    partnerCompany: "Partners Financial Group",
-    agreementType: "Standard Commission Split",
-    referrerCommissionPercent: 50,
-
-    crmConnectedSystem: "Salesforce",
-    crmStatus: "Operational",
-    crmAutoSync: true,
-    lastSyncAt: "2026-03-07T11:30:00",
-
-    notes: [],
-    milestoneHistory: [
-      { id: "m-111", label: "Lead Created", date: "March 07, 2026 8:50 AM" },
       {
-        id: "m-112",
-        label: "Application In Progress",
-        date: "March 07, 2026 11:30 AM",
+        id: "m-51",
+        label: "Referral Created",
+        date: "Feb 25, 2026",
+        time: "10:00 AM",
+        tone: "info",
+      },
+      {
+        id: "m-52",
+        label: "Borrower Contacted",
+        date: "Feb 26, 2026",
+        time: "3:45 PM",
+        tone: "info",
+      },
+      {
+        id: "m-53",
+        label: "Application Started",
+        date: "Feb 27, 2026",
+        time: "11:10 AM",
+        tone: "warning",
+      },
+      {
+        id: "m-54",
+        label: "Submitted to Lender",
+        date: "Mar 1, 2026",
+        time: "9:40 AM",
+        tone: "pending",
+      },
+      {
+        id: "m-55",
+        label: "Approved",
+        date: "Mar 4, 2026",
+        time: "2:30 PM",
+        tone: "success",
+      },
+      {
+        id: "m-56",
+        label: "Funded",
+        date: "Mar 6, 2026",
+        time: "1:00 PM",
+        tone: "success",
       },
     ],
 
-    agreementSplitPercent: 40,
-    netCommission: 16600,
-    referrerFeeExpected: 6640,
-    expectedReferrerPaymentDate: "2026-04-30",
+    agreementSplitPercent: 20,
+    totalCommission: 3000,
+    brokerCommission: 2400,
+    referrerFeeExpected: 600,
+    expectedReferrerPaymentDate: "2026-04-05",
+
+    paymentStatus: "Scheduled",
+    paymentDate: "2026-04-05",
+    paymentNotes: "Scheduled after lender settlement confirmation.",
   },
 ];
