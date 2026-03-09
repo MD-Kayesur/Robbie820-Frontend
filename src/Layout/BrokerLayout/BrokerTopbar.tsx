@@ -13,7 +13,7 @@ const BrokerTopbar = ({ onMenuClick }: Props) => {
       <button
         type="button"
         onClick={onMenuClick}
-        className="fixed left-4 top-4 grid h-10 w-10 place-items-center rounded-lg p-1 text-black z-50 bg-white shadow-sm ring-1 ring-slate-200"
+        className="fixed left-4 top-4 grid h-10 w-10 place-items-center rounded-lg p-1 text-black z-40 bg-white shadow-sm ring-1 ring-slate-200"
         aria-label="Open sidebar"
       >
         <Menu size={32} />
