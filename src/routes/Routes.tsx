@@ -6,7 +6,7 @@ import SuperAdminLayout from "@/Layout/SuperAdminLayout/SuperAdminLayout";
 import AdminRoutes from "./AdminRoutes";
 import BrokerLayout from "@/Layout/BrokerLayout/BrokerLayout";
 import BrokerMyReferrals from "@/pages/BrokerDashboard/BrokerMyReferrals/BrokerMyReferrals";
-import BrokerPartnerProfile from "@/pages/BrokerDashboard/BrokerPartnerProfile/BrokerPartnerProfile";
+import BrokerPartnerProfile from "@/pages/BrokerDashboard/BrokerPartnerProfiles/BrokerPartnerProfiles";
 import BrokerTeamManagement from "@/pages/BrokerDashboard/BrokerTeamManagement/BrokerTeamManagement";
 import BrokerReport from "@/pages/BrokerDashboard/BrokerReport/BrokerReport";
 import BrokerNotifications from "@/pages/BrokerDashboard/BrokerNotifications/BrokerNotifications";
@@ -31,6 +31,8 @@ import AuthenticationLayout from "@/Layout/AuthenticationLayout/AuthenticationLa
 import RecoverPassword from "@/pages/Authentication/RecoverPassword/RecoverPassword";
 import BrokerOverview from "@/pages/BrokerDashboard/BrokerOverview/BrokerOverview";
 import BrokerLeadDetails from "@/pages/BrokerDashboard/BrokerLeadDetails/BrokerLeadDetails";
+import PartnerProfile from "@/pages/BrokerDashboard/BrokerPartnerProfiles/PartnerProfile";
+import EditPartnerConfiguration from "@/pages/BrokerDashboard/BrokerPartnerProfiles/EditPartnerConfiguration";
 
 const routes = createBrowserRouter([
   {
@@ -94,6 +96,14 @@ const routes = createBrowserRouter([
           { path: "leads/:id", element: <BrokerLeadDetails /> },
           { path: "my-referrals", element: <BrokerMyReferrals /> },
           { path: "partner-profile", element: <BrokerPartnerProfile /> },
+          {
+            path: "partner-profile/:id",
+            element: <PartnerProfile />,
+          },
+          {
+            path: "partner-profile/:id/edit",
+            element: <EditPartnerConfiguration />,
+          },
           { path: "team-management", element: <BrokerTeamManagement /> },
           { path: "report", element: <BrokerReport /> },
           { path: "notifications", element: <BrokerNotifications /> },

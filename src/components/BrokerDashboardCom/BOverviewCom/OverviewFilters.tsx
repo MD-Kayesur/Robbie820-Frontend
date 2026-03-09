@@ -1,4 +1,4 @@
-// src/components/BrokerDashboardCom/BOverivewCom/OverviewFilters.tsx
+// src/components/BrokerDashboardCom/BOverviewCom/OverviewFilters.tsx
 import { useState } from "react";
 import { Calendar, Check, Filter, Plus } from "lucide-react";
 
@@ -57,14 +57,14 @@ export default function OverviewFilters({
 
   return (
     <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-      <div className="inline-flex rounded-xl border border-[#E5E7EB] bg-white p-1">
+      <div className="inline-flex w-full rounded-xl border border-[#E5E7EB] bg-white p-1 lg:w-auto">
         {rangeOptions.map((item) => (
           <button
             key={item}
             type="button"
             onClick={() => onRangeChange(item)}
             className={cn(
-              "rounded-md px-4 py-2 text-[12px] font-medium transition sm:px-5",
+              "flex-1 rounded-md px-4 py-2 text-[12px] font-medium transition sm:px-5 lg:flex-none",
               range === item
                 ? "bg-black text-white"
                 : "text-[#222] hover:bg-[#F4F4F5]",
@@ -75,132 +75,140 @@ export default function OverviewFilters({
         ))}
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => setFilterOpen((prev) => !prev)}
-            className="inline-flex h-11 items-center gap-2 rounded-xl border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#222]"
-          >
-            <Filter className="h-4 w-4" strokeWidth={1.8} />
-            Filter
-          </button>
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:flex-nowrap lg:justify-end">
+        <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center lg:grid-cols-none">
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => {
+                setFilterOpen((prev) => !prev);
+                setCalendarOpen(false);
+              }}
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#222] sm:w-auto sm:justify-start"
+            >
+              <Filter className="h-4 w-4 shrink-0" strokeWidth={1.8} />
+              <span>Filter</span>
+            </button>
 
-          {filterOpen && (
-            <>
-              <button
-                type="button"
-                className="fixed inset-0 z-20"
-                onClick={() => setFilterOpen(false)}
-              />
+            {filterOpen && (
+              <>
+                <button
+                  type="button"
+                  className="fixed inset-0 z-20"
+                  onClick={() => setFilterOpen(false)}
+                />
 
-              <div className="absolute left-0 top-[calc(100%+8px)] z-30 w-64 rounded-2xl border border-[#E5E7EB] bg-white p-3 shadow-[0_16px_40px_rgba(15,23,42,0.10)]">
-                <p className="px-2 pb-2 text-[14px] font-semibold text-[#222]">
-                  Referral Status
-                </p>
-
-                <div className="space-y-1">
-                  {statusOptions.map((status) => (
-                    <button
-                      key={status}
-                      type="button"
-                      onClick={() => {
-                        onStatusChange(status);
-                        setFilterOpen(false);
-                      }}
-                      className={cn(
-                        "flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-[14px] transition",
-                        statusFilter === status
-                          ? "bg-[#EFF6FF] text-[#2563EB]"
-                          : "text-[#2A2A2A] hover:bg-[#F7F7F7]",
-                      )}
-                    >
-                      <span>{status}</span>
-                      {statusFilter === status ? (
-                        <Check className="h-4 w-4" />
-                      ) : null}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => setCalendarOpen((prev) => !prev)}
-            className="inline-flex h-11 items-center gap-2 rounded-xl border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#222]"
-          >
-            <Calendar className="h-4 w-4" strokeWidth={1.8} />
-            {dateLabel}
-          </button>
-
-          {calendarOpen && (
-            <>
-              <button
-                type="button"
-                className="fixed inset-0 z-20"
-                onClick={() => setCalendarOpen(false)}
-              />
-
-              <div className="absolute left-0 top-[calc(100%+8px)] z-30 w-72 rounded-2xl border border-[#E5E7EB] bg-white p-4 shadow-[0_16px_40px_rgba(15,23,42,0.10)]">
-                <div className="space-y-4">
-                  <p className="text-[14px] font-semibold text-[#222]">
-                    Select Date Range
+                <div className="absolute left-0 top-[calc(100%+8px)] z-30 w-full min-w-40 rounded-2xl border border-[#E5E7EB] bg-white p-3 shadow-[0_16px_40px_rgba(15,23,42,0.10)] sm:w-64">
+                  <p className="px-2 pb-2 text-[14px] font-semibold text-[#222]">
+                    Referral Status
                   </p>
 
-                  <div className="space-y-2">
-                    <label className="text-[12px] text-[#777]">From</label>
-                    <input
-                      type="date"
-                      value={dateRange.from}
-                      onChange={(e) =>
-                        onDateRangeChange({
-                          ...dateRange,
-                          from: e.target.value,
-                        })
-                      }
-                      className="h-10 w-full rounded-lg border border-[#E5E7EB] px-3 text-[13px] outline-none"
-                    />
+                  <div className="space-y-1">
+                    {statusOptions.map((status) => (
+                      <button
+                        key={status}
+                        type="button"
+                        onClick={() => {
+                          onStatusChange(status);
+                          setFilterOpen(false);
+                        }}
+                        className={cn(
+                          "flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-[14px] transition",
+                          statusFilter === status
+                            ? "bg-[#EFF6FF] text-[#2563EB]"
+                            : "text-[#2A2A2A] hover:bg-[#F7F7F7]",
+                        )}
+                      >
+                        <span className="truncate">{status}</span>
+                        {statusFilter === status ? (
+                          <Check className="h-4 w-4 shrink-0" />
+                        ) : null}
+                      </button>
+                    ))}
                   </div>
-
-                  <div className="space-y-2">
-                    <label className="text-[12px] text-[#777]">To</label>
-                    <input
-                      type="date"
-                      value={dateRange.to}
-                      onChange={(e) =>
-                        onDateRangeChange({
-                          ...dateRange,
-                          to: e.target.value,
-                        })
-                      }
-                      className="h-10 w-full rounded-lg border border-[#E5E7EB] px-3 text-[13px] outline-none"
-                    />
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      onApplyDate();
-                      setCalendarOpen(false);
-                    }}
-                    className="w-full rounded-lg bg-[#1BAEF5] py-2 text-[13px] font-medium text-white transition hover:bg-[#129fe2]"
-                  >
-                    Apply
-                  </button>
                 </div>
-              </div>
-            </>
-          )}
+              </>
+            )}
+          </div>
+
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => {
+                setCalendarOpen((prev) => !prev);
+                setFilterOpen(false);
+              }}
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#222] sm:w-auto sm:justify-start"
+            >
+              <Calendar className="h-4 w-4 shrink-0" strokeWidth={1.8} />
+              <span className="truncate">{dateLabel}</span>
+            </button>
+
+            {calendarOpen && (
+              <>
+                <button
+                  type="button"
+                  className="fixed inset-0 z-20"
+                  onClick={() => setCalendarOpen(false)}
+                />
+
+                <div className="absolute right-0 top-[calc(100%+8px)] z-30 w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-[#E5E7EB] bg-white p-4 shadow-[0_16px_40px_rgba(15,23,42,0.10)] sm:left-0 sm:right-auto sm:w-72">
+                  <div className="space-y-4">
+                    <p className="text-[14px] font-semibold text-[#222]">
+                      Select Date Range
+                    </p>
+
+                    <div className="space-y-2">
+                      <label className="text-[12px] text-[#777]">From</label>
+                      <input
+                        type="date"
+                        value={dateRange.from}
+                        onChange={(e) =>
+                          onDateRangeChange({
+                            ...dateRange,
+                            from: e.target.value,
+                          })
+                        }
+                        className="h-10 w-full rounded-lg border border-[#E5E7EB] px-3 text-[13px] outline-none"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[12px] text-[#777]">To</label>
+                      <input
+                        type="date"
+                        value={dateRange.to}
+                        onChange={(e) =>
+                          onDateRangeChange({
+                            ...dateRange,
+                            to: e.target.value,
+                          })
+                        }
+                        className="h-10 w-full rounded-lg border border-[#E5E7EB] px-3 text-[13px] outline-none"
+                      />
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onApplyDate();
+                        setCalendarOpen(false);
+                      }}
+                      className="w-full rounded-lg bg-[#1BAEF5] py-2 text-[13px] font-medium text-white transition hover:bg-[#129fe2]"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
         </div>
 
         <button
           type="button"
           onClick={onCreateLead}
-          className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#1BAEF5] px-5 text-[13px] font-medium text-white transition hover:bg-[#129fe2]"
+          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#1BAEF5] px-5 text-[13px] font-medium text-white transition hover:bg-[#129fe2] sm:w-auto lg:rounded-md"
         >
           <Plus className="h-4 w-4" />
           Create Lead

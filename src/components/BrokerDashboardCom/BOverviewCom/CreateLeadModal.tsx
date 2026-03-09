@@ -13,13 +13,13 @@ import type {
   RangeKey,
   ReferrerOption,
   TeamMember,
-} from "../../../../pages/BrokerDashboard/BrokerOverview/types";
+} from "../../../pages/BrokerDashboard/BrokerOverview/types";
 import {
   buildLeadFromCreateForm,
   calculateCommissionValues,
   formatMoney,
   parseMoneyInput,
-} from "../../../../pages/BrokerDashboard/BrokerOverview/utils";
+} from "../../../pages/BrokerDashboard/BrokerOverview/utils";
 
 const stageOptions: CreateLeadStage[] = [
   "New Referral",

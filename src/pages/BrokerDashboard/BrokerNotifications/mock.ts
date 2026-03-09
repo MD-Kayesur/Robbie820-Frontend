@@ -1,0 +1,157 @@
+import type {
+  NotificationItem,
+  NotificationPreferenceGroup,
+  NotificationPreferenceItem,
+} from "./types";
+
+export const notificationItemsMock: NotificationItem[] = [
+  {
+    id: "notif-1",
+    type: "new_referral_received",
+    category: "lead",
+    title: "New referral received",
+    description:
+      "John Carter was referred by Prime Estates and assigned to you.",
+    source: "REFERRAL PORTAL",
+    timeAgo: "10 min ago",
+    isRead: false,
+    icon: "user-plus",
+  },
+  {
+    id: "notif-2",
+    type: "lead_status_updated",
+    category: "lead",
+    title: 'Lead moved to "In Progress"',
+    description: "Sarah Jenkins' referral has moved to the next stage.",
+    source: "CRMSYNC",
+    timeAgo: "1 hour ago",
+    isRead: false,
+    icon: "refresh",
+  },
+  {
+    id: "notif-3",
+    type: "commission_calculated",
+    category: "commission",
+    title: "Commission calculated",
+    description:
+      "Estimated commission of $4,200 has been calculated for a settled referral.",
+    source: "COMMISSION ENGINE",
+    timeAgo: "2 hours ago",
+    isRead: false,
+    icon: "dollar",
+  },
+  {
+    id: "notif-4",
+    type: "payout_scheduled",
+    category: "commission",
+    title: "Referrer payout scheduled",
+    description: "Payout of $1,800 to Tom Harris is scheduled for 12 Mar 2026.",
+    source: "PAYOUT SYSTEM",
+    timeAgo: "5 hours ago",
+    isRead: false,
+    icon: "calendar",
+  },
+  {
+    id: "notif-5",
+    type: "lead_assigned_to_you",
+    category: "lead",
+    title: "New team member added",
+    description: "Alex Turner has been added as a Broker to your team.",
+    source: "TEAM MANAGEMENT",
+    timeAgo: "1 day ago",
+    isRead: true,
+    icon: "users",
+  },
+  {
+    id: "notif-6",
+    type: "seat_limit_reached",
+    category: "account",
+    title: "Seat limit reached",
+    description: "You've used all available broker seats in your subscription.",
+    source: "SUBSCRIPTION SYSTEM",
+    timeAgo: "2 days ago",
+    isRead: true,
+    icon: "alert",
+  },
+];
+
+export const notificationPreferenceGroups: NotificationPreferenceGroup[] = [
+  {
+    id: "lead-notifications",
+    title: "Lead Notifications",
+    items: [
+      "new_referral_received",
+      "lead_status_updated",
+      "lead_assigned_to_you",
+    ],
+  },
+  {
+    id: "commission-notifications",
+    title: "Commission Notifications",
+    items: ["commission_calculated", "payout_scheduled"],
+  },
+  {
+    id: "account-notifications",
+    title: "Account Notifications",
+    items: ["seat_limit_reached", "subscription_renewal_reminder"],
+  },
+];
+
+export const notificationPreferencesMock: NotificationPreferenceItem[] = [
+  {
+    type: "new_referral_received",
+    label: "New referral received",
+    category: "lead",
+    enabled: true,
+    email: true,
+    inApp: true,
+  },
+  {
+    type: "lead_status_updated",
+    label: "Lead status updated",
+    category: "lead",
+    enabled: true,
+    email: true,
+    inApp: true,
+  },
+  {
+    type: "lead_assigned_to_you",
+    label: "Lead assigned to you",
+    category: "lead",
+    enabled: true,
+    email: true,
+    inApp: true,
+  },
+  {
+    type: "commission_calculated",
+    label: "Commission calculated",
+    category: "commission",
+    enabled: true,
+    email: true,
+    inApp: true,
+  },
+  {
+    type: "payout_scheduled",
+    label: "Payout scheduled",
+    category: "commission",
+    enabled: true,
+    email: true,
+    inApp: true,
+  },
+  {
+    type: "seat_limit_reached",
+    label: "Seat limit reached",
+    category: "account",
+    enabled: true,
+    email: true,
+    inApp: true,
+  },
+  {
+    type: "subscription_renewal_reminder",
+    label: "Subscription renewal reminder",
+    category: "account",
+    enabled: true,
+    email: true,
+    inApp: true,
+  },
+];

@@ -1,537 +1,27 @@
 import { useEffect, useMemo, useState } from "react";
-import {
-  Calendar,
-  ChevronDown,
-  Download,
-  Eye,
-  FileText,
-  MoreHorizontal,
-  Plus,
-  RefreshCw,
-  Search,
-  UserPlus,
-  X,
-} from "lucide-react";
+import { Calendar, Download, Plus, Search } from "lucide-react";
 
 import { cn } from "@/hooks/useCn";
-import { useOutsideClose } from "@/hooks/useOutsideClose";
-import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
-import CreateLeadModal from "@/components/BrokerDashboardCom/BOverviewCom/modals/CreateLeadModal";
+import CreateLeadModal from "@/components/BrokerDashboardCom/BOverviewCom/CreateLeadModal";
 import { Lead, RangeKey } from "../BrokerOverview/types";
 import { brokerTeamMembers, referrerOptions } from "../BrokerOverview/mock";
 
-type PipelineStage =
-  | "New Referral"
-  | "Contacted"
-  | "Application Started"
-  | "Submitted to Lender"
-  | "Approved"
-  | "Funded"
-  | "Closed / Not Proceeding";
-
-type CommissionStatus = "Pending" | "Approved" | "Paid" | "Scheduled";
-
-type ReferralRow = {
-  id: number;
-  borrowerName: string;
-  referrer: string;
-  loanAmount: number;
-  pipelineStage: PipelineStage;
-  expectedCommission: number;
-  commissionStatus: CommissionStatus;
-  dateSubmitted: string;
-  assignedTeamMember: string;
-  settlementDate: string;
-};
-
-const stageOptions = [
-  "Stage",
-  "New Referral",
-  "Contacted",
-  "Application Started",
-  "Submitted to Lender",
-  "Approved",
-  "Funded",
-  "Closed / Not Proceeding",
-] as const;
-
-const referrerFilterOptions = [
-  "Referrer",
-  "ABC Realty Group",
-  "Elite Financial Partners",
-  "Premier Mortgage Solutions",
-  "Summit Property Advisors",
-] as const;
-
-const teamMemberOptions = [
-  "Team Members",
-  "John Broker",
-  "Sarah Smith",
-  "Mike Johnson",
-] as const;
-
-const referralRows: ReferralRow[] = [
-  {
-    id: 1,
-    borrowerName: "Sarah Mitchell",
-    referrer: "ABC Realty Group",
-    loanAmount: 450000,
-    pipelineStage: "Submitted to Lender",
-    expectedCommission: 4500,
-    commissionStatus: "Pending",
-    dateSubmitted: "Mar 1, 2026",
-    assignedTeamMember: "John Broker",
-    settlementDate: "Apr 12, 2026",
-  },
-  {
-    id: 2,
-    borrowerName: "James Rodriguez",
-    referrer: "Elite Financial Partners",
-    loanAmount: 780000,
-    pipelineStage: "Approved",
-    expectedCommission: 7800,
-    commissionStatus: "Approved",
-    dateSubmitted: "Feb 28, 2026",
-    assignedTeamMember: "Sarah Smith",
-    settlementDate: "Mar 29, 2026",
-  },
-  {
-    id: 3,
-    borrowerName: "Emily Chen",
-    referrer: "ABC Realty Group",
-    loanAmount: 325000,
-    pipelineStage: "Application Started",
-    expectedCommission: 3250,
-    commissionStatus: "Pending",
-    dateSubmitted: "Mar 5, 2026",
-    assignedTeamMember: "Mike Johnson",
-    settlementDate: "Apr 15, 2026",
-  },
-  {
-    id: 4,
-    borrowerName: "Michael Thompson",
-    referrer: "Premier Mortgage Solutions",
-    loanAmount: 590000,
-    pipelineStage: "Funded",
-    expectedCommission: 5900,
-    commissionStatus: "Paid",
-    dateSubmitted: "Feb 15, 2026",
-    assignedTeamMember: "John Broker",
-    settlementDate: "Feb 28, 2026",
-  },
-  {
-    id: 5,
-    borrowerName: "Lisa Anderson",
-    referrer: "Elite Financial Partners",
-    loanAmount: 410000,
-    pipelineStage: "Contacted",
-    expectedCommission: 4100,
-    commissionStatus: "Pending",
-    dateSubmitted: "Mar 7, 2026",
-    assignedTeamMember: "Sarah Smith",
-    settlementDate: "Apr 9, 2026",
-  },
-  {
-    id: 6,
-    borrowerName: "David Park",
-    referrer: "Summit Property Advisors",
-    loanAmount: 875000,
-    pipelineStage: "New Referral",
-    expectedCommission: 8750,
-    commissionStatus: "Pending",
-    dateSubmitted: "Mar 8, 2026",
-    assignedTeamMember: "Mike Johnson",
-    settlementDate: "Apr 22, 2026",
-  },
-  {
-    id: 7,
-    borrowerName: "Jennifer Williams",
-    referrer: "ABC Realty Group",
-    loanAmount: 520000,
-    pipelineStage: "Approved",
-    expectedCommission: 5200,
-    commissionStatus: "Scheduled",
-    dateSubmitted: "Feb 20, 2026",
-    assignedTeamMember: "John Broker",
-    settlementDate: "Mar 18, 2026",
-  },
-  {
-    id: 8,
-    borrowerName: "Robert Martinez",
-    referrer: "Premier Mortgage Solutions",
-    loanAmount: 395000,
-    pipelineStage: "Submitted to Lender",
-    expectedCommission: 3950,
-    commissionStatus: "Pending",
-    dateSubmitted: "Mar 3, 2026",
-    assignedTeamMember: "Sarah Smith",
-    settlementDate: "Apr 10, 2026",
-  },
-];
-
-function formatMoney(amount: number) {
-  return `$${amount.toLocaleString()}`;
-}
-
-function StageBadge({ stage }: { stage: PipelineStage }) {
-  const stageClasses: Record<PipelineStage, string> = {
-    "New Referral": "bg-[#E8F0FF] text-[#2563EB]",
-    Contacted: "bg-[#F3E8FF] text-[#9333EA]",
-    "Application Started": "bg-[#FEF3C7] text-[#D97706]",
-    "Submitted to Lender": "bg-[#FFF1E8] text-[#F97316]",
-    Approved: "bg-[#DCFCE7] text-[#16A34A]",
-    Funded: "bg-[#DCFCE7] text-[#16A34A]",
-    "Closed / Not Proceeding": "bg-[#F3F4F6] text-[#6B7280]",
-  };
-
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-medium leading-none whitespace-nowrap",
-        stageClasses[stage],
-      )}
-    >
-      {stage}
-    </span>
-  );
-}
-
-function CommissionStatusBadge({ status }: { status: CommissionStatus }) {
-  const statusClasses: Record<CommissionStatus, string> = {
-    Pending: "bg-[#F3F4F6] text-[#4B5563]",
-    Approved: "bg-[#E8F0FF] text-[#2563EB]",
-    Paid: "bg-[#DCFCE7] text-[#16A34A]",
-    Scheduled: "bg-[#FEF3C7] text-[#D97706]",
-  };
-
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-medium leading-none whitespace-nowrap",
-        statusClasses[status],
-      )}
-    >
-      {status}
-    </span>
-  );
-}
-
-function FilterDropdown<T extends string>({
-  value,
-  options,
-  onChange,
-}: {
-  value: T;
-  options: readonly T[];
-  onChange: (value: T) => void;
-}) {
-  const [open, setOpen] = useState(false);
-  const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
-
-  return (
-    <div ref={ref} className="relative min-w-0">
-      <button
-        type="button"
-        onClick={() => setOpen((prev) => !prev)}
-        className={cn(
-          "flex h-11 w-full items-center justify-between rounded-[10px] border bg-[#F3F3F5] px-4 text-left text-[13px] font-medium text-[#374151] transition",
-          open ? "border-[#3B82F6] ring-1 ring-[#3B82F6]" : "border-[#E5E7EB]",
-        )}
-      >
-        <span className="truncate">{value}</span>
-        <ChevronDown
-          className={cn(
-            "h-4 w-4 shrink-0 text-[#4B5563] transition",
-            open && "rotate-180",
-          )}
-        />
-      </button>
-
-      {open ? (
-        <div className="absolute left-0 top-full z-30 mt-1 w-full overflow-hidden border border-[#A3A3A3] bg-white shadow-sm">
-          {options.map((option, index) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => {
-                onChange(option);
-                setOpen(false);
-              }}
-              className={cn(
-                "block w-full px-4 py-3 text-left text-[13px] text-[#374151] transition hover:bg-[#E8F1FF]",
-                (option === value || index === 0) && "bg-[#9EC5F8]",
-              )}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-function RowMenu({ onView }: { onView: () => void }) {
-  const [open, setOpen] = useState(false);
-  const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
-
-  const items = [
-    { label: "View Details", icon: Eye, onClick: onView },
-    {
-      label: "Update Stage",
-      icon: RefreshCw,
-      onClick: () => setOpen(false),
-    },
-    {
-      label: "Add Internal Note",
-      icon: FileText,
-      onClick: () => setOpen(false),
-    },
-    {
-      label: "Assign Team Member",
-      icon: UserPlus,
-      onClick: () => setOpen(false),
-    },
-  ];
-
-  return (
-    <div ref={ref} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((prev) => !prev)}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[#6B7280] transition hover:bg-[#F3F4F6]"
-      >
-        <MoreHorizontal className="h-4 w-4" />
-      </button>
-
-      {open ? (
-        <div className="absolute right-0 top-[calc(100%+8px)] z-30 min-w-62.5 overflow-hidden rounded-[20px] border border-[#E5E7EB] bg-white shadow-[0_18px_40px_rgba(0,0,0,0.12)]">
-          {items.map((item) => {
-            const Icon = item.icon;
-            return (
-              <button
-                key={item.label}
-                type="button"
-                onClick={() => {
-                  item.onClick();
-                  setOpen(false);
-                }}
-                className="flex w-full items-center gap-4 px-6 py-4 text-left text-[15px] font-medium text-[#374151] transition hover:bg-[#F8FAFC]"
-              >
-                <Icon className="h-5 w-5 text-[#6B7280]" strokeWidth={1.8} />
-                <span>{item.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-function ExportModal({
-  open,
-  onClose,
-}: {
-  open: boolean;
-  onClose: () => void;
-}) {
-  const [dateRange, setDateRange] = useState("Last 30 Days");
-  const [exportScope, setExportScope] = useState("Filtered Results");
-  const [fields, setFields] = useState({
-    borrowerName: true,
-    referrer: true,
-    loanAmount: true,
-    stage: true,
-    expectedCommission: true,
-    commissionStatus: true,
-    dateSubmitted: true,
-    settlementDate: true,
-  });
-
-  useLockBodyScroll(open);
-  const modalRef = useOutsideClose<HTMLDivElement>(open, onClose);
-
-  if (!open) return null;
-
-  const dateOptions = ["Last 30 Days", "MTD", "FYTD", "Custom"] as const;
-  const scopeOptions = ["All Referrals", "Filtered Results"] as const;
-
-  const includeRows = [
-    ["Borrower Name", "borrowerName"],
-    ["Referrer", "referrer"],
-    ["Loan Amount", "loanAmount"],
-    ["Stage", "stage"],
-    ["Expected Commission", "expectedCommission"],
-    ["Commission Status", "commissionStatus"],
-    ["Date Submitted", "dateSubmitted"],
-    ["Settlement Date", "settlementDate"],
-  ] as const;
-
-  const toggleField = (key: keyof typeof fields) => {
-    setFields((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 px-4 py-6">
-      <div
-        ref={modalRef}
-        className="max-h-[95vh] w-full max-w-120 overflow-y-auto rounded-sm bg-white p-5 shadow-[0_28px_80px_rgba(0,0,0,0.28)] sm:p-6"
-      >
-        {/* Header */}
-        <div className="flex items-start gap-3 border-b border-[#E5E7EB] pb-4">
-          <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-[#D8EEF9]">
-            <Download className="h-7 w-7 text-[#0EA5E9]" strokeWidth={1.8} />
-          </div>
-
-          <div className="min-w-0 flex-1 pt-1">
-            <h2 className="text-[22px] font-semibold leading-none text-black sm:text-[24px]">
-              Export Referrals
-            </h2>
-            <p className="mt-1 text-[14px] text-[#6B7280]">
-              Generate a detailed CSV report
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full text-black transition hover:bg-[#F3F4F6]"
-          >
-            <X className="h-5 w-5" strokeWidth={1.8} />
-          </button>
-        </div>
-
-        <div className="mt-6 space-y-7">
-          {/* Date Range */}
-          <section>
-            <div className="mb-4 flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-black" strokeWidth={1.8} />
-              <h3 className="text-[18px] font-medium text-black">Date Range</h3>
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {dateOptions.map((option) => {
-                const active = dateRange === option;
-                return (
-                  <button
-                    key={option}
-                    type="button"
-                    onClick={() => setDateRange(option)}
-                    className={cn(
-                      "h-11 rounded-xl border text-[14px] transition",
-                      active
-                        ? "border-[#11A9F3] bg-[#EDF7FC] text-[#11A9F3]"
-                        : "border-[#11A9F3] bg-white text-[#11A9F3]",
-                    )}
-                  >
-                    {option}
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-
-          {/* Export Scope */}
-          <section>
-            <div className="mb-4 flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-black" strokeWidth={1.8} />
-              <h3 className="text-[18px] font-medium text-black">
-                Export Scope
-              </h3>
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {scopeOptions.map((option) => {
-                const active = exportScope === option;
-                return (
-                  <button
-                    key={option}
-                    type="button"
-                    onClick={() => setExportScope(option)}
-                    className={cn(
-                      "h-11 rounded-xl border text-[14px] transition",
-                      active
-                        ? "border-[#11A9F3] bg-[#EDF7FC] text-[#11A9F3]"
-                        : "border-[#11A9F3] bg-white text-[#11A9F3]",
-                    )}
-                  >
-                    {option}
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-
-          {/* Include Fields */}
-          <section>
-            <div className="mb-4 flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-black" strokeWidth={1.8} />
-              <h3 className="text-[18px] font-medium text-black">
-                Include Fields
-              </h3>
-            </div>
-
-            <div className="rounded-lg border border-[#D1D5DB] px-5 py-4 bg-[#F5F5F5]">
-              <div className="space-y-3">
-                {includeRows.map(([label, key]) => (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => toggleField(key)}
-                    className="flex w-full items-center justify-between gap-3 text-left"
-                  >
-                    <span className="text-[14px] text-black">{label}</span>
-
-                    <span
-                      className={cn(
-                        "flex h-5 w-5 items-center justify-center rounded border",
-                        fields[key]
-                          ? "border-[#11A9F3] text-[#11A9F3]"
-                          : "border-[#CBD5E1] text-transparent",
-                      )}
-                    >
-                      <svg
-                        viewBox="0 0 20 20"
-                        className="h-3 w-3"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M4.5 10.5l3.5 3.5 7-8" />
-                      </svg>
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </section>
-        </div>
-
-        {/* Footer */}
-        <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <button
-            type="button"
-            onClick={onClose}
-            className="h-11 rounded-xl bg-[#CDE8F4] px-5 text-[15px] font-medium text-black transition hover:opacity-90"
-          >
-            Cancel
-          </button>
-
-          <button
-            type="button"
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#11A9F3] px-5 text-[15px] font-medium text-white transition hover:opacity-90"
-          >
-            <Download className="h-4 w-4" strokeWidth={1.9} />
-            Export CSV
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
+import ExportModal from "../../../components/BrokerDashboardCom/BMyReferralsCom/ExportModal";
+import {
+  CommissionStatusBadge,
+  FilterDropdown,
+  formatMoney,
+  MobileReferralCard,
+  RowMenu,
+  StageBadge,
+} from "../../../components/BrokerDashboardCom/BMyReferralsCom/ReferralTableParts";
+import { referralRows } from "./mock";
+import type { CommissionStatus, PipelineStage, ReferralRow } from "./types";
+import {
+  referrerFilterOptions,
+  stageOptions,
+  teamMemberOptions,
+} from "./types";
 
 const BrokerMyReferrals = () => {
   const [search, setSearch] = useState("");
@@ -573,7 +63,7 @@ const BrokerMyReferrals = () => {
 
       return matchesSearch && matchesReferrer && matchesStage && matchesTeam;
     });
-  }, [search, referrer, stage, teamMember]);
+  }, [search, referrer, stage, teamMember, leadRows]);
 
   const totalPages = Math.max(1, Math.ceil(filteredRows.length / perPage));
   const currentPage = Math.min(page, totalPages);
@@ -645,7 +135,6 @@ const BrokerMyReferrals = () => {
 
   const handleCreateLead = (newLead: Lead) => {
     const newRow = mapLeadToReferralRow(newLead);
-
     setLeadRows((prev) => [newRow, ...prev]);
     setCreateLeadOpen(false);
   };
@@ -663,11 +152,11 @@ const BrokerMyReferrals = () => {
             </p>
           </div>
 
-          <div className="flex flex-col gap-4 sm:flex-row">
+          <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => setExportOpen(true)}
-              className="inline-flex h-8 items-center justify-center gap-2 rounded-md bg-[#D3ECF7] px-4 text-[13px] font-medium text-[#374151] transition hover:opacity-90"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#D3ECF7] px-4 text-[13px] font-medium text-[#374151] transition hover:opacity-90 sm:h-8"
             >
               <Download className="h-4 w-4" />
               EXPORT CSV
@@ -676,7 +165,7 @@ const BrokerMyReferrals = () => {
             <button
               type="button"
               onClick={() => setCreateLeadOpen(true)}
-              className="inline-flex h-8 items-center justify-center gap-2 rounded-md bg-[#12A9F4] px-4 text-[13px] font-medium text-white transition hover:opacity-90"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#12A9F4] px-4 text-[13px] font-medium text-white transition hover:opacity-90 sm:h-8"
             >
               <Plus className="h-4 w-4" />
               Create Lead
@@ -717,7 +206,7 @@ const BrokerMyReferrals = () => {
 
             <button
               type="button"
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-[10px] border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#111827] whitespace-nowrap"
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#111827] whitespace-nowrap"
             >
               <Calendar className="h-4 w-4 text-[#111827]" />
               Nov 2025 - Jan 2026
@@ -726,8 +215,20 @@ const BrokerMyReferrals = () => {
         </div>
 
         <div className="overflow-hidden rounded-[18px] border border-[#E5E7EB] bg-white">
-          <div className="overflow-x-auto">
-            <table className="min-w-300 w-full">
+          <div className="block space-y-4 p-4 lg:hidden">
+            {paginatedRows.map((row) => (
+              <MobileReferralCard key={row.id} row={row} />
+            ))}
+
+            {paginatedRows.length === 0 ? (
+              <div className="px-2 py-10 text-center text-[14px] text-[#6B7280]">
+                No referrals found.
+              </div>
+            ) : null}
+          </div>
+
+          <div className="hidden overflow-x-auto lg:block">
+            <table className="w-full min-w-300">
               <thead>
                 <tr className="border-b border-[#E5E7EB] bg-[#FAFAFA]">
                   <th className="px-4 py-4 text-left text-[10px] font-medium uppercase tracking-wide text-[#6B7280]">
@@ -819,7 +320,7 @@ const BrokerMyReferrals = () => {
               results
             </p>
 
-            <div className="flex items-center gap-2 self-end">
+            <div className="flex flex-wrap items-center gap-2 sm:justify-end">
               <button
                 type="button"
                 onClick={() => setPage((prev) => Math.max(1, prev - 1))}
