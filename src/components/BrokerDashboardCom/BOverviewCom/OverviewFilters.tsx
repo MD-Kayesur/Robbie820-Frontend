@@ -1,4 +1,4 @@
-// src/components/BrokerDashboardCom/BOverivewCom/OverviewFilters.tsx
+// src/components/BrokerDashboardCom/BOverviewCom/OverviewFilters.tsx
 import { useState } from "react";
 import { Calendar, Check, Filter, Plus } from "lucide-react";
 
@@ -57,26 +57,26 @@ export default function OverviewFilters({
 
   return (
     <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-      <div className="grid w-full grid-cols-1 gap-3 lg:flex lg:w-auto lg:items-center lg:justify-between">
-        <div className="inline-flex w-full rounded-xl border border-[#E5E7EB] bg-white p-1 lg:w-auto">
-          {rangeOptions.map((item) => (
-            <button
-              key={item}
-              type="button"
-              onClick={() => onRangeChange(item)}
-              className={cn(
-                "flex-1 rounded-md px-3 py-2 text-[12px] font-medium transition sm:px-5",
-                range === item
-                  ? "bg-black text-white"
-                  : "text-[#222] hover:bg-[#F4F4F5]",
-              )}
-            >
-              {formatRangeLabel(item)}
-            </button>
-          ))}
-        </div>
+      <div className="inline-flex w-full rounded-xl border border-[#E5E7EB] bg-white p-1 lg:w-auto">
+        {rangeOptions.map((item) => (
+          <button
+            key={item}
+            type="button"
+            onClick={() => onRangeChange(item)}
+            className={cn(
+              "flex-1 rounded-md px-4 py-2 text-[12px] font-medium transition sm:px-5 lg:flex-none",
+              range === item
+                ? "bg-black text-white"
+                : "text-[#222] hover:bg-[#F4F4F5]",
+            )}
+          >
+            {formatRangeLabel(item)}
+          </button>
+        ))}
+      </div>
 
-        <div className="grid grid-cols-2 gap-3 lg:flex lg:w-auto lg:flex-wrap lg:items-center">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:flex-nowrap lg:justify-end">
+        <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:items-center lg:grid-cols-none">
           <div className="relative">
             <button
               type="button"
@@ -84,10 +84,10 @@ export default function OverviewFilters({
                 setFilterOpen((prev) => !prev);
                 setCalendarOpen(false);
               }}
-              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#222] lg:w-auto lg:justify-start"
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#222] sm:w-auto sm:justify-start"
             >
-              <Filter className="h-4 w-4" strokeWidth={1.8} />
-              Filter
+              <Filter className="h-4 w-4 shrink-0" strokeWidth={1.8} />
+              <span>Filter</span>
             </button>
 
             {filterOpen && (
@@ -98,7 +98,7 @@ export default function OverviewFilters({
                   onClick={() => setFilterOpen(false)}
                 />
 
-                <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-30 w-full min-w-0 rounded-2xl border border-[#E5E7EB] bg-white p-3 shadow-[0_16px_40px_rgba(15,23,42,0.10)] sm:w-64 sm:min-w-[16rem] sm:right-auto">
+                <div className="absolute left-0 top-[calc(100%+8px)] z-30 w-full min-w-40 rounded-2xl border border-[#E5E7EB] bg-white p-3 shadow-[0_16px_40px_rgba(15,23,42,0.10)] sm:w-64">
                   <p className="px-2 pb-2 text-[14px] font-semibold text-[#222]">
                     Referral Status
                   </p>
@@ -138,9 +138,9 @@ export default function OverviewFilters({
                 setCalendarOpen((prev) => !prev);
                 setFilterOpen(false);
               }}
-              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#222] lg:w-auto lg:justify-start"
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#222] sm:w-auto sm:justify-start"
             >
-              <Calendar className="h-4 w-4" strokeWidth={1.8} />
+              <Calendar className="h-4 w-4 shrink-0" strokeWidth={1.8} />
               <span className="truncate">{dateLabel}</span>
             </button>
 
@@ -152,7 +152,7 @@ export default function OverviewFilters({
                   onClick={() => setCalendarOpen(false)}
                 />
 
-                <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-30 w-full min-w-0 rounded-2xl border border-[#E5E7EB] bg-white p-4 shadow-[0_16px_40px_rgba(15,23,42,0.10)] sm:w-72 sm:min-w-[18rem] sm:right-auto">
+                <div className="absolute right-0 top-[calc(100%+8px)] z-30 w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-[#E5E7EB] bg-white p-4 shadow-[0_16px_40px_rgba(15,23,42,0.10)] sm:left-0 sm:right-auto sm:w-72">
                   <div className="space-y-4">
                     <p className="text-[14px] font-semibold text-[#222]">
                       Select Date Range
@@ -203,16 +203,16 @@ export default function OverviewFilters({
               </>
             )}
           </div>
-
-          <button
-            type="button"
-            onClick={onCreateLead}
-            className="col-span-2 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#1BAEF5] px-5 text-[13px] font-medium text-white transition hover:bg-[#129fe2] lg:col-span-1 lg:w-auto lg:rounded-md"
-          >
-            <Plus className="h-4 w-4" />
-            Create Lead
-          </button>
         </div>
+
+        <button
+          type="button"
+          onClick={onCreateLead}
+          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#1BAEF5] px-5 text-[13px] font-medium text-white transition hover:bg-[#129fe2] sm:w-auto lg:rounded-md"
+        >
+          <Plus className="h-4 w-4" />
+          Create Lead
+        </button>
       </div>
     </div>
   );
