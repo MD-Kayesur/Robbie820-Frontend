@@ -1,4 +1,3 @@
-import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import laptopMockup from "@/assets/landingpage/image.png";
 import CommonWrapper from "../CommonWrapper/CommonWrapper";
@@ -9,10 +8,10 @@ interface HeroProps {
 }
 
 
-const Hero = ({ onGetStarted }: HeroProps) => {
+const Hero = ({ onGetStarted, className }: HeroProps) => {
     return (
-        <main className="relative clash">
-            <CommonWrapper className={"pt-54 pb-16 md:pl-[150px]"}>
+        <main className={`relative clash ${className}`}>
+            <CommonWrapper className={"pt-32 lg:pt-54 pb-16 md:pl-[150px]"}>
                 {/* Background Decorations */}
                 <div className="absolute top-0 right-0 w-200 h-200 bg-sky-100/40 rounded-full blur-[120px] -z-10 translate-x-1/2 -translate-y-1/2" />
                 <div className="absolute bottom-0 left-0 w-150 h-150 bg-blue-50/50 rounded-full blur-[100px] -z-10 -translate-x-1/4 translate-y-1/4" />
@@ -20,59 +19,45 @@ const Hero = ({ onGetStarted }: HeroProps) => {
                 <div className=" mx-auto flex flex-col lg:flex-row items-center ">
                     {/* Hero Text content */}
                     <div
-                        className="flex-1  text-center lg:text-left space-y-10 bg-no-repeat bg-left-top bg-contain"
+                        className="flex-1 text-center lg:text-left space-y-8 bg-no-repeat bg-left-top bg-contain lg:pr-10"
                         style={{ backgroundImage: `url(${bglight})` }}
                     >
                         <div className="space-y-6">
-                            <h1 className="text-2xl md:text-3xl lg:text-5xl font-normal leading-none tracking-tight text-[#0F172A]">
-                                Automate Referral  Commissions <br className="hidden lg:block" /> With{" "}
-
-                                <span className="text-black inline-block mt-2">
-                                    Complete Accuracy
+                            <h1 className="text-[32px] md:text-4xl lg:text-6xl font-medium leading-[1.1] tracking-tight text-[#0F172A]">
+                                Automate Referral Commissions <br />
+                                <span className="text-sky-500">
+                                    With Complete Accuracy
                                 </span>
                             </h1>
 
-                            <p className="text-xl md:text-xl text-black max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
-                                Eliminate Manual Tracking And Commission Disputes. Our Platform
-                                Connects Brokers, And Referral Partners With Transparent,
-                                Automated Commission Management.
+                            <p className="text-lg md:text-xl text-[#64748B] max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                                Eliminate manual tracking and commission disputes. Our platform
+                                connects brokers and referral partners with transparent,
+                                automated commission management.
                             </p>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5">
+                        <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
                             <Button
                                 onClick={onGetStarted}
-                                className="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white font-normal h-16 px-12 rounded-2xl text-xl shadow-2xl shadow-sky-500/30 hover:-translate-y-1 transition-all duration-300 active:scale-95"
+                                className="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 text-white font-medium h-14 md:h-16 px-12 rounded-2xl text-lg shadow-xl shadow-sky-500/25 transition-all duration-300 active:scale-95"
                             >
                                 Get Started
                             </Button>
                             <Button
                                 variant="outline"
-                                className="w-full sm:w-auto bg-white hover:bg-slate-50  hover:text-sky-500 font-normal h-16 px-12 rounded-2xl text-xl border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 active:scale-95"
+                                className="w-full sm:w-auto bg-white hover:bg-slate-50 hover:text-sky-500 font-medium h-14 md:h-16 px-12 rounded-2xl text-lg border-slate-200 shadow-sm transition-all duration-300 active:scale-95 flex items-center justify-center gap-2"
                             >
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 6.707v10.586a1 1 0 001.529.852l7.712-5.293a1 1 0 000-1.704L8.53 5.855A1 1 0 007 6.707z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
                                 Watch Demo
                             </Button>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-8 text-slate-500 font-normal">
-                            <div className="flex items-center gap-3">
-                                <div className="w-6 h-6 rounded-full bg-sky-100 flex items-center justify-center">
-                                    <Check size={14} className="text-sky-600 stroke-[3px]" />
-                                </div>
-                                <span>No Credit Card Required</span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <div className="w-6 h-6 rounded-full bg-sky-100 flex items-center justify-center">
-                                    <Check size={14} className="text-sky-600 stroke-[3px]" />
-                                </div>
-                                <span>14-Day Free Trial</span>
-                            </div>
+                        <div className="text-slate-500 text-sm md:text-base font-normal">
+                            No credit card required · 14-day free trial
                         </div>
-
-
-
-
-
                     </div>
 
                     {/* Hero Visual contents */}
