@@ -72,7 +72,7 @@ const BrokerPartnerProfiles = () => {
       <section className="space-y-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
-            <h1 className="text-[28px] font-semibold leading-none text-[#111827]">
+            <h1 className="text-lg font-medium leading-none text-[#111827]">
               Partner Profiles
             </h1>
             <p className="mt-2 text-sm text-[#6B7280]">

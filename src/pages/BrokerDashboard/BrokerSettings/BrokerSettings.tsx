@@ -34,13 +34,13 @@ const BrokerSettings = () => {
     useState<AppPreferencesState>(appPreferencesMock);
 
   return (
-    <div className="space-y-5 bg-[#F8FAFC] p-3 sm:space-y-6 sm:p-4 lg:p-6">
+    <div className="space-y-5">
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div className="min-w-0">
-          <h1 className="text-[24px] font-semibold tracking-[-0.03em] text-[#111827] sm:text-[28px]">
+          <h1 className="text-lg font-medium text-[#111827]">
             System Settings
           </h1>
-          <p className="mt-1 text-[14px] leading-6 text-[#6B7280] sm:text-[16px]">
+          <p className="text-[14px] leading-6 text-[#6B7280]">
             configure your professional profile and workspace security.
           </p>
         </div>

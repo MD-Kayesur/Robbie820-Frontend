@@ -1,63 +1,153 @@
 import { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
-  ArrowLeft,
   Building2,
   Check,
   CircleAlert,
   CreditCard,
   Download,
-  Printer,
   ShieldCheck,
-  X,
 } from "lucide-react";
 
-import { cn } from "@/hooks/useCn";
 import {
   currentPlanMock,
   invoiceDetailsMock,
   invoicesMock,
   paymentMethodsMock,
-  pricingPlansMock,
+  planConfigsMock,
   seatUsageMock,
 } from "./mock";
 import type {
   BillingCycle,
+  CurrentPlanSummary,
+  InvoiceDetails,
   InvoiceRow,
+  PaymentMethod,
   PaymentMethodForm,
-  PaymentMethodType,
-  PricingPlan,
+  SeatUsageSummary,
+  SubscriptionPlanKey,
 } from "./types";
+import { capitalize, ensureOneDefault, formatMoney } from "./utils";
+import InvoiceMobileCard from "@/components/BrokerDashboardCom/BSubscription/InvoiceMobileCard";
+import UpdatePaymentMethodModal from "@/components/BrokerDashboardCom/BSubscription/UpdatePaymentMethodModal";
+import InvoicePreviewModal from "@/components/BrokerDashboardCom/BSubscription/InvoicePreviewModal";
+
+type ChangePlanRouteState = {
+  selectedPlanId?: SubscriptionPlanKey;
+  selectedCycle?: BillingCycle;
+};
 
 const BrokerSubscription = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [autoRenewal, setAutoRenewal] = useState(true);
-  const [paymentMethods, setPaymentMethods] = useState(paymentMethodsMock);
+  const [paymentMethods, setPaymentMethods] =
+    useState<PaymentMethod[]>(paymentMethodsMock);
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [paymentForm, setPaymentForm] = useState<PaymentMethodForm>({
     type: "card",
     cardholderName: "Cameron Williamson",
-    cardNumber: "0000000000000000",
-    expiryDate: "mm/yy",
+    cardNumber: "4242424242424242",
+    expiryDate: "12/28",
     cvv: "123",
     isDefault: true,
   });
 
-  const [pricingModalOpen, setPricingModalOpen] = useState(false);
-  const [pricingCycle, setPricingCycle] = useState<BillingCycle>("monthly");
+  const [currentPlan, setCurrentPlan] =
+    useState<CurrentPlanSummary>(currentPlanMock);
+  const [seatUsage, setSeatUsage] = useState<SeatUsageSummary>(seatUsageMock);
+  const [invoiceRows, setInvoiceRows] = useState<InvoiceRow[]>(invoicesMock);
+  const [showAllInvoices, setShowAllInvoices] = useState(false);
+
   const [invoicePreviewOpen, setInvoicePreviewOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<InvoiceRow | null>(
     null,
   );
 
   useEffect(() => {
+    const state = location.state as ChangePlanRouteState | null;
+
+    if (!state?.selectedPlanId || !state?.selectedCycle) return;
+
+    const config = planConfigsMock[state.selectedPlanId];
+    const price =
+      state.selectedCycle === "monthly"
+        ? config.monthlyPrice
+        : config.yearlyPrice;
+
+    setCurrentPlan({
+      planId: config.id,
+      planName: config.name,
+      price: price ?? 0,
+      priceSuffix:
+        state.selectedCycle === "monthly"
+          ? config.priceSuffixMonthly
+          : config.priceSuffixYearly,
+      features: config.features,
+      nextBillingDate:
+        state.selectedCycle === "monthly" ? "Jan 01, 2026" : "Dec 01, 2026",
+      billingCycle: state.selectedCycle,
+      billingCycleLabel: capitalize(state.selectedCycle),
+      activeDealsLimit: config.activeDealsLimit,
+      referralPartnersLimit: config.referralPartnersLimit,
+      brokerSeatsIncluded: config.brokerSeatsIncluded,
+    });
+
+    setSeatUsage((prev) => ({
+      ...prev,
+      totalSeats:
+        typeof config.brokerSeatsIncluded === "number"
+          ? Math.max(prev.usedSeats, config.brokerSeatsIncluded)
+          : prev.totalSeats,
+    }));
+
+    const extraSeats =
+      typeof config.brokerSeatsIncluded === "number"
+        ? Math.max(0, seatUsage.usedSeats - config.brokerSeatsIncluded)
+        : 0;
+
+    const displayAmount =
+      (price ?? 0) + extraSeats * seatUsage.additionalSeatMonthlyCost;
+
+    const newInvoice: InvoiceRow = {
+      id: `inv-${Date.now()}`,
+      invoiceDate:
+        state.selectedCycle === "monthly" ? "Jan 01, 2026" : "Dec 01, 2025",
+      planName: `${config.name} Plan`,
+      invoiceRef: `INV-${Math.floor(1000 + Math.random() * 9000)}`,
+      amount: displayAmount,
+      status: "Paid",
+    };
+
+    setInvoiceRows((prev) => {
+      const exists = prev.some(
+        (item) =>
+          item.planName === newInvoice.planName &&
+          item.invoiceDate === newInvoice.invoiceDate &&
+          item.amount === newInvoice.amount,
+      );
+
+      return exists ? prev : [newInvoice, ...prev];
+    });
+
+    navigate(location.pathname, { replace: true, state: null });
+  }, [
+    location.pathname,
+    location.state,
+    navigate,
+    seatUsage.additionalSeatMonthlyCost,
+    seatUsage.usedSeats,
+  ]);
+
+  useEffect(() => {
     document.body.style.overflow =
-      paymentModalOpen || pricingModalOpen || invoicePreviewOpen
-        ? "hidden"
-        : "";
+      paymentModalOpen || invoicePreviewOpen ? "hidden" : "";
 
     return () => {
       document.body.style.overflow = "";
     };
-  }, [paymentModalOpen, pricingModalOpen, invoicePreviewOpen]);
+  }, [paymentModalOpen, invoicePreviewOpen]);
 
   const activePaymentMethod = useMemo(() => {
     return (
@@ -67,8 +157,85 @@ const BrokerSubscription = () => {
 
   const seatUsagePercent = Math.min(
     100,
-    (seatUsageMock.usedSeats / seatUsageMock.totalSeats) * 100,
+    (seatUsage.usedSeats / seatUsage.totalSeats) * 100,
   );
+
+  const visibleInvoices = showAllInvoices
+    ? invoiceRows
+    : invoiceRows.slice(0, 3);
+
+  const invoiceDetails = useMemo(() => {
+    const ref = selectedInvoice?.invoiceRef ?? invoiceDetailsMock.invoiceId;
+    const amount =
+      selectedInvoice?.amount ?? invoiceDetailsMock.items[0]?.amount ?? 0;
+    const planName = selectedInvoice?.planName ?? currentPlan.planName;
+
+    const extraSeatQty =
+      seatUsage.usedSeats >
+      (typeof currentPlan.brokerSeatsIncluded === "number"
+        ? currentPlan.brokerSeatsIncluded
+        : seatUsage.usedSeats)
+        ? seatUsage.usedSeats -
+          (typeof currentPlan.brokerSeatsIncluded === "number"
+            ? currentPlan.brokerSeatsIncluded
+            : seatUsage.usedSeats)
+        : 0;
+
+    const planLineAmount =
+      amount > 29 && currentPlan.planId !== "enterprise"
+        ? amount - extraSeatQty * seatUsage.additionalSeatMonthlyCost
+        : amount;
+
+    const items =
+      currentPlan.planId === "enterprise"
+        ? [
+            {
+              id: "line-1",
+              description: `${planName} (${capitalize(currentPlan.billingCycle)})`,
+              quantity: 1,
+              unitPrice: amount,
+              amount,
+            },
+          ]
+        : [
+            {
+              id: "line-1",
+              description: `${planName} (${capitalize(currentPlan.billingCycle)})`,
+              quantity: 1,
+              unitPrice: Math.max(planLineAmount, 0),
+              amount: Math.max(planLineAmount, 0),
+            },
+            ...(extraSeatQty > 0
+              ? [
+                  {
+                    id: "line-2",
+                    description: "Additional Broker Seat",
+                    quantity: extraSeatQty,
+                    unitPrice: seatUsage.additionalSeatMonthlyCost,
+                    amount: extraSeatQty * seatUsage.additionalSeatMonthlyCost,
+                  },
+                ]
+              : []),
+          ];
+
+    const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
+    const taxAmount = Number((subtotal * 0.1).toFixed(2));
+    const totalPaid = Number((subtotal + taxAmount).toFixed(2));
+
+    return {
+      ...invoiceDetailsMock,
+      invoiceId: ref,
+      issueDate: selectedInvoice?.invoiceDate ?? invoiceDetailsMock.issueDate,
+      status: selectedInvoice?.status ?? invoiceDetailsMock.status,
+      items,
+      subtotal,
+      taxAmount,
+      totalPaid,
+      paymentMethodValue: activePaymentMethod?.label ?? "N/A",
+      paidOnValue:
+        selectedInvoice?.invoiceDate ?? invoiceDetailsMock.paidOnValue,
+    } satisfies InvoiceDetails;
+  }, [selectedInvoice, currentPlan, seatUsage, activePaymentMethod]);
 
   const openInvoicePreview = (invoice: InvoiceRow) => {
     setSelectedInvoice(invoice);
@@ -76,51 +243,50 @@ const BrokerSubscription = () => {
   };
 
   const savePaymentMethod = () => {
-    if (paymentForm.type === "card") {
-      const last4 = paymentForm.cardNumber.slice(-4) || "4242";
+    const newMethod: PaymentMethod =
+      paymentForm.type === "card"
+        ? {
+            id: `pm-${Date.now()}`,
+            type: "card",
+            label: `Visa ending in ${paymentForm.cardNumber.slice(-4) || "4242"}`,
+            subLabel: `Expires ${paymentForm.expiryDate}`,
+            isDefault: paymentForm.isDefault,
+          }
+        : {
+            id: `pm-${Date.now()}`,
+            type: "bank",
+            label: "Bank Direct Debit",
+            subLabel: `BSB: ${paymentForm.bsb} • Account: ••• ${paymentForm.accountNumber.slice(-4) || "5678"}`,
+            isDefault: paymentForm.isDefault,
+          };
 
-      setPaymentMethods((prev) =>
-        prev.map((item) => ({
-          ...item,
-          isDefault: paymentForm.isDefault ? false : item.isDefault,
-        })),
+    setPaymentMethods((prev) => {
+      const normalized = prev.map((item) => ({
+        ...item,
+        isDefault: paymentForm.isDefault ? false : item.isDefault,
+      }));
+
+      const sameTypeIndex = normalized.findIndex(
+        (item) => item.type === newMethod.type,
       );
 
-      setPaymentMethods((prev) => {
-        const next = [...prev];
-        next[0] = {
-          id: "pm-card-updated",
-          type: "card",
-          label: `Visa ending in ${last4}`,
-          subLabel: `Expires ${paymentForm.expiryDate}`,
-          isDefault: paymentForm.isDefault,
-        };
-        return next;
-      });
-    } else {
-      const accountLast4 = paymentForm.accountNumber.slice(-4) || "5678";
+      if (sameTypeIndex >= 0) {
+        const next = [...normalized];
+        next[sameTypeIndex] = newMethod;
+        return ensureOneDefault(next);
+      }
 
-      setPaymentMethods((prev) =>
-        prev.map((item) => ({
-          ...item,
-          isDefault: paymentForm.isDefault ? false : item.isDefault,
-        })),
-      );
-
-      setPaymentMethods((prev) => {
-        const next = [...prev];
-        next[1] = {
-          id: "pm-bank-updated",
-          type: "bank",
-          label: "Bank Direct Debit",
-          subLabel: `BSB: ${paymentForm.bsb} • Account: ••• ${accountLast4}`,
-          isDefault: paymentForm.isDefault,
-        };
-        return next;
-      });
-    }
+      return ensureOneDefault([newMethod, ...normalized]);
+    });
 
     setPaymentModalOpen(false);
+  };
+
+  const addBrokerSeat = () => {
+    setSeatUsage((prev) => ({
+      ...prev,
+      totalSeats: prev.totalSeats + 1,
+    }));
   };
 
   const printInvoice = () => {
@@ -135,7 +301,7 @@ const BrokerSubscription = () => {
     <>
       <div className="space-y-5">
         <div className="min-w-0">
-          <h1 className="text-[24px] font-semibold tracking-[-0.03em] text-[#111827] sm:text-[28px]">
+          <h1 className="text-lg font-medium text-[#111827]">
             Subscription & Billing
           </h1>
           <p className="mt-1 text-sm leading-6 text-[#6B7280]">
@@ -143,7 +309,7 @@ const BrokerSubscription = () => {
           </p>
         </div>
 
-        <div className="flex items-start gap-2 rounded-xl border border-[#D8EAF7] bg-[#EEF8FF] px-4 py-3 text-[12px] text-[#1D9BF0]">
+        <div className="flex items-start gap-2 rounded-xl border border-[#D8EAF7] bg-[#EEF8FF] px-4 py-3 text-xs text-[#1D9BF0]">
           <CircleAlert className="mt-0.5 h-4 w-4 shrink-0" />
           <p className="leading-5">
             Your subscription controls the number of active deals, referral
@@ -151,14 +317,14 @@ const BrokerSubscription = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1fr)_230px]">
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1fr)_340px]">
           <div className="space-y-4">
             <section className="rounded-2xl border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-5">
               <div className="flex flex-col gap-5 lg:flex-row lg:justify-between">
                 <div className="min-w-0">
                   <p className="text-xs text-[#6B7280]">Active Plan</p>
                   <h2 className="mt-1 wrap-break-word text-[24px] font-medium tracking-[-0.03em] text-[#111827] sm:text-[28px]">
-                    {currentPlanMock.planName}
+                    {currentPlan.planName}
                   </h2>
 
                   <div className="mt-5">
@@ -167,7 +333,7 @@ const BrokerSubscription = () => {
                     </p>
 
                     <div className="mt-3 space-y-2">
-                      {currentPlanMock.features.map((feature) => (
+                      {currentPlan.features.map((feature) => (
                         <div
                           key={feature.id}
                           className="flex items-start gap-2 text-[13px] leading-5 text-[#6B7280]"
@@ -182,10 +348,12 @@ const BrokerSubscription = () => {
 
                 <div className="shrink-0 text-left lg:text-right">
                   <p className="text-[32px] font-semibold tracking-[-0.04em] text-[#111827] sm:text-[40px]">
-                    ${currentPlanMock.price}
+                    {currentPlan.planId === "enterprise"
+                      ? "Custom"
+                      : `$${currentPlan.price}`}
                   </p>
                   <p className="-mt-1 text-xs text-[#9CA3AF]">
-                    {currentPlanMock.priceSuffix}
+                    {currentPlan.priceSuffix}
                   </p>
                 </div>
               </div>
@@ -194,22 +362,29 @@ const BrokerSubscription = () => {
                 <div className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-2">
                   <div>
                     <p className="text-xs text-[#9CA3AF]">Next billing date</p>
-                    <p className="mt-1 font-medium text-[#111827]">
-                      {currentPlanMock.nextBillingDate}
+                    <p className="mt-1 text-sm font-semibold text-[#111827]">
+                      {currentPlan.nextBillingDate}
                     </p>
                   </div>
                   <div>
                     <p className="text-xs text-[#9CA3AF]">Billing cycle</p>
-                    <p className="mt-1 font-medium text-[#111827]">
-                      {currentPlanMock.billingCycleLabel}
+                    <p className="mt-1 text-sm font-semibold text-[#111827]">
+                      {currentPlan.billingCycleLabel}
                     </p>
                   </div>
                 </div>
 
                 <button
                   type="button"
-                  onClick={() => setPricingModalOpen(true)}
-                  className="mt-5 inline-flex h-11 w-full items-center justify-center rounded-lg bg-[#0EA5E9] px-4 text-sm font-medium text-white transition hover:bg-sky-600"
+                  onClick={() =>
+                    navigate("change-plan", {
+                      state: {
+                        selectedPlanId: currentPlan.planId,
+                        selectedCycle: currentPlan.billingCycle,
+                      } satisfies ChangePlanRouteState,
+                    })
+                  }
+                  className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-lg bg-[#0EA5E9] px-4 text-sm font-medium text-[#111827] transition hover:bg-sky-600 hover:text-white"
                 >
                   Change Plan
                 </button>
@@ -217,14 +392,12 @@ const BrokerSubscription = () => {
             </section>
 
             <section className="rounded-2xl border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-5">
-              <h3 className="text-[16px] font-medium text-[#111827]">
-                Team Seat Usage
-              </h3>
+              <h3 className="font-medium text-[#111827]">Team Seat Usage</h3>
 
-              <div className="mt-4 flex items-center justify-between gap-3 text-[12px] text-[#6B7280]">
+              <div className="mt-4 flex items-center justify-between gap-3 text-xs text-[#6B7280]">
                 <span>
-                  {seatUsageMock.usedSeats} of {seatUsageMock.totalSeats} broker
-                  seats used
+                  {seatUsage.usedSeats} of {seatUsage.totalSeats} broker seats
+                  used
                 </span>
                 <span>{Math.round(seatUsagePercent)}%</span>
               </div>
@@ -236,13 +409,14 @@ const BrokerSubscription = () => {
                 />
               </div>
 
-              <p className="mt-3 text-[12px] leading-5 text-[#9CA3AF]">
+              <p className="mt-3 text-xs leading-5 text-[#9CA3AF]">
                 Each additional broker seat adds $
-                {seatUsageMock.additionalSeatMonthlyCost}/month.
+                {seatUsage.additionalSeatMonthlyCost}/month.
               </p>
 
               <button
                 type="button"
+                onClick={addBrokerSeat}
                 className="mt-4 inline-flex h-11 w-full items-center justify-center rounded-lg bg-[#0EA5E9] px-4 text-sm font-medium text-[#111827] transition hover:bg-sky-600 hover:text-white"
               >
                 Add Broker Seat
@@ -251,19 +425,18 @@ const BrokerSubscription = () => {
 
             <section className="rounded-2xl border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-5">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <h3 className="text-[16px] font-medium text-[#111827]">
-                  Invoice History
-                </h3>
+                <h3 className="font-medium text-[#111827]">Invoice History</h3>
                 <button
                   type="button"
-                  className="text-left text-[12px] text-[#111827] transition hover:text-sky-600 sm:text-right"
+                  onClick={() => setShowAllInvoices((prev) => !prev)}
+                  className="text-left text-xs text-[#111827] transition hover:text-sky-600 sm:text-right"
                 >
-                  View All Invoices
+                  {showAllInvoices ? "Show Less" : "View All Invoices"}
                 </button>
               </div>
 
               <div className="mt-4 space-y-4 lg:hidden">
-                {invoicesMock.map((invoice) => (
+                {visibleInvoices.map((invoice) => (
                   <InvoiceMobileCard
                     key={invoice.id}
                     invoice={invoice}
@@ -275,7 +448,7 @@ const BrokerSubscription = () => {
               <div className="mt-4 hidden overflow-x-auto lg:block">
                 <table className="w-full min-w-190 border-separate border-spacing-0">
                   <thead>
-                    <tr className="text-left text-[12px] text-[#6B7280]">
+                    <tr className="text-left text-xs text-[#6B7280]">
                       <th className="px-4 py-3 font-medium">Invoice Date</th>
                       <th className="px-4 py-3 font-medium">
                         Plan & Reference
@@ -289,7 +462,7 @@ const BrokerSubscription = () => {
                   </thead>
 
                   <tbody>
-                    {invoicesMock.map((invoice) => (
+                    {visibleInvoices.map((invoice) => (
                       <tr
                         key={invoice.id}
                         className="text-[13px] text-[#111827]"
@@ -298,7 +471,7 @@ const BrokerSubscription = () => {
                         <td className="px-4 py-3">
                           <div>
                             <p>{invoice.planName}</p>
-                            <p className="mt-0.5 text-[12px] text-[#9CA3AF]">
+                            <p className="mt-0.5 text-xs text-[#9CA3AF]">
                               {invoice.invoiceRef}
                             </p>
                           </div>
@@ -330,7 +503,7 @@ const BrokerSubscription = () => {
 
           <div className="space-y-4">
             <section className="rounded-2xl bg-[#0EA5E9] p-4 text-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-              <h3 className="text-[16px] font-medium">Payment Method</h3>
+              <h3 className="font-medium">Payment Method</h3>
 
               {activePaymentMethod ? (
                 <div className="mt-4 space-y-3">
@@ -384,38 +557,27 @@ const BrokerSubscription = () => {
             </section>
 
             <section className="rounded-2xl border border-[#DADDE3] bg-[#F3FAFF] p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-              <h3 className="text-[16px] font-medium text-[#111827]">
-                Auto-Renewal
-              </h3>
+              <h3 className="font-medium text-[#111827]">Auto-Renewal</h3>
 
               <div className="mt-4 flex items-center justify-between gap-4">
-                <span className="text-sm text-[#374151]">Status</span>
+                <span className="text-sm text-black">Status</span>
                 <TinyToggle
                   checked={autoRenewal}
                   onChange={() => setAutoRenewal((prev) => !prev)}
                 />
               </div>
 
-              <p className="mt-4 text-[12px] leading-5 text-[#6B7280]">
+              <p className="mt-4 text-xs leading-5 text-[#6B7280]">
                 Your plan renews automatically each billing cycle. Changes take
                 effect after the current billing period ends.
               </p>
-              <p className="mt-3 text-[12px] leading-5 text-[#6B7280]">
+              <p className="mt-3 text-xs leading-5 text-black">
                 Cancellation requires 30 days&apos; notice.
               </p>
             </section>
           </div>
         </div>
       </div>
-
-      {pricingModalOpen ? (
-        <PlanSelectionModal
-          cycle={pricingCycle}
-          onCycleChange={setPricingCycle}
-          plans={pricingPlansMock}
-          onClose={() => setPricingModalOpen(false)}
-        />
-      ) : null}
 
       {paymentModalOpen ? (
         <UpdatePaymentMethodModal
@@ -428,9 +590,8 @@ const BrokerSubscription = () => {
 
       {invoicePreviewOpen ? (
         <InvoicePreviewModal
-          invoiceRef={
-            selectedInvoice?.invoiceRef ?? invoiceDetailsMock.invoiceId
-          }
+          invoiceRef={selectedInvoice?.invoiceRef ?? invoiceDetails.invoiceId}
+          invoice={invoiceDetails}
           onClose={() => setInvoicePreviewOpen(false)}
           onPrint={printInvoice}
           onDownload={downloadInvoicePdf}
@@ -439,605 +600,6 @@ const BrokerSubscription = () => {
     </>
   );
 };
-
-function InvoiceMobileCard({
-  invoice,
-  onOpen,
-}: {
-  invoice: InvoiceRow;
-  onOpen: () => void;
-}) {
-  return (
-    <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4">
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-sm font-medium text-[#111827]">
-            {invoice.planName}
-          </p>
-          <p className="mt-1 text-xs text-[#9CA3AF]">{invoice.invoiceRef}</p>
-        </div>
-
-        <button
-          type="button"
-          onClick={onOpen}
-          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-[#111827] transition hover:bg-slate-100"
-        >
-          <Download className="h-4 w-4" />
-        </button>
-      </div>
-
-      <div className="mt-4 grid grid-cols-2 gap-4 text-[13px]">
-        <div>
-          <p className="text-[11px] text-[#6B7280]">Invoice Date</p>
-          <p className="mt-1 font-medium text-[#111827]">
-            {invoice.invoiceDate}
-          </p>
-        </div>
-
-        <div>
-          <p className="text-[11px] text-[#6B7280]">Amount</p>
-          <p className="mt-1 font-semibold text-[#111827]">
-            {formatMoney(invoice.amount)}
-          </p>
-        </div>
-
-        <div className="col-span-2">
-          <p className="text-[11px] text-[#6B7280]">Status</p>
-          <span className="mt-1 inline-flex h-6 items-center rounded-full bg-[#DCFCE7] px-2.5 text-[11px] font-medium text-[#22C55E]">
-            {invoice.status}
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function PlanSelectionModal({
-  cycle,
-  onCycleChange,
-  plans,
-  onClose,
-}: {
-  cycle: BillingCycle;
-  onCycleChange: (value: BillingCycle) => void;
-  plans: PricingPlan[];
-  onClose: () => void;
-}) {
-  return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/40 p-3 sm:p-6">
-      <div className="mx-auto w-full max-w-225 rounded-3xl border border-[#D1D5DB] bg-white p-4 shadow-[0_30px_90px_rgba(0,0,0,0.18)] sm:p-7">
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={onClose}
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-[#D1D5DB] text-[#6B7280] transition hover:bg-slate-50"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </button>
-          <span className="text-sm text-[#374151]">
-            Back Subscription & Billing
-          </span>
-        </div>
-
-        <div className="mt-4 text-center">
-          <h2 className="text-[22px] font-semibold tracking-[-0.03em] text-[#0EA5E9] sm:text-[24px]">
-            How ReferNow Works
-          </h2>
-          <p className="mt-2 text-[15px] text-[#111827] sm:text-[16px]">
-            Choose The Plan That Fits Your Business. No Hidden Fees.
-          </p>
-
-          <div className="mt-4 inline-flex rounded-full bg-[#F3F4F6] p-1">
-            <button
-              type="button"
-              onClick={() => onCycleChange("monthly")}
-              className={cn(
-                "rounded-full px-4 py-2.5 text-sm font-medium transition sm:px-6 sm:py-3",
-                cycle === "monthly"
-                  ? "bg-[#0EA5E9] text-white shadow-sm"
-                  : "text-[#6B7280]",
-              )}
-            >
-              Monthly
-            </button>
-            <button
-              type="button"
-              onClick={() => onCycleChange("yearly")}
-              className={cn(
-                "rounded-full px-4 py-2.5 text-sm font-medium transition sm:px-6 sm:py-3",
-                cycle === "yearly"
-                  ? "bg-[#0EA5E9] text-white shadow-sm"
-                  : "text-[#6B7280]",
-              )}
-            >
-              Yearly
-            </button>
-          </div>
-        </div>
-
-        <div className="mt-8 grid grid-cols-1 gap-5 lg:mt-12 lg:grid-cols-3">
-          {plans.map((plan) => (
-            <div
-              key={plan.id}
-              className={cn(
-                "relative rounded-2xl border bg-white p-4",
-                plan.isPopular
-                  ? "border-[#0EA5E9] shadow-[0_0_0_1px_#0EA5E9]"
-                  : "border-[#D8EAF7]",
-              )}
-            >
-              {plan.isPopular ? (
-                <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#F97316] px-3 py-1 text-[11px] font-medium text-white">
-                  MOST POPULAR
-                </div>
-              ) : null}
-
-              <p className="text-[18px] text-[#8B5CF6]">{plan.name}</p>
-              <p className="mt-3 text-[16px] text-[#111827]">{plan.tagline}</p>
-
-              <div className="mt-5 flex items-end gap-1">
-                <span className="text-[38px] font-semibold tracking-[-0.04em] text-[#111827] sm:text-[44px]">
-                  {plan.priceLabel}
-                </span>
-                {plan.priceSuffix ? (
-                  <span className="mb-2 text-[12px] text-[#6B7280]">
-                    {plan.priceSuffix}
-                  </span>
-                ) : null}
-              </div>
-
-              <div className="mt-5 space-y-3">
-                {plan.features.map((feature, index) => (
-                  <div
-                    key={`${plan.id}-${index}`}
-                    className="flex items-start gap-2 text-[14px] leading-5 text-[#6B7280]"
-                  >
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#22C55E]" />
-                    <span>{feature}</span>
-                  </div>
-                ))}
-              </div>
-
-              <button
-                type="button"
-                className="mt-8 inline-flex h-11 w-full items-center justify-center rounded-lg bg-[#0EA5E9] px-4 text-sm font-medium text-white transition hover:bg-sky-600"
-              >
-                {plan.ctaLabel}
-              </button>
-            </div>
-          ))}
-        </div>
-
-        <p className="mt-8 text-center text-[13px] text-[#111827] sm:mt-10 sm:text-[14px]">
-          2025 ReferNow Mortgage Solutions. All Rights Reserved.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function UpdatePaymentMethodModal({
-  form,
-  onChange,
-  onClose,
-  onSave,
-}: {
-  form: PaymentMethodForm;
-  onChange: (value: PaymentMethodForm) => void;
-  onClose: () => void;
-  onSave: () => void;
-}) {
-  const switchType = (type: PaymentMethodType) => {
-    if (type === "card") {
-      onChange({
-        type: "card",
-        cardholderName: "Cameron Williamson",
-        cardNumber: "0000000000000000",
-        expiryDate: "mm/yy",
-        cvv: "123",
-        isDefault: true,
-      });
-      return;
-    }
-
-    onChange({
-      type: "bank",
-      accountName: "Cameron Williamson",
-      bsb: "000-000",
-      accountNumber: "0000000000",
-      isDefault: true,
-    });
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-3 sm:p-6">
-      <div className="w-full max-w-117.5 rounded-[20px] bg-white p-4 shadow-[0_30px_90px_rgba(0,0,0,0.28)] sm:max-w-130 sm:p-5">
-        <div className="flex items-start justify-between gap-4">
-          <div className="min-w-0">
-            <h2 className="text-[20px] font-semibold tracking-[-0.03em] text-[#111827] sm:text-[22px]">
-              Update Payment Method
-            </h2>
-            <p className="mt-1 text-[14px] text-[#374151]">
-              Add Or Change Your Billing Method.
-            </p>
-          </div>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[#111827] transition hover:bg-slate-100"
-          >
-            <X className="h-5 w-5" />
-          </button>
-        </div>
-
-        <div className="mt-5 rounded-xl bg-[#DDF4FF] p-2">
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-            <button
-              type="button"
-              onClick={() => switchType("card")}
-              className={cn(
-                "flex h-11 items-center justify-center gap-2 rounded-md border px-3 text-[14px] font-medium transition",
-                form.type === "card"
-                  ? "border-[#A7D8F5] bg-white text-[#111827]"
-                  : "border-transparent bg-transparent text-[#111827]",
-              )}
-            >
-              <CreditCard className="h-4 w-4 shrink-0" />
-              Credit/Debit Card
-            </button>
-
-            <button
-              type="button"
-              onClick={() => switchType("bank")}
-              className={cn(
-                "flex h-11 items-center justify-center gap-2 rounded-md border px-3 text-[14px] font-medium transition",
-                form.type === "bank"
-                  ? "border-[#A7D8F5] bg-white text-[#111827]"
-                  : "border-transparent bg-transparent text-[#111827]",
-              )}
-            >
-              <Building2 className="h-4 w-4 shrink-0" />
-              Bank Direct Debit
-            </button>
-          </div>
-        </div>
-
-        {form.type === "card" ? (
-          <div className="mt-6 space-y-4">
-            <Field
-              label="CARDHOLDER NAME"
-              value={form.cardholderName}
-              onChange={(value) => onChange({ ...form, cardholderName: value })}
-            />
-            <Field
-              label="CARD NUMBER"
-              value={form.cardNumber}
-              onChange={(value) => onChange({ ...form, cardNumber: value })}
-            />
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Field
-                label="EXPIRY DATE"
-                value={form.expiryDate}
-                onChange={(value) => onChange({ ...form, expiryDate: value })}
-              />
-              <Field
-                label="CVV"
-                value={form.cvv}
-                onChange={(value) => onChange({ ...form, cvv: value })}
-              />
-            </div>
-          </div>
-        ) : (
-          <div className="mt-6 space-y-4">
-            <Field
-              label="CARDHOLDER NAME"
-              value={form.accountName}
-              onChange={(value) => onChange({ ...form, accountName: value })}
-            />
-            <Field label="CARD NUMBER" value="ABC" onChange={() => undefined} />
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <Field
-                label="BSB NUMBER"
-                value={form.bsb}
-                onChange={(value) => onChange({ ...form, bsb: value })}
-              />
-              <Field
-                label="ACCOUNT NUMBER"
-                value={form.accountNumber}
-                onChange={(value) =>
-                  onChange({ ...form, accountNumber: value })
-                }
-              />
-            </div>
-          </div>
-        )}
-
-        <div className="mt-6">
-          <label className="flex items-start gap-3 text-[14px] text-[#374151]">
-            <input
-              type="checkbox"
-              checked={form.isDefault}
-              onChange={(e) =>
-                onChange({ ...form, isDefault: e.target.checked })
-              }
-              className="mt-0.5 h-4 w-4 rounded border-[#D1D5DB] accent-[#0EA5E9]"
-            />
-            <span>Set as default payment method</span>
-          </label>
-
-          <div className="mt-4 flex items-start gap-3 text-[13px] leading-5 text-[#9CA3AF]">
-            <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#22C55E]" />
-            <span>Your payment is secured with 256-bit SSL encryption.</span>
-          </div>
-        </div>
-
-        <div className="mt-8 border-t border-[#E5E7EB] pt-6">
-          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-            <button
-              type="button"
-              onClick={onClose}
-              className="inline-flex h-11 w-full items-center justify-center rounded-md border border-[#D1D5DB] bg-white px-5 text-[14px] font-medium text-[#111827] transition hover:bg-slate-50 sm:w-auto"
-            >
-              Cancel
-            </button>
-
-            <button
-              type="button"
-              onClick={onSave}
-              className="inline-flex h-11 w-full items-center justify-center rounded-md bg-black px-5 text-[14px] font-medium text-white transition hover:bg-slate-900 sm:w-auto"
-            >
-              Save Payment Method
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function InvoicePreviewModal({
-  invoiceRef,
-  onClose,
-  onPrint,
-  onDownload,
-}: {
-  invoiceRef: string;
-  onClose: () => void;
-  onPrint: () => void;
-  onDownload: () => void;
-}) {
-  return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/45 p-3 sm:p-6">
-      <div className="mx-auto w-full max-w-160 rounded-[22px] border border-[#CBD5E1] bg-[#F3FAFF] p-4 shadow-[0_30px_80px_rgba(0,0,0,0.22)] sm:p-6">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex min-w-0 items-center gap-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-[#D1D5DB] bg-white text-[#6B7280] transition hover:bg-slate-50"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </button>
-            <span className="truncate text-sm text-[#374151]">
-              Back Subscription & Billing
-            </span>
-          </div>
-
-          <button
-            type="button"
-            onClick={onDownload}
-            className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-md bg-[#020617] px-3 text-[12px] font-medium text-white transition hover:bg-slate-900 sm:w-auto"
-          >
-            <Download className="h-3.5 w-3.5" />
-            Download PDF
-          </button>
-        </div>
-
-        <div className="mt-5 rounded-xl border border-[#D8EAF7] bg-white p-4 sm:p-7">
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-            <div className="min-w-0">
-              <h2 className="text-[24px] font-semibold tracking-[-0.03em] text-[#111827] sm:text-[28px]">
-                {invoiceDetailsMock.fromName}
-              </h2>
-              <p className="mt-1 text-[14px] text-[#6B7280]">
-                {invoiceDetailsMock.fromDepartment}
-              </p>
-              <p className="mt-1 break-all text-[14px] text-[#6B7280]">
-                {invoiceDetailsMock.fromEmail}
-              </p>
-            </div>
-
-            <div className="text-left sm:text-right">
-              <h3 className="text-[20px] font-semibold text-[#111827] sm:text-[22px]">
-                Invoice #{invoiceRef}
-              </h3>
-              <p className="mt-1 text-[12px] text-[#9CA3AF]">
-                Issue Date: {invoiceDetailsMock.issueDate}
-              </p>
-              <span className="mt-2 inline-flex rounded-full bg-[#DCFCE7] px-2.5 py-1 text-[11px] font-medium text-[#22C55E]">
-                {invoiceDetailsMock.status}
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-5 border-t border-[#E5E7EB] pt-5">
-            <p className="text-[14px] font-medium text-[#374151]">BILL TO</p>
-            <p className="mt-1 text-[20px] font-semibold text-[#111827] sm:text-[22px]">
-              {invoiceDetailsMock.billToName}
-            </p>
-            <p className="mt-1 text-[14px] text-[#6B7280]">
-              {invoiceDetailsMock.billToContact}
-            </p>
-            <p className="mt-1 break-all text-[14px] text-[#6B7280]">
-              {invoiceDetailsMock.billToEmail}
-            </p>
-          </div>
-
-          <div className="mt-5 space-y-3 md:hidden">
-            {invoiceDetailsMock.items.map((item) => (
-              <div
-                key={item.id}
-                className="rounded-xl border border-[#E5E7EB] p-4 text-[14px]"
-              >
-                <p className="font-medium text-[#111827]">{item.description}</p>
-
-                <div className="mt-3 grid grid-cols-2 gap-3 text-[#6B7280]">
-                  <div>
-                    <p className="text-[11px]">Quantity</p>
-                    <p className="mt-1 font-medium text-[#111827]">
-                      {item.quantity}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-[11px]">Unit Price</p>
-                    <p className="mt-1 font-medium text-[#111827]">
-                      {formatMoney2(item.unitPrice)}
-                    </p>
-                  </div>
-                  <div className="col-span-2">
-                    <p className="text-[11px]">Amount</p>
-                    <p className="mt-1 font-semibold text-[#111827]">
-                      {formatMoney2(item.amount)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-5 hidden overflow-x-auto md:block">
-            <table className="w-full min-w-130 border-separate border-spacing-0">
-              <thead>
-                <tr className="text-left text-[14px] text-[#374151]">
-                  <th className="border-b border-[#E5E7EB] px-1 py-2 font-medium">
-                    Description
-                  </th>
-                  <th className="border-b border-[#E5E7EB] px-1 py-2 font-medium">
-                    Quantity
-                  </th>
-                  <th className="border-b border-[#E5E7EB] px-1 py-2 font-medium">
-                    Unit Price
-                  </th>
-                  <th className="border-b border-[#E5E7EB] px-1 py-2 font-medium text-right">
-                    Amount
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {invoiceDetailsMock.items.map((item) => (
-                  <tr key={item.id} className="text-[14px] text-[#111827]">
-                    <td className="px-1 py-2">{item.description}</td>
-                    <td className="px-1 py-2">{item.quantity}</td>
-                    <td className="px-1 py-2">
-                      {formatMoney2(item.unitPrice)}
-                    </td>
-                    <td className="px-1 py-2 text-right font-semibold">
-                      {formatMoney2(item.amount)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <div className="mt-4 flex justify-end">
-            <div className="w-full max-w-65 space-y-2 text-[14px] text-[#6B7280]">
-              <div className="flex items-center justify-between">
-                <span>Subtotal</span>
-                <span className="font-medium text-[#111827]">
-                  {formatMoney2(invoiceDetailsMock.subtotal)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span>{invoiceDetailsMock.taxLabel}</span>
-                <span className="font-medium text-[#111827]">
-                  {formatMoney2(invoiceDetailsMock.taxAmount)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between rounded-md bg-[#F3F4F6] px-3 py-2">
-                <span className="font-medium text-[#111827]">Total Paid</span>
-                <span className="font-medium text-[#111827]">
-                  {formatMoney2(invoiceDetailsMock.totalPaid)}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-5 rounded-xl bg-[#EAF8EF] px-4 py-4">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-              <div>
-                <p className="text-[14px] font-semibold text-[#16A34A]">
-                  {invoiceDetailsMock.paymentMethodLabel}
-                </p>
-                <p className="text-[13px] text-[#22C55E]">
-                  {invoiceDetailsMock.paymentMethodValue}
-                </p>
-              </div>
-
-              <div className="text-left sm:text-right">
-                <p className="text-[14px] font-semibold text-[#16A34A]">
-                  {invoiceDetailsMock.paidOnLabel}
-                </p>
-                <p className="text-[13px] text-[#22C55E]">
-                  {invoiceDetailsMock.paidOnValue}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-5 border-t border-[#E5E7EB] pt-4">
-            <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
-              <button
-                type="button"
-                onClick={onPrint}
-                className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-md border border-[#D1D5DB] bg-white px-4 text-[14px] font-medium text-[#111827] transition hover:bg-slate-50 sm:w-auto"
-              >
-                <Printer className="h-4 w-4" />
-                Print Invoice
-              </button>
-              <button
-                type="button"
-                onClick={onDownload}
-                className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-[#020617] px-4 text-[14px] font-medium text-white transition hover:bg-slate-900 sm:w-auto"
-              >
-                <Download className="h-4 w-4" />
-                Download PDF
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <p className="mt-4 text-center text-[13px] leading-5 text-[#9CA3AF]">
-          {invoiceDetailsMock.footerNote}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function Field({
-  label,
-  value,
-  onChange,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-}) {
-  return (
-    <label className="block">
-      <span className="mb-2 block text-[14px] font-medium text-[#111827]">
-        {label}
-      </span>
-      <input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="h-11 w-full rounded-md border border-[#CBEAFE] px-4 text-[14px] text-[#111827] outline-none transition placeholder:text-[#9CA3AF] focus:border-sky-400"
-      />
-    </label>
-  );
-}
 
 function TinyToggle({
   checked,
@@ -1051,36 +613,17 @@ function TinyToggle({
       type="button"
       aria-pressed={checked}
       onClick={onChange}
-      className={cn(
-        "relative inline-flex h-5 w-9 items-center rounded-full transition",
-        checked ? "bg-[#020617]" : "bg-[#CBD5E1]",
-      )}
+      className={`relative inline-flex h-5 w-9 items-center rounded-full transition ${
+        checked ? "bg-[#020617]" : "bg-[#CBD5E1]"
+      }`}
     >
       <span
-        className={cn(
-          "inline-block h-4 w-4 rounded-full bg-white transition",
-          checked ? "translate-x-5" : "translate-x-0.5",
-        )}
+        className={`inline-block h-4 w-4 rounded-full bg-white transition ${
+          checked ? "translate-x-5" : "translate-x-0.5"
+        }`}
       />
     </button>
   );
-}
-
-function formatMoney(value: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
-function formatMoney2(value: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(value);
 }
 
 export default BrokerSubscription;
