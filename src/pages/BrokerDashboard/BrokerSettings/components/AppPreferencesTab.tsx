@@ -1,4 +1,3 @@
-// src/pages/BrokerDashboard/BrokerSettings/components/AppPreferencesTab.tsx
 import { Bell, ChevronDown, Clock3, Globe2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -154,7 +153,7 @@ const AppPreferencesTab = ({
               }
             />
 
-            <div className="relative mt-4 w-full sm:w-[220px]">
+            <div className="relative mt-4 w-full sm:w-55">
               <label className="mb-2 block text-[12px] font-medium uppercase text-[#111827] sm:text-[13px]">
                 STAGNATION PERIOD
               </label>
@@ -256,7 +255,7 @@ function SelectButton({
       <button
         type="button"
         onClick={onClick}
-        className="flex h-11 w-full items-center justify-between rounded-[12px] border border-[#EEF2F7] bg-[#F8FAFC] px-4 text-left text-[14px] text-[#6B7280] sm:h-12 sm:text-[15px]"
+        className="flex h-11 w-full items-center justify-between rounded-xl border border-[#EEF2F7] bg-[#F8FAFC] px-4 text-left text-[14px] text-[#6B7280] sm:h-12 sm:text-[15px]"
       >
         <span className="flex min-w-0 items-center gap-2">
           {icon ? (
@@ -285,7 +284,7 @@ function Dropdown({
   return (
     <div
       className={cn(
-        "absolute left-0 top-[calc(100%+8px)] z-20 overflow-hidden rounded-[12px] border border-[#DADDE3] bg-white shadow-[0_20px_50px_rgba(15,23,42,0.12)]",
+        "absolute left-0 top-[calc(100%+8px)] z-20 overflow-hidden rounded-xl border border-[#DADDE3] bg-white shadow-[0_20px_50px_rgba(15,23,42,0.12)]",
         className,
       )}
     >
@@ -310,7 +309,7 @@ function DropdownRow({
       className={cn(
         "w-full border-b border-[#E5E7EB] px-4 text-left text-[#111827] transition last:border-b-0 hover:bg-[#F8FAFC]",
         large
-          ? "min-h-[52px] py-3 text-sm sm:min-h-[60px] sm:text-center sm:text-[18px]"
+          ? "min-h-13 py-3 text-sm sm:min-h-15 sm:text-center sm:text-[18px]"
           : "h-11 text-[14px] sm:h-12 sm:text-[15px]",
       )}
     >
@@ -332,14 +331,14 @@ function Toggle({
       aria-pressed={checked}
       onClick={() => onChange(!checked)}
       className={cn(
-        "relative inline-flex h-[28px] w-[46px] shrink-0 items-center rounded-full transition",
+        "relative inline-flex h-7 w-11.5 shrink-0 items-center rounded-full transition",
         checked ? "bg-[#0EA5E9]" : "bg-[#E5E7EB]",
       )}
     >
       <span
         className={cn(
-          "inline-block h-[24px] w-[24px] rounded-full bg-white shadow-sm transition",
-          checked ? "translate-x-[21px]" : "translate-x-[2px]",
+          "inline-block h-6 w-6 rounded-full bg-white shadow-sm transition",
+          checked ? "translate-x-5.25" : "translate-x-0.5",
         )}
       />
     </button>
