@@ -54,34 +54,33 @@ const HexagonIcon = ({ number }: { number: string }) => (
 
 const HowItWorks = () => {
   return (
-    <section id="how-it-works" className="py-24 bg-white overflow-hidden clash">
+    <section id="how-it-works" className="py-24 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
           {/* Left content: Steps */}
           <div className="flex-1">
-            <div className="mb-14">
-              <h2 className="text-3xl md:text-4xl font-normal text-sky-500 tracking-tight mb-4">
+            <div className="mb-8 ">
+              <h2 className="text-[28px] font-medium tracking-tight text-[#12A8F5] md:text-[36px]">
                 How ReferNow Works
               </h2>
-              <p className="text-lg text-black  font-normal">
+
+              <p className="mt-2 text-sm text-[#334155] md:text-base">
                 From Signup To Payout In Four Simple Steps
               </p>
-              <div className="w-full h-px bg-slate-100 my-10" />
+
+              <div className="mt-8 h-px w-full bg-[#E5E7EB]" />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-13">
               {steps.map((step, idx) => (
-                <div
-                  key={idx}
-                  className="flex flex-col items-start group"
-                >
+                <div key={idx} className="flex flex-col items-start group">
                   <div className="mb-6">
                     <HexagonIcon number={step.number} />
                   </div>
-                  <h3 className="text-[1.3rem] font-normal text-black tracking-tight mb-3">
+                  <h3 className="text-lg font-semibold text-black tracking-tight mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-black font-normal leading-relaxed text-[15px]">
+                  <p className="text-black leading-relaxed">
                     {step.description}
                   </p>
                 </div>
