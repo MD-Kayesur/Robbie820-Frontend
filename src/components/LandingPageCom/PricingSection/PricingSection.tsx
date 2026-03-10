@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 const plans = [
   {
     name: "Starter",
-    price: "$49",
+    monthlyPrice: "$49",
+    yearlyPrice: "$490",
     description: "Perfect for individual brokers",
     features: [
       "Up to 25 active deals",
@@ -20,7 +21,8 @@ const plans = [
   },
   {
     name: "Professional",
-    price: "$149",
+    monthlyPrice: "$149",
+    yearlyPrice: "$1490",
     description: "For growing brokerages",
     features: [
       "Up to 100 active deals",
@@ -36,7 +38,8 @@ const plans = [
   },
   {
     name: "Enterprise",
-    price: "Custom",
+    monthlyPrice: "Custom",
+    yearlyPrice: "Custom",
     description: "For large organizations",
     features: [
       "contact sales",
@@ -58,7 +61,7 @@ const PricingSection = () => {
   );
 
   return (
-    <section id="pricing" className="py-24 bg-white relative overflow-hidden clash">
+    <section id="pricing" className="py-24 bg-white relative overflow-hidden">
       {/* Background Grid and Rectify decoration */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         {/* Thin grid lines */}
@@ -80,10 +83,10 @@ const PricingSection = () => {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-normal text-sky-500 tracking-tight mb-4">
+          <h2 className="text-3xl md:text-4xl text-sky-500 tracking-tight mb-4">
             How ReferNow Works
           </h2>
-          <p className="text-lg text-black font-normal mb-10">
+          <p className="text-lg text-black mb-10">
             Choose The Plan That Fits Your Business. No Hidden Fees.
           </p>
 
@@ -92,19 +95,21 @@ const PricingSection = () => {
             <div className="bg-slate-100 p-1 rounded-full flex items-center shadow-inner border border-slate-200">
               <button
                 onClick={() => setBillingCycle("monthly")}
-                className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${billingCycle === "monthly"
-                  ? "bg-sky-500 text-white shadow-lg"
-                  : "text-slate-400 hover:text-slate-600"
-                  }`}
+                className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
+                  billingCycle === "monthly"
+                    ? "bg-sky-500 text-white shadow-lg"
+                    : "text-slate-400 hover:text-slate-600"
+                }`}
               >
                 Monthly
               </button>
               <button
                 onClick={() => setBillingCycle("yearly")}
-                className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${billingCycle === "yearly"
-                  ? "bg-sky-500 text-white shadow-lg"
-                  : "text-slate-400 hover:text-slate-600"
-                  }`}
+                className={`px-8 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
+                  billingCycle === "yearly"
+                    ? "bg-sky-500 text-white shadow-lg"
+                    : "text-slate-400 hover:text-slate-600"
+                }`}
               >
                 Yearly
               </button>
@@ -116,32 +121,39 @@ const PricingSection = () => {
           {plans.map((plan, idx) => (
             <div
               key={idx}
-              className={`relative bg-white rounded-[2.5rem] p-10 border-2 transition-all duration-500 hover:shadow-2xl flex flex-col ${plan.popular
-                ? "border-sky-500 shadow-xl shadow-sky-500/10 scale-105 z-10"
-                : "border-slate-100 shadow-lg hover:-translate-y-2"
-                }`}
+              className={`relative bg-white rounded-[2.5rem] p-10 border-2 transition-all duration-500 hover:shadow-2xl flex flex-col ${
+                plan.popular
+                  ? "border-sky-500 shadow-xl shadow-sky-500/10 scale-105 z-10"
+                  : "border-slate-100 shadow-lg hover:-translate-y-2"
+              }`}
             >
               {plan.popular && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white text-[11px] font-normal uppercase tracking-widest py-1.5 px-6 rounded-full shadow-lg shadow-orange-500/30">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white text-[11px] uppercase tracking-widest py-1.5 px-6 rounded-full shadow-lg shadow-orange-500/30">
                   Most Popular
                 </div>
               )}
 
               <div className="mb-8">
                 <h3
-                  className={`text-xl font-normal mb-4 ${plan.popular ? "text-sky-500" : "text-slate-400"}`}
+                  className={`text-xl mb-4 ${plan.popular ? "text-sky-500" : "text-slate-400"}`}
                 >
                   {plan.name}
                 </h3>
-                <p className="text-slate-700 font-normal mb-6">
-                  {plan.description}
-                </p>
+                <p className="text-slate-700 mb-6">{plan.description}</p>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-normal text-slate-900 tracking-tight">
-                    {plan.price}
+                  <span className="text-4xl text-slate-900 tracking-tight">
+                    {billingCycle === "monthly"
+                      ? plan.monthlyPrice
+                      : plan.yearlyPrice}
                   </span>
-                  {plan.price.includes("$") && (
-                    <span className="text-slate-400 font-normal">/Month</span>
+
+                  {(billingCycle === "monthly"
+                    ? plan.monthlyPrice
+                    : plan.yearlyPrice
+                  ).includes("$") && (
+                    <span className="text-slate-400 font-normal">
+                      /{billingCycle === "monthly" ? "Month" : "Year"}
+                    </span>
                   )}
                 </div>
               </div>
@@ -153,7 +165,7 @@ const PricingSection = () => {
                       size={18}
                       className="text-emerald-500 shrink-0 mt-0.5 stroke-[3px]"
                     />
-                    <span className="text-[15px] font-normal text-slate-500 leading-tight">
+                    <span className="text-[15px] text-slate-500 leading-tight">
                       {feature}
                     </span>
                   </li>
@@ -161,10 +173,11 @@ const PricingSection = () => {
               </ul>
 
               <Button
-                className={`w-full h-14 rounded-xl text-lg font-normal transition-all duration-300 ${plan.popular
-                  ? "bg-sky-500 hover:bg-sky-600 text-white shadow-lg shadow-sky-500/25"
-                  : "bg-sky-500 hover:bg-sky-600 text-white"
-                  }`}
+                className={`w-full h-14 rounded-xl text-lg transition-all duration-300 ${
+                  plan.popular
+                    ? "bg-sky-500 hover:bg-sky-600 text-white shadow-lg shadow-sky-500/25"
+                    : "bg-sky-500 hover:bg-sky-600 text-white"
+                }`}
               >
                 {plan.buttonText}
               </Button>

@@ -5,9 +5,9 @@ const Footer = () => {
   const navigate = useNavigate();
 
   return (
-    <footer className="bg-[#DFF5FF] pt-20 pb-10 px-6 md:px-12 text-[#2D3E50] clash">
+    <footer className="bg-[#DFF5FF] pt-20 pb-10 px-6 md:px-12 text-[#2D3E50]">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+        <div className="flex justify-between gap-12 mb-16">
           {/* Left Column: Logo & Description */}
           <div className="space-y-8">
             <div
@@ -22,7 +22,7 @@ const Footer = () => {
               </span>
             </div>
 
-            <p className="max-w-md text-[15px] font-normal leading-relaxed opacity-80">
+            <p className="max-w-md text-[15px] leading-relaxed opacity-80">
               Automated Referral Commission Management For Brokers, And Referral
               Partners. Built For Accuracy, Transparency, And Trust.
             </p>
@@ -38,10 +38,8 @@ const Footer = () => {
           </div>
 
           {/* Right Column: App Links */}
-          <div className="flex flex-col md:items-end justify-start space-y-6">
-            <span className="text-sky-500 font-semibold text-[15px] uppercase tracking-wider">
-              Get the app
-            </span>
+          <div className="flex flex-col md:items-start justify-start space-y-6">
+            <span className="text-sky-500 font-semibold">Get the app</span>
             <div className="flex flex-col gap-3">
               <a
                 href="#"
@@ -72,7 +70,7 @@ const Footer = () => {
 
         {/* Bottom Row: Copyright & Social */}
         <div className="flex flex-col md:row items-center justify-between gap-6 md:flex-row">
-          <p className="text-[13px] font-normal opacity-70 order-2 md:order-1">
+          <p className="text-[13px] opacity-70 order-2 md:order-1">
             2024 ReferNow All Rights Reserved.
           </p>
 
@@ -105,7 +103,7 @@ const Footer = () => {
                 <Instagram size={18} />
               </a>
             </div>
-            <span className="text-[11px] font-normal opacity-60 uppercase tracking-widest">
+            <span className="text-[11px] opacity-60 uppercase tracking-widest">
               Follow us on Social Media
             </span>
           </div>

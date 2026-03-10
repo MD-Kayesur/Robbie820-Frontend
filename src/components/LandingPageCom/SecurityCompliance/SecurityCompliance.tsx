@@ -34,7 +34,7 @@ const securityFeatures = [
 
 const SecurityCompliance = () => {
   return (
-    <section id="reviews" className="py-24 bg-slate-50/30 overflow-hidden clash">
+    <section id="reviews" className="py-24 bg-slate-50/30 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
           {/* Left content: Image */}
@@ -55,10 +55,10 @@ const SecurityCompliance = () => {
           {/* Right content: Features */}
           <div className="flex-1 order-1 lg:order-2">
             <div className="mb-14">
-              <h2 className="text-3xl md:text-4xl font-normal text-sky-500 tracking-tight mb-4">
+              <h2 className="text-3xl md:text-4xl text-sky-500 tracking-tight mb-4">
                 Built For Security & Compliance
               </h2>
-              <p className="text-lg text-slate-500 font-normal leading-relaxed max-w-xl">
+              <p className="text-lg text-slate-500 leading-relaxed max-w-xl">
                 Your Financial Data Deserves Enterprise-Grade Protection. We
                 Take Security Seriously So You Can Focus On Growing Your
                 Business.
@@ -67,12 +67,9 @@ const SecurityCompliance = () => {
 
             <div className="space-y-8">
               {securityFeatures.map((feature, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-start gap-6 group"
-                >
+                <div key={idx} className="flex items-start gap-6 group">
                   <div
-                    className={`w-14 h-14 ${feature.color} rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-sm`}
+                    className={`w-14 h-14 ${feature.color} rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300`}
                   >
                     <feature.icon size={26} strokeWidth={2.5} />
                   </div>
@@ -80,7 +77,7 @@ const SecurityCompliance = () => {
                     <h3 className="text-xl font-semibold text-black tracking-tight group-hover:text-sky-500 transition-colors">
                       {feature.title}
                     </h3>
-                    <p className="text-black font-normal leading-relaxed text-[15px] max-w-lg">
+                    <p className="text-black leading-relaxed text-[15px] max-w-lg">
                       {feature.description}
                     </p>
                   </div>

@@ -41,12 +41,13 @@ export const brokerProfileMock: BrokerProfile = {
   city: "San Francisco",
   state: "CA",
   zip: "94105",
+  photo: "",
 };
 
 export const passwordFormMock: PasswordForm = {
-  currentPassword: "currentpassword",
-  newPassword: "Min 12 characters",
-  confirmNewPassword: "Repeat new password",
+  currentPassword: "",
+  newPassword: "",
+  confirmNewPassword: "",
 };
 
 export const twoFactorMock: TwoFactorState = {

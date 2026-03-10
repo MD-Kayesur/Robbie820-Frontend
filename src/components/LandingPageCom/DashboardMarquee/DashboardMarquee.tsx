@@ -14,13 +14,13 @@ const DashboardMarquee = () => {
   ];
 
   return (
-    <section className="pb-24 pt-25 bg-white overflow-hidden clash">
-      <div className="max-w-7xl mx-auto px-4 mb-20 text-center">
+    <section className="pb-24 pt-25 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 mb-16 text-center">
         <div>
-          <h2 className="text-4xl md:text-5xl font-normal tracking-tight text-sky-500 mb-6  ">
+          <h2 className="text-3xl font-semibold tracking-tight text-[#12A8F5] md:text-4xl">
             Stop Losing Money To Manual Processes
           </h2>
-          <p className="text-lg md:text-xl text-slate-500 max-w-3xl mx-auto font-normal   tracking-wide">
+          <p className="mx-auto mt-3 max-w-2xl text-sm text-[#475569] md:text-base">
             Manual Tracking Leads To Missed Commissions, Delays, And Costly
             Disputes. Automate Everything In One Transparent System.
           </p>
@@ -32,12 +32,12 @@ const DashboardMarquee = () => {
           gradient={false}
           speed={40}
           pauseOnHover={true}
-          className="flex gap-8"
+          className="flex gap-6"
         >
           {screens.map((img, idx) => (
             <div
               key={idx}
-              className="w-[600px] mx-4 aspect-16/10 rounded-4xl overflow-hidden border border-slate-100 bg-white"
+              className="w-150 mx-3 aspect-16/10 rounded-lg overflow-hidden border-4 border-[#A9ABAC]"
             >
               <img
                 src={img}
@@ -53,4 +53,3 @@ const DashboardMarquee = () => {
 };
 
 export default DashboardMarquee;
-

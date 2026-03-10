@@ -21,7 +21,7 @@ const features = [
     description:
       "Customized, Role-Based Dashboards Designed For Brokers, Referrers, And Team Members.",
     icon: Users,
-    color: "bg-purple-50 text-purple-500",
+    color: "bg-violet-50 text-violet-500",
   },
   {
     title: "Secure Referral Management",
@@ -42,7 +42,7 @@ const features = [
     description:
       "Track Referrals With Year-Over-Year Trends, Flexible Dates, And Exportable Analytics.",
     icon: BarChart3,
-    color: "bg-blue-50 text-blue-500",
+    color: "bg-indigo-50 text-indigo-500",
   },
   {
     title: "Lead Management",
@@ -55,34 +55,35 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section id="features" className="py-32 bg-slate-50/50 clash">
-      <CommonWrapper className="px-6 lg:px-[150px]">
-        {/* Header content */}
-        <div className="text-center mb-24   mx-auto">
-          <h2 className="text-4xl md:text-5xl font-normal text-sky-500 tracking-tight mb-6">
+    <section id="features" className="bg-[#FAFAFA] py-24 md:py-28">
+      <CommonWrapper className="px-4 sm:px-6 lg:px-10 xl:px-16">
+        <div className="mx-auto mb-16 max-w-3xl text-center">
+          <h2 className="text-3xl font-semibold tracking-tight text-[#12A8F5] md:text-4xl">
             Everything You Need To Manage Referrals
           </h2>
-          <p className="text-xl text-black font-normal leading-relaxed">
-            Powerful Features Designed For Brokers, Referral Partners, And Team Members.
+
+          <p className="mx-auto mt-3 max-w-2xl text-sm text-[#475569] md:text-base">
+            Powerful Features Designed For Brokers, Referral Partners,
           </p>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, idx) => (
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature) => (
             <div
-              key={idx}
-              className="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-sky-500/5 transition-all duration-500 group"
+              key={feature.title}
+              className="rounded-2xl border border-[#D8E7FF] bg-white px-5 py-5 md:px-6 md:py-6"
             >
               <div
-                className={`w-14 h-14 ${feature.color} rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500`}
+                className={`mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl ${feature.color}`}
               >
-                <feature.icon className="w-7 h-7" />
+                <feature.icon className="h-5 w-5 stroke-[1.9]" />
               </div>
-              <h3 className="text-2xl font-normal text-black tracking-tight mb-4   transition-colors">
+
+              <h3 className="mb-3 text-[18px] font-semibold leading-6 tracking-[-0.02em] text-[#111827]">
                 {feature.title}
               </h3>
-              <p className="text-black font-normal leading-relaxed text-[15px]">
+
+              <p className="text-sm leading-7 text-[#6B7280]">
                 {feature.description}
               </p>
             </div>
@@ -93,6 +94,4 @@ const FeaturesSection = () => {
   );
 };
 
-
 export default FeaturesSection;
-

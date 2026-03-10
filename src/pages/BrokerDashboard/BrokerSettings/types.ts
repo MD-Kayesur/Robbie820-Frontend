@@ -23,6 +23,7 @@ export type BrokerProfile = {
   city: string;
   state: string;
   zip: string;
+  photo?: string;
 };
 
 export type PasswordForm = {
