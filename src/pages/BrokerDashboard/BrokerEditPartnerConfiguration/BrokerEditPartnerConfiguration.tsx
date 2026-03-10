@@ -17,16 +17,16 @@ import {
   commissionRulesMock,
   partnerConfigurationsMock,
   partnerProfilesMock,
-} from "./mock";
+} from "../BrokerPartnerProfiles/mock";
 import type {
   CommissionRule,
   CommissionRuleCondition,
   CommissionValueType,
   LoanCategory,
-} from "./types";
-import ResetPasswordModal from "./ResetPasswordModal";
-import SendInvitationModal from "./SendInvitationModal";
-import AddAdditionalLoginModal from "./AddAdditionalLoginModal";
+} from "../BrokerPartnerProfiles/types";
+import ResetPasswordModal from "../../../components/BrokerDashboardCom/BEditPartnerConfigurationCom/ResetPasswordModal";
+import SendInvitationModal from "../../../components/BrokerDashboardCom/BEditPartnerConfigurationCom/SendInvitationModal";
+import AddAdditionalLoginModal from "@/components/BrokerDashboardCom/BEditPartnerConfigurationCom/AddAdditionalLoginModal";
 
 type ReviewFrequency = "Monthly" | "Quarterly" | "Half-Yearly" | "Yearly";
 
@@ -186,7 +186,7 @@ function StatusPill({
   );
 }
 
-const EditPartnerConfiguration = () => {
+const BrokerEditPartnerConfiguration = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -802,4 +802,4 @@ const EditPartnerConfiguration = () => {
   );
 };
 
-export default EditPartnerConfiguration;
+export default BrokerEditPartnerConfiguration;

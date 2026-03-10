@@ -1,7 +1,10 @@
 import { Building2, User } from "lucide-react";
 
 import { cn } from "@/hooks/useCn";
-import type { PartnerActionKey, PartnerProfile } from "./types";
+import {
+  PartnerActionKey,
+  PartnerProfile,
+} from "@/pages/BrokerDashboard/BrokerPartnerProfiles/types";
 import PartnerActionsMenu from "./PartnerActionsMenu";
 
 type PartnerCardProps = {

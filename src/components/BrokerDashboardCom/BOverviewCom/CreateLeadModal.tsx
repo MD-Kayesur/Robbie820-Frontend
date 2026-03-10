@@ -161,7 +161,7 @@ function SectionTitle({ title }: { title: string }) {
     <div className="border-b border-[#E5E7EB] pb-3">
       <div className="flex items-center gap-2">
         <div className="h-8 w-1 rounded-full bg-[#2563EB]" />
-        <h4 className="text-[18px] font-semibold text-[#111827]">{title}</h4>
+        <h4 className="sm:text-lg font-semibold text-[#111827]">{title}</h4>
       </div>
     </div>
   );
@@ -357,11 +357,11 @@ export default function CreateLeadModal({
               <div>
                 <h3
                   id="create-lead-modal-title"
-                  className="text-[28px] font-semibold leading-tight text-[#111827]"
+                  className="text-lg sm:text-2xl font-semibold leading-tight text-[#111827]"
                 >
                   Create Lead / New Referral
                 </h3>
-                <p className="mt-3 text-[15px] text-[#6B7280]">
+                <p className="mt-3 text-xs sm:text-sm text-[#6B7280]">
                   Register a new borrower referred by a partner
                 </p>
               </div>
@@ -598,7 +598,7 @@ export default function CreateLeadModal({
                   </div>
                 </section>
 
-                <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
+                <div className="flex justify-between gap-3 pt-2 sm:flex-row sm:justify-end">
                   <button
                     type="button"
                     onClick={onClose}
