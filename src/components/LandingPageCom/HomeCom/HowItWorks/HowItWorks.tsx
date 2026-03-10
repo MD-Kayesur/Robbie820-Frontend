@@ -1,4 +1,4 @@
-import howItWorksImage from "../../../assets/how_it_works_refernow.png";
+import howItWorksImage from "../../../../assets/how_it_works_refernow.png";
 
 const steps = [
   {

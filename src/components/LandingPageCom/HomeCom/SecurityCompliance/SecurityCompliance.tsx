@@ -1,5 +1,5 @@
 import { Lock, EyeOff, Shield, FileText } from "lucide-react";
-import securityImage from "../../../assets/security_compliance.png";
+import securityImage from "../../../../assets/security_compliance.png";
 
 const securityFeatures = [
   {

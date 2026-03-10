@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Linkedin, Facebook, Instagram } from "lucide-react";
 
 const Footer = () => {
@@ -28,21 +28,28 @@ const Footer = () => {
             </p>
 
             <div className="flex gap-8 text-[15px] font-normal">
-              <a href="#" className="hover:text-sky-500 transition-colors">
+              <Link to="/help" className="hover:text-sky-500 transition-colors">
                 Help
-              </a>
-              <a href="#" className="hover:text-sky-500 transition-colors">
+              </Link>
+
+              <Link
+                to="/privacy"
+                className="hover:text-sky-500 transition-colors"
+              >
                 Privacy
-              </a>
+              </Link>
             </div>
           </div>
 
           {/* Right Column: App Links */}
           <div className="flex flex-col md:items-start justify-start space-y-6">
             <span className="text-sky-500 font-semibold">Get the app</span>
+
             <div className="flex flex-col gap-3">
               <a
-                href="#"
+                href="https://apps.apple.com/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block hover:scale-105 transition-transform"
               >
                 <img
@@ -51,8 +58,11 @@ const Footer = () => {
                   className="h-10 w-auto"
                 />
               </a>
+
               <a
-                href="#"
+                href="https://play.google.com/store"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block hover:scale-105 transition-transform"
               >
                 <img
@@ -77,7 +87,9 @@ const Footer = () => {
           <div className="flex flex-col items-center md:items-end gap-3 order-1 md:order-2">
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://www.linkedin.com/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-9 h-9 bg-slate-300/30 rounded-md flex items-center justify-center hover:bg-sky-500 hover:text-white transition-all duration-300 text-slate-500"
               >
                 <Linkedin
@@ -86,8 +98,11 @@ const Footer = () => {
                   className="stroke-none"
                 />
               </a>
+
               <a
-                href="#"
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-9 h-9 bg-slate-300/30 rounded-md flex items-center justify-center hover:bg-sky-500 hover:text-white transition-all duration-300 text-slate-500"
               >
                 <Facebook
@@ -96,13 +111,17 @@ const Footer = () => {
                   className="stroke-none"
                 />
               </a>
+
               <a
-                href="#"
+                href="https://www.instagram.com/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-9 h-9 bg-slate-300/30 rounded-md flex items-center justify-center hover:bg-sky-500 hover:text-white transition-all duration-300 text-slate-500"
               >
                 <Instagram size={18} />
               </a>
             </div>
+
             <span className="text-[11px] opacity-60 uppercase tracking-widest">
               Follow us on Social Media
             </span>
