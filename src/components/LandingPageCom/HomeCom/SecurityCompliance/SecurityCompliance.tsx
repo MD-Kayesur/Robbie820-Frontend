@@ -55,10 +55,10 @@ const SecurityCompliance = () => {
           {/* Right content: Features */}
           <div className="flex-1 order-1 lg:order-2">
             <div className="mb-14">
-              <h2 className="text-3xl md:text-4xl text-sky-500 tracking-tight mb-4">
+              <h2 className="text-3xl font-medium tracking-tight text-[#12A8F5] md:text-4xl">
                 Built For Security & Compliance
               </h2>
-              <p className="text-lg text-slate-500 leading-relaxed max-w-xl">
+              <p className="mx-auto mt-3 max-w-2xl text-lg text-[#475569] md:text-base">
                 Your Financial Data Deserves Enterprise-Grade Protection. We
                 Take Security Seriously So You Can Focus On Growing Your
                 Business.

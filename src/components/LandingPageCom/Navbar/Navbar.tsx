@@ -28,8 +28,8 @@ const Navbar = ({ activeSection, onSectionClick }: Props) => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 pt-4 md:pt-8 px-4 md:px-8">
-      <div className="max-w-400 mx-auto md:px-20 lg:px-37.5">
+    <header className="fixed top-0 left-0 right-0 z-50 pt-4 md:pt-8">
+      <div className="mx-auto md:px-20 lg:px-37.5">
         <nav className="w-full bg-white border border-[#EAEAEA] rounded-2xl px-6 py-3 flex items-center justify-between">
           <div
             className="cursor-pointer w-34 h-10"
