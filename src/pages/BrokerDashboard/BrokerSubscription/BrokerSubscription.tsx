@@ -309,7 +309,7 @@ const BrokerSubscription = () => {
           </p>
         </div>
 
-        <div className="flex items-start gap-2 rounded-xl border border-[#D8EAF7] bg-[#EEF8FF] px-4 py-3 text-[12px] text-[#1D9BF0]">
+        <div className="flex items-start gap-2 rounded-xl border border-[#D8EAF7] bg-[#EEF8FF] px-4 py-3 text-xs text-[#1D9BF0]">
           <CircleAlert className="mt-0.5 h-4 w-4 shrink-0" />
           <p className="leading-5">
             Your subscription controls the number of active deals, referral
@@ -362,13 +362,13 @@ const BrokerSubscription = () => {
                 <div className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-2">
                   <div>
                     <p className="text-xs text-[#9CA3AF]">Next billing date</p>
-                    <p className="mt-1 font-medium text-[#111827]">
+                    <p className="mt-1 text-sm font-semibold text-[#111827]">
                       {currentPlan.nextBillingDate}
                     </p>
                   </div>
                   <div>
                     <p className="text-xs text-[#9CA3AF]">Billing cycle</p>
-                    <p className="mt-1 font-medium text-[#111827]">
+                    <p className="mt-1 text-sm font-semibold text-[#111827]">
                       {currentPlan.billingCycleLabel}
                     </p>
                   </div>
@@ -392,11 +392,9 @@ const BrokerSubscription = () => {
             </section>
 
             <section className="rounded-2xl border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-5">
-              <h3 className="text-[16px] font-medium text-[#111827]">
-                Team Seat Usage
-              </h3>
+              <h3 className="font-medium text-[#111827]">Team Seat Usage</h3>
 
-              <div className="mt-4 flex items-center justify-between gap-3 text-[12px] text-[#6B7280]">
+              <div className="mt-4 flex items-center justify-between gap-3 text-xs text-[#6B7280]">
                 <span>
                   {seatUsage.usedSeats} of {seatUsage.totalSeats} broker seats
                   used
@@ -411,7 +409,7 @@ const BrokerSubscription = () => {
                 />
               </div>
 
-              <p className="mt-3 text-[12px] leading-5 text-[#9CA3AF]">
+              <p className="mt-3 text-xs leading-5 text-[#9CA3AF]">
                 Each additional broker seat adds $
                 {seatUsage.additionalSeatMonthlyCost}/month.
               </p>
@@ -427,13 +425,11 @@ const BrokerSubscription = () => {
 
             <section className="rounded-2xl border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-5">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <h3 className="text-[16px] font-medium text-[#111827]">
-                  Invoice History
-                </h3>
+                <h3 className="font-medium text-[#111827]">Invoice History</h3>
                 <button
                   type="button"
                   onClick={() => setShowAllInvoices((prev) => !prev)}
-                  className="text-left text-[12px] text-[#111827] transition hover:text-sky-600 sm:text-right"
+                  className="text-left text-xs text-[#111827] transition hover:text-sky-600 sm:text-right"
                 >
                   {showAllInvoices ? "Show Less" : "View All Invoices"}
                 </button>
@@ -452,7 +448,7 @@ const BrokerSubscription = () => {
               <div className="mt-4 hidden overflow-x-auto lg:block">
                 <table className="w-full min-w-190 border-separate border-spacing-0">
                   <thead>
-                    <tr className="text-left text-[12px] text-[#6B7280]">
+                    <tr className="text-left text-xs text-[#6B7280]">
                       <th className="px-4 py-3 font-medium">Invoice Date</th>
                       <th className="px-4 py-3 font-medium">
                         Plan & Reference
@@ -475,7 +471,7 @@ const BrokerSubscription = () => {
                         <td className="px-4 py-3">
                           <div>
                             <p>{invoice.planName}</p>
-                            <p className="mt-0.5 text-[12px] text-[#9CA3AF]">
+                            <p className="mt-0.5 text-xs text-[#9CA3AF]">
                               {invoice.invoiceRef}
                             </p>
                           </div>
@@ -507,7 +503,7 @@ const BrokerSubscription = () => {
 
           <div className="space-y-4">
             <section className="rounded-2xl bg-[#0EA5E9] p-4 text-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-              <h3 className="text-[16px] font-medium">Payment Method</h3>
+              <h3 className="font-medium">Payment Method</h3>
 
               {activePaymentMethod ? (
                 <div className="mt-4 space-y-3">
@@ -561,23 +557,21 @@ const BrokerSubscription = () => {
             </section>
 
             <section className="rounded-2xl border border-[#DADDE3] bg-[#F3FAFF] p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-              <h3 className="text-[16px] font-medium text-[#111827]">
-                Auto-Renewal
-              </h3>
+              <h3 className="font-medium text-[#111827]">Auto-Renewal</h3>
 
               <div className="mt-4 flex items-center justify-between gap-4">
-                <span className="text-sm text-[#374151]">Status</span>
+                <span className="text-sm text-black">Status</span>
                 <TinyToggle
                   checked={autoRenewal}
                   onChange={() => setAutoRenewal((prev) => !prev)}
                 />
               </div>
 
-              <p className="mt-4 text-[12px] leading-5 text-[#6B7280]">
+              <p className="mt-4 text-xs leading-5 text-[#6B7280]">
                 Your plan renews automatically each billing cycle. Changes take
                 effect after the current billing period ends.
               </p>
-              <p className="mt-3 text-[12px] leading-5 text-[#6B7280]">
+              <p className="mt-3 text-xs leading-5 text-black">
                 Cancellation requires 30 days&apos; notice.
               </p>
             </section>
