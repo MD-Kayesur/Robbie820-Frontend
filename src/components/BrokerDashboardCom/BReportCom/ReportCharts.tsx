@@ -2,7 +2,11 @@ import { ChevronDown } from "lucide-react";
 import type React from "react";
 
 import { cn } from "@/hooks/useCn";
-import type { AuditBarDatum, ForecastDatum, ReferrerKey } from "../types";
+import {
+  AuditBarDatum,
+  ForecastDatum,
+  ReferrerKey,
+} from "@/pages/BrokerDashboard/BrokerReport/types";
 
 export function PanelRangeButton({
   label,
