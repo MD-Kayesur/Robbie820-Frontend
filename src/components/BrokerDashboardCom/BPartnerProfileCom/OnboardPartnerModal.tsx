@@ -55,7 +55,7 @@ function ModalField({
   children: React.ReactNode;
 }) {
   return (
-    <label className="block">
+    <div className="block">
       <div className="mb-2 text-sm font-medium text-[#111827]">
         {label}{" "}
         {optional ? (
@@ -63,7 +63,7 @@ function ModalField({
         ) : null}
       </div>
       {children}
-    </label>
+    </div>
   );
 }
 
@@ -151,9 +151,10 @@ function SelectMenu<T extends string>({
   placeholder?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
 
   return (
-    <div className="relative">
+    <div ref={ref} className="relative">
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
@@ -162,33 +163,30 @@ function SelectMenu<T extends string>({
         <span className={cn(!value && "text-[#9CA3AF]")}>
           {value || placeholder || "Select"}
         </span>
-        <ChevronDown className="h-4 w-4 text-[#6B7280]" />
+        <ChevronDown
+          className={cn(
+            "h-4 w-4 text-[#6B7280] transition-transform",
+            open && "rotate-180",
+          )}
+        />
       </button>
 
       {open ? (
-        <>
-          <button
-            type="button"
-            aria-label="close select"
-            className="fixed inset-0 z-10 cursor-default"
-            onClick={() => setOpen(false)}
-          />
-          <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-20 overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white py-1 shadow-[0_16px_40px_rgba(15,23,42,0.12)]">
-            {options.map((option) => (
-              <button
-                key={option}
-                type="button"
-                onClick={() => {
-                  onChange(option);
-                  setOpen(false);
-                }}
-                className="flex w-full items-center px-4 py-3 text-left text-sm text-[#111827] transition hover:bg-slate-50"
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        </>
+        <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-20 overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white py-1 shadow-[0_16px_40px_rgba(15,23,42,0.12)]">
+          {options.map((option) => (
+            <button
+              key={option}
+              type="button"
+              onClick={() => {
+                onChange(option);
+                setOpen(false);
+              }}
+              className="flex w-full items-center px-4 py-3 text-left text-sm text-[#111827] transition hover:bg-slate-50"
+            >
+              {option}
+            </button>
+          ))}
+        </div>
       ) : null}
     </div>
   );
@@ -196,9 +194,9 @@ function SelectMenu<T extends string>({
 
 function Stepper({ currentStep }: { currentStep: number }) {
   return (
-    <div className="border-b border-[#E5E7EB] px-4 py-6 sm:px-8">
+    <div className="border-b border-[#E5E7EB] px-4 py-2 sm:py-6 sm:px-8">
       <div className="overflow-x-auto">
-        <div className="flex min-w-150 items-start justify-between gap-3">
+        <div className="flex min-w-150 items-start justify-between">
           {partnerProfileStepLabels.map((label, index) => {
             const isActive = index === currentStep;
             const isDone = index < currentStep;
@@ -327,9 +325,9 @@ function ReviewCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-3xl bg-[#F9FAFB] p-5">
-      <h4 className="text-lg font-semibold text-[#111827]">{title}</h4>
-      <div className="mt-4">{children}</div>
+    <div className="rounded-2xl bg-[#F9FAFB] p-5">
+      <h4 className="sm:text-lg font-semibold text-[#111827]">{title}</h4>
+      <div className="sm:mt-4 mt-1">{children}</div>
     </div>
   );
 }
@@ -444,10 +442,10 @@ const OnboardPartnerModal = ({
     <div className="fixed inset-0 z-50 bg-black/40 p-3 sm:p-6">
       <div
         ref={modalRef}
-        className="mx-auto flex max-h-[96vh] w-full max-w-3xl flex-col overflow-hidden rounded-[28px] bg-white shadow-[0_30px_80px_rgba(0,0,0,0.28)]"
+        className="mx-auto flex max-h-[96vh] w-full max-w-3xl flex-col overflow-hidden rounded-xl bg-white shadow-[0_30px_80px_rgba(0,0,0,0.28)]"
       >
-        <div className="flex items-center justify-between border-b border-[#E5E7EB] px-4 py-5 sm:px-8">
-          <h2 className="text-xl font-semibold text-[#111827] sm:text-[24px]">
+        <div className="flex items-center justify-between border-b border-[#E5E7EB] px-4 py-3 sm:py-5 sm:px-8">
+          <h2 className="text-lg font-semibold text-[#111827] sm:text-2xl">
             Onboard New Referral Partner
           </h2>
 
@@ -462,9 +460,9 @@ const OnboardPartnerModal = ({
 
         <Stepper currentStep={currentStep} />
 
-        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-6 sm:px-8 sm:py-8">
+        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3 sm:px-8 sm:py-8">
           {currentStep === 0 ? (
-            <div className="mx-auto max-w-270 space-y-6">
+            <div className="mx-auto max-w-270 sm:space-y-6 space-y-3">
               <div>
                 <div className="mb-2 text-sm font-medium text-[#111827]">
                   Partner Type
@@ -531,7 +529,7 @@ const OnboardPartnerModal = ({
           ) : null}
 
           {currentStep === 1 ? (
-            <div className="mx-auto max-w-270 space-y-6">
+            <div className="mx-auto max-w-270 sm:space-y-6 space-y-3">
               <ModalField label="Login Email">
                 <TextInput
                   type="email"
@@ -590,7 +588,7 @@ const OnboardPartnerModal = ({
           ) : null}
 
           {currentStep === 2 ? (
-            <div className="mx-auto max-w-270 space-y-6">
+            <div className="mx-auto max-w-270 sm:space-y-6 space-y-3">
               <ModalField label="Agreement Name">
                 <TextInput
                   value={form.agreementName}
@@ -651,11 +649,11 @@ const OnboardPartnerModal = ({
               </div>
 
               <div className="rounded-3xl bg-[#F9FAFB] p-6">
-                <h4 className="text-lg font-semibold text-[#111827]">
+                <h4 className="sm:text-lg font-semibold text-[#111827]">
                   Commission Calculation Example
                 </h4>
 
-                <div className="mt-4 space-y-2 text-[15px] text-[#374151]">
+                <div className="mt-4 space-y-2 sm:text-sm text-xs text-[#374151]">
                   <p>Loan Amount: {formatCurrency(exampleLoanAmount)}</p>
                   <p>
                     Referrer Commission (
@@ -680,7 +678,7 @@ const OnboardPartnerModal = ({
                 </div>
               </div>
 
-              <p className="text-sm font-medium text-[#374151]">
+              <p className="text-xs font-medium text-[#374151]">
                 Referrer only sees commission earned, not loan calculation
                 formulas
               </p>
@@ -688,7 +686,7 @@ const OnboardPartnerModal = ({
           ) : null}
 
           {currentStep === 3 ? (
-            <div className="mx-auto max-w-270 space-y-6">
+            <div className="mx-auto max-w-270 sm:space-y-6 space-y-3">
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <ModalField label="Bank Name">
                   <TextInput
@@ -728,9 +726,9 @@ const OnboardPartnerModal = ({
           ) : null}
 
           {currentStep === 4 ? (
-            <div className="mx-auto max-w-270 space-y-6">
+            <div className="mx-auto max-w-270 sm:space-y-6 space-y-3">
               <ReviewCard title="Partner Profile">
-                <div className="grid gap-2">
+                <div className="grid sm:gap-2">
                   <ReviewRow label="Partner Type" value={form.partnerType} />
                   <ReviewRow
                     label="Partner Name"
@@ -764,7 +762,7 @@ const OnboardPartnerModal = ({
               </ReviewCard>
 
               <ReviewCard title="Commission Agreement">
-                <div className="grid gap-2">
+                <div className="grid sm:gap-2">
                   <ReviewRow
                     label="Agreement Name"
                     value={form.agreementName || "-"}
@@ -789,7 +787,7 @@ const OnboardPartnerModal = ({
               </ReviewCard>
 
               <ReviewCard title="Banking Details">
-                <div className="grid gap-2">
+                <div className="grid sm:gap-2">
                   <ReviewRow label="Bank Name" value={form.bankName || "-"} />
                   <ReviewRow label="BSB" value={form.bsb || "-"} />
                   <ReviewRow
@@ -820,13 +818,13 @@ const OnboardPartnerModal = ({
           ) : null}
         </div>
 
-        <div className="flex flex-col gap-3 border-t border-[#E5E7EB] bg-[#F9FAFB] px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <div className="flex border-t border-[#E5E7EB] bg-[#F9FAFB] px-4 py-2 sm:py-5 sm:flex-row sm:items-center sm:px-8">
           <button
             type="button"
             onClick={handleBack}
             disabled={currentStep === 0}
             className={cn(
-              "inline-flex h-12 items-center justify-center rounded-2xl px-6 text-sm font-medium transition",
+              "inline-flex h-12 items-center justify-center rounded-2xl px-2 text-sm font-medium transition",
               currentStep === 0
                 ? "cursor-not-allowed text-[#9CA3AF]"
                 : "text-[#374151] hover:bg-slate-100",
@@ -839,7 +837,7 @@ const OnboardPartnerModal = ({
             <button
               type="button"
               onClick={handleClose}
-              className="inline-flex h-12 items-center justify-center rounded-2xl px-6 text-sm font-medium text-[#374151] transition hover:bg-slate-100"
+              className="inline-flex h-12 items-center justify-center rounded-2xl px-2 text-sm font-medium text-[#374151] transition hover:bg-slate-100"
             >
               Cancel
             </button>
@@ -849,7 +847,7 @@ const OnboardPartnerModal = ({
               onClick={handleNext}
               disabled={!canGoNext}
               className={cn(
-                "inline-flex h-12 items-center justify-center rounded-2xl px-6 text-sm font-medium text-white transition",
+                "inline-flex h-12 items-center justify-center rounded-2xl px-2 text-sm font-medium text-white transition text-nowrap",
                 canGoNext
                   ? "bg-[#2563EB] hover:bg-[#1D4ED8]"
                   : "cursor-not-allowed bg-[#93C5FD]",

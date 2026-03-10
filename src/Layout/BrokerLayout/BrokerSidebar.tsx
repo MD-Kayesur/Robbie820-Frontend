@@ -1,6 +1,6 @@
 // src/Layout/BrokerLayout/BrokerSidebar.tsx
 import React from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   Bell,
   LayoutGrid,
@@ -56,9 +56,6 @@ const BrokerSidebar = ({ mobileOpen, onClose }: Props) => {
     localStorage.clear();
     window.location.href = "/login";
   };
-
-  const location = useLocation();
-  console.log(location.pathname);
 
   return (
     <>

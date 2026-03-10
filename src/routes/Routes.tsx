@@ -33,6 +33,7 @@ import BrokerOverview from "@/pages/BrokerDashboard/BrokerOverview/BrokerOvervie
 import BrokerLeadDetails from "@/pages/BrokerDashboard/BrokerLeadDetails/BrokerLeadDetails";
 import PartnerProfile from "@/pages/BrokerDashboard/BrokerPartnerDetails/BrokerPartnerDetails";
 import EditPartnerConfiguration from "@/pages/BrokerDashboard/BrokerEditPartnerConfiguration/BrokerEditPartnerConfiguration";
+import BrokerChangePlan from "@/pages/BrokerDashboard/BrokerSubscription/BrokerChangePlan";
 
 const routes = createBrowserRouter([
   {
@@ -103,6 +104,7 @@ const routes = createBrowserRouter([
           { path: "report", element: <BrokerReport /> },
           { path: "notifications", element: <BrokerNotifications /> },
           { path: "subscription", element: <BrokerSubscription /> },
+          { path: "subscription/change-plan", element: <BrokerChangePlan /> },
           { path: "settings", element: <BrokerSettings /> },
         ],
       },

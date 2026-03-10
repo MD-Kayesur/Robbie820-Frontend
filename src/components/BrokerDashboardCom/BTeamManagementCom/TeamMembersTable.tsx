@@ -5,7 +5,10 @@ import { cn } from "@/hooks/useCn";
 import { useOutsideClose } from "@/hooks/useOutsideClose";
 import { useFloatingMenu } from "@/hooks/useFloatingMenu";
 
-import type { MemberStatus, TeamMember } from "./types";
+import type {
+  MemberStatus,
+  TeamMember,
+} from "../../../pages/BrokerDashboard/BrokerTeamManagement/types";
 
 type TeamMembersTableProps = {
   members: TeamMember[];

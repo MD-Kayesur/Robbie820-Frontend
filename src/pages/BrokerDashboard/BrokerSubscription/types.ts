@@ -1,6 +1,7 @@
 export type BillingCycle = "monthly" | "yearly";
 export type PaymentMethodType = "card" | "bank";
 export type SubscriptionPlanKey = "starter" | "professional" | "enterprise";
+export type InvoiceStatus = "Paid" | "Pending";
 
 export type CurrentPlanFeature = {
   id: string;
@@ -8,15 +9,17 @@ export type CurrentPlanFeature = {
 };
 
 export type CurrentPlanSummary = {
+  planId: SubscriptionPlanKey;
   planName: string;
   price: number;
   priceSuffix: string;
   features: CurrentPlanFeature[];
   nextBillingDate: string;
+  billingCycle: BillingCycle;
   billingCycleLabel: string;
-  activeDealsLimit: number;
+  activeDealsLimit: number | "Unlimited";
   referralPartnersLimit: number | "Unlimited";
-  brokerSeatsIncluded: number;
+  brokerSeatsIncluded: number | "Unlimited";
 };
 
 export type SeatUsageSummary = {
@@ -33,8 +36,6 @@ export type PaymentMethod = {
   isDefault: boolean;
 };
 
-export type InvoiceStatus = "Paid" | "Pending";
-
 export type InvoiceRow = {
   id: string;
   invoiceDate: string;
@@ -44,12 +45,18 @@ export type InvoiceRow = {
   status: InvoiceStatus;
 };
 
+export type PricingPlanPrice = {
+  amount: number | null;
+  label: string;
+  suffix?: string;
+};
+
 export type PricingPlan = {
   id: SubscriptionPlanKey;
   name: string;
   tagline: string;
-  priceLabel: string;
-  priceSuffix?: string;
+  monthly: PricingPlanPrice;
+  yearly: PricingPlanPrice;
   features: string[];
   ctaLabel: string;
   isPopular?: boolean;
@@ -102,4 +109,17 @@ export type InvoiceDetails = {
   paidOnLabel: string;
   paidOnValue: string;
   footerNote: string;
+};
+
+export type PlanConfig = {
+  id: SubscriptionPlanKey;
+  name: string;
+  activeDealsLimit: number | "Unlimited";
+  referralPartnersLimit: number | "Unlimited";
+  brokerSeatsIncluded: number | "Unlimited";
+  monthlyPrice: number | null;
+  yearlyPrice: number | null;
+  priceSuffixMonthly: string;
+  priceSuffixYearly: string;
+  features: CurrentPlanFeature[];
 };
