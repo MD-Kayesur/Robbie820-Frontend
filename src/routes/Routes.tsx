@@ -19,7 +19,7 @@ import SuperAdminAuditLogs from "@/pages/SuperAdminDashboard/SuperAdminAuditLogs
 import SuperAdminSettings from "@/pages/SuperAdminDashboard/SuperAdminSettings/SuperAdminSettings";
 import SuperAdminDashboard from "@/pages/SuperAdminDashboard/SuperAdminDashboard/SuperAdminDashboard";
 import SuperAdminLayoutNoTopbar from "@/Layout/SuperAdminLayout/SuperAdminLayoutNoTopbar";
-import Home from "@/pages/Home/Home";
+import Home from "@/pages/HomePages/Home/Home";
 import ReferrerOverview from "@/pages/ReferrerDashboard/ReferrerOverview/ReferrerOverview";
 import ReferrerMyReferrals from "@/pages/ReferrerDashboard/ReferrerMyReferrals/ReferrerMyReferrals";
 import ReferrerNotifications from "@/pages/ReferrerDashboard/ReferrerNotifications/ReferrerNotifications";
@@ -34,6 +34,8 @@ import BrokerLeadDetails from "@/pages/BrokerDashboard/BrokerLeadDetails/BrokerL
 import PartnerProfile from "@/pages/BrokerDashboard/BrokerPartnerDetails/BrokerPartnerDetails";
 import EditPartnerConfiguration from "@/pages/BrokerDashboard/BrokerEditPartnerConfiguration/BrokerEditPartnerConfiguration";
 import BrokerChangePlan from "@/pages/BrokerDashboard/BrokerSubscription/BrokerChangePlan";
+import Privacy from "@/pages/HomePages/Privacy/Privacy";
+import Help from "@/pages/HomePages/Help/Help";
 
 const routes = createBrowserRouter([
   {
@@ -43,6 +45,14 @@ const routes = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "privacy",
+        element: <Privacy />,
+      },
+      {
+        path: "help",
+        element: <Help />,
       },
 
       // authentication routes

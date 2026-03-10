@@ -58,11 +58,11 @@ const FeaturesSection = () => {
     <section id="features" className="bg-[#FAFAFA] py-24 md:py-28">
       <CommonWrapper className="px-4 sm:px-6 lg:px-10 xl:px-16">
         <div className="mx-auto mb-16 max-w-3xl text-center">
-          <h2 className="text-3xl font-semibold tracking-tight text-[#12A8F5] md:text-4xl">
+          <h2 className="text-3xl font-medium tracking-tight text-[#12A8F5] md:text-4xl">
             Everything You Need To Manage Referrals
           </h2>
 
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-[#475569] md:text-base">
+          <p className="mx-auto mt-3 max-w-2xl text-lg text-[#475569] md:text-base">
             Powerful Features Designed For Brokers, Referral Partners,
           </p>
         </div>

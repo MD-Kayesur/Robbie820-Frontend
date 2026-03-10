@@ -1,4 +1,4 @@
-import howItWorksImage from "../../../assets/how_it_works_refernow.png";
+import howItWorksImage from "../../../../assets/how_it_works_refernow.png";
 
 const steps = [
   {
@@ -60,11 +60,11 @@ const HowItWorks = () => {
           {/* Left content: Steps */}
           <div className="flex-1">
             <div className="mb-8 ">
-              <h2 className="text-[28px] font-medium tracking-tight text-[#12A8F5] md:text-[36px]">
+              <h2 className="text-3xl font-medium tracking-tight text-[#12A8F5] md:text-4xl">
                 How ReferNow Works
               </h2>
 
-              <p className="mt-2 text-sm text-[#334155] md:text-base">
+              <p className="mx-auto mt-3 max-w-2xl text-lg text-[#475569] md:text-base">
                 From Signup To Payout In Four Simple Steps
               </p>
 

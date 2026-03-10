@@ -83,10 +83,10 @@ const PricingSection = () => {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl text-sky-500 tracking-tight mb-4">
+          <h2 className="text-3xl font-medium tracking-tight text-[#12A8F5] md:text-4xl">
             How ReferNow Works
           </h2>
-          <p className="text-lg text-black mb-10">
+          <p className="mx-auto mt-3 max-w-2xl text-lg text-[#475569] md:text-base mb-10">
             Choose The Plan That Fits Your Business. No Hidden Fees.
           </p>
 
