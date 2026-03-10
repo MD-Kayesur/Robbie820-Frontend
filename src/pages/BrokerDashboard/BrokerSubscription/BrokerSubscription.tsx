@@ -28,9 +28,9 @@ import type {
   SubscriptionPlanKey,
 } from "./types";
 import { capitalize, ensureOneDefault, formatMoney } from "./utils";
-import InvoiceMobileCard from "./InvoiceMobileCard";
-import InvoicePreviewModal from "./InvoicePreviewModal";
-import UpdatePaymentMethodModal from "./UpdatePaymentMethodModal";
+import InvoiceMobileCard from "@/components/BrokerDashboardCom/BSubscription/InvoiceMobileCard";
+import UpdatePaymentMethodModal from "@/components/BrokerDashboardCom/BSubscription/UpdatePaymentMethodModal";
+import InvoicePreviewModal from "@/components/BrokerDashboardCom/BSubscription/InvoicePreviewModal";
 
 type ChangePlanRouteState = {
   selectedPlanId?: SubscriptionPlanKey;

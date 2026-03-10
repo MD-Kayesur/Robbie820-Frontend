@@ -1,7 +1,6 @@
+import { InvoiceDetails } from "@/pages/BrokerDashboard/BrokerSubscription/types";
+import { formatMoney2 } from "@/pages/BrokerDashboard/BrokerSubscription/utils";
 import { ArrowLeft, Download, Printer } from "lucide-react";
-
-import type { InvoiceDetails } from "./types";
-import { formatMoney2 } from "./utils";
 
 type Props = {
   invoiceRef: string;

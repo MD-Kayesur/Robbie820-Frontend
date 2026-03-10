@@ -1,6 +1,6 @@
+import { InvoiceRow } from "@/pages/BrokerDashboard/BrokerSubscription/types";
+import { formatMoney } from "@/pages/BrokerDashboard/BrokerSubscription/utils";
 import { Download } from "lucide-react";
-import type { InvoiceRow } from "./types";
-import { formatMoney } from "./utils";
 
 type Props = {
   invoice: InvoiceRow;
