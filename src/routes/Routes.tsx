@@ -70,10 +70,6 @@ const routes = createBrowserRouter([
         children: [
           { index: true, element: <ReferrerOverview /> },
           {
-            path: "overview",
-            element: <ReferrerOverview />,
-          },
-          {
             path: "my-referrals",
             element: <ReferrerMyReferrals />,
           },
@@ -92,7 +88,6 @@ const routes = createBrowserRouter([
         element: <BrokerLayout />,
         children: [
           { index: true, element: <BrokerOverview /> },
-          { path: "overview", element: <BrokerOverview /> },
           { path: "leads/:id", element: <BrokerLeadDetails /> },
           { path: "my-referrals", element: <BrokerMyReferrals /> },
           { path: "partner-profile", element: <BrokerPartnerProfile /> },

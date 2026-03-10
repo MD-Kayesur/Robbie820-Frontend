@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+// src/Layout/BrokerLayout/BrokerSidebar.tsx
+import React from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   Bell,
   LayoutGrid,
@@ -13,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { cn } from "@/hooks/useCn";
+import { useOutsideClose } from "@/hooks/useOutsideClose";
 
 type ItemProps = {
   to: string;
@@ -36,7 +38,7 @@ const SidebarItem = ({ to, icon: Icon, label, end, onClick }: ItemProps) => {
       className={({ isActive }) =>
         cn(
           "flex items-center gap-1.5 rounded-sm px-3 py-2 transition",
-          isActive ? "bg-[#67C5F0]" : "hover:bg-[#00B4FE1A]",
+          isActive ? "bg-[#00B4FE99]" : "hover:bg-[#00B4FE1A]",
         )
       }
     >
@@ -48,35 +50,22 @@ const SidebarItem = ({ to, icon: Icon, label, end, onClick }: ItemProps) => {
 
 const BrokerSidebar = ({ mobileOpen, onClose }: Props) => {
   const navigate = useNavigate();
-  const sidebarRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    if (!mobileOpen) return;
-
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-      if (sidebarRef.current && !sidebarRef.current.contains(target)) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [mobileOpen, onClose]);
+  const sidebarRef = useOutsideClose<HTMLElement>(mobileOpen, onClose);
 
   const handleSignOut = () => {
     localStorage.clear();
     window.location.href = "/login";
   };
 
+  const location = useLocation();
+  console.log(location.pathname);
+
   return (
     <>
-      {/* Mobile overlay */}
       <div
+        onClick={onClose}
         className={cn(
-          "fixed inset-0 z-40 bg-black/30 transition-opacity lg:hidden",
+          "fixed inset-0 z-40 bg-black/30 transition-opacity md:hidden",
           mobileOpen
             ? "pointer-events-auto opacity-100"
             : "pointer-events-none opacity-0",
@@ -86,7 +75,7 @@ const BrokerSidebar = ({ mobileOpen, onClose }: Props) => {
       <aside
         ref={sidebarRef}
         className={cn(
-          "fixed left-0 top-0 z-50 flex h-screen sm:w-70 flex-col overflow-y-auto bg-[#F3F3F3] px-4 py-6 sm:px-8 sm:py-11 transition-transform duration-300 lg:static lg:z-0 lg:w-72.5 lg:translate-x-0 lg:border-r lg:border-slate-200",
+          "fixed left-0 top-0 z-50 flex h-screen sm:w-70 flex-col overflow-y-auto bg-[#F3F3F3] px-4 py-6 sm:px-8 sm:py-11 transition-transform duration-300 md:static lg:z-0 lg:w-72.5 lg:translate-x-0 lg:border-r lg:border-slate-200",
           mobileOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
@@ -110,7 +99,7 @@ const BrokerSidebar = ({ mobileOpen, onClose }: Props) => {
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl bg-white p-2 text-black shadow-sm lg:hidden"
+            className="rounded-xl bg-white p-2 text-black shadow-sm md:hidden"
             aria-label="Close sidebar"
           >
             <X className="h-5 w-5" />
