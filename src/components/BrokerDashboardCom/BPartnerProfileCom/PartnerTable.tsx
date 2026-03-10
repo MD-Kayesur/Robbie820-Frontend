@@ -1,9 +1,12 @@
 import { Building2, User } from "lucide-react";
 
 import { cn } from "@/hooks/useCn";
-import type { PartnerActionKey, PartnerProfile } from "./types";
 import PartnerActionsMenu from "./PartnerActionsMenu";
 import PartnerCard from "./PartnerCard";
+import {
+  PartnerActionKey,
+  PartnerProfile,
+} from "@/pages/BrokerDashboard/BrokerPartnerProfiles/types";
 
 type PartnerTableProps = {
   partners: PartnerProfile[];
@@ -54,7 +57,7 @@ const PartnerTable = ({ partners, onAction }: PartnerTableProps) => {
       {/* desktop table */}
       <div className="hidden overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white xl:block">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[980px] border-collapse">
+          <table className="w-full min-w-245 border-collapse">
             <thead>
               <tr className="border-b border-[#E5E7EB] bg-[#F8FAFC]">
                 <th className="px-4 py-4 text-left text-xs font-medium uppercase tracking-wide text-[#6B7280]">
