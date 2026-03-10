@@ -10,12 +10,12 @@ import type {
   PartnerProfile,
   ViewMode,
 } from "./types";
-import PartnerCard from "./PartnerCard";
-import PartnerTable from "./PartnerTable";
-import OnboardPartnerModal from "./OnboardPartnerModal";
-import ResetPasswordModal from "./ResetPasswordModal";
-import SendInvitationModal from "./SendInvitationModal";
-import AddAdditionalLoginModal from "./AddAdditionalLoginModal";
+import PartnerCard from "@/components/BrokerDashboardCom/BPartnerProfileCom/PartnerCard";
+import PartnerTable from "@/components/BrokerDashboardCom/BPartnerProfileCom/PartnerTable";
+import OnboardPartnerModal from "@/components/BrokerDashboardCom/BPartnerProfileCom/OnboardPartnerModal";
+import ResetPasswordModal from "@/components/BrokerDashboardCom/BEditPartnerConfigurationCom/ResetPasswordModal";
+import SendInvitationModal from "@/components/BrokerDashboardCom/BEditPartnerConfigurationCom/SendInvitationModal";
+import AddAdditionalLoginModal from "@/components/BrokerDashboardCom/BEditPartnerConfigurationCom/AddAdditionalLoginModal";
 
 const BrokerPartnerProfiles = () => {
   const [search, setSearch] = useState("");

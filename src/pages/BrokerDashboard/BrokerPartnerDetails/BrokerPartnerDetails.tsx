@@ -22,12 +22,12 @@ import {
   partnerConfigurationsMock,
   partnerProfilesMock,
   partnerRecentReferralsMock,
-} from "./mock";
+} from "../BrokerPartnerProfiles/mock";
 import type {
   PartnerRecentReferral,
   ReferralFeeStatus,
   ReferralStatus,
-} from "./types";
+} from "../BrokerPartnerProfiles/types";
 
 function formatMoney(value: number) {
   return new Intl.NumberFormat("en-AU", {
@@ -224,7 +224,7 @@ function ReferralMobileCard({ item }: { item: PartnerRecentReferral }) {
   );
 }
 
-const PartnerProfile = () => {
+const BrokerPartnerDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [, setNote] = useState("");
@@ -608,7 +608,7 @@ const PartnerProfile = () => {
 
         {/* desktop table */}
         <div className="mt-4 hidden overflow-x-auto lg:block">
-          <table className="w-full min-w-[900px] border-collapse">
+          <table className="w-full min-w-225 border-collapse">
             <thead>
               <tr className="border border-[#E5E7EB] bg-[#F8FAFC]">
                 <th className="px-4 py-3 text-left text-xs font-medium text-[#6B7280]">
@@ -695,4 +695,4 @@ const PartnerProfile = () => {
   );
 };
 
-export default PartnerProfile;
+export default BrokerPartnerDetails;

@@ -5,12 +5,16 @@ import { cn } from "@/hooks/useCn";
 import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 import { useOutsideClose } from "@/hooks/useOutsideClose";
 import {
+  AgreementStatus,
+  OnboardPartnerForm,
+  PartnerType,
+} from "@/pages/BrokerDashboard/BrokerPartnerProfiles/types";
+import {
+  agreementStatusOptions,
   defaultOnboardPartnerForm,
   partnerProfileStepLabels,
   portalAccessRoleOptions,
-  agreementStatusOptions,
-} from "./mock";
-import type { AgreementStatus, OnboardPartnerForm, PartnerType } from "./types";
+} from "@/pages/BrokerDashboard/BrokerPartnerProfiles/mock";
 
 type OnboardPartnerModalProps = {
   open: boolean;

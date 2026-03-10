@@ -4,8 +4,11 @@ import { useState } from "react";
 import { cn } from "@/hooks/useCn";
 import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 import { useOutsideClose } from "@/hooks/useOutsideClose";
-import { additionalLoginDefaultForm, additionalLoginRoleOptions } from "./mock";
-import type { AdditionalLoginRole } from "./types";
+import { AdditionalLoginRole } from "@/pages/BrokerDashboard/BrokerPartnerProfiles/types";
+import {
+  additionalLoginDefaultForm,
+  additionalLoginRoleOptions,
+} from "@/pages/BrokerDashboard/BrokerPartnerProfiles/mock";
 
 type AdditionalLoginForm = {
   fullName: string;

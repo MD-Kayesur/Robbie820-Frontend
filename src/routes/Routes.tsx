@@ -31,8 +31,8 @@ import AuthenticationLayout from "@/Layout/AuthenticationLayout/AuthenticationLa
 import RecoverPassword from "@/pages/Authentication/RecoverPassword/RecoverPassword";
 import BrokerOverview from "@/pages/BrokerDashboard/BrokerOverview/BrokerOverview";
 import BrokerLeadDetails from "@/pages/BrokerDashboard/BrokerLeadDetails/BrokerLeadDetails";
-import PartnerProfile from "@/pages/BrokerDashboard/BrokerPartnerProfiles/PartnerProfile";
-import EditPartnerConfiguration from "@/pages/BrokerDashboard/BrokerPartnerProfiles/EditPartnerConfiguration";
+import PartnerProfile from "@/pages/BrokerDashboard/BrokerPartnerDetails/BrokerPartnerDetails";
+import EditPartnerConfiguration from "@/pages/BrokerDashboard/BrokerEditPartnerConfiguration/BrokerEditPartnerConfiguration";
 
 const routes = createBrowserRouter([
   {

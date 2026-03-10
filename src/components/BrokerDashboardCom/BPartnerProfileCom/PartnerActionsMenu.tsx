@@ -4,8 +4,8 @@ import { useState } from "react";
 import { cn } from "@/hooks/useCn";
 import { useFloatingMenu } from "@/hooks/useFloatingMenu";
 import { useOutsideClose } from "@/hooks/useOutsideClose";
-import { partnerActionOptions } from "./mock";
-import type { PartnerActionKey } from "./types";
+import { PartnerActionKey } from "@/pages/BrokerDashboard/BrokerPartnerProfiles/types";
+import { partnerActionOptions } from "@/pages/BrokerDashboard/BrokerPartnerProfiles/mock";
 
 type PartnerActionsMenuProps = {
   onSelect: (action: PartnerActionKey) => void;

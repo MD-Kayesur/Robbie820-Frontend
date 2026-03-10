@@ -26,17 +26,16 @@ import {
   formatMoney,
   getAllocatedTeamMemberLabel,
 } from "../BrokerOverview/utils";
-
-import Breadcrumbs from "../../../components/BrokerDashboardCom/BBrokerLeadDetails/Breadcrumbs";
-import SectionCard from "../../../components/BrokerDashboardCom/BBrokerLeadDetails/SectionCard";
-import ReadonlyField from "../../../components/BrokerDashboardCom/BBrokerLeadDetails/ReadonlyField";
+import Breadcrumbs from "@/components/BrokerDashboardCom/BLeadDetailsCom/Breadcrumbs";
+import SectionCard from "@/components/BrokerDashboardCom/BLeadDetailsCom/SectionCard";
+import ReadonlyField from "@/components/BrokerDashboardCom/BLeadDetailsCom/ReadonlyField";
 import {
   InputField,
   SelectField,
   TextareaField,
-} from "../../../components/BrokerDashboardCom/BBrokerLeadDetails/FormFields";
-import PipelineTracker from "../../../components/BrokerDashboardCom/BBrokerLeadDetails/PipelineTracker";
-import TimelineItem from "../../../components/BrokerDashboardCom/BBrokerLeadDetails/TimelineItem";
+} from "@/components/BrokerDashboardCom/BLeadDetailsCom/FormFields";
+import PipelineTracker from "@/components/BrokerDashboardCom/BLeadDetailsCom/PipelineTracker";
+import TimelineItem from "@/components/BrokerDashboardCom/BLeadDetailsCom/TimelineItem";
 
 const paymentStatusOptions: PaymentStatus[] = [
   "Pending",
