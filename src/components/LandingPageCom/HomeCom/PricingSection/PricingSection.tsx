@@ -64,7 +64,7 @@ const PricingSection = () => {
   return (
     <section
       id="pricing"
-      className="relative overflow-hidden bg-white sm:py-30 px-13 sm:px-0 py-6 pb-16 sm:pb-0"
+      className="relative overflow-hidden bg-white sm:py-33 px-13 sm:px-0 py-6 pb-16"
     >
       {/* bottom left grid */}
       <div className="absolute bottom-0 left-0 z-0 w-1/3">

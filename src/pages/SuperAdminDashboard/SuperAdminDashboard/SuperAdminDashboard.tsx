@@ -198,7 +198,7 @@ export default function SuperAdminDashboard() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="px-8 pb-6 pt-2">
+      <div className="sm:px-8 sm:pb-6 sm:pt-2">
         <div
           ref={dropdownRef}
           className="relative flex items-center justify-between border-t border-slate-200 px-7 pt-3.5"
@@ -219,7 +219,7 @@ export default function SuperAdminDashboard() {
           </button>
 
           {open && (
-            <div className="absolute left-0 top-full mt-2 w-56 rounded-xl border border-slate-200 bg-white shadow-md">
+            <div className="absolute left-7 top-full mt-2 w-56 rounded-xl border border-slate-200 bg-white shadow-md">
               {ranges.map((item) => (
                 <button
                   key={item}

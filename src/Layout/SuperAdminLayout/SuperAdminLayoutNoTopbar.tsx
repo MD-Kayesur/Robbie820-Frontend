@@ -1,10 +1,16 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import { Menu, Zap } from "lucide-react";
 import SuperAdminSidebar from "./SuperAdminSidebar";
 
 const SuperAdminLayoutNoTopbar = () => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const { pathname, search, hash } = useLocation();
+  const mainRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    mainRef.current?.scrollTo({ top: 0, behavior: "auto" });
+  }, [pathname, search, hash]);
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-slate-50">
@@ -14,7 +20,6 @@ const SuperAdminLayoutNoTopbar = () => {
       />
 
       <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Mobile header only */}
         <div className="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3 lg:hidden">
           <div className="flex items-center gap-3">
             <div className="grid h-9 w-9 place-items-center rounded-xl bg-sky-500">
@@ -35,7 +40,7 @@ const SuperAdminLayoutNoTopbar = () => {
           </button>
         </div>
 
-        <main className="flex-1 overflow-y-auto">
+        <main ref={mainRef} className="flex-1 overflow-y-auto">
           <Outlet />
         </main>
       </div>

@@ -34,7 +34,7 @@ const securityFeatures = [
 
 const SecurityCompliance = () => {
   return (
-    <section id="reviews" className="sm:py-30 bg-[#F7F7F7] mx-4.5 py-6">
+    <section id="reviews" className="sm:py-33 bg-[#F7F7F7] mx-4.5 py-6">
       <div className="mx-auto md:px-20 lg:px-37.5">
         <div className="flex flex-col-reverse sm:flex-row items-start gap-6 sm:gap-16 lg:gap-45">
           {/* Left content: Image */}

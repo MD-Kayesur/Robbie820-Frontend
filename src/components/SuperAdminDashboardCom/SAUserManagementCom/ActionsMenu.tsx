@@ -17,7 +17,7 @@ export function ActionsMenu({
   return (
     <div
       ref={ref}
-      className="absolute right-0 top-10 z-50 w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"
+      className="absolute right-3 top-10 z-50 w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"
     >
       <button
         type="button"
