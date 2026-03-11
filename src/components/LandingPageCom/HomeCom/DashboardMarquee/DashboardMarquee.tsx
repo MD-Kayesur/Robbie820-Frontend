@@ -17,10 +17,10 @@ const DashboardMarquee = () => {
     <section className="pb-24 pt-25 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 mb-16 text-center">
         <div>
-          <h2 className="text-3xl font-medium tracking-tight text-[#12A8F5] md:text-4xl">
+          <h2 className="text-3xl font-medium leading-none mb-8 text-[#12A8F5] md:text-[34px]">
             Stop Losing Money To Manual Processes
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-base text-[#475569] md:text-lg">
+          <p className="mx-auto max-w-2xl text-black md:text-lg leading-none">
             Manual Tracking Leads To Missed Commissions, Delays, And Costly
             Disputes. Automate Everything In One Transparent System.
           </p>

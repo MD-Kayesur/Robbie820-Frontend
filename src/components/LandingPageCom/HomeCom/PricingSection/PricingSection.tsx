@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
+import gridLeft from "@/assets/landing-page/grid-left.png";
+import gridRight from "@/assets/landing-page/grid-right.png";
 
 const plans = [
   {
@@ -60,26 +62,13 @@ const PricingSection = () => {
   );
 
   return (
-    <section id="pricing" className="py-30 bg-white relative overflow-hidden">
-      {/* Background Grid and Rectify decoration */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Thin grid lines */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `linear-gradient(#f1f5f9 1px, transparent 1px), linear-gradient(90deg, #f1f5f9 1px, transparent 1px)`,
-            backgroundSize: "100px 100px",
-          }}
-        />
-
-        {/* Decorative border squares */}
-        <div className="absolute top-[20%] left-[5%] w-32 h-32 border border-sky-100 rounded-3xl" />
-        <div className="absolute top-[60%] left-[2%] w-24 h-24 border border-blue-50 rounded-2xl" />
-        <div className="absolute bottom-[10%] left-[8%] w-40 h-40 border border-purple-50 rounded-[2.5rem]" />
-        <div className="absolute top-[15%] right-[5%] w-36 h-36 border border-sky-50 rounded-4xl" />
-        <div className="absolute bottom-[20%] right-[3%] w-28 h-28 border border-blue-100 rounded-2xl" />
+    <section id="pricing" className="relative overflow-hidden bg-white py-30">
+      {/* bottom left grid */}
+      <div className="absolute bottom-0 left-0 z-0 w-1/3">
+        <img src={gridLeft} alt="" className="w-full h-auto" />
       </div>
 
+      {/* content */}
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-medium leading-none text-[#12A8F5] md:text-[34px] mb-8">
@@ -177,6 +166,11 @@ const PricingSection = () => {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* bottom right grid */}
+      <div className="absolute bottom-0 right-0 z-0 w-1/3">
+        <img src={gridRight} alt="" className="w-full h-auto" />
       </div>
     </section>
   );

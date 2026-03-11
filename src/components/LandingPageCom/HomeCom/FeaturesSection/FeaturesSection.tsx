@@ -6,7 +6,6 @@ import {
   BarChart3,
   Link as LinkIcon,
 } from "lucide-react";
-import CommonWrapper from "../CommonWrapper/CommonWrapper";
 
 const features = [
   {
@@ -56,13 +55,13 @@ const features = [
 const FeaturesSection = () => {
   return (
     <section id="features" className="bg-[#FAFAFA] py-24 md:py-30">
-      <CommonWrapper className="mx-auto md:px-20 lg:px-37.5">
+      <div className="mx-auto md:px-20 lg:px-37.5">
         <div className="mx-auto mb-16 max-w-3xl text-center">
-          <h2 className="text-3xl font-medium tracking-tight text-[#12A8F5] md:text-4xl">
+          <h2 className="text-3xl font-medium leading-none mb-8 text-[#12A8F5] md:text-[34px]">
             Everything You Need To Manage Referrals
           </h2>
 
-          <p className="mx-auto mt-3 max-w-2xl text-base text-[#475569] md:text-lg">
+          <p className="mx-auto max-w-2xl text-black md:text-lg leading-none">
             Powerful Features Designed For Brokers, Referral Partners.
           </p>
         </div>
@@ -74,22 +73,20 @@ const FeaturesSection = () => {
               className="rounded-2xl border border-[#D8E7FF] bg-white px-5 py-5 md:px-6 md:py-6"
             >
               <div
-                className={`mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl ${feature.color}`}
+                className={`mb-6 inline-flex p-3 items-center justify-center rounded-xl ${feature.color}`}
               >
-                <feature.icon className="h-5 w-5 stroke-[1.9]" />
+                <feature.icon size={40} />
               </div>
 
-              <h3 className="mb-3 text-[18px] font-semibold leading-6 tracking-[-0.02em] text-[#111827]">
+              <h3 className="text-xl font-semibold text-[#111827] mb-6">
                 {feature.title}
               </h3>
 
-              <p className="text-sm leading-7 text-[#6B7280]">
-                {feature.description}
-              </p>
+              <p className="leading-7 text-[#6B7280]">{feature.description}</p>
             </div>
           ))}
         </div>
-      </CommonWrapper>
+      </div>
     </section>
   );
 };
