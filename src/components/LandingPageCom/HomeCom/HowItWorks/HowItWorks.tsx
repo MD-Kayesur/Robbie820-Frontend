@@ -35,26 +35,26 @@ const HowItWorks = () => {
   return (
     <section
       id="how-it-works"
-      className="mx-auto overflow-hidden bg-white py-30 md:px-20 lg:px-37.5"
+      className="sm:mx-auto overflow-hidden bg-white py-11 sm:py-30 px-4.5 md:px-20 lg:px-37.5"
     >
       <div>
-        <div className="flex flex-col items-start gap-16 lg:flex-row lg:gap-45">
+        <div className="flex sm:flex-col items-start flex-col-reverse gap-6 sm:gap-16 lg:flex-row lg:gap-45">
           {/* Left content: Steps */}
           <div className="flex-1">
             <div className="mb-8">
-              <h2 className="text-3xl font-medium leading-none mb-8 text-[#12A8F5] md:text-[34px]">
+              <h2 className="text-lg leading-5 font-medium sm:leading-none mb-2 sm:mb-8 text-[#12A8F5] md:text-[34px]">
                 How ReferNow Works
               </h2>
-              <p className="max-w-2xl text-black md:text-lg leading-none">
+              <p className="mx-auto max-w-2xl text-black text-sm sm:text-lg sm:leading-none">
                 From Signup To Payout In Four Simple Steps
               </p>
               <div className="mt-8 h-px w-full bg-[#E5E7EB]" />
             </div>
 
-            <div className="grid grid-cols-1 gap-13.5 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-5 sm:gap-13.5 md:grid-cols-2">
               {steps.map((step, idx) => (
                 <div key={idx} className="group flex flex-col items-start">
-                  <div className="mb-6">
+                  <div className="mb-2.5 sm:mb-6">
                     <img
                       src={step.icon}
                       alt={`Step ${idx + 1}`}
@@ -62,7 +62,7 @@ const HowItWorks = () => {
                     />
                   </div>
 
-                  <h3 className="mb-3.5 text-lg font-semibold tracking-tight text-black">
+                  <h3 className="mb-0 sm:mb-3.5 text-lg font-semibold tracking-tight text-black">
                     {step.title}
                   </h3>
 
@@ -75,12 +75,12 @@ const HowItWorks = () => {
           </div>
 
           {/* Right content: Image */}
-          <div className="flex-1">
-            <div className="w-full h-200 flex justify-end">
+          <div className="flex-1 w-full">
+            <div className="w-full h-50 sm:h-200 flex justify-end">
               <img
                 src={howItWorksImage}
                 alt="Professional using ReferNow"
-                className="h-full rounded-lg object-cover"
+                className="h-full w-full rounded-sm sm:rounded-lg object-cover"
               />
             </div>
           </div>

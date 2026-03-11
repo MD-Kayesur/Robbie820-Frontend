@@ -69,7 +69,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] selection:bg-sky-100 overflow-x-hidden no-scrollbar">
       <Navbar activeSection={activeSection} onSectionClick={setActiveSection} />
-      <Hero onGetStarted={handleGetStarted} className="pb-20" />
+      <Hero onGetStarted={handleGetStarted} />
       <DashboardMarquee />
       <FeaturesSection />
       <HowItWorks />

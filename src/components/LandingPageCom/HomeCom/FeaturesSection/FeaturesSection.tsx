@@ -54,14 +54,17 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section id="features" className="bg-[#FAFAFA] py-24 md:py-30">
+    <section
+      id="features"
+      className="bg-[#FAFAFA] py-6 sm:py-24 md:py-30 mx-4.5 sm:mx-0"
+    >
       <div className="mx-auto md:px-20 lg:px-37.5">
-        <div className="mx-auto mb-16 max-w-3xl text-center">
-          <h2 className="text-3xl font-medium leading-none mb-8 text-[#12A8F5] md:text-[34px]">
+        <div className="mx-auto mb-6 sm:mb-16 max-w-3xl text-center">
+          <h2 className="text-lg leading-5 font-medium sm:leading-none mb-2 sm:mb-8 text-[#12A8F5] md:text-[34px]">
             Everything You Need To Manage Referrals
           </h2>
 
-          <p className="mx-auto max-w-2xl text-black md:text-lg leading-none">
+          <p className="mx-auto max-w-2xl text-black text-sm sm:text-lg sm:leading-none">
             Powerful Features Designed For Brokers, Referral Partners.
           </p>
         </div>
@@ -70,19 +73,21 @@ const FeaturesSection = () => {
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="rounded-2xl border border-[#D8E7FF] bg-white px-5 py-5 md:px-6 md:py-6"
+              className="rounded-2xl border border-[#D8E7FF] bg-white p-4.5 md:p-6"
             >
               <div
-                className={`mb-6 inline-flex p-3 items-center justify-center rounded-xl ${feature.color}`}
+                className={`mb-4 sm:mb-6 inline-flex p-3 items-center justify-center rounded-xl ${feature.color}`}
               >
                 <feature.icon size={40} />
               </div>
 
-              <h3 className="text-xl font-semibold text-[#111827] mb-6">
+              <h3 className="text-sm sm:text-xl font-semibold text-[#111827] mb-4 leading-none sm:mb-6">
                 {feature.title}
               </h3>
 
-              <p className="leading-7 text-[#6B7280]">{feature.description}</p>
+              <p className="text-xs sm:text-base sm:leading-7 text-[#6B7280]">
+                {feature.description}
+              </p>
             </div>
           ))}
         </div>
