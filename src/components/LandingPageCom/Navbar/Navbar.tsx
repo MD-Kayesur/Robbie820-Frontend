@@ -39,10 +39,10 @@ const Navbar = ({ activeSection, onSectionClick }: Props) => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 sm:pt-8">
       <div className="mx-auto md:px-20 lg:px-37.5">
-        <nav className="w-full bg-white sm:border sm:border-[rgb(234,234,234)] sm:rounded-2xl mx-4.5 mt-2.5 sm:px-6 sm:py-2.5 flex items-center justify-between">
+        <nav className="w-full bg-white sm:border sm:border-[rgb(234,234,234)] sm:rounded-2xl px-4.5 sm:mt-2.5 sm:px-6 sm:py-2.5 flex items-center justify-between">
           <button
             type="button"
-            className="cursor-pointer w-24.5 h-8 sm:w-37.5 sm:h-12.5 bg-transparent border-0 p-0"
+            className="cursor-pointer w-26 h-12 sm:w-37.5 sm:h-12.5 bg-transparent border-0 p-0"
             onClick={handleHomeClick}
           >
             <img
