@@ -3,7 +3,6 @@ import logo from "@/assets/logos/refer_now_logo.png";
 
 type Props = {
   activeSection: string;
-
   onSectionClick: (section: string) => void;
 };
 
@@ -13,6 +12,7 @@ const navItems = [
   { label: "Reviews", id: "reviews" },
   { label: "Pricing", id: "pricing" },
 ];
+
 const Navbar = ({ activeSection, onSectionClick }: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,22 +23,27 @@ const Navbar = ({ activeSection, onSectionClick }: Props) => {
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-      onSectionClick?.(sectionId);
-      window.history.replaceState(null, "", `#${sectionId}`);
+      onSectionClick(sectionId);
     } else {
-      navigate(`/#${sectionId}`);
+      navigate("/", { state: { scrollTo: sectionId } });
     }
   };
 
+  const handleHomeClick = () => {
+    navigate("/", { replace: true, state: {} });
+    setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    }, 0);
+  };
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 pt-4 md:pt-8">
+    <header className="fixed top-0 left-0 right-0 z-50 sm:pt-8">
       <div className="mx-auto md:px-20 lg:px-37.5">
-        <nav className="w-full bg-white border border-[#EAEAEA] rounded-2xl px-6 py-2.5 flex items-center justify-between">
-          {/* Logo */}
+        <nav className="w-full bg-white sm:border sm:border-[#EAEAEA] sm:rounded-2xl px-6 py-2.5 flex items-center justify-between">
           <button
             type="button"
             className="cursor-pointer w-37.5 h-12.5 bg-transparent border-0 p-0"
-            onClick={() => navigate("/")}
+            onClick={handleHomeClick}
           >
             <img
               src={logo}
@@ -47,8 +52,7 @@ const Navbar = ({ activeSection, onSectionClick }: Props) => {
             />
           </button>
 
-          {/* Navigation */}
-          <div className="hidden lg:flex items-center gap-8.5 ">
+          <div className="hidden lg:flex items-center gap-8.5">
             {navItems.map(({ label, id }) => {
               const isActive = activeSection === id;
 
@@ -69,7 +73,6 @@ const Navbar = ({ activeSection, onSectionClick }: Props) => {
             })}
           </div>
 
-          {/* Get Started */}
           <Link
             to="/login"
             className="hidden sm:flex bg-[#00B4FE] text-black px-6 py-3 rounded-lg leading-7.5"

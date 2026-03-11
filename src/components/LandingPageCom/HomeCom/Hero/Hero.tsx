@@ -12,7 +12,7 @@ const Hero = ({ onGetStarted, className }: HeroProps) => {
       className={`relative ${className}`}
       style={{ backgroundImage: `url(${bgLight})` }}
     >
-      <div className="sm:pt-37 md:pl-37.5">
+      <div className="pt-20 sm:pt-37 md:pl-37.5">
         <div className=" mx-auto flex flex-col lg:flex-row items-center ">
           {/* Hero Text content */}
           <div className="flex-1 text-center lg:text-left bg-no-repeat bg-top-left bg-contain lg:pr-10">
