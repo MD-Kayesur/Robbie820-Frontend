@@ -56,7 +56,7 @@ const FeaturesSection = () => {
   return (
     <section
       id="features"
-      className="bg-[#FAFAFA] py-6 sm:py-24 md:py-30 mx-4.5 sm:mx-0"
+      className="bg-[#FAFAFA] py-6 sm:py-33 mx-4.5 sm:mx-0"
     >
       <div className="mx-auto md:px-20 lg:px-37.5">
         <div className="mx-auto mb-6 sm:mb-16 max-w-3xl text-center">

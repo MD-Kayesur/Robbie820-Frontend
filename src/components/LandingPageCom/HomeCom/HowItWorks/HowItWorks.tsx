@@ -35,7 +35,7 @@ const HowItWorks = () => {
   return (
     <section
       id="how-it-works"
-      className="sm:mx-auto overflow-hidden bg-white py-11 sm:py-30 px-4.5 md:px-20 lg:px-37.5"
+      className="sm:mx-auto overflow-hidden bg-white py-11 sm:py-33 px-4.5 md:px-20 lg:px-37.5"
     >
       <div>
         <div className="flex sm:flex-col items-start flex-col-reverse gap-6 sm:gap-16 lg:flex-row lg:gap-45">
