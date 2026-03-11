@@ -1,13 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Linkedin, Facebook, Instagram } from "lucide-react";
-import logo from "@/assets/refer_now_logo.png";
+import logo from "@/assets/logos/refer_now_logo.png";
 
 const Footer = () => {
   const navigate = useNavigate();
 
   return (
-    <footer className="bg-[#cfefff] px-4 pt-12 pb-8 text-[#2D3E50] sm:px-6 md:px-12 md:pt-20 md:pb-10">
-      <div className="mx-auto max-w-7xl">
+    <footer className="bg-[#cfefff] pt-12 pb-8 text-[#2D3E50] md:pt-20 md:pb-10">
+      <div className="mx-auto md:px-20 lg:px-37.5">
         <div className="mb-10 flex flex-col gap-10 sm:mb-12 sm:gap-12 md:flex-row md:items-start md:justify-between">
           {/* Left Column: Logo & Description */}
           <div className="space-y-4">

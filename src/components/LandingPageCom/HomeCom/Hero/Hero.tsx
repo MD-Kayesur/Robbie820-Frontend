@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import laptopMockup from "@/assets/landingpage/image.png";
+import laptopMockup from "@/assets/landing-page/image.png";
 import CommonWrapper from "../CommonWrapper/CommonWrapper";
-import bglight from "@/assets/landingpage/image copy 4.png";
+import bglight from "@/assets/landing-page/image copy 4.jpg";
 import { Check } from "lucide-react";
 interface HeroProps {
   onGetStarted: () => void;

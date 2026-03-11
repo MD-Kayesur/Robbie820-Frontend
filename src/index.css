@@ -180,7 +180,7 @@ html::-webkit-scrollbar {
   body {
     @apply bg-background text-foreground transition-colors duration-300;
     font-family: "MyCustomFont", sans-serif;
-    background-image: url("./assets/home.jpg");
+    /* background-image: url("./assets/home.jpg"); */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
