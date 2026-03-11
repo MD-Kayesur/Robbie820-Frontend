@@ -161,7 +161,7 @@ const BrokerSidebar = ({ mobileOpen, onClose }: Props) => {
           <button
             type="button"
             onClick={handleSignOut}
-            className="flex w-full items-center gap-1.5 px-4 text-left transition hover:bg-[#00B4FE1A]"
+            className="flex w-full items-center gap-1.5 p-4 text-left transition hover:bg-[#00B4FE1A]"
           >
             <LogOut className="h-6 w-6 text-black" strokeWidth={2} />
             <span className="text-black">Sign Out</span>

@@ -95,7 +95,7 @@ function SelectMenu({
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex h-11 w-full items-center justify-between gap-2 rounded-2xl border border-slate-200 bg-white px-3.5 text-xs font-medium text-[#0A0A0A]",
+          "inline-flex sm:py-2.5 sm:px-3.5 p-2.5 items-center justify-between gap-2 rounded-2xl border border-slate-200 bg-white text-xs font-medium text-[#0A0A0A]",
           "hover:bg-slate-50 sm:h-auto sm:w-auto sm:py-2",
         )}
       >
@@ -382,7 +382,7 @@ const SuperAdminAuditLogs = () => {
       </div>
 
       {/* Filters row */}
-      <div className="mt-5 flex items-start justify-end gap-3">
+      <div className="mt-5 flex items-start justify-end sm:gap-3 gap-1">
         <SelectMenu
           value={userFilter}
           onChange={setUserFilter}

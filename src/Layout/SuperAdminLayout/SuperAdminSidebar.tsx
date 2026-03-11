@@ -106,7 +106,7 @@ const SuperAdminSidebar = ({
       {/* Mobile drawer */}
       <div
         className={[
-          "fixed inset-0 z-50 lg:hidden",
+          "fixed inset-0 z-999 lg:hidden",
           mobileOpen ? "pointer-events-auto" : "pointer-events-none",
         ].join(" ")}
       >
