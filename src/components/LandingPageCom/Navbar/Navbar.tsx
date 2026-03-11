@@ -1,6 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import logo from "@/assets/refer_now_logo.png";
+import logo from "@/assets/logos/refer_now_logo.png";
 
 type Props = {
   activeSection: string;
@@ -8,8 +7,12 @@ type Props = {
   onSectionClick: (section: string) => void;
 };
 
-const navItems = ["Features", "How It Works", "Reviews", "Pricing"];
-
+const navItems = [
+  { label: "Features", id: "features" },
+  { label: "How It Works", id: "how-it-works" },
+  { label: "Reviews", id: "reviews" },
+  { label: "Pricing", id: "pricing" },
+];
 const Navbar = ({ activeSection, onSectionClick }: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,49 +33,49 @@ const Navbar = ({ activeSection, onSectionClick }: Props) => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 pt-4 md:pt-8">
       <div className="mx-auto md:px-20 lg:px-37.5">
-        <nav className="w-full bg-white border border-[#EAEAEA] rounded-2xl px-6 py-3 flex items-center justify-between">
-          <div
-            className="cursor-pointer w-34 h-10"
+        <nav className="w-full bg-white border border-[#EAEAEA] rounded-2xl px-6 py-2.5 flex items-center justify-between">
+          {/* Logo */}
+          <button
+            type="button"
+            className="cursor-pointer w-37.5 h-12.5 bg-transparent border-0 p-0"
             onClick={() => navigate("/")}
           >
-            <img src={logo} alt="ReferNow Logo" className="w-full h-auto" />
-          </div>
+            <img
+              src={logo}
+              alt="ReferNow Logo"
+              className="w-full h-full object-contain"
+            />
+          </button>
 
-          <div className="hidden lg:flex items-center gap-8 xl:gap-12">
-            {navItems.map((item) => {
-              const sectionId = item.toLowerCase().replace(/\s+/g, "-");
-              const isActive = activeSection === sectionId;
+          {/* Navigation */}
+          <div className="hidden lg:flex items-center gap-8.5 ">
+            {navItems.map(({ label, id }) => {
+              const isActive = activeSection === id;
 
               return (
                 <button
-                  key={item}
+                  key={id}
                   type="button"
-                  onClick={() => handleSectionNavigation(sectionId)}
-                  className={`text-lg transition-all duration-300 relative group ${
+                  onClick={() => handleSectionNavigation(id)}
+                  className={`text-lg leading-6.75 relative group ${
                     isActive
                       ? "text-sky-500"
                       : "text-slate-500 hover:text-sky-500"
                   }`}
                 >
-                  {item}
-
-                  <span
-                    className={`absolute -bottom-1 left-0 h-0.5 bg-sky-500 transition-all duration-300 ${
-                      isActive ? "w-full" : "w-0 group-hover:w-full"
-                    }`}
-                  />
+                  {label}
                 </button>
               );
             })}
           </div>
 
-          <div className="flex items-center gap-4">
-            <Link to="/login">
-              <Button className="hidden sm:flex bg-[#00B4FE] text-black font-normal px-6 py-3 rounded-lg leading-7.5 transition-all duration-300">
-                Get Started
-              </Button>
-            </Link>
-          </div>
+          {/* Get Started */}
+          <Link
+            to="/login"
+            className="hidden sm:flex bg-[#00B4FE] text-black px-6 py-3 rounded-lg leading-7.5"
+          >
+            Get Started
+          </Link>
         </nav>
       </div>
     </header>

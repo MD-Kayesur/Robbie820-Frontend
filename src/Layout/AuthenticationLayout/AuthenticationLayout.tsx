@@ -1,7 +1,7 @@
 // src/Layout/AuthenticationLayout/AuthenticationLayout.tsx
 
 import { Outlet } from "react-router-dom";
-import logo from "@/assets/refer_now_logo.png";
+import logo from "@/assets/logos/refer_now_logo.png";
 
 const AuthenticationLayout = () => {
   return (

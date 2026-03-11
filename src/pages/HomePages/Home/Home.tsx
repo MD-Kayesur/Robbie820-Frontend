@@ -40,6 +40,23 @@ const Home = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const hash = window.location.hash.replace("#", "");
+    if (!hash) return;
+
+    const scrollToSection = () => {
+      const el = document.getElementById(hash);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        setActiveSection(hash);
+      }
+    };
+
+    const timeout = setTimeout(scrollToSection, 100);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   const handleGetStarted = () => {
     navigate("/login");
   };

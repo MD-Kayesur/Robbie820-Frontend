@@ -1,7 +1,7 @@
 import Marquee from "react-fast-marquee";
-import superAdminImg from "@/assets/super_admin.png";
-import referrerImg from "@/assets/referrer.png";
-import brokerImg from "@/assets/broker.png";
+import superAdminImg from "@/assets/landing-page/super_admin.jpg";
+import referrerImg from "@/assets/landing-page/referrer.jpg";
+import brokerImg from "@/assets/landing-page/broker.jpg";
 
 const DashboardMarquee = () => {
   const screens = [
@@ -20,7 +20,7 @@ const DashboardMarquee = () => {
           <h2 className="text-3xl font-medium tracking-tight text-[#12A8F5] md:text-4xl">
             Stop Losing Money To Manual Processes
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-lg text-[#475569] md:text-base">
+          <p className="mx-auto mt-3 max-w-2xl text-base text-[#475569] md:text-lg">
             Manual Tracking Leads To Missed Commissions, Delays, And Costly
             Disputes. Automate Everything In One Transparent System.
           </p>

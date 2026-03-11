@@ -1,5 +1,5 @@
 import { Lock, EyeOff, Shield, FileText } from "lucide-react";
-import securityImage from "../../../../assets/security_compliance.png";
+import securityImage from "../../../../assets/landing-page/security_compliance.jpg";
 
 const securityFeatures = [
   {
@@ -34,9 +34,9 @@ const securityFeatures = [
 
 const SecurityCompliance = () => {
   return (
-    <section id="reviews" className="py-24 bg-slate-50/30 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+    <section id="reviews" className="py-30 bg-[#F7F7F7] overflow-hidden">
+      <div className="mx-auto md:px-20 lg:px-37.5">
+        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-45">
           {/* Left content: Image */}
           <div className="flex-1 relative order-2 lg:order-1">
             <div className="relative z-10 w-full group">
@@ -58,7 +58,7 @@ const SecurityCompliance = () => {
               <h2 className="text-3xl font-medium tracking-tight text-[#12A8F5] md:text-4xl">
                 Built For Security & Compliance
               </h2>
-              <p className="mx-auto mt-3 max-w-2xl text-lg text-[#475569] md:text-base">
+              <p className="mx-auto mt-3 max-w-2xl text-base text-[#475569] md:text-lg">
                 Your Financial Data Deserves Enterprise-Grade Protection. We
                 Take Security Seriously So You Can Focus On Growing Your
                 Business.

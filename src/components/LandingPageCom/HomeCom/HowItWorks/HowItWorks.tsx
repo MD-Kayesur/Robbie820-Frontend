@@ -1,4 +1,4 @@
-import howItWorksImage from "../../../../assets/how_it_works_refernow.png";
+import howItWorksImage from "../../../../assets/landing-page/how_it_works.webp";
 
 const steps = [
   {
@@ -54,9 +54,12 @@ const HexagonIcon = ({ number }: { number: string }) => (
 
 const HowItWorks = () => {
   return (
-    <section id="how-it-works" className="py-24 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+    <section
+      id="how-it-works"
+      className="py-30 bg-white overflow-hidden mx-auto md:px-20 lg:px-37.5"
+    >
+      <div>
+        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-45">
           {/* Left content: Steps */}
           <div className="flex-1">
             <div className="mb-8 ">
@@ -64,7 +67,7 @@ const HowItWorks = () => {
                 How ReferNow Works
               </h2>
 
-              <p className="mx-auto mt-3 max-w-2xl text-lg text-[#475569] md:text-base">
+              <p className="mx-auto mt-3 max-w-2xl text-base text-[#475569] md:text-lg">
                 From Signup To Payout In Four Simple Steps
               </p>
 
