@@ -7,77 +7,76 @@ const securityFeatures = [
     description:
       "Each User Sees Only What They're Authorized To Access. Sensitive Financial Data Stays Protected.",
     icon: Lock,
-    color: "bg-blue-50 text-blue-500",
+    color: "bg-[#60A5FA26] text-[#0E4181]",
   },
   {
     title: "Privacy-First Design",
     description:
       "Referral Partners See Their Earnings Without Accessing Confidential Loan Details Or Client Information.",
     icon: EyeOff,
-    color: "bg-emerald-50 text-emerald-500",
+    color: "bg-[#16A34A26] text-[#03722C]",
   },
   {
     title: "Encrypted Data Storage",
     description:
       "All Data Is Encrypted At Rest And In Transit Using Industry-Standard Protocols.",
     icon: Shield,
-    color: "bg-purple-50 text-purple-500",
+    color: "bg-[#903AFA26] text-[#9B4DFB]",
   },
   {
     title: "Compliance Ready",
     description:
       "Every Referral Logged With Audit Trails, Agreement Storage, And Document Uploads For Compliance.",
     icon: FileText,
-    color: "bg-orange-50 text-orange-500",
+    color: "bg-[#FB923C26] text-[#D26D1A]",
   },
 ];
 
 const SecurityCompliance = () => {
   return (
-    <section id="reviews" className="py-30 bg-[#F7F7F7] overflow-hidden">
+    <section id="reviews" className="sm:py-30 bg-[#F7F7F7] mx-4.5 py-6">
       <div className="mx-auto md:px-20 lg:px-37.5">
-        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-45">
+        <div className="flex flex-col-reverse sm:flex-row items-start gap-6 sm:gap-16 lg:gap-45">
           {/* Left content: Image */}
-          <div className="flex-1 relative order-2 lg:order-1">
-            <div className="relative z-10 w-full group">
-              <div className="absolute inset-0 bg-slate-200/50 rounded-[2.5rem] rotate-2 transition-transform duration-500 group-hover:rotate-0" />
+          <div className="flex-1 w-full relative order-2 lg:order-1">
+            <div className="relative z-10 w-full h-50 sm:h-200">
               <img
                 src={securityImage}
                 alt="Security and Compliance"
-                className="relative z-10 w-full h-auto rounded-[2.5rem] shadow-2xl shadow-slate-200/20 object-cover aspect-square"
+                className="relative z-10 w-full h-full rounded-sm sm:rounded-lg object-cover"
               />
             </div>
-
-            {/* Decorative background shape */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-50 rounded-full blur-[100px] -z-10 opacity-50" />
           </div>
 
           {/* Right content: Features */}
           <div className="flex-1 order-1 lg:order-2">
-            <div className="mb-14">
-              <h2 className="text-3xl font-medium tracking-tight text-[#12A8F5] md:text-4xl">
+            <div className="mb-6 sm:mb-16">
+              <h2 className="text-lg leading-5 font-medium sm:leading-none mb-2 sm:mb-8 text-[#12A8F5] md:text-[34px]">
                 Built For Security & Compliance
               </h2>
-              <p className="mx-auto mt-3 max-w-2xl text-base text-[#475569] md:text-lg">
+              <p className="mx-auto max-w-2xl text-black text-sm sm:text-lg sm:leading-none">
                 Your Financial Data Deserves Enterprise-Grade Protection. We
                 Take Security Seriously So You Can Focus On Growing Your
                 Business.
               </p>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-10">
               {securityFeatures.map((feature, idx) => (
-                <div key={idx} className="flex items-start gap-6 group">
+                <div
+                  key={idx}
+                  className="flex flex-col sm:flex-row items-start gap-2.5 sm:gap-6.5 group"
+                >
                   <div
-                    className={`w-14 h-14 ${feature.color} rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300`}
+                    className={`${feature.color} rounded-2xl p-3 flex items-center justify-center shrink-0`}
                   >
-                    <feature.icon size={26} strokeWidth={2.5} />
+                    <feature.icon size={40} />
                   </div>
-                  <div className="space-y-1.5">
-                    <h3 className="text-xl font-semibold text-black tracking-tight group-hover:text-sky-500 transition-colors">
+                  <div className="sm:space-y-4 space-y-0">
+                    <h3 className="text-sm sm:text-lg leading-7.5 sm:leading-none font-semibold text-black">
                       {feature.title}
                     </h3>
-                    <p className="text-black leading-relaxed text-[15px] max-w-lg">
+                    <p className="text-black text-xs sm:text-base leading-5 sm:leading-7 max-w-lg">
                       {feature.description}
                     </p>
                   </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Navbar from "@/components/LandingPageCom/Navbar/Navbar";
 import DashboardMarquee from "@/components/LandingPageCom/HomeCom/DashboardMarquee/DashboardMarquee";
@@ -12,6 +12,7 @@ import Footer from "@/components/LandingPageCom/Footer/Footer";
 
 const Home = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
@@ -41,21 +42,25 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const hash = window.location.hash.replace("#", "");
-    if (!hash) return;
+    const sectionId = location.state?.scrollTo;
 
-    const scrollToSection = () => {
-      const el = document.getElementById(hash);
+    if (!sectionId) {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      const el = document.getElementById(sectionId);
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
-        setActiveSection(hash);
+        setActiveSection(sectionId);
       }
-    };
 
-    const timeout = setTimeout(scrollToSection, 100);
+      navigate(location.pathname, { replace: true, state: {} });
+    }, 100);
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [location.state, location.pathname, navigate]);
 
   const handleGetStarted = () => {
     navigate("/login");
@@ -64,7 +69,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] selection:bg-sky-100 overflow-x-hidden no-scrollbar">
       <Navbar activeSection={activeSection} onSectionClick={setActiveSection} />
-      <Hero onGetStarted={handleGetStarted} className="pt-10 pb-20" />
+      <Hero onGetStarted={handleGetStarted} />
       <DashboardMarquee />
       <FeaturesSection />
       <HowItWorks />
