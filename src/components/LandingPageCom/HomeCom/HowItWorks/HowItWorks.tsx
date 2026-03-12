@@ -61,11 +61,13 @@ const HowItWorks = () => {
                   />
                 </div>
 
-                <h3 className="mb-0 md:mb-3.5 text-lg font-semibold tracking-tight text-black">
+                <h3 className="mb-0 md:mb-3.5 text-sm sm:text-lg font-semibold tracking-tight text-black">
                   {step.title}
                 </h3>
 
-                <p className="leading-relaxed text-black">{step.description}</p>
+                <p className="text-xs sm:text-sm leading-relaxed text-black">
+                  {step.description}
+                </p>
               </div>
             ))}
           </div>

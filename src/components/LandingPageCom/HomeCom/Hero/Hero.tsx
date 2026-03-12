@@ -11,21 +11,21 @@ interface HeroProps {
 const Hero = ({ onGetStarted, className }: HeroProps) => {
   return (
     <main
-      className={`relative ${className} inter px-4.5 md:px-0 pb-6 md:pb-20`}
+      className={`relative ${className} px-4.5 md:px-0 pb-6 md:pb-20`}
       style={{ backgroundImage: `url(${bgLight})` }}
     >
       <div className="pt-12 md:pt-37 md:pl-37.5">
         <div className="mx-auto flex flex-col lg:flex-row items-center">
           {/* Hero Text content */}
-          <div className="flex-1 md:text-left text-center bg-no-repeat bg-top-left bg-contain lg:pr-10">
+          <div className="flex-1 md:text-left bg-no-repeat bg-top-left bg-contain lg:pr-10">
             <div className="md:space-y-11 space-y-3 mb-5 md:mb-16">
-              <h1 className="text-xl md:text-4xl lg:text-[56px] leading-6 md:leading-16 font-medium text-[#0F172A]">
+              <h1 className="text-xl md:text-4x l lg:text-[56px] leading-6 md:leading-16 font-medium text-[#0F172A]">
                 Automate Referral Commissions <br />
                 With
                 <span className="text-sky-500"> Complete Accuracy</span>
               </h1>
 
-              <p className="text-xs md:text-lg md:text-xl text-[#504F4F] md:max-w-4xl mx-auto lg:mx-0">
+              <p className="text-xs md:text-lg text-[#504F4F] md:max-w-4xl mx-auto lg:mx-0">
                 Eliminate manual tracking and commission disputes. Our platform
                 connects brokers and referral partners with transparent,
                 automated commission management.

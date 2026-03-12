@@ -119,7 +119,7 @@ const PricingSection = () => {
               }`}
             >
               {plan.popular && (
-                <div className="absolute border-3 border-[#D9D9D9] top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#F97316] text-white text-xs md:text-base uppercase py-1.5 px-3.5 rounded-full">
+                <div className="absolute border-3 border-[#D9D9D9] top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#F97316] text-white text-xs md:text-base uppercase py-1.5 px-3.5 rounded-full text-nowrap">
                   Most Popular
                 </div>
               )}
