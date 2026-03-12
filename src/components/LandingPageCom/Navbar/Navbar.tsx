@@ -37,12 +37,12 @@ const Navbar = ({ activeSection, onSectionClick }: Props) => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 sm:pt-8">
+    <header className="fixed top-0 left-0 right-0 z-50 md:pt-8">
       <div className="mx-auto md:px-20 lg:px-37.5">
-        <nav className="w-full bg-white sm:border sm:border-[rgb(234,234,234)] sm:rounded-2xl px-4.5 sm:mt-2.5 sm:px-6 sm:py-2.5 flex items-center justify-between">
+        <nav className="w-full bg-white md:border md:border-[rgb(234,234,234)] md:rounded-2xl px-4.5 md:mt-2.5 md:px-6 md:py-2.5 flex items-center justify-between">
           <button
             type="button"
-            className="cursor-pointer w-26 h-12 sm:w-37.5 sm:h-12.5 bg-transparent border-0 p-0"
+            className="cursor-pointer w-26 h-12 md:w-37.5 md:h-12.5 bg-transparent border-0 p-0"
             onClick={handleHomeClick}
           >
             <img
@@ -75,7 +75,7 @@ const Navbar = ({ activeSection, onSectionClick }: Props) => {
 
           <Link
             to="/login"
-            className="hidden sm:flex bg-[#00B4FE] text-black px-6 py-3 rounded-lg leading-7.5"
+            className="hidden md:flex bg-[#00B4FE] text-black px-6 py-3 rounded-lg leading-7.5"
           >
             Get Started
           </Link>

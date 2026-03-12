@@ -53,17 +53,17 @@ export default function SuperAdminSubscriptions() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+      <div className="px-4 py-6 md:px-6 md:py-8 lg:px-8 lg:py-10">
         {/* header row */}
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0 flex-1">
-            <h1 className="text-xl font-semibold text-slate-900 sm:text-2xl">
+            <h1 className="text-xl font-semibold text-slate-900 md:text-2xl">
               Subscriptions &amp; Billing
             </h1>
 
             {/* search */}
             <div className="mt-3">
-              <div className="flex w-full items-center gap-2 rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] px-3 py-2.5 sm:max-w-105">
+              <div className="flex w-full items-center gap-2 rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] px-3 py-2.5 md:max-w-105">
                 <Search className="h-4 w-4 shrink-0 text-slate-400" />
 
                 <input
@@ -78,7 +78,7 @@ export default function SuperAdminSubscriptions() {
 
           <button
             type="button"
-            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#070A1A] px-4 text-sm font-medium text-white shadow-sm hover:opacity-95 sm:w-auto"
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#070A1A] px-4 text-sm font-medium text-white shadow-sm hover:opacity-95 md:w-auto"
           >
             <Plus className="h-4 w-4" />
             Create New Plan
@@ -94,7 +94,7 @@ export default function SuperAdminSubscriptions() {
             <div className="mt-0.5 shrink-0 rounded-full">
               <Info className="h-4.5 w-4.5 text-[#00B4FE]" />
             </div>
-            <div className="text-xs leading-5 text-[#00B4FE] sm:text-sm">
+            <div className="text-xs leading-5 text-[#00B4FE] md:text-sm">
               <span className="font-bold">Important:</span> ReferNow processes
               subscription billing only. Commission payments are managed
               directly between brokers and referrers.

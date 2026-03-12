@@ -11,36 +11,36 @@ interface HeroProps {
 const Hero = ({ onGetStarted, className }: HeroProps) => {
   return (
     <main
-      className={`relative ${className} inter px-4.5 sm:px-0 pb-6 sm:pb-20`}
+      className={`relative ${className} inter px-4.5 md:px-0 pb-6 md:pb-20`}
       style={{ backgroundImage: `url(${bgLight})` }}
     >
-      <div className="pt-12 sm:pt-37 md:pl-37.5">
+      <div className="pt-12 md:pt-37 md:pl-37.5">
         <div className="mx-auto flex flex-col lg:flex-row items-center">
           {/* Hero Text content */}
-          <div className="flex-1 sm:text-center bg-no-repeat bg-top-left bg-contain lg:pr-10">
-            <div className="sm:space-y-11 space-y-3 mb-5 sm:mb-16">
+          <div className="flex-1 md:text-left text-center bg-no-repeat bg-top-left bg-contain lg:pr-10">
+            <div className="md:space-y-11 space-y-3 mb-5 md:mb-16">
               <h1 className="text-xl md:text-4xl lg:text-[56px] leading-6 md:leading-16 font-medium text-[#0F172A]">
                 Automate Referral Commissions <br />
                 With
                 <span className="text-sky-500"> Complete Accuracy</span>
               </h1>
 
-              <p className="text-xs sm:text-lg md:text-xl text-[#504F4F] sm:max-w-4xl mx-auto lg:mx-0">
+              <p className="text-xs md:text-lg md:text-xl text-[#504F4F] md:max-w-4xl mx-auto lg:mx-0">
                 Eliminate manual tracking and commission disputes. Our platform
                 connects brokers and referral partners with transparent,
                 automated commission management.
               </p>
             </div>
 
-            <div className="mb-3 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-center lg:justify-start">
+            <div className="mb-3 flex flex-col gap-4 md:mb-8 md:flex-row md:items-center md:justify-center lg:justify-start">
               <button
                 onClick={onGetStarted}
-                className="w-full rounded-xl bg-[#1DA1E8] sm:px-6 sm:py-3 py-2 text-sm sm:text-lg text-white transition hover:bg-sky-600 sm:w-auto sm:min-w-55"
+                className="w-full rounded-xl bg-[#1DA1E8] md:px-6 md:py-3 py-2 text-sm md:text-lg text-white transition hover:bg-sky-600 md:w-auto md:min-w-55"
               >
                 Get Started
               </button>
 
-              <button className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white sm:px-6 sm:py-3 py-2 text-sm sm:text-lg text-[#111827] transition hover:bg-slate-50 hover:text-sky-500 sm:w-auto sm:min-w-55">
+              <button className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white md:px-6 md:py-3 py-2 text-sm md:text-lg text-[#111827] transition hover:bg-slate-50 hover:text-sky-500 md:w-auto md:min-w-55">
                 <Play className="h-4 w-4" />
                 Watch Demo
               </button>
@@ -51,14 +51,14 @@ const Hero = ({ onGetStarted, className }: HeroProps) => {
                 No credit card required • 14-day free trial
               </span>
 
-              <span className="hidden sm:flex items-center gap-2">
+              <span className="hidden md:flex items-center gap-2">
                 <Check className="h-4 w-4 text-[#00B4FE]" />
                 <span className="text-[#00B4FE] text-lg">
                   No credit card required
                 </span>
               </span>
 
-              <span className="hidden sm:flex items-center gap-2">
+              <span className="hidden md:flex items-center gap-2">
                 <Check className="h-4 w-4 text-[#00B4FE]" />
                 <span className="text-[#00B4FE] text-lg">
                   14-day free trial
@@ -68,8 +68,8 @@ const Hero = ({ onGetStarted, className }: HeroProps) => {
           </div>
 
           {/* Hero Visual contents */}
-          <div className="flex-1 relative mt-3.5 sm:mt-0">
-            <div className="relative z-10 w-full hidden sm:block">
+          <div className="flex-1 relative mt-3.5 md:mt-0">
+            <div className="relative z-10 w-full hidden md:block">
               <img
                 src={laptopMockup}
                 alt="ReferNow Platform Mockup"
@@ -77,12 +77,12 @@ const Hero = ({ onGetStarted, className }: HeroProps) => {
               />
             </div>
 
-            <div className="flex-1 w-full sm:hidden">
-              <div className="w-full h-50 sm:h-200 flex justify-end">
+            <div className="flex-1 w-full md:hidden">
+              <div className="w-full h-50 md:h-200 flex justify-end">
                 <img
                   src={howItWorksImage}
                   alt="Professional using ReferNow"
-                  className="h-full w-full rounded-sm sm:rounded-lg object-cover"
+                  className="h-full w-full rounded-sm md:rounded-lg object-cover"
                 />
               </div>
             </div>

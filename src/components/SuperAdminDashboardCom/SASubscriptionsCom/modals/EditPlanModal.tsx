@@ -21,7 +21,7 @@ function Field({
     <div className="space-y-2">
       <label
         htmlFor={htmlFor}
-        className="block text-sm font-semibold text-[#000000] sm:text-base"
+        className="block text-sm font-semibold text-[#000000] md:text-base"
       >
         {label}
       </label>
@@ -31,7 +31,7 @@ function Field({
 }
 
 const inputBase =
-  "h-12 sm:h-14 w-full rounded-2xl px-4 sm:px-5 text-sm sm:text-base " +
+  "h-12 md:h-14 w-full rounded-2xl px-4 md:px-5 text-sm md:text-base " +
   "bg-slate-100/70 text-[#000000] placeholder:text-[#000000] " +
   "outline-none ring-1 ring-slate-200 focus:ring-2 focus:ring-slate-300";
 
@@ -80,24 +80,24 @@ export function EditPlanModal({
         className="absolute inset-0 bg-black/50"
       />
 
-      <div className="absolute inset-0 flex items-end justify-center p-0 sm:items-center sm:p-6">
+      <div className="absolute inset-0 flex items-end justify-center p-0 md:items-center md:p-6">
         <div
           ref={panelRef}
           role="dialog"
           aria-modal="true"
           aria-labelledby={modalTitleId}
           tabIndex={-1}
-          className="w-full max-h-[92vh] overflow-hidden rounded-t-3xl bg-white shadow-[0_30px_90px_rgba(0,0,0,0.45)] outline-none sm:max-w-5xl sm:rounded-3xl"
+          className="w-full max-h-[92vh] overflow-hidden rounded-t-3xl bg-white shadow-[0_30px_90px_rgba(0,0,0,0.45)] outline-none md:max-w-5xl md:rounded-3xl"
         >
-          <div className="flex items-start justify-between gap-4 px-4 py-4 sm:px-10 sm:py-6">
+          <div className="flex items-start justify-between gap-4 px-4 py-4 md:px-10 md:py-6">
             <div className="min-w-0">
               <h2
                 id={modalTitleId}
-                className="truncate text-xl font-semibold tracking-tight text-[#000000] sm:text-4xl"
+                className="truncate text-xl font-semibold tracking-tight text-[#000000] md:text-4xl"
               >
                 Edit Plan - {draft.name}
               </h2>
-              <p className="mt-1 text-xs font-medium text-slate-500 sm:text-sm">
+              <p className="mt-1 text-xs font-medium text-slate-500 md:text-sm">
                 Update pricing and limits, then save changes.
               </p>
             </div>
@@ -108,13 +108,13 @@ export function EditPlanModal({
               className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-600 hover:bg-slate-50 cursor-pointer"
               aria-label="Close"
             >
-              <X className="h-5 w-5 sm:h-6 sm:w-6" />
+              <X className="h-5 w-5 md:h-6 md:w-6" />
             </button>
           </div>
 
           {/* Scroll area */}
-          <div className="max-h-[calc(92vh-170px)] overflow-y-auto px-4 pb-5 sm:max-h-[calc(92vh-190px)] sm:px-10 sm:pb-6">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-8">
+          <div className="max-h-[calc(92vh-170px)] overflow-y-auto px-4 pb-5 md:max-h-[calc(92vh-190px)] md:px-10 md:pb-6">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
               <Field label="Plan Name" htmlFor="plan_name">
                 <input
                   id="plan_name"
@@ -124,7 +124,7 @@ export function EditPlanModal({
                 />
               </Field>
 
-              <div className="hidden sm:block" />
+              <div className="hidden md:block" />
 
               <Field label="Monthly Price ($)" htmlFor="plan_monthly">
                 <input
@@ -195,12 +195,12 @@ export function EditPlanModal({
           </div>
 
           {/* Footer (responsive + no cut buttons) */}
-          <div className="border-t border-slate-200 px-4 pt-4 pb-8 sm:px-10">
-            <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
+          <div className="border-t border-slate-200 px-4 pt-4 pb-8 md:px-10">
+            <div className="flex flex-col-reverse gap-3 md:flex-row md:items-center md:justify-end md:gap-4">
               <button
                 type="button"
                 onClick={onClose}
-                className="h-11 w-full rounded-2xl border border-slate-200 bg-white px-6 text-sm font-semibold text-slate-800 hover:bg-slate-50 cursor-pointer sm:h-12 sm:w-auto sm:px-8 sm:text-base"
+                className="h-11 w-full rounded-2xl border border-slate-200 bg-white px-6 text-sm font-semibold text-slate-800 hover:bg-slate-50 cursor-pointer md:h-12 md:w-auto md:px-8 md:text-base"
               >
                 Cancel
               </button>
@@ -211,7 +211,7 @@ export function EditPlanModal({
                   onSave(draft);
                   onClose();
                 }}
-                className="h-11 w-full rounded-2xl bg-[#070A1A] px-6 text-sm font-semibold text-white hover:opacity-95 cursor-pointer sm:h-12 sm:w-auto sm:px-8 sm:text-base"
+                className="h-11 w-full rounded-2xl bg-[#070A1A] px-6 text-sm font-semibold text-white hover:opacity-95 cursor-pointer md:h-12 md:w-auto md:px-8 md:text-base"
               >
                 Save Changes
               </button>

@@ -98,14 +98,14 @@ export default function IntegrationDetailsModal({
     <div className="fixed inset-0 z-200">
       <div className="absolute inset-0 bg-black/45" />
 
-      <div className="absolute inset-0 overflow-y-auto p-3 sm:p-6">
-        <div className="flex min-h-full items-start justify-center sm:items-center">
+      <div className="absolute inset-0 overflow-y-auto p-3 md:p-6">
+        <div className="flex min-h-full items-start justify-center md:items-center">
           <div
             ref={panelRef}
             className={cn(
               "flex w-full max-w-2xl flex-col overflow-hidden bg-white",
               "shadow-[0_30px_90px_rgba(0,0,0,0.35)]",
-              "max-h-[calc(100vh-1.5rem)] sm:max-h-[calc(100vh-3rem)]",
+              "max-h-[calc(100vh-1.5rem)] md:max-h-[calc(100vh-3rem)]",
             )}
           >
             <div className="shrink-0 flex items-start justify-between gap-4 border-b border-slate-200 px-6 py-5">
@@ -179,7 +179,7 @@ export default function IntegrationDetailsModal({
                   </div>
                 </div>
 
-                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                   <MetricCard
                     label="Total API Calls (24h)"
                     value={metrics.totalApiCalls24h}

@@ -106,12 +106,12 @@ const BrokerTeamManagement = () => {
   return (
     <>
       <div className="space-y-7">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
             <h1 className="text-lg font-medium leading-none text-[#111111]">
               Team Management
             </h1>
-            <p className="sm:mt-2 mt-1 text-[16px] text-[#7C7C84]">
+            <p className="md:mt-2 mt-1 text-[16px] text-[#7C7C84]">
               audit user permissions and manage workspace access.
             </p>
           </div>
@@ -126,12 +126,12 @@ const BrokerTeamManagement = () => {
           </button>
         </div>
 
-        <Card className="p-5 sm:p-6 lg:p-7">
+        <Card className="p-5 md:p-6 lg:p-7">
           <h2 className="text-[22px] font-medium text-[#111111]">
             Subscription &amp; User Seats
           </h2>
 
-          <div className="sm:mt-8 mt-3 grid sm:gap-6 gap-3 md:grid-cols-2 md:items-start">
+          <div className="md:mt-8 mt-3 grid md:gap-6 gap-3 md:grid-cols-2 md:items-start">
             <div>
               <p className="text-sm text-[#7B7B82]">Plan Name</p>
               <p className="mt-1 text-lg font-medium text-[#111111]">
@@ -147,7 +147,7 @@ const BrokerTeamManagement = () => {
             </div>
           </div>
 
-          <div className="sm:mt-8 mt-3 flex items-center justify-between gap-3">
+          <div className="md:mt-8 mt-3 flex items-center justify-between gap-3">
             <p className="text-sm text-[#7B7B82]">Seat usage indicator</p>
             <p className="text-[16px] text-[#111111]">
               Active Seats: {usedSeats} of {totalSeats} used
@@ -175,7 +175,7 @@ const BrokerTeamManagement = () => {
 
         <div className="grid gap-5 xl:grid-cols-3">
           {roleCards.map((item) => (
-            <Card key={item.role} className="p-5 sm:p-6">
+            <Card key={item.role} className="p-5 md:p-6">
               <h3 className="text-[20px] font-medium leading-snug text-[#111111]">
                 {item.title}
               </h3>
@@ -191,7 +191,7 @@ const BrokerTeamManagement = () => {
         </div>
 
         <Card className="overflow-hidden">
-          <div className="px-5 py-5 sm:px-6">
+          <div className="px-5 py-5 md:px-6">
             <h2 className="text-[22px] font-medium text-[#111111]">
               Team Members
             </h2>

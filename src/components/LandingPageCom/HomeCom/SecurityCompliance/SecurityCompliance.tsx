@@ -34,27 +34,27 @@ const securityFeatures = [
 
 const SecurityCompliance = () => {
   return (
-    <section id="reviews" className="sm:py-33 bg-[#F7F7F7] mx-4.5 py-6">
+    <section id="reviews" className="md:py-33 bg-[#F7F7F7] mx-4.5 py-6">
       <div className="mx-auto md:px-20 lg:px-37.5">
-        <div className="flex flex-col-reverse sm:flex-row items-start gap-6 sm:gap-16 lg:gap-45">
+        <div className="flex flex-col-reverse md:flex-row items-start gap-6 md:gap-16 lg:gap-45">
           {/* Left content: Image */}
           <div className="flex-1 w-full relative order-2 lg:order-1">
-            <div className="relative z-10 w-full h-50 sm:h-200">
+            <div className="relative z-10 w-full h-50 md:h-200">
               <img
                 src={securityImage}
                 alt="Security and Compliance"
-                className="relative z-10 w-full h-full rounded-sm sm:rounded-lg object-cover"
+                className="relative z-10 w-full h-full rounded-sm md:rounded-lg object-cover"
               />
             </div>
           </div>
 
           {/* Right content: Features */}
           <div className="flex-1 order-1 lg:order-2">
-            <div className="mb-6 sm:mb-16">
-              <h2 className="text-lg leading-5 font-medium sm:leading-none mb-2 sm:mb-8 text-[#12A8F5] md:text-[34px]">
+            <div className="mb-6 md:mb-16">
+              <h2 className="text-lg leading-5 font-medium md:leading-none mb-2 md:mb-8 text-[#12A8F5] md:text-[34px]">
                 Built For Security & Compliance
               </h2>
-              <p className="mx-auto max-w-2xl text-black text-sm sm:text-lg sm:leading-none">
+              <p className="mx-auto max-w-2xl text-black text-sm md:text-lg md:leading-none">
                 Your Financial Data Deserves Enterprise-Grade Protection. We
                 Take Security Seriously So You Can Focus On Growing Your
                 Business.
@@ -65,18 +65,18 @@ const SecurityCompliance = () => {
               {securityFeatures.map((feature, idx) => (
                 <div
                   key={idx}
-                  className="flex flex-col sm:flex-row items-start gap-2.5 sm:gap-6.5 group"
+                  className="flex flex-col md:flex-row items-start gap-2.5 md:gap-6.5 group"
                 >
                   <div
                     className={`${feature.color} rounded-2xl p-3 flex items-center justify-center shrink-0`}
                   >
                     <feature.icon size={40} />
                   </div>
-                  <div className="sm:space-y-4 space-y-0">
-                    <h3 className="text-sm sm:text-lg leading-7.5 sm:leading-none font-semibold text-black">
+                  <div className="md:space-y-4 space-y-0">
+                    <h3 className="text-sm md:text-lg leading-7.5 md:leading-none font-semibold text-black">
                       {feature.title}
                     </h3>
-                    <p className="text-black text-xs sm:text-base leading-5 sm:leading-7 max-w-lg">
+                    <p className="text-black text-xs md:text-base leading-5 md:leading-7 max-w-lg">
                       {feature.description}
                     </p>
                   </div>

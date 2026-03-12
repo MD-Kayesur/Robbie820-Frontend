@@ -19,8 +19,8 @@ export function PlansPricingTab({
 }) {
   return (
     <div className="mt-6">
-      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-base font-semibold text-slate-900 sm:text-lg">
+      <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
+        <h2 className="text-base font-semibold text-slate-900 md:text-lg">
           Available Plans
         </h2>
         <div className="text-sm text-[#4A5565]">
@@ -33,7 +33,7 @@ export function PlansPricingTab({
           <div
             key={p.name}
             className={cn(
-              "relative flex h-full flex-col rounded-2xl border-2 bg-white px-4 pb-6 pt-5 sm:px-5",
+              "relative flex h-full flex-col rounded-2xl border-2 bg-white px-4 pb-6 pt-5 md:px-5",
               p.popular
                 ? "border-[#155DFC] shadow-[0_0_0_1px_rgba(59,130,246,0.15)]"
                 : "border-slate-200",

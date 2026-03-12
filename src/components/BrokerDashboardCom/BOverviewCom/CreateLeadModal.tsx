@@ -161,7 +161,7 @@ function SectionTitle({ title }: { title: string }) {
     <div className="border-b border-[#E5E7EB] pb-3">
       <div className="flex items-center gap-2">
         <div className="h-8 w-1 rounded-full bg-[#2563EB]" />
-        <h4 className="sm:text-lg font-semibold text-[#111827]">{title}</h4>
+        <h4 className="md:text-lg font-semibold text-[#111827]">{title}</h4>
       </div>
     </div>
   );
@@ -345,23 +345,23 @@ export default function CreateLeadModal({
       <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
 
       <div className="absolute inset-0 overflow-y-auto">
-        <div className="flex min-h-full items-center justify-center p-3 sm:p-6">
+        <div className="flex min-h-full items-center justify-center p-3 md:p-6">
           <div
             ref={modalRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="create-lead-modal-title"
-            className="relative flex w-full max-w-3xl max-h-[calc(100vh-24px)] flex-col overflow-hidden rounded-sm bg-white shadow-[0_24px_80px_rgba(0,0,0,0.22)] sm:max-h-[calc(100vh-48px)]"
+            className="relative flex w-full max-w-3xl max-h-[calc(100vh-24px)] flex-col overflow-hidden rounded-sm bg-white shadow-[0_24px_80px_rgba(0,0,0,0.22)] md:max-h-[calc(100vh-48px)]"
           >
-            <div className="flex items-start justify-between gap-4 px-6 py-6 sm:px-8">
+            <div className="flex items-start justify-between gap-4 px-6 py-6 md:px-8">
               <div>
                 <h3
                   id="create-lead-modal-title"
-                  className="text-lg sm:text-2xl font-semibold leading-tight text-[#111827]"
+                  className="text-lg md:text-2xl font-semibold leading-tight text-[#111827]"
                 >
                   Create Lead / New Referral
                 </h3>
-                <p className="mt-3 text-xs sm:text-sm text-[#6B7280]">
+                <p className="mt-3 text-xs md:text-sm text-[#6B7280]">
                   Register a new borrower referred by a partner
                 </p>
               </div>
@@ -377,7 +377,7 @@ export default function CreateLeadModal({
               </button>
             </div>
 
-            <div className="min-h-0 flex-1 overflow-y-auto px-6 pb-6 sm:px-8">
+            <div className="min-h-0 flex-1 overflow-y-auto px-6 pb-6 md:px-8">
               <div className="space-y-6">
                 <section className="space-y-5">
                   <SectionTitle title="Borrower Information" />
@@ -598,7 +598,7 @@ export default function CreateLeadModal({
                   </div>
                 </section>
 
-                <div className="flex justify-between gap-3 pt-2 sm:flex-row sm:justify-end">
+                <div className="flex justify-between gap-3 pt-2 md:flex-row md:justify-end">
                   <button
                     type="button"
                     onClick={onClose}

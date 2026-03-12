@@ -42,14 +42,14 @@ export default function BankingDetailsTab({
   );
 
   return (
-    <div className="mx-auto max-w-190">
-      <div className="space-y-8 rounded-[30px] border border-[#BEEAFF] bg-white px-6 py-8 md:space-y-10 md:rounded-2xl md:p-10">
+    <div className="mx-auto max-w-2xl">
+      <div className="space-y-8 rounded-2xl border border-[#BEEAFF] bg-white p-6 md:space-y-10 md:p-10">
         {/* header */}
-        <div className="flex items-center gap-5 md:gap-4">
-          <div className="grid h-22 w-22 shrink-0 place-items-center rounded-3xl bg-emerald-100 text-emerald-700 md:h-12 md:w-12 md:rounded-2xl">
-            <CreditCard className="h-10 w-10 md:h-6 md:w-6" />
+        <div className="flex items-center gap-4">
+          <div className="grid shrink-0 place-items-center bg-emerald-100 text-emerald-700 h-12 w-12 rounded-2xl">
+            <CreditCard className="h-6 w-6" />
           </div>
-          <p className="text-[28px] font-bold leading-none text-black md:text-2xl md:text-slate-900">
+          <p className="font-bold leading-none text-black text-2xl md:text-slate-900">
             Banking Details
           </p>
         </div>
@@ -101,25 +101,32 @@ export default function BankingDetailsTab({
           </Field>
         </div>
 
-        {/* note */}
-        <p className="text-[16px] leading-8 text-[#666666] md:text-sm md:leading-6">
-          <span className="font-bold text-emerald-600">Note:</span> Changing
-          banking details will notify your broker to update payment
-          instructions.
-        </p>
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          {/* note */}
+          <p className="text-[#666666] max-w-sm text-sm leading-6">
+            <span className="font-bold text-emerald-600">Note:</span> Changing
+            banking details will notify your broker to update payment
+            instructions.
+          </p>
 
-        {/* button */}
-        <button
-          type="button"
-          onClick={() => onSave(form)}
-          disabled={!dirty}
-          className={cn(
-            "inline-flex h-17 w-full items-center justify-center rounded-2xl bg-[#00B4FE] px-6 text-[18px] font-medium text-white transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60",
-            "md:h-12 md:w-auto md:rounded-xl md:px-7 md:text-sm",
-          )}
-        >
-          Save Changes
-        </button>
+          {/* button */}
+          <button
+            type="button"
+            onClick={() => {
+              if (!dirty) return;
+              onSave(form);
+            }}
+            aria-disabled={!dirty}
+            className={cn(
+              "flex items-center justify-center bg-[#00B4FE] text-white",
+              "md:w-auto rounded-lg px-7 py-2.5 text-sm",
+              "w-full",
+              !dirty ? "cursor-not-allowed opacity-60" : "hover:opacity-95",
+            )}
+          >
+            Save Changes
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -86,7 +86,7 @@ export function RevenueAnalyticsTab() {
         />
       </div>
 
-      <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 sm:p-4">
+      <div className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 md:p-4">
         <RevenueLineChart data={revenueTrendMock} />
       </div>
 

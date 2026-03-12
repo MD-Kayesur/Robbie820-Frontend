@@ -14,7 +14,7 @@ export default function CrmIntegrationCard({
   onRefresh,
 }: CrmIntegrationCardProps) {
   return (
-    <section className="rounded-2xl border border-[#D9E7F2] bg-white p-4 sm:p-5">
+    <section className="rounded-2xl border border-[#D9E7F2] bg-white p-4 md:p-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <Share2 className="h-4.5 w-4.5 text-[#8A8A8A]" />

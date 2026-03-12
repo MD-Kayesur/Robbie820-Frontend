@@ -93,7 +93,7 @@ const Signup: React.FC = () => {
       {step === "role" ? (
         <div className="mx-auto w-full max-w-195">
           <div className="text-center">
-            <h1 className="text-xl font-semibold text-black sm:text-2xl leading-6">
+            <h1 className="text-xl font-semibold text-black md:text-2xl leading-6">
               How will you use Refer Now?
             </h1>
             <p className="mt-4 text-[#666666] leading-6">
@@ -158,24 +158,24 @@ const Signup: React.FC = () => {
         </div>
       ) : (
         <div className="mx-auto w-full max-w-sm">
-          <div className="rounded-3xl border border-[#3A86FF80] bg-transparent p-4 sm:px-6 sm:py-8.5">
+          <div className="rounded-3xl border border-[#3A86FF80] bg-transparent p-4 md:px-6 md:py-8.5">
             <button
               type="button"
               onClick={handleBack}
-              className="mb-3 sm:mb-10 mx-auto flex items-center gap-2 uppercase text-[#00B4FE] transition hover:opacity-80 leading-6"
+              className="mb-3 md:mb-10 mx-auto flex items-center gap-2 uppercase text-[#00B4FE] transition hover:opacity-80 leading-6"
             >
               <ArrowLeft size={24} className="mb-0.5" />
               Back to account type
             </button>
 
             <div className="text-center">
-              <h1 className="text-xl font-semibold leading-6 text-black sm:text-2xl">
+              <h1 className="text-xl font-semibold leading-6 text-black md:text-2xl">
                 {step === "account"
                   ? "Create Your Account"
                   : "Setup your brand"}
               </h1>
 
-              <p className="mt-1 sm:mt-3 font-light leading-6 text-[#9A9A9A]">
+              <p className="mt-1 md:mt-3 font-light leading-6 text-[#9A9A9A]">
                 {step === "account"
                   ? "Setting up your individual profile."
                   : "Give your training business a name."}
@@ -183,7 +183,7 @@ const Signup: React.FC = () => {
             </div>
 
             {step === "account" && (
-              <div className="mt-3 sm:mt-6 space-y-3.5">
+              <div className="mt-3 md:mt-6 space-y-3.5">
                 <div>
                   <label className="mb-2 block text-black">Email address</label>
 
@@ -335,7 +335,7 @@ const Signup: React.FC = () => {
               type="button"
               onClick={handleNext}
               disabled={loading}
-              className="mt-6 sm:mt-8.5 inline-flex h-14 w-full items-center justify-center gap-3 rounded-xl bg-[#16AAF5] text-[16px] font-medium text-white transition hover:bg-[#0f9ae2] disabled:cursor-not-allowed disabled:opacity-70"
+              className="mt-6 md:mt-8.5 inline-flex h-14 w-full items-center justify-center gap-3 rounded-xl bg-[#16AAF5] text-[16px] font-medium text-white transition hover:bg-[#0f9ae2] disabled:cursor-not-allowed disabled:opacity-70"
             >
               {loading ? (
                 <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
@@ -347,7 +347,7 @@ const Signup: React.FC = () => {
               )}
             </button>
 
-            <div className="mt-6 sm:mt-8.5 text-center text-sm text-[#5F5F5F]">
+            <div className="mt-6 md:mt-8.5 text-center text-sm text-[#5F5F5F]">
               Already have an account?{" "}
               <Link
                 to="/login"

@@ -65,7 +65,7 @@ function MetricCard({
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-xs text-[#6B7280]">{title}</p>
-          <p className="mt-2 wrap-break-word text-[24px] font-semibold leading-tight text-[#111827] sm:text-[28px] sm:leading-none">
+          <p className="mt-2 wrap-break-word text-[24px] font-semibold leading-tight text-[#111827] md:text-[28px] md:leading-none">
             {value}
           </p>
         </div>
@@ -265,7 +265,7 @@ const BrokerPartnerDetails = () => {
 
   if (!partner) {
     return (
-      <div className="rounded-2xl border border-[#E5E7EB] bg-white p-6 sm:p-8">
+      <div className="rounded-2xl border border-[#E5E7EB] bg-white p-6 md:p-8">
         <p className="text-sm text-[#6B7280]">Partner not found.</p>
       </div>
     );
@@ -287,7 +287,7 @@ const BrokerPartnerDetails = () => {
   };
 
   return (
-    <section className="space-y-4 sm:space-y-6">
+    <section className="space-y-4 md:space-y-6">
       <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
         <div className="space-y-2">
           <button
@@ -300,7 +300,7 @@ const BrokerPartnerDetails = () => {
           </button>
 
           <div className="flex flex-wrap items-center gap-3">
-            <h1 className="wrap-break-word text-[28px] font-semibold leading-tight text-[#111827] sm:text-[34px] xl:text-[38px] xl:leading-none">
+            <h1 className="wrap-break-word text-[28px] font-semibold leading-tight text-[#111827] md:text-[34px] xl:text-[38px] xl:leading-none">
               {partner.partnerName}
             </h1>
 
@@ -314,11 +314,11 @@ const BrokerPartnerDetails = () => {
           </p>
         </div>
 
-        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+        <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row">
           <button
             type="button"
             onClick={() => console.log("download agreement", partner.id)}
-            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#D1D5DB] bg-white px-4 text-sm font-medium text-[#111827] transition hover:bg-slate-50 sm:w-auto"
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#D1D5DB] bg-white px-4 text-sm font-medium text-[#111827] transition hover:bg-slate-50 md:w-auto"
           >
             <Download className="h-4 w-4" />
             Download Full Agreement
@@ -329,7 +329,7 @@ const BrokerPartnerDetails = () => {
             onClick={() =>
               navigate(`/broker-dashboard/partner-profile/${partner.id}/edit`)
             }
-            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#0EA5E9] px-4 text-sm font-medium text-white transition hover:bg-[#0284C7] sm:w-auto"
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#0EA5E9] px-4 text-sm font-medium text-white transition hover:bg-[#0284C7] md:w-auto"
           >
             <Edit className="h-4 w-4" />
             Edit Configuration
@@ -337,7 +337,7 @@ const BrokerPartnerDetails = () => {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5">
+      <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 md:p-5">
         <h2 className="text-sm font-medium text-[#111827]">
           Partner Information
         </h2>
@@ -425,8 +425,8 @@ const BrokerPartnerDetails = () => {
         </div>
       </div>
 
-      <div className="grid gap-4 sm:gap-6 xl:grid-cols-2">
-        <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5">
+      <div className="grid gap-4 md:gap-6 xl:grid-cols-2">
+        <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 md:p-5">
           <h2 className="text-sm font-medium text-[#111827]">
             Agreement & Commission
           </h2>
@@ -475,7 +475,7 @@ const BrokerPartnerDetails = () => {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5">
+        <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 md:p-5">
           <h2 className="text-sm font-medium text-[#111827]">
             Banking Information
           </h2>
@@ -511,7 +511,7 @@ const BrokerPartnerDetails = () => {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5">
+      <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 md:p-5">
         <h2 className="text-sm font-medium text-[#0EA5E9]">
           Referrer Internal Notes
         </h2>
@@ -526,7 +526,7 @@ const BrokerPartnerDetails = () => {
           />
         </div>
 
-        <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <p className="text-xs italic leading-5 text-[#6B7280]">
             Notes are visible only to internal brokers.
           </p>
@@ -534,7 +534,7 @@ const BrokerPartnerDetails = () => {
           <button
             type="button"
             onClick={handleSaveNote}
-            className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-lg bg-[#0EA5E9] px-4 text-xs font-medium text-white transition hover:bg-[#0284C7] sm:w-auto"
+            className="inline-flex h-9 w-full items-center justify-center gap-2 rounded-lg bg-[#0EA5E9] px-4 text-xs font-medium text-white transition hover:bg-[#0284C7] md:w-auto"
           >
             <Save className="h-3.5 w-3.5" />
             Save Notes
@@ -547,7 +547,7 @@ const BrokerPartnerDetails = () => {
           Performance Metrics
         </h2>
 
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <MetricCard
             title="Total Referrals"
             value={String(partner.metrics.totalReferrals)}
@@ -578,8 +578,8 @@ const BrokerPartnerDetails = () => {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 md:p-5">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <h2 className="text-sm font-medium text-[#111827]">
             Recent Referrals
           </h2>
@@ -587,7 +587,7 @@ const BrokerPartnerDetails = () => {
           <button
             type="button"
             onClick={() => console.log("view all referrals", partner.id)}
-            className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-[#D1D5DB] bg-white px-4 text-xs font-medium text-[#111827] transition hover:bg-slate-50 sm:w-auto"
+            className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-[#D1D5DB] bg-white px-4 text-xs font-medium text-[#111827] transition hover:bg-slate-50 md:w-auto"
           >
             View All Referrals
           </button>

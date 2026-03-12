@@ -39,7 +39,7 @@ function StatusBadge({ status }: { status: PartnerProfile["status"] }) {
 const PartnerTable = ({ partners, onAction }: PartnerTableProps) => {
   if (partners.length === 0) {
     return (
-      <div className="rounded-2xl border border-[#E5E7EB] bg-white px-4 py-10 text-center text-sm text-[#6B7280] sm:px-6">
+      <div className="rounded-2xl border border-[#E5E7EB] bg-white px-4 py-10 text-center text-sm text-[#6B7280] md:px-6">
         No partners found.
       </div>
     );

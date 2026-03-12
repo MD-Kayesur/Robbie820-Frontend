@@ -16,7 +16,7 @@ const BrokerLayout = () => {
       <div className="flex h-full flex-1 flex-col overflow-hidden">
         <BrokerTopbar onMenuClick={() => setMobileOpen(true)} />
 
-        <main className="flex-1 overflow-y-auto min-w-0 px-4 py-3 sm:px-7.5 sm:py-10">
+        <main className="flex-1 overflow-y-auto min-w-0 px-4 py-3 md:px-7.5 md:py-10">
           <Outlet />
         </main>
       </div>

@@ -38,14 +38,14 @@ const NotificationPreferencesModal = ({
   onSave,
 }: NotificationPreferencesModalProps) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4 sm:p-6">
-      <div className="flex max-h-[90vh] w-full max-w-xl flex-col overflow-hidden rounded-lg bg-white shadow-[0_30px_90px_rgba(0,0,0,0.35)] sm:rounded-[28px]">
-        <div className="flex items-start justify-between gap-4 border-b border-[#E5E7EB] px-4 py-5 sm:px-8 sm:py-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4 md:p-6">
+      <div className="flex max-h-[90vh] w-full max-w-xl flex-col overflow-hidden rounded-lg bg-white shadow-[0_30px_90px_rgba(0,0,0,0.35)] md:rounded-[28px]">
+        <div className="flex items-start justify-between gap-4 border-b border-[#E5E7EB] px-4 py-5 md:px-8 md:py-8">
           <div className="min-w-0">
-            <h2 className="text-[20px] font-semibold tracking-[-0.03em] text-[#111827] sm:text-[30px]">
+            <h2 className="text-[20px] font-semibold tracking-[-0.03em] text-[#111827] md:text-[30px]">
               Notification Preferences
             </h2>
-            <p className="mt-2 text-[14px] leading-6 text-[#6B7280] sm:text-[16px]">
+            <p className="mt-2 text-[14px] leading-6 text-[#6B7280] md:text-[16px]">
               Choose which alerts you want to receive and how you'd like to be
               notified.
             </p>
@@ -56,30 +56,30 @@ const NotificationPreferencesModal = ({
             onClick={onClose}
             className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[#9CA3AF] transition hover:bg-slate-100"
           >
-            <X className="h-6 w-6 sm:h-7 sm:w-7" />
+            <X className="h-6 w-6 md:h-7 md:w-7" />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-4 py-5 sm:px-8 sm:py-8">
-          <div className="space-y-6 sm:space-y-8">
+        <div className="flex-1 overflow-y-auto px-4 py-5 md:px-8 md:py-8">
+          <div className="space-y-6 md:space-y-8">
             {groupedPreferences.map((group, groupIndex) => (
               <div
                 key={group.id}
                 className={cn(
-                  groupIndex !== 0 && "border-t border-[#E5E7EB] pt-6 sm:pt-8",
+                  groupIndex !== 0 && "border-t border-[#E5E7EB] pt-6 md:pt-8",
                 )}
               >
-                <h3 className="text-[17px] font-medium text-[#111827] sm:text-[20px]">
+                <h3 className="text-[17px] font-medium text-[#111827] md:text-[20px]">
                   {group.title}
                 </h3>
 
-                <div className="mt-5 space-y-5 sm:mt-6 sm:space-y-6">
+                <div className="mt-5 space-y-5 md:mt-6 md:space-y-6">
                   {group.items.map((item) => (
                     <div
                       key={item.type}
                       className="flex items-center justify-between gap-4"
                     >
-                      <span className="pr-2 text-[14px] leading-6 text-[#6B7280] sm:text-[18px]">
+                      <span className="pr-2 text-[14px] leading-6 text-[#6B7280] md:text-[18px]">
                         {item.label}
                       </span>
 
@@ -208,11 +208,11 @@ const NotificationPreferencesModal = ({
           </div>
         </div>
 
-        <div className="flex gap-3 border-t border-[#E5E7EB] px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-6">
+        <div className="flex gap-3 border-t border-[#E5E7EB] px-4 py-5 md:flex-row md:items-center md:justify-between md:px-8 md:py-6">
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#D1D5DB] bg-[#F3F4F6] px-7 text-[15px] font-medium text-[#4B5563] transition hover:bg-slate-100 sm:h-14 sm:w-auto sm:text-[16px]"
+            className="inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#D1D5DB] bg-[#F3F4F6] px-7 text-[15px] font-medium text-[#4B5563] transition hover:bg-slate-100 md:h-14 md:w-auto md:text-[16px]"
           >
             Cancel
           </button>
@@ -220,7 +220,7 @@ const NotificationPreferencesModal = ({
           <button
             type="button"
             onClick={onSave}
-            className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#2563EB] px-7 text-[15px] font-medium whitespace-nowrap text-white transition hover:bg-blue-700 sm:h-14 sm:w-auto sm:text-[16px]"
+            className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#2563EB] px-7 text-[15px] font-medium whitespace-nowrap text-white transition hover:bg-blue-700 md:h-14 md:w-auto md:text-[16px]"
           >
             Save Preferences
           </button>

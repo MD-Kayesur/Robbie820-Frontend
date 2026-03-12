@@ -114,10 +114,10 @@ const ReferrerSettings = () => {
   }
 
   return (
-    <div className="mx-auto w-full max-w-375 bg-white px-4 pb-10 pt-5 sm:px-6 md:px-8 md:pb-12 md:pt-8 clash">
+    <div className="mx-auto w-full bg-white px-4 pb-10 pt-5 md:px-6 md:px-8 md:pb-12 md:pt-8 clash">
       {/* tabs */}
-      <div className="overflow-x-auto no-scrollbar">
-        <div className="mb-6 flex min-w-max items-center gap-8 md:mb-8 md:gap-10">
+      <div className="overflow-x-auto no-scrollbar max-w-4xl mx-auto">
+        <div className="mb-6 flex min-w-max mx-auto items-center gap-2.5 justify-center">
           {tabs.map((t) => {
             const active = t === tab;
 
@@ -127,7 +127,7 @@ const ReferrerSettings = () => {
                 type="button"
                 onClick={() => setTab(t)}
                 className={cn(
-                  "relative shrink-0 pb-3 text-left text-[15px] font-normal uppercase tracking-normal text-black transition md:pb-4 md:text-sm",
+                  "relative shrink-0 pb-1 px-2.5 text-left text-xs uppercase tracking-normal text-black transition md:text-sm leading-4",
                   active ? "" : "hover:text-slate-700",
                 )}
               >
@@ -144,9 +144,6 @@ const ReferrerSettings = () => {
           })}
         </div>
       </div>
-
-      {/* divider */}
-      <div className="mb-7 h-px w-full bg-[#D9D9D9] md:mb-8" />
 
       {/* content */}
       <div>

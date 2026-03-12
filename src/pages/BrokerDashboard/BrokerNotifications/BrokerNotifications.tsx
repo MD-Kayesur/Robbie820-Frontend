@@ -103,13 +103,13 @@ const BrokerNotifications = () => {
   return (
     <>
       <div className="space-y-5">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div className="min-w-0">
             <div className="flex items-center gap-3">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#EAF2FF] text-[#2563EB]">
                 <Bell className="h-5 w-5" />
               </div>
-              <h1 className="text-[24px] font-semibold tracking-[-0.03em] text-[#111827] sm:text-[28px]">
+              <h1 className="text-[24px] font-semibold tracking-[-0.03em] text-[#111827] md:text-[28px]">
                 Notifications
               </h1>
             </div>
@@ -122,7 +122,7 @@ const BrokerNotifications = () => {
           <button
             type="button"
             onClick={handleClearAll}
-            className="inline-flex w-full items-center justify-center rounded-xl border border-[#D1D5DB] bg-white px-3 py-1.5 text-sm font-medium text-[#4B5563] transition hover:bg-slate-50 sm:w-auto"
+            className="inline-flex w-full items-center justify-center rounded-xl border border-[#D1D5DB] bg-white px-3 py-1.5 text-sm font-medium text-[#4B5563] transition hover:bg-slate-50 md:w-auto"
           >
             Clear All
           </button>
@@ -130,9 +130,9 @@ const BrokerNotifications = () => {
 
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1fr)_330px]">
           <section className="overflow-hidden rounded-2xl border border-[#DADDE3] bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-            <div className="flex flex-col gap-3 border-b border-[#E5E7EB] px-4 py-4 sm:px-5">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <h2 className="text-base font-semibold tracking-[-0.02em] text-[#111827] sm:text-[18px]">
+            <div className="flex flex-col gap-3 border-b border-[#E5E7EB] px-4 py-4 md:px-5">
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <h2 className="text-base font-semibold tracking-[-0.02em] text-[#111827] md:text-[18px]">
                   Recent Notifications
                 </h2>
 
@@ -196,10 +196,10 @@ const BrokerNotifications = () => {
           </section>
 
           <aside className="rounded-2xl border border-[#DADDE3] bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
-            <div className="border-b border-[#E5E7EB] px-4 py-5 sm:px-5">
+            <div className="border-b border-[#E5E7EB] px-4 py-5 md:px-5">
               <div className="flex items-center gap-2">
                 <Settings className="h-4 w-4 text-[#374151]" />
-                <h3 className="text-base font-semibold tracking-[-0.02em] text-[#111827] sm:text-[18px]">
+                <h3 className="text-base font-semibold tracking-[-0.02em] text-[#111827] md:text-[18px]">
                   Notification Preferences
                 </h3>
               </div>
@@ -208,7 +208,7 @@ const BrokerNotifications = () => {
               </p>
             </div>
 
-            <div className="space-y-6 px-4 py-5 sm:px-5">
+            <div className="space-y-6 px-4 py-5 md:px-5">
               {groupedPreferences.map((group) => (
                 <div key={group.id}>
                   <h4 className="text-[15px] font-medium text-[#111827]">

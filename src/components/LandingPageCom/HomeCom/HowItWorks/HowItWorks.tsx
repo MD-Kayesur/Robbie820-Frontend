@@ -35,25 +35,25 @@ const HowItWorks = () => {
   return (
     <section
       id="how-it-works"
-      className="sm:mx-auto overflow-hidden bg-white py-11 sm:py-33 md:px-20 lg:px-37.5"
+      className="md:mx-auto overflow-hidden bg-white py-11 md:py-33 md:px-20 lg:px-37.5"
     >
-      <div className="flex sm:flex-col items-start flex-col-reverse gap-6 sm:gap-16 lg:flex-row lg:gap-45 px-4.5 sm:px-0">
+      <div className="flex md:flex-col items-start flex-col-reverse gap-6 md:gap-16 lg:flex-row lg:gap-45 px-4.5 md:px-0">
         {/* Left content: Steps */}
         <div className="flex-1">
           <div className="mb-8">
-            <h2 className="text-lg leading-5 font-medium sm:leading-none mb-2 sm:mb-8 text-[#12A8F5] md:text-[34px]">
+            <h2 className="text-lg leading-5 font-medium md:leading-none mb-2 md:mb-8 text-[#12A8F5] md:text-[34px]">
               How ReferNow Works
             </h2>
-            <p className="mx-auto max-w-2xl text-black text-sm sm:text-lg sm:leading-none">
+            <p className="mx-auto max-w-2xl text-black text-sm md:text-lg md:leading-none">
               From Signup To Payout In Four Simple Steps
             </p>
             <div className="mt-8 h-px w-full bg-[#E5E7EB]" />
           </div>
 
-          <div className="grid grid-cols-1 gap-5 sm:gap-13.5 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 md:gap-13.5 md:grid-cols-2">
             {steps.map((step, idx) => (
               <div key={idx} className="group flex flex-col items-start">
-                <div className="mb-2.5 sm:mb-6">
+                <div className="mb-2.5 md:mb-6">
                   <img
                     src={step.icon}
                     alt={`Step ${idx + 1}`}
@@ -61,7 +61,7 @@ const HowItWorks = () => {
                   />
                 </div>
 
-                <h3 className="mb-0 sm:mb-3.5 text-lg font-semibold tracking-tight text-black">
+                <h3 className="mb-0 md:mb-3.5 text-lg font-semibold tracking-tight text-black">
                   {step.title}
                 </h3>
 
@@ -73,11 +73,11 @@ const HowItWorks = () => {
 
         {/* Right content: Image */}
         <div className="flex-1 w-full">
-          <div className="w-full h-50 sm:h-200 flex justify-end">
+          <div className="w-full h-50 md:h-200 flex justify-end">
             <img
               src={howItWorksImage}
               alt="Professional using ReferNow"
-              className="h-full w-full rounded-sm sm:rounded-lg object-cover"
+              className="h-full w-full rounded-sm md:rounded-lg object-cover"
             />
           </div>
         </div>

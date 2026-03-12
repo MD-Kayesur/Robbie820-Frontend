@@ -319,11 +319,11 @@ const BrokerSubscription = () => {
 
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1fr)_340px]">
           <div className="space-y-4">
-            <section className="rounded-2xl border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-5">
+            <section className="rounded-2xl border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-5">
               <div className="flex flex-col gap-5 lg:flex-row lg:justify-between">
                 <div className="min-w-0">
                   <p className="text-xs text-[#6B7280]">Active Plan</p>
-                  <h2 className="mt-1 wrap-break-word text-[24px] font-medium tracking-[-0.03em] text-[#111827] sm:text-[28px]">
+                  <h2 className="mt-1 wrap-break-word text-[24px] font-medium tracking-[-0.03em] text-[#111827] md:text-[28px]">
                     {currentPlan.planName}
                   </h2>
 
@@ -347,7 +347,7 @@ const BrokerSubscription = () => {
                 </div>
 
                 <div className="shrink-0 text-left lg:text-right">
-                  <p className="text-[32px] font-semibold tracking-[-0.04em] text-[#111827] sm:text-[40px]">
+                  <p className="text-[32px] font-semibold tracking-[-0.04em] text-[#111827] md:text-[40px]">
                     {currentPlan.planId === "enterprise"
                       ? "Custom"
                       : `$${currentPlan.price}`}
@@ -359,7 +359,7 @@ const BrokerSubscription = () => {
               </div>
 
               <div className="mt-6 border-t border-[#E5E7EB] pt-4">
-                <div className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-2">
                   <div>
                     <p className="text-xs text-[#9CA3AF]">Next billing date</p>
                     <p className="mt-1 text-sm font-semibold text-[#111827]">
@@ -391,7 +391,7 @@ const BrokerSubscription = () => {
               </div>
             </section>
 
-            <section className="rounded-2xl border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-5">
+            <section className="rounded-2xl border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-5">
               <h3 className="font-medium text-[#111827]">Team Seat Usage</h3>
 
               <div className="mt-4 flex items-center justify-between gap-3 text-xs text-[#6B7280]">
@@ -423,13 +423,13 @@ const BrokerSubscription = () => {
               </button>
             </section>
 
-            <section className="rounded-2xl border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-5">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <section className="rounded-2xl border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-5">
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <h3 className="font-medium text-[#111827]">Invoice History</h3>
                 <button
                   type="button"
                   onClick={() => setShowAllInvoices((prev) => !prev)}
-                  className="text-left text-xs text-[#111827] transition hover:text-sky-600 sm:text-right"
+                  className="text-left text-xs text-[#111827] transition hover:text-sky-600 md:text-right"
                 >
                   {showAllInvoices ? "Show Less" : "View All Invoices"}
                 </button>

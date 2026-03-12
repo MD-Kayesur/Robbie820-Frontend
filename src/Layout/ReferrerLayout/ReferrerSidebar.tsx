@@ -69,7 +69,7 @@ const ReferrerSidebar = ({ mobileOpen, onClose }: Props) => {
       <aside
         ref={sidebarRef}
         className={cn(
-          "fixed left-0 top-0 z-50 flex h-screen sm:w-70 flex-col overflow-y-auto bg-[#F3F3F3] px-4 py-6 sm:px-8 sm:py-11 transition-transform duration-300 md:static lg:z-0 lg:w-72.5 lg:translate-x-0 lg:border-r lg:border-slate-200",
+          "fixed left-0 top-0 z-50 flex h-screen md:w-70 flex-col overflow-y-auto bg-[#F3F3F3] px-4 py-6 md:px-8 md:py-11 transition-transform duration-300 md:static lg:z-0 lg:w-72.5 lg:translate-x-0 lg:border-r lg:border-slate-200",
           mobileOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
@@ -101,7 +101,7 @@ const ReferrerSidebar = ({ mobileOpen, onClose }: Props) => {
         </div>
 
         {/* Nav */}
-        <nav className="space-y-4 sm:space-y-7.5">
+        <nav className="space-y-4 md:space-y-7.5">
           <SidebarItem
             to="/referrer-dashboard"
             icon={LayoutGrid}

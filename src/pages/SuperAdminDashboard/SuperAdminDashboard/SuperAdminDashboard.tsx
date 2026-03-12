@@ -198,7 +198,7 @@ export default function SuperAdminDashboard() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="sm:px-8 sm:pb-6 sm:pt-2">
+      <div className="md:px-8 md:pb-6 md:pt-2">
         <div
           ref={dropdownRef}
           className="relative flex items-center justify-between border-t border-slate-200 px-7 pt-3.5"

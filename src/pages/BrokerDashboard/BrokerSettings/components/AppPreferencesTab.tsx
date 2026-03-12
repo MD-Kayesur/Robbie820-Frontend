@@ -63,10 +63,10 @@ const AppPreferencesTab = ({
 
   return (
     <div ref={wrapperRef}>
-      <section className="rounded-[20px] border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-6">
+      <section className="rounded-[20px] border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-6">
         <div className="flex items-center gap-3">
-          <Globe2 className="h-6 w-6 text-[#111827] sm:h-8 sm:w-8" />
-          <h2 className="text-[18px] font-semibold uppercase tracking-[-0.03em] text-[#111827] sm:text-[22px]">
+          <Globe2 className="h-6 w-6 text-[#111827] md:h-8 md:w-8" />
+          <h2 className="text-[18px] font-semibold uppercase tracking-[-0.03em] text-[#111827] md:text-[22px]">
             Localization & Workspace
           </h2>
         </div>
@@ -126,14 +126,14 @@ const AppPreferencesTab = ({
           </div>
         </div>
 
-        <div className="mt-10 flex items-center gap-3 sm:mt-12">
-          <Bell className="h-6 w-6 text-[#6B7280] sm:h-7 sm:w-7" />
-          <h2 className="text-[18px] font-semibold uppercase tracking-[-0.03em] text-[#111827] sm:text-[22px]">
+        <div className="mt-10 flex items-center gap-3 md:mt-12">
+          <Bell className="h-6 w-6 text-[#6B7280] md:h-7 md:w-7" />
+          <h2 className="text-[18px] font-semibold uppercase tracking-[-0.03em] text-[#111827] md:text-[22px]">
             Notification Routing
           </h2>
         </div>
 
-        <div className="mt-6 space-y-6 sm:mt-8 sm:space-y-8">
+        <div className="mt-6 space-y-6 md:mt-8 md:space-y-8">
           <PreferenceRow
             title="Referrer Payment Reminder"
             description="Notify when a referrer payment is due after a loan settlement."
@@ -153,8 +153,8 @@ const AppPreferencesTab = ({
               }
             />
 
-            <div className="relative mt-4 w-full sm:w-55">
-              <label className="mb-2 block text-[12px] font-medium uppercase text-[#111827] sm:text-[13px]">
+            <div className="relative mt-4 w-full md:w-55">
+              <label className="mb-2 block text-[12px] font-medium uppercase text-[#111827] md:text-[13px]">
                 STAGNATION PERIOD
               </label>
 
@@ -165,7 +165,7 @@ const AppPreferencesTab = ({
                     prev === "stagnation" ? null : "stagnation",
                   )
                 }
-                className="flex h-11 w-full items-center justify-between rounded-[10px] border border-[#A7D8F5] bg-[#DDF4FF] px-4 text-[14px] text-[#374151] sm:text-[15px]"
+                className="flex h-11 w-full items-center justify-between rounded-[10px] border border-[#A7D8F5] bg-[#DDF4FF] px-4 text-[14px] text-[#374151] md:text-[15px]"
               >
                 <span className="truncate">{selectedStagnation}</span>
                 <ChevronDown
@@ -218,12 +218,12 @@ function PreferenceRow({
   onChange: (value: boolean) => void;
 }) {
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+    <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
       <div className="min-w-0">
-        <h3 className="text-[16px] font-semibold text-[#111827] sm:text-[18px]">
+        <h3 className="text-[16px] font-semibold text-[#111827] md:text-[18px]">
           {title}
         </h3>
-        <p className="mt-1 text-[14px] leading-6 text-[#6B7280] sm:text-[16px]">
+        <p className="mt-1 text-[14px] leading-6 text-[#6B7280] md:text-[16px]">
           {description}
         </p>
       </div>
@@ -248,14 +248,14 @@ function SelectButton({
 }) {
   return (
     <div>
-      <label className="mb-2 block text-[12px] font-medium uppercase text-[#8B8F97] sm:text-[13px]">
+      <label className="mb-2 block text-[12px] font-medium uppercase text-[#8B8F97] md:text-[13px]">
         {label}
       </label>
 
       <button
         type="button"
         onClick={onClick}
-        className="flex h-11 w-full items-center justify-between rounded-xl border border-[#EEF2F7] bg-[#F8FAFC] px-4 text-left text-[14px] text-[#6B7280] sm:h-12 sm:text-[15px]"
+        className="flex h-11 w-full items-center justify-between rounded-xl border border-[#EEF2F7] bg-[#F8FAFC] px-4 text-left text-[14px] text-[#6B7280] md:h-12 md:text-[15px]"
       >
         <span className="flex min-w-0 items-center gap-2">
           {icon ? (
@@ -309,8 +309,8 @@ function DropdownRow({
       className={cn(
         "w-full border-b border-[#E5E7EB] px-4 text-left text-[#111827] transition last:border-b-0 hover:bg-[#F8FAFC]",
         large
-          ? "min-h-13 py-3 text-sm sm:min-h-15 sm:text-center sm:text-[18px]"
-          : "h-11 text-[14px] sm:h-12 sm:text-[15px]",
+          ? "min-h-13 py-3 text-sm md:min-h-15 md:text-center md:text-[18px]"
+          : "h-11 text-[14px] md:h-12 md:text-[15px]",
       )}
     >
       {label}

@@ -17,11 +17,11 @@ export function StatusDropdown({
   const wrapRef = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
 
   return (
-    <div ref={wrapRef} className="relative w-full sm:w-auto">
+    <div ref={wrapRef} className="relative w-full md:w-auto">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex h-11 w-full items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-semibold text-slate-800 hover:bg-slate-100 sm:h-10 sm:min-w-35 sm:w-auto"
+        className="inline-flex h-11 w-full items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm font-semibold text-slate-800 hover:bg-slate-100 md:h-10 md:min-w-35 md:w-auto"
       >
         <span className="truncate">{value}</span>
         {open ? (
@@ -32,7 +32,7 @@ export function StatusDropdown({
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl sm:w-55">
+        <div className="absolute right-0 top-full mt-2 w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl md:w-55">
           {filterOptions.map((opt) => {
             const active = opt === value;
 

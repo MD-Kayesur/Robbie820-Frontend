@@ -61,8 +61,8 @@ const AccountProfileTab = ({ profile, onChange }: AccountProfileTabProps) => {
   return (
     <div className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1fr)_252px]">
       <div className="space-y-4">
-        <section className="rounded-[20px] border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-6">
-          <h2 className="mb-5 text-[18px] font-semibold uppercase tracking-[-0.03em] text-[#111827] sm:mb-6 sm:text-[22px]">
+        <section className="rounded-[20px] border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-6">
+          <h2 className="mb-5 text-[18px] font-semibold uppercase tracking-[-0.03em] text-[#111827] md:mb-6 md:text-[22px]">
             Broker Identity
           </h2>
 
@@ -101,8 +101,8 @@ const AccountProfileTab = ({ profile, onChange }: AccountProfileTabProps) => {
           </div>
         </section>
 
-        <section className="rounded-[20px] border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-6">
-          <h2 className="mb-5 text-[18px] font-semibold uppercase tracking-[-0.03em] text-[#111827] sm:mb-6 sm:text-[22px]">
+        <section className="rounded-[20px] border border-[#DADDE3] bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] md:p-6">
+          <h2 className="mb-5 text-[18px] font-semibold uppercase tracking-[-0.03em] text-[#111827] md:mb-6 md:text-[22px]">
             Address & Region
           </h2>
 
@@ -143,7 +143,7 @@ const AccountProfileTab = ({ profile, onChange }: AccountProfileTabProps) => {
           className="hidden"
         />
 
-        <div className="mx-auto flex h-22 w-22 items-center justify-center overflow-hidden rounded-full bg-[#08122E] sm:h-26 sm:w-26">
+        <div className="mx-auto flex h-22 w-22 items-center justify-center overflow-hidden rounded-full bg-[#08122E] md:h-26 md:w-26">
           {profile.photo ? (
             <img
               src={profile.photo}
@@ -151,16 +151,16 @@ const AccountProfileTab = ({ profile, onChange }: AccountProfileTabProps) => {
               className="h-full w-full object-cover"
             />
           ) : (
-            <span className="text-[42px] font-semibold tracking-[-0.04em] text-[#24A7F2] sm:text-[54px]">
+            <span className="text-[42px] font-semibold tracking-[-0.04em] text-[#24A7F2] md:text-[54px]">
               {profile.initials}
             </span>
           )}
         </div>
 
-        <h3 className="mt-5 wrap-break-word text-[16px] font-semibold text-[#111827] sm:text-[18px]">
+        <h3 className="mt-5 wrap-break-word text-[16px] font-semibold text-[#111827] md:text-[18px]">
           {profile.fullName}
         </h3>
-        <p className="mt-1 text-[13px] text-[#6B7280] sm:text-[14px]">
+        <p className="mt-1 text-[13px] text-[#6B7280] md:text-[14px]">
           {profile.role}
         </p>
 
@@ -199,13 +199,13 @@ function InputField({
 }) {
   return (
     <label className="block">
-      <span className="mb-2 block text-[12px] font-medium uppercase text-[#8B8F97] sm:text-[13px]">
+      <span className="mb-2 block text-[12px] font-medium uppercase text-[#8B8F97] md:text-[13px]">
         {label}
       </span>
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="h-11 w-full rounded-xl border border-[#EEF2F7] bg-[#F8FAFC] px-4 text-[15px] text-[#111827] outline-none transition placeholder:text-[#9CA3AF] focus:border-sky-300 sm:h-12 sm:text-[16px]"
+        className="h-11 w-full rounded-xl border border-[#EEF2F7] bg-[#F8FAFC] px-4 text-[15px] text-[#111827] outline-none transition placeholder:text-[#9CA3AF] focus:border-sky-300 md:h-12 md:text-[16px]"
       />
     </label>
   );

@@ -22,12 +22,12 @@ const ResetPasswordModal = ({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/40 p-3 sm:p-6">
+    <div className="fixed inset-0 z-50 bg-black/40 p-3 md:p-6">
       <div
         ref={modalRef}
         className="mx-auto w-full max-w-215 rounded-[28px] bg-white shadow-[0_30px_80px_rgba(0,0,0,0.28)]"
       >
-        <div className="flex items-start justify-between px-6 pt-6 sm:px-10 sm:pt-8">
+        <div className="flex items-start justify-between px-6 pt-6 md:px-10 md:pt-8">
           <div>
             <h2 className="text-[28px] font-semibold leading-none text-black">
               Reset Partner Password
@@ -47,7 +47,7 @@ const ResetPasswordModal = ({
           </button>
         </div>
 
-        <div className="px-6 pb-6 pt-10 sm:px-10 sm:pb-10">
+        <div className="px-6 pb-6 pt-10 md:px-10 md:pb-10">
           <label className="block">
             <span className="mb-4 block text-[18px] font-normal text-[#525252]">
               Login Email
@@ -74,7 +74,7 @@ const ResetPasswordModal = ({
             </div>
           </div>
 
-          <div className="mt-10 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+          <div className="mt-10 flex flex-col-reverse gap-3 md:flex-row md:justify-end">
             <button
               type="button"
               onClick={onClose}
