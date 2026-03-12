@@ -31,7 +31,7 @@ const ReportMetricCard = ({ item }: Props) => {
       <p className="mt-5 text-[12px] tracking-[0.01em] text-[#6B7280]">
         {item.label}
       </p>
-      <p className="mt-1 wrap-break-word text-[15px] font-semibold text-[#111827] sm:text-[18px]">
+      <p className="mt-1 wrap-break-word text-[15px] font-semibold text-[#111827] md:text-[18px]">
         {item.value}
       </p>
     </div>

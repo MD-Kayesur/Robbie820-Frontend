@@ -52,12 +52,12 @@ const BrokerChangePlan = () => {
         </div>
       </div>
 
-      <section className="rounded-3xl border border-[#D1D5DB] bg-white p-4 shadow-[0_10px_35px_rgba(0,0,0,0.06)] sm:p-7">
+      <section className="rounded-3xl border border-[#D1D5DB] bg-white p-4 shadow-[0_10px_35px_rgba(0,0,0,0.06)] md:p-7">
         <div className="text-center">
-          <h2 className="text-[22px] font-semibold tracking-[-0.03em] text-[#0EA5E9] sm:text-[24px]">
+          <h2 className="text-[22px] font-semibold tracking-[-0.03em] text-[#0EA5E9] md:text-[24px]">
             Choose Your Plan
           </h2>
-          <p className="mt-2 text-[15px] text-[#111827] sm:text-[16px]">
+          <p className="mt-2 text-[15px] text-[#111827] md:text-[16px]">
             Monthly and yearly options are available.
           </p>
 
@@ -66,7 +66,7 @@ const BrokerChangePlan = () => {
               type="button"
               onClick={() => setCycle("monthly")}
               className={cn(
-                "rounded-full px-4 py-2.5 text-sm font-medium transition sm:px-6 sm:py-3",
+                "rounded-full px-4 py-2.5 text-sm font-medium transition md:px-6 md:py-3",
                 cycle === "monthly"
                   ? "bg-[#0EA5E9] text-white shadow-sm"
                   : "text-[#6B7280]",
@@ -78,7 +78,7 @@ const BrokerChangePlan = () => {
               type="button"
               onClick={() => setCycle("yearly")}
               className={cn(
-                "rounded-full px-4 py-2.5 text-sm font-medium transition sm:px-6 sm:py-3",
+                "rounded-full px-4 py-2.5 text-sm font-medium transition md:px-6 md:py-3",
                 cycle === "yearly"
                   ? "bg-[#0EA5E9] text-white shadow-sm"
                   : "text-[#6B7280]",
@@ -137,7 +137,7 @@ function PlanCard({
       <p className="mt-3 text-[16px] text-[#111827]">{plan.tagline}</p>
 
       <div className="mt-5 flex items-end gap-1">
-        <span className="text-[38px] font-semibold tracking-[-0.04em] text-[#111827] sm:text-[44px]">
+        <span className="text-[38px] font-semibold tracking-[-0.04em] text-[#111827] md:text-[44px]">
           {price.label}
         </span>
         {price.suffix ? (

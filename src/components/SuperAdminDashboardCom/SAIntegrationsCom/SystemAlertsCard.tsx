@@ -6,7 +6,7 @@ import { AlertTriangle, ExternalLink } from "lucide-react";
 
 export function SystemAlertsCard() {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:p-5">
       <div className="flex items-start gap-3">
         <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FFEDD4]">
           <AlertTriangle className="h-5 w-5 text-[#F54900]" />

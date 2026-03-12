@@ -25,10 +25,10 @@ const PerformanceTable = ({
   onOpenFunded,
 }: PerformanceTableProps) => {
   return (
-    <section className="rounded-2xl border border-[#8ED3FF] bg-white p-4 sm:p-5">
-      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+    <section className="rounded-2xl border border-[#8ED3FF] bg-white p-4 md:p-5">
+      <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div className="min-w-0">
-          <h2 className="text-base font-semibold tracking-[-0.02em] text-[#111827] sm:text-[18px]">
+          <h2 className="text-base font-semibold tracking-[-0.02em] text-[#111827] md:text-[18px]">
             Performance Analytics
           </h2>
           <p className="mt-1 text-xs text-[#9CA3AF]">

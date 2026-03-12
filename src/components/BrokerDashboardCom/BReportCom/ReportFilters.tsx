@@ -59,7 +59,7 @@ const ReportFilters = ({
         />
 
         {openMenu === "range" ? (
-          <DropdownCard className="w-full min-w-0 sm:w-60">
+          <DropdownCard className="w-full min-w-0 md:w-60">
             {rangeOptions.map((option) => (
               <CompactMenuRow
                 key={option.value}
@@ -86,7 +86,7 @@ const ReportFilters = ({
         />
 
         {openMenu === "date" ? (
-          <DropdownCard className="w-full min-w-0 sm:w-[320px]">
+          <DropdownCard className="w-full min-w-0 md:w-[320px]">
             {datePresetOptions.map((option) => (
               <CompactMenuRow
                 key={option.value}
@@ -120,7 +120,7 @@ const ReportFilters = ({
         />
 
         {openMenu === "referrer" ? (
-          <DropdownCard className="w-full min-w-0 sm:w-[320px]">
+          <DropdownCard className="w-full min-w-0 md:w-[320px]">
             {referrerOptions.map((option) => (
               <CompactMenuRow
                 key={option.value}
@@ -209,7 +209,7 @@ function CompactMenuRow({
       type="button"
       onClick={onClick}
       className={cn(
-        "flex min-h-13 w-full items-center gap-3 border-b border-[#D1D5DB] px-4 py-3 text-left text-sm font-medium text-[#111827] transition last:border-b-0 hover:bg-[#F8FAFC] sm:min-h-14",
+        "flex min-h-13 w-full items-center gap-3 border-b border-[#D1D5DB] px-4 py-3 text-left text-sm font-medium text-[#111827] transition last:border-b-0 hover:bg-[#F8FAFC] md:min-h-14",
         active && "bg-[#F8FAFC]",
       )}
     >

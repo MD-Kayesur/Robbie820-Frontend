@@ -104,9 +104,9 @@ const RecoverPassword: React.FC = () => {
     <div className="w-full">
       {step === "email" ? (
         <div className="mx-auto w-full max-w-106.5">
-          <div className="rounded-3xl border border-[#B9D8FF] bg-transparent px-6 py-7 sm:px-7 sm:py-8">
+          <div className="rounded-3xl border border-[#B9D8FF] bg-transparent px-6 py-7 md:px-7 md:py-8">
             <div className="text-center">
-              <h1 className="text-[24px] font-bold leading-none text-black sm:text-[26px]">
+              <h1 className="text-[24px] font-bold leading-none text-black md:text-[26px]">
                 Recover Password
               </h1>
 
@@ -156,7 +156,7 @@ const RecoverPassword: React.FC = () => {
         </div>
       ) : (
         <div className="mx-auto w-full max-w-106.5 text-center">
-          <h1 className="mx-auto max-w-80 text-[24px] font-bold leading-[1.2] text-black sm:text-[26px]">
+          <h1 className="mx-auto max-w-80 text-[24px] font-bold leading-[1.2] text-black md:text-[26px]">
             Enter the code we sent to
             <br />
             {email || "yourmail@gmail.com"}
@@ -166,7 +166,7 @@ const RecoverPassword: React.FC = () => {
             We sent 5 digit code to your email address.
           </p>
 
-          <div className="mt-7 rounded-3xl border border-[#B9D8FF] bg-transparent px-6 py-7 sm:px-7 sm:py-8">
+          <div className="mt-7 rounded-3xl border border-[#B9D8FF] bg-transparent px-6 py-7 md:px-7 md:py-8">
             <h2 className="text-[18px] font-semibold text-black">
               OTP Required
             </h2>
@@ -176,7 +176,7 @@ const RecoverPassword: React.FC = () => {
               {email || "yourmail@gmail.com"}
             </p>
 
-            <div className="mt-6 grid grid-cols-5 gap-2.5 sm:gap-3">
+            <div className="mt-6 grid grid-cols-5 gap-2.5 md:gap-3">
               {otp.map((digit, index) => (
                 <input
                   key={index}

@@ -64,7 +64,7 @@ const PricingSection = () => {
   return (
     <section
       id="pricing"
-      className="relative overflow-hidden bg-white sm:py-33 px-13 sm:px-0 py-6 pb-16"
+      className="relative overflow-hidden bg-white md:py-33 px-13 md:px-0 py-6 pb-16"
     >
       {/* bottom left grid */}
       <div className="absolute bottom-0 left-0 z-0 w-1/3">
@@ -73,20 +73,20 @@ const PricingSection = () => {
 
       {/* content */}
       <div className="max-w-6xl mx-auto relative z-10">
-        <div className="text-center mb-6 sm:mb-16">
-          <h2 className="text-xl leading-5 font-medium sm:leading-none mb-3 sm:mb-8 text-[#12A8F5] md:text-[34px]">
+        <div className="text-center mb-6 md:mb-16">
+          <h2 className="text-xl leading-5 font-medium md:leading-none mb-3 md:mb-8 text-[#12A8F5] md:text-[34px]">
             How ReferNow Works
           </h2>
-          <p className="mx-auto text-black text-sm sm:text-lg leading-4.5 sm:leading-none mb-6">
+          <p className="mx-auto text-black text-sm md:text-lg leading-4.5 md:leading-none mb-6">
             Choose The Plan That Fits Your Business. No Hidden Fees.
           </p>
 
           {/* Toggle */}
           <div className="flex justify-center">
-            <div className="bg-[#F5F6F9] text-[10px] sm:text-sm p-1 sm:p-2 rounded-4xl sm:rounded-full gap-1 sm:gap-2.5 flex items-center border border-slate-200">
+            <div className="bg-[#F5F6F9] text-[10px] md:text-sm p-1 md:p-2 rounded-4xl md:rounded-full gap-1 md:gap-2.5 flex items-center border border-slate-200">
               <button
                 onClick={() => setBillingCycle("monthly")}
-                className={`sm:px-8 px-4 py-2 sm:py-4 rounded-full ${
+                className={`md:px-8 px-4 py-2 md:py-4 rounded-full ${
                   billingCycle === "monthly"
                     ? "bg-[#00B4FE] text-white shadow-lg"
                     : "text-[#909090]"
@@ -96,7 +96,7 @@ const PricingSection = () => {
               </button>
               <button
                 onClick={() => setBillingCycle("yearly")}
-                className={`sm:px-8 px-4 py-2 sm:py-4 rounded-full ${
+                className={`md:px-8 px-4 py-2 md:py-4 rounded-full ${
                   billingCycle === "yearly"
                     ? "bg-[#00B4FE] text-white shadow-lg"
                     : "text-[#909090]"
@@ -108,31 +108,31 @@ const PricingSection = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8.5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8.5">
           {plans.map((plan, idx) => (
             <div
               key={idx}
-              className={`relative bg-white rounded-2xl py-5 sm:py-8.5 px-3.5 sm:px-6 flex flex-col ${
+              className={`relative bg-white rounded-2xl py-5 md:py-8.5 px-3.5 md:px-6 flex flex-col ${
                 plan.popular
                   ? "border-3 border-[#00B4FE]"
                   : "border border-[#D9D9D9]"
               }`}
             >
               {plan.popular && (
-                <div className="absolute border-3 border-[#D9D9D9] top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#F97316] text-white text-xs sm:text-base uppercase py-1.5 px-3.5 rounded-full">
+                <div className="absolute border-3 border-[#D9D9D9] top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#F97316] text-white text-xs md:text-base uppercase py-1.5 px-3.5 rounded-full">
                   Most Popular
                 </div>
               )}
 
-              <div className="mb-3.5 sm:mb-6 space-y-1.5 sm:space-y-5.5">
-                <h3 className={`text-xs sm:text-lg text-[#8267EC]`}>
+              <div className="mb-3.5 md:mb-6 space-y-1.5 md:space-y-5.5">
+                <h3 className={`text-xs md:text-lg text-[#8267EC]`}>
                   {plan.name}
                 </h3>
-                <p className="text-black text-sm sm:text-lg leading-8">
+                <p className="text-black text-sm md:text-lg leading-8">
                   {plan.description}
                 </p>
                 <div className="flex items-baseline gap-1 text-black">
-                  <span className="text-xl sm:text-[34px] font-bold tracking-tight">
+                  <span className="text-xl md:text-[34px] font-bold tracking-tight">
                     {billingCycle === "monthly"
                       ? plan.monthlyPrice
                       : plan.yearlyPrice}
@@ -142,21 +142,21 @@ const PricingSection = () => {
                     ? plan.monthlyPrice
                     : plan.yearlyPrice
                   ).includes("$") && (
-                    <span className="text-sm sm:text-lg">
+                    <span className="text-sm md:text-lg">
                       /{billingCycle === "monthly" ? "Month" : "Year"}
                     </span>
                   )}
                 </div>
               </div>
 
-              <ul className="space-y-1.5 sm:space-y-4 mb-5 sm:mb-20 grow">
+              <ul className="space-y-1.5 md:space-y-4 mb-5 md:mb-20 grow">
                 {plan.features.map((feature, fIdx) => (
                   <li key={fIdx} className="flex items-start gap-3">
                     <Check
                       size={18}
                       className="text-emerald-500 shrink-0 mt-0.5 stroke-[3px]"
                     />
-                    <span className="text-xs sm:text-lg text-[#616161] leading-6 sm:leading-7.5">
+                    <span className="text-xs md:text-lg text-[#616161] leading-6 md:leading-7.5">
                       {feature}
                     </span>
                   </li>
@@ -164,7 +164,7 @@ const PricingSection = () => {
               </ul>
 
               <button
-                className={`w-full py-2 sm:py-4 rounded-lg bg-[#00B4FE] text-white`}
+                className={`w-full py-2 md:py-4 rounded-lg bg-[#00B4FE] text-white`}
               >
                 {plan.buttonText}
               </button>

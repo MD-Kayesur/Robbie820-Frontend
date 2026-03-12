@@ -90,13 +90,13 @@ function SelectMenu({
   const selected = options.find((o) => o.value === value) ?? options[0];
 
   return (
-    <div ref={ref} className={cn("relative w-full sm:w-auto", className)}>
+    <div ref={ref} className={cn("relative w-full md:w-auto", className)}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex sm:py-2.5 sm:px-3.5 p-2.5 items-center justify-between gap-2 rounded-2xl border border-slate-200 bg-white text-xs font-medium text-[#0A0A0A]",
-          "hover:bg-slate-50 sm:h-auto sm:w-auto sm:py-2",
+          "inline-flex md:py-2.5 md:px-3.5 p-2.5 items-center justify-between gap-2 rounded-2xl border border-slate-200 bg-white text-xs font-medium text-[#0A0A0A]",
+          "hover:bg-slate-50 md:h-auto md:w-auto md:py-2",
         )}
       >
         <span className="flex min-w-0 items-center gap-2">
@@ -116,7 +116,7 @@ function SelectMenu({
       {open ? (
         <div
           className={cn(
-            "absolute z-50 mt-2 w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl sm:w-64",
+            "absolute z-50 mt-2 w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl md:w-64",
             align === "right" ? "right-0" : "left-0",
           )}
         >
@@ -329,11 +329,11 @@ const SuperAdminAuditLogs = () => {
   };
 
   return (
-    <div className="bg-white p-4 sm:p-6 lg:p-10">
+    <div className="bg-white p-4 md:p-6 lg:p-10">
       {/* Header row */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <h1 className="text-xl font-semibold tracking-tighter text-[#101828] sm:text-2xl">
+          <h1 className="text-xl font-semibold tracking-tighter text-[#101828] md:text-2xl">
             Audit Logs
           </h1>
           <p className="mt-1 text-sm text-[#4A5565]">
@@ -382,7 +382,7 @@ const SuperAdminAuditLogs = () => {
       </div>
 
       {/* Filters row */}
-      <div className="mt-5 flex items-start justify-end sm:gap-3 gap-1">
+      <div className="mt-5 flex items-start justify-end md:gap-3 gap-1">
         <SelectMenu
           value={userFilter}
           onChange={setUserFilter}
@@ -395,7 +395,7 @@ const SuperAdminAuditLogs = () => {
           options={actionOptions}
         />
 
-        <div className="flex w-full flex-col gap-2 sm:w-auto sm:items-end">
+        <div className="flex w-full flex-col gap-2 md:w-auto md:items-end">
           <SelectMenu
             value={range}
             onChange={setRange}
@@ -404,8 +404,8 @@ const SuperAdminAuditLogs = () => {
           />
 
           {range === "custom" ? (
-            <div className="w-full rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:w-90">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="w-full rounded-2xl border border-slate-200 bg-white p-3 shadow-sm md:w-90">
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                 <div className="space-y-1">
                   <p className="text-xs font-extrabold text-[#4A5565]">From</p>
                   <input
@@ -433,7 +433,7 @@ const SuperAdminAuditLogs = () => {
       {/* Cards */}
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Impersonation */}
-        <div className="rounded-3xl border border-orange-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="rounded-3xl border border-orange-200 bg-white p-5 shadow-sm md:p-6">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-start gap-3">
               <div className="grid h-10 w-10 place-items-center rounded-[10px] bg-[#FFEDD4] ring-1 ring-orange-100">
@@ -490,7 +490,7 @@ const SuperAdminAuditLogs = () => {
         </div>
 
         {/* Suspicious */}
-        <div className="rounded-3xl border border-rose-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="rounded-3xl border border-rose-200 bg-white p-5 shadow-sm md:p-6">
           <div className="flex items-start gap-3">
             <div className="grid h-10 w-10 place-items-center rounded-lg bg-[#FFE2E2] ring-1 ring-rose-100">
               <ShieldAlert className="h-5 w-5 text-[#E7000B]" />

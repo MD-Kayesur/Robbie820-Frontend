@@ -120,28 +120,28 @@ export default function BrokerLeadDetails() {
   };
 
   return (
-    <div className="space-y-4 sm:space-y-5">
+    <div className="space-y-4 md:space-y-5">
       <Breadcrumbs items={breadcrumbItems} />
 
       <div className="flex flex-col gap-4 lg:gap-5 xl:flex-row xl:items-start xl:justify-between">
         <div className="min-w-0 flex-1">
-          <h1 className="text-[22px] font-bold leading-tight text-[#111827] sm:text-[24px] lg:text-[28px]">
+          <h1 className="text-[22px] font-bold leading-tight text-[#111827] md:text-[24px] lg:text-[28px]">
             {isEditing ? "Edit Referral" : "Referral Details"}
           </h1>
-          <p className="mt-1 text-[13px] text-[#9CA3AF] sm:text-sm">
+          <p className="mt-1 text-[13px] text-[#9CA3AF] md:text-sm">
             {isEditing
               ? "Update borrower and loan details"
               : "Manage and track this referral's progress"}
           </p>
         </div>
 
-        <div className="grid w-full grid-cols-1 gap-2.5 sm:grid-cols-2 xl:w-auto xl:grid-cols-3">
+        <div className="grid w-full grid-cols-1 gap-2.5 md:grid-cols-2 xl:w-auto xl:grid-cols-3">
           {isEditing ? (
             <>
               <button
                 type="button"
                 onClick={handleCancelEdit}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#374151] transition hover:bg-[#F9FAFB] sm:h-10 sm:w-auto"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#374151] transition hover:bg-[#F9FAFB] md:h-10 md:w-auto"
               >
                 <X className="h-4 w-4 shrink-0" />
                 <span className="truncate">Cancel</span>
@@ -150,7 +150,7 @@ export default function BrokerLeadDetails() {
               <button
                 type="button"
                 onClick={handleSave}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-4 text-[13px] font-medium text-white transition hover:bg-[#1D4ED8] sm:h-10 sm:w-auto sm:col-span-1"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-4 text-[13px] font-medium text-white transition hover:bg-[#1D4ED8] md:h-10 md:w-auto md:col-span-1"
               >
                 <Save className="h-4 w-4 shrink-0" />
                 <span className="truncate">Save Changes</span>
@@ -161,7 +161,7 @@ export default function BrokerLeadDetails() {
               <button
                 type="button"
                 onClick={() => setIsEditing(true)}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#374151] transition hover:bg-[#F9FAFB] sm:h-10 sm:w-auto"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#374151] transition hover:bg-[#F9FAFB] md:h-10 md:w-auto"
               >
                 <SquarePen className="h-4 w-4 shrink-0" />
                 <span className="truncate">Edit Referral</span>
@@ -169,7 +169,7 @@ export default function BrokerLeadDetails() {
 
               <button
                 type="button"
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#FECACA] bg-white px-4 text-[13px] font-medium text-[#EF4444] transition hover:bg-[#FEF2F2] sm:h-10 sm:w-auto"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#FECACA] bg-white px-4 text-[13px] font-medium text-[#EF4444] transition hover:bg-[#FEF2F2] md:h-10 md:w-auto"
               >
                 <Trash2 className="h-4 w-4 shrink-0" />
                 <span className="truncate">Delete</span>
@@ -177,7 +177,7 @@ export default function BrokerLeadDetails() {
 
               <button
                 type="button"
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-4 text-[13px] font-medium text-white transition hover:bg-[#1D4ED8] sm:col-span-2 sm:h-10 sm:w-auto xl:col-span-1"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-4 text-[13px] font-medium text-white transition hover:bg-[#1D4ED8] md:col-span-2 md:h-10 md:w-auto xl:col-span-1"
               >
                 <RefreshCcw className="h-4 w-4 shrink-0" />
                 <span className="truncate">Update Stage</span>
@@ -315,16 +315,16 @@ export default function BrokerLeadDetails() {
                 />
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                 <ReadonlyField
                   label="Estimated Loan Amount"
                   value={formatMoney(lead.estimatedLoanAmount)}
-                  valueClassName="text-[24px] leading-tight sm:text-[28px] lg:text-[32px]"
+                  valueClassName="text-[24px] leading-tight md:text-[28px] lg:text-[32px]"
                 />
                 <ReadonlyField
                   label="Interest Rate"
                   value={`${lead.interestRate.toFixed(2)}%`}
-                  valueClassName="text-[24px] leading-tight sm:text-[28px] lg:text-[32px]"
+                  valueClassName="text-[24px] leading-tight md:text-[28px] lg:text-[32px]"
                 />
                 <ReadonlyField
                   label="Loan Status"
@@ -383,7 +383,7 @@ export default function BrokerLeadDetails() {
                   type="date"
                 />
 
-                <div className="sm:col-span-2">
+                <div className="md:col-span-2">
                   <TextareaField
                     label="Payment Notes"
                     value={lead.paymentNotes}
@@ -420,10 +420,10 @@ export default function BrokerLeadDetails() {
                 )}
               </div>
 
-              <div className="mt-4 flex justify-stretch sm:justify-end">
+              <div className="mt-4 flex justify-stretch md:justify-end">
                 <button
                   type="button"
-                  className="inline-flex h-10 w-full items-center justify-center rounded-md bg-[#1BAEF5] px-4 text-[12px] font-medium text-white transition hover:bg-[#0ea5e9] sm:h-8 sm:w-auto sm:px-3"
+                  className="inline-flex h-10 w-full items-center justify-center rounded-md bg-[#1BAEF5] px-4 text-[12px] font-medium text-white transition hover:bg-[#0ea5e9] md:h-8 md:w-auto md:px-3"
                 >
                   Save Notes
                 </button>
@@ -442,7 +442,7 @@ export default function BrokerLeadDetails() {
               <div className="space-y-3">
                 <div className="rounded-xl bg-white p-4">
                   <p className="text-[12px] text-[#9CA3AF]">Total Commission</p>
-                  <p className="mt-1 wrap-break-word text-[22px] font-semibold text-[#111827] sm:text-[24px]">
+                  <p className="mt-1 wrap-break-word text-[22px] font-semibold text-[#111827] md:text-[24px]">
                     {formatMoney(recalculated.totalCommission)}
                   </p>
                   <p className="mt-1 text-[11px] text-[#9CA3AF]">
@@ -454,7 +454,7 @@ export default function BrokerLeadDetails() {
                   <p className="text-[12px] text-[#9CA3AF]">
                     Referrer Commission
                   </p>
-                  <p className="mt-1 wrap-break-word text-[22px] font-semibold text-[#F97316] sm:text-[24px]">
+                  <p className="mt-1 wrap-break-word text-[22px] font-semibold text-[#F97316] md:text-[24px]">
                     {formatMoney(recalculated.referrerFeeExpected)}
                   </p>
                   <p className="mt-1 text-[11px] text-[#9CA3AF]">
@@ -466,7 +466,7 @@ export default function BrokerLeadDetails() {
                   <p className="text-[12px] text-[#9CA3AF]">
                     Broker Commission
                   </p>
-                  <p className="mt-1 wrap-break-word text-[22px] font-semibold text-[#16A34A] sm:text-[24px]">
+                  <p className="mt-1 wrap-break-word text-[22px] font-semibold text-[#16A34A] md:text-[24px]">
                     {formatMoney(recalculated.brokerCommission)}
                   </p>
                   <p className="mt-1 text-[11px] text-[#9CA3AF]">
@@ -476,7 +476,7 @@ export default function BrokerLeadDetails() {
 
                 <div className="rounded-xl bg-[#1BAEF5] p-4 text-white">
                   <p className="text-[12px]/5 text-white/80">Net Earnings</p>
-                  <p className="mt-1 wrap-break-word text-[22px] font-semibold sm:text-[24px]">
+                  <p className="mt-1 wrap-break-word text-[22px] font-semibold md:text-[24px]">
                     {formatMoney(recalculated.brokerCommission)}
                   </p>
                   <p className="mt-1 text-[11px] text-white/80">
@@ -490,7 +490,7 @@ export default function BrokerLeadDetails() {
                   <p className="text-[12px] text-[#9CA3AF]">
                     Broker Commission
                   </p>
-                  <p className="mt-1 wrap-break-word text-[28px] font-semibold leading-tight text-[#111827] sm:text-[32px] lg:text-[34px]">
+                  <p className="mt-1 wrap-break-word text-[28px] font-semibold leading-tight text-[#111827] md:text-[32px] lg:text-[34px]">
                     {formatMoney(lead.brokerCommission)}
                   </p>
                 </div>
@@ -499,7 +499,7 @@ export default function BrokerLeadDetails() {
                   <p className="text-[12px] text-[#9CA3AF]">
                     Referrer Commission %
                   </p>
-                  <p className="mt-1 text-[20px] font-semibold text-[#2563EB] sm:text-[22px]">
+                  <p className="mt-1 text-[20px] font-semibold text-[#2563EB] md:text-[22px]">
                     {lead.referrerCommissionPercent}%
                   </p>
                 </div>
@@ -508,7 +508,7 @@ export default function BrokerLeadDetails() {
                   <p className="text-[12px] text-[#9CA3AF]">
                     Referrer Expected Earnings
                   </p>
-                  <p className="mt-1 wrap-break-word text-[24px] font-semibold text-[#16A34A] sm:text-[26px] lg:text-[28px]">
+                  <p className="mt-1 wrap-break-word text-[24px] font-semibold text-[#16A34A] md:text-[26px] lg:text-[28px]">
                     {formatMoney(lead.referrerFeeExpected)}
                   </p>
                 </div>

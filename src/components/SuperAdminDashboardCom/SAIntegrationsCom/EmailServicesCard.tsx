@@ -4,7 +4,7 @@ import { Mail, TrendingUp } from "lucide-react";
 export function EmailServicesCard() {
   return (
     <div>
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6">
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 md:p-6">
         <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
             <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#DCFCE7]">
@@ -41,8 +41,8 @@ export function EmailServicesCard() {
             </div>
           </div>
 
-          <div className="hidden h-px bg-slate-200 sm:block" />
-          <div className="hidden h-px bg-slate-200 sm:block" />
+          <div className="hidden h-px bg-slate-200 md:block" />
+          <div className="hidden h-px bg-slate-200 md:block" />
         </div>
 
         <div className="grid grid-cols-2 gap-4">

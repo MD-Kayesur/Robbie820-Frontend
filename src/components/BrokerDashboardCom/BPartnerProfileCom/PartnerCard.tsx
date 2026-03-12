@@ -39,7 +39,7 @@ const PartnerCard = ({ partner, onAction }: PartnerCardProps) => {
   const Icon = partner.partnerType === "Company" ? Building2 : User;
 
   return (
-    <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5">
+    <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 md:p-5">
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-start gap-3">
           <div
@@ -54,7 +54,7 @@ const PartnerCard = ({ partner, onAction }: PartnerCardProps) => {
           </div>
 
           <div className="min-w-0">
-            <h3 className="wrap-break-word text-base font-semibold text-[#111827] sm:text-lg">
+            <h3 className="wrap-break-word text-base font-semibold text-[#111827] md:text-lg">
               {partner.partnerName}
             </h3>
             <p className="mt-1 text-sm text-[#6B7280]">{partner.partnerType}</p>
@@ -72,31 +72,31 @@ const PartnerCard = ({ partner, onAction }: PartnerCardProps) => {
         <StatusBadge status={partner.status} />
       </div>
 
-      <div className="mt-5 grid grid-cols-2 gap-4 sm:gap-x-6 sm:gap-y-4">
+      <div className="mt-5 grid grid-cols-2 gap-4 md:gap-x-6 md:gap-y-4">
         <div className="min-w-0">
           <p className="text-xs text-[#6B7280]">Total Referrals</p>
-          <p className="mt-1 text-base font-semibold text-[#111827] sm:text-[18px]">
+          <p className="mt-1 text-base font-semibold text-[#111827] md:text-[18px]">
             {partner.metrics.totalReferrals}
           </p>
         </div>
 
         <div className="min-w-0">
           <p className="text-xs text-[#6B7280]">Active Referrals</p>
-          <p className="mt-1 text-base font-semibold text-[#111827] sm:text-[18px]">
+          <p className="mt-1 text-base font-semibold text-[#111827] md:text-[18px]">
             {partner.metrics.activeReferrals}
           </p>
         </div>
 
         <div className="min-w-0">
           <p className="text-xs text-[#6B7280]">Loan Volume</p>
-          <p className="mt-1 wrap-break-word text-base font-semibold text-[#111827] sm:text-[18px]">
+          <p className="mt-1 wrap-break-word text-base font-semibold text-[#111827] md:text-[18px]">
             {formatMoney(partner.metrics.loanVolume)}
           </p>
         </div>
 
         <div className="min-w-0">
           <p className="text-xs text-[#6B7280]">Commission</p>
-          <p className="mt-1 wrap-break-word text-base font-semibold text-[#111827] sm:text-[18px]">
+          <p className="mt-1 wrap-break-word text-base font-semibold text-[#111827] md:text-[18px]">
             {formatMoney(partner.metrics.commission)}
           </p>
         </div>

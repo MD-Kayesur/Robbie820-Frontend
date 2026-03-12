@@ -18,7 +18,7 @@ const FundedDealsModal = ({
   onClose,
 }: FundedDealsModalProps) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 p-3 sm:p-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 p-3 md:p-6">
       <div className="relative max-h-[90vh] w-full max-w-512 overflow-hidden rounded-[22px] bg-white shadow-[0_30px_100px_rgba(15,23,42,0.22)]">
         <button
           type="button"
@@ -28,11 +28,11 @@ const FundedDealsModal = ({
           <X className="h-5 w-5" />
         </button>
 
-        <div className="overflow-y-auto p-4 sm:p-6 lg:p-8">
-          <h3 className="pr-12 text-[20px] font-semibold tracking-[-0.03em] text-[#111827] sm:text-[24px]">
+        <div className="overflow-y-auto p-4 md:p-6 lg:p-8">
+          <h3 className="pr-12 text-[20px] font-semibold tracking-[-0.03em] text-[#111827] md:text-[24px]">
             {title}
           </h3>
-          <p className="mt-1 text-sm text-[#6B7280] sm:text-[16px]">
+          <p className="mt-1 text-sm text-[#6B7280] md:text-[16px]">
             Partner: {partnerLabel} {dateLabel}
           </p>
 

@@ -74,15 +74,15 @@ export default function SuperAdminUserManagement() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
-        <div className="flex flex-col gap-4 sm:gap-5 lg:flex-row lg:items-start lg:justify-between">
+      <div className="px-4 py-6 md:px-6 md:py-8 lg:px-8 lg:py-10">
+        <div className="flex flex-col gap-4 md:gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0 flex-1">
-            <h1 className="text-xl font-semibold text-slate-900 sm:text-2xl">
+            <h1 className="text-xl font-semibold text-slate-900 md:text-2xl">
               Account Management
             </h1>
 
             <div className="mt-3">
-              <div className="flex w-full items-center gap-2 rounded-xl border border-slate-200 bg-[#F9FAFB] px-4 py-3 sm:max-w-105 sm:py-2">
+              <div className="flex w-full items-center gap-2 rounded-xl border border-slate-200 bg-[#F9FAFB] px-4 py-3 md:max-w-105 md:py-2">
                 <Search className="h-4 w-4 shrink-0 text-slate-400" />
                 <input
                   value={q}
@@ -96,7 +96,7 @@ export default function SuperAdminUserManagement() {
 
           <button
             type="button"
-            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 sm:h-10 sm:w-auto"
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 md:h-10 md:w-auto"
           >
             <Download className="h-4 w-4" />
             Export CSV
@@ -105,7 +105,7 @@ export default function SuperAdminUserManagement() {
 
         <div className="mt-6 h-px w-full bg-slate-200" />
 
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <SegmentedTabs tab={tab} setTab={setTab} />
           <StatusDropdown value={status} onChange={setStatus} />
         </div>

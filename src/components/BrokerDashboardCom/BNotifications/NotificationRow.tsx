@@ -22,7 +22,7 @@ const NotificationRow = ({ item }: Props) => {
   const Icon = getNotificationIcon(item.icon);
 
   return (
-    <div className="flex gap-3 border-b border-[#E5E7EB] px-4 py-5 last:border-b-0 sm:gap-4 sm:px-5">
+    <div className="flex gap-3 border-b border-[#E5E7EB] px-4 py-5 last:border-b-0 md:gap-4 md:px-5">
       <div
         className={cn(
           "mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
@@ -33,7 +33,7 @@ const NotificationRow = ({ item }: Props) => {
       </div>
 
       <div className="min-w-0 flex-1">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
           <div className="min-w-0">
             <h3 className="text-[15px] font-medium text-[#111827]">
               {item.title}

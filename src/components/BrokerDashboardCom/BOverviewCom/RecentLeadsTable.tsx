@@ -125,7 +125,7 @@ export default function RecentLeadsTable({
   return (
     <section className="overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white">
       {/* header */}
-      <div className="flex items-center justify-between px-4 py-4 sm:px-5">
+      <div className="flex items-center justify-between px-4 py-4 md:px-5">
         <div>
           <h2 className="text-[18px] font-semibold text-[#111827]">
             Recent Referrals

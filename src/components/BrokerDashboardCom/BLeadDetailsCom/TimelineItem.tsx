@@ -36,7 +36,7 @@ export default function TimelineItem({
       </div>
 
       <div className="min-w-0 flex-1">
-        <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
+        <div className="flex flex-col gap-1 md:flex-row md:items-start md:justify-between md:gap-3">
           <p className="text-[14px] font-medium text-[#111827]">{title}</p>
           {time ? (
             <p className="shrink-0 text-[11px] text-[#9CA3AF]">{time}</p>

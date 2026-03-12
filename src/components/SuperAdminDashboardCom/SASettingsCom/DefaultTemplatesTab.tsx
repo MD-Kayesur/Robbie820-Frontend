@@ -12,20 +12,20 @@ export default function DefaultTemplatesTab() {
   return (
     <div className="space-y-5 inter">
       <div className="rounded-2xl border border-slate-200 bg-white">
-        <div className="p-4 sm:p-5.5">
+        <div className="p-4 md:p-5.5">
           <h2 className="text-base font-semibold text-black">
             Agreement &amp; Email Templates
           </h2>
         </div>
 
-        <div className="px-4 pb-4 sm:px-5.5 sm:pb-5.5">
+        <div className="px-4 pb-4 md:px-5.5 md:pb-5.5">
           <div className="space-y-3">
             {items.map((t) => (
               <div
                 key={t.id}
                 className="rounded-2xl border border-slate-200 bg-[#F9FAFB] px-4 py-4"
               >
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                   <div className="flex min-w-0 items-start gap-3">
                     <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#DBEAFE]">
                       <FileText className="h-4.5 w-4.5 text-[#155DFC]" />
@@ -40,7 +40,7 @@ export default function DefaultTemplatesTab() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 sm:flex sm:shrink-0 sm:items-center">
+                  <div className="grid grid-cols-2 gap-2 md:flex md:shrink-0 md:items-center">
                     <button
                       type="button"
                       onClick={() => console.log("Preview", t.id)}
@@ -72,7 +72,7 @@ export default function DefaultTemplatesTab() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-violet-200 bg-violet-50/60 px-4 py-4 sm:px-6">
+      <div className="rounded-2xl border border-violet-200 bg-violet-50/60 px-4 py-4 md:px-6">
         <p className="text-sm text-violet-900">
           <span className="font-bold">Note:</span> Template changes will apply
           to all new documents and emails. Existing sent communications will not

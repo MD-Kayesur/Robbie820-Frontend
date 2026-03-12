@@ -52,18 +52,18 @@ function ExportModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 px-4 py-6">
       <div
         ref={modalRef}
-        className="max-h-[95vh] w-full max-w-120 overflow-y-auto rounded-xl bg-white p-5 shadow-[0_28px_80px_rgba(0,0,0,0.28)] sm:p-6"
+        className="max-h-[95vh] w-full max-w-120 overflow-y-auto rounded-xl bg-white p-5 shadow-[0_28px_80px_rgba(0,0,0,0.28)] md:p-6"
       >
         <div className="flex items-start gap-3 border-b border-[#E5E7EB] pb-4">
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#D8EEF9] sm:h-16 sm:w-16">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#D8EEF9] md:h-16 md:w-16">
             <Download
-              className="h-6 w-6 text-[#0EA5E9] sm:h-7 sm:w-7"
+              className="h-6 w-6 text-[#0EA5E9] md:h-7 md:w-7"
               strokeWidth={1.8}
             />
           </div>
 
           <div className="min-w-0 flex-1 pt-1">
-            <h2 className="text-[20px] font-semibold leading-none text-black sm:text-[24px]">
+            <h2 className="text-[20px] font-semibold leading-none text-black md:text-[24px]">
               Export Referrals
             </h2>
             <p className="mt-1 text-[14px] text-[#6B7280]">
@@ -87,7 +87,7 @@ function ExportModal({
               <h3 className="text-[18px] font-medium text-black">Date Range</h3>
             </div>
 
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               {dateOptions.map((option) => {
                 const active = dateRange === option;
                 return (
@@ -117,7 +117,7 @@ function ExportModal({
               </h3>
             </div>
 
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               {scopeOptions.map((option) => {
                 const active = exportScope === option;
                 return (
@@ -147,7 +147,7 @@ function ExportModal({
               </h3>
             </div>
 
-            <div className="rounded-lg border border-[#D1D5DB] bg-[#F5F5F5] px-4 py-4 sm:px-5">
+            <div className="rounded-lg border border-[#D1D5DB] bg-[#F5F5F5] px-4 py-4 md:px-5">
               <div className="space-y-3">
                 {includeRows.map(([label, key]) => (
                   <button
@@ -185,7 +185,7 @@ function ExportModal({
           </section>
         </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-2">
           <button
             type="button"
             onClick={onClose}

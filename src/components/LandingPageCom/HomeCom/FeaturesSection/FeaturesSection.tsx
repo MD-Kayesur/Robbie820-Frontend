@@ -56,15 +56,15 @@ const FeaturesSection = () => {
   return (
     <section
       id="features"
-      className="bg-[#FAFAFA] py-6 sm:py-33 mx-4.5 sm:mx-0"
+      className="bg-[#FAFAFA] py-6 md:py-33 mx-4.5 md:mx-0"
     >
       <div className="mx-auto md:px-20 lg:px-37.5">
-        <div className="mx-auto mb-6 sm:mb-16 max-w-3xl text-center">
-          <h2 className="text-lg leading-5 font-medium sm:leading-none mb-2 sm:mb-8 text-[#12A8F5] md:text-[34px]">
+        <div className="mx-auto mb-6 md:mb-16 max-w-3xl text-center">
+          <h2 className="text-lg leading-5 font-medium md:leading-none mb-2 md:mb-8 text-[#12A8F5] md:text-[34px]">
             Everything You Need To Manage Referrals
           </h2>
 
-          <p className="mx-auto max-w-2xl text-black text-sm sm:text-lg sm:leading-none">
+          <p className="mx-auto max-w-2xl text-black text-sm md:text-lg md:leading-none">
             Powerful Features Designed For Brokers, Referral Partners.
           </p>
         </div>
@@ -76,16 +76,16 @@ const FeaturesSection = () => {
               className="rounded-2xl border border-[#D8E7FF] bg-white p-4.5 md:p-6"
             >
               <div
-                className={`mb-4 sm:mb-6 inline-flex p-3 items-center justify-center rounded-xl ${feature.color}`}
+                className={`mb-4 md:mb-6 inline-flex p-3 items-center justify-center rounded-xl ${feature.color}`}
               >
                 <feature.icon size={40} />
               </div>
 
-              <h3 className="text-sm sm:text-xl font-semibold text-[#111827] mb-4 leading-none sm:mb-6">
+              <h3 className="text-sm md:text-xl font-semibold text-[#111827] mb-4 leading-none md:mb-6">
                 {feature.title}
               </h3>
 
-              <p className="text-xs sm:text-base sm:leading-7 text-[#6B7280]">
+              <p className="text-xs md:text-base md:leading-7 text-[#6B7280]">
                 {feature.description}
               </p>
             </div>

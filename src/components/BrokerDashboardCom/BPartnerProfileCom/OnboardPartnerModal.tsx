@@ -194,7 +194,7 @@ function SelectMenu<T extends string>({
 
 function Stepper({ currentStep }: { currentStep: number }) {
   return (
-    <div className="border-b border-[#E5E7EB] px-4 py-2 sm:py-6 sm:px-8">
+    <div className="border-b border-[#E5E7EB] px-4 py-2 md:py-6 md:px-8">
       <div className="overflow-x-auto">
         <div className="flex min-w-150 items-start justify-between">
           {partnerProfileStepLabels.map((label, index) => {
@@ -326,8 +326,8 @@ function ReviewCard({
 }) {
   return (
     <div className="rounded-2xl bg-[#F9FAFB] p-5">
-      <h4 className="sm:text-lg font-semibold text-[#111827]">{title}</h4>
-      <div className="sm:mt-4 mt-1">{children}</div>
+      <h4 className="md:text-lg font-semibold text-[#111827]">{title}</h4>
+      <div className="md:mt-4 mt-1">{children}</div>
     </div>
   );
 }
@@ -439,13 +439,13 @@ const OnboardPartnerModal = ({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/40 p-3 sm:p-6">
+    <div className="fixed inset-0 z-50 bg-black/40 p-3 md:p-6">
       <div
         ref={modalRef}
         className="mx-auto flex max-h-[96vh] w-full max-w-3xl flex-col overflow-hidden rounded-xl bg-white shadow-[0_30px_80px_rgba(0,0,0,0.28)]"
       >
-        <div className="flex items-center justify-between border-b border-[#E5E7EB] px-4 py-3 sm:py-5 sm:px-8">
-          <h2 className="text-lg font-semibold text-[#111827] sm:text-2xl">
+        <div className="flex items-center justify-between border-b border-[#E5E7EB] px-4 py-3 md:py-5 md:px-8">
+          <h2 className="text-lg font-semibold text-[#111827] md:text-2xl">
             Onboard New Referral Partner
           </h2>
 
@@ -460,9 +460,9 @@ const OnboardPartnerModal = ({
 
         <Stepper currentStep={currentStep} />
 
-        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3 sm:px-8 sm:py-8">
+        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3 md:px-8 md:py-8">
           {currentStep === 0 ? (
-            <div className="mx-auto max-w-270 sm:space-y-6 space-y-3">
+            <div className="mx-auto max-w-270 md:space-y-6 space-y-3">
               <div>
                 <div className="mb-2 text-sm font-medium text-[#111827]">
                   Partner Type
@@ -529,7 +529,7 @@ const OnboardPartnerModal = ({
           ) : null}
 
           {currentStep === 1 ? (
-            <div className="mx-auto max-w-270 sm:space-y-6 space-y-3">
+            <div className="mx-auto max-w-270 md:space-y-6 space-y-3">
               <ModalField label="Login Email">
                 <TextInput
                   type="email"
@@ -588,7 +588,7 @@ const OnboardPartnerModal = ({
           ) : null}
 
           {currentStep === 2 ? (
-            <div className="mx-auto max-w-270 sm:space-y-6 space-y-3">
+            <div className="mx-auto max-w-270 md:space-y-6 space-y-3">
               <ModalField label="Agreement Name">
                 <TextInput
                   value={form.agreementName}
@@ -649,11 +649,11 @@ const OnboardPartnerModal = ({
               </div>
 
               <div className="rounded-3xl bg-[#F9FAFB] p-6">
-                <h4 className="sm:text-lg font-semibold text-[#111827]">
+                <h4 className="md:text-lg font-semibold text-[#111827]">
                   Commission Calculation Example
                 </h4>
 
-                <div className="mt-4 space-y-2 sm:text-sm text-xs text-[#374151]">
+                <div className="mt-4 space-y-2 md:text-sm text-xs text-[#374151]">
                   <p>Loan Amount: {formatCurrency(exampleLoanAmount)}</p>
                   <p>
                     Referrer Commission (
@@ -686,7 +686,7 @@ const OnboardPartnerModal = ({
           ) : null}
 
           {currentStep === 3 ? (
-            <div className="mx-auto max-w-270 sm:space-y-6 space-y-3">
+            <div className="mx-auto max-w-270 md:space-y-6 space-y-3">
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <ModalField label="Bank Name">
                   <TextInput
@@ -726,9 +726,9 @@ const OnboardPartnerModal = ({
           ) : null}
 
           {currentStep === 4 ? (
-            <div className="mx-auto max-w-270 sm:space-y-6 space-y-3">
+            <div className="mx-auto max-w-270 md:space-y-6 space-y-3">
               <ReviewCard title="Partner Profile">
-                <div className="grid sm:gap-2">
+                <div className="grid md:gap-2">
                   <ReviewRow label="Partner Type" value={form.partnerType} />
                   <ReviewRow
                     label="Partner Name"
@@ -762,7 +762,7 @@ const OnboardPartnerModal = ({
               </ReviewCard>
 
               <ReviewCard title="Commission Agreement">
-                <div className="grid sm:gap-2">
+                <div className="grid md:gap-2">
                   <ReviewRow
                     label="Agreement Name"
                     value={form.agreementName || "-"}
@@ -787,7 +787,7 @@ const OnboardPartnerModal = ({
               </ReviewCard>
 
               <ReviewCard title="Banking Details">
-                <div className="grid sm:gap-2">
+                <div className="grid md:gap-2">
                   <ReviewRow label="Bank Name" value={form.bankName || "-"} />
                   <ReviewRow label="BSB" value={form.bsb || "-"} />
                   <ReviewRow
@@ -818,7 +818,7 @@ const OnboardPartnerModal = ({
           ) : null}
         </div>
 
-        <div className="flex border-t border-[#E5E7EB] bg-[#F9FAFB] px-4 py-2 sm:py-5 sm:flex-row sm:items-center sm:px-8">
+        <div className="flex border-t border-[#E5E7EB] bg-[#F9FAFB] px-4 py-2 md:py-5 md:flex-row md:items-center md:px-8">
           <button
             type="button"
             onClick={handleBack}

@@ -31,7 +31,7 @@ export function PanelRangeButton({
 
 export function PanelMenu({ children }: { children: React.ReactNode }) {
   return (
-    <div className="absolute right-0 top-[calc(100%+8px)] z-20 min-w-45 overflow-hidden rounded-xl border border-[#D1D5DB] bg-white shadow-[0_20px_40px_rgba(15,23,42,0.14)] sm:min-w-55">
+    <div className="absolute right-0 top-[calc(100%+8px)] z-20 min-w-45 overflow-hidden rounded-xl border border-[#D1D5DB] bg-white shadow-[0_20px_40px_rgba(15,23,42,0.14)] md:min-w-55">
       <div className="max-h-80 overflow-auto">{children}</div>
     </div>
   );
@@ -76,8 +76,8 @@ export function AuditChart({
 
   return (
     <div className="pt-3">
-      <div className="relative h-57.5 sm:h-62.5">
-        <div className="absolute left-0 top-0 flex h-full w-8 flex-col justify-between pb-8 text-[10px] text-[#9CA3AF] sm:w-10 sm:text-[11px]">
+      <div className="relative h-57.5 md:h-62.5">
+        <div className="absolute left-0 top-0 flex h-full w-8 flex-col justify-between pb-8 text-[10px] text-[#9CA3AF] md:w-10 md:text-[11px]">
           {ticks
             .slice()
             .reverse()
@@ -88,8 +88,8 @@ export function AuditChart({
             ))}
         </div>
 
-        <div className="ml-8 h-full sm:ml-10">
-          <div className="relative flex h-47.5 items-end justify-between gap-2 border-b border-[#E5E7EB] sm:h-52.5 sm:gap-4">
+        <div className="ml-8 h-full md:ml-10">
+          <div className="relative flex h-47.5 items-end justify-between gap-2 border-b border-[#E5E7EB] md:h-52.5 md:gap-4">
             {ticks.slice(1).map((tick) => {
               const percent = 100 - (tick / maxValue) * 100;
               return (
@@ -114,7 +114,7 @@ export function AuditChart({
                   onMouseLeave={() => onHoverIndex(null)}
                 >
                   {isHover ? (
-                    <div className="absolute bottom-[calc(100%+12px)] left-1/2 z-10 hidden w-30.5 -translate-x-1/2 rounded-lg border border-[#D8EAF7] bg-white px-3 py-2 text-left shadow-[0_12px_30px_rgba(15,23,42,0.10)] sm:block">
+                    <div className="absolute bottom-[calc(100%+12px)] left-1/2 z-10 hidden w-30.5 -translate-x-1/2 rounded-lg border border-[#D8EAF7] bg-white px-3 py-2 text-left shadow-[0_12px_30px_rgba(15,23,42,0.10)] md:block">
                       <p className="text-[11px] font-medium lowercase text-[#374151]">
                         {item.label.toLowerCase()}
                       </p>
@@ -127,21 +127,21 @@ export function AuditChart({
                     </div>
                   ) : null}
 
-                  <div className="flex h-45 items-end gap-1 sm:h-50 sm:gap-2">
+                  <div className="flex h-45 items-end gap-1 md:h-50 md:gap-2">
                     <div
-                      className="w-4 rounded-t-sm bg-[#D9DDE3] sm:w-7"
+                      className="w-4 rounded-t-sm bg-[#D9DDE3] md:w-7"
                       style={{ height: `${leadsHeight}%` }}
                     />
                     <button
                       type="button"
-                      className="w-4 rounded-t-sm bg-[#17A8F5] transition hover:opacity-90 sm:w-7"
+                      className="w-4 rounded-t-sm bg-[#17A8F5] transition hover:opacity-90 md:w-7"
                       style={{ height: `${fundedHeight}%` }}
                       onClick={() => onFundedClick(item.referrer)}
                       title="Open funded deals"
                     />
                   </div>
 
-                  <p className="mt-3 text-center text-[9px] text-[#6B7280] sm:text-[10px]">
+                  <p className="mt-3 text-center text-[9px] text-[#6B7280] md:text-[10px]">
                     {item.label}
                   </p>
                 </div>
@@ -149,7 +149,7 @@ export function AuditChart({
             })}
           </div>
 
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-[10px] text-[#9CA3AF] sm:gap-4">
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-[10px] text-[#9CA3AF] md:gap-4">
             <span className="inline-flex items-center gap-1">
               <span className="h-2 w-2 rounded-full bg-[#D9DDE3]" />
               LEADS
@@ -190,7 +190,7 @@ export function ForecastChart({ data }: { data: ForecastDatum[] }) {
   const yTicks = [0, 1.5, 3, 4.5, 6];
 
   return (
-    <div className="h-60 w-full sm:h-72">
+    <div className="h-60 w-full md:h-72">
       <svg
         viewBox={`0 0 ${width} ${height}`}
         className="h-full w-full overflow-visible"

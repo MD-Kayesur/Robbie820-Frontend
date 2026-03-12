@@ -12,18 +12,18 @@ export default function FeatureFlagsTab() {
   return (
     <div className="space-y-5 inter">
       <div className="rounded-2xl border border-slate-200 bg-white">
-        <div className="px-4 pt-4 sm:px-5.5 sm:pt-5.5">
+        <div className="px-4 pt-4 md:px-5.5 md:pt-5.5">
           <h2 className="text-base font-semibold text-black inter">
             Platform Feature Controls
           </h2>
         </div>
 
-        <div className="px-4 sm:px-6 inter">
+        <div className="px-4 md:px-6 inter">
           {flags.map((f, idx) => (
             <div
               key={f.key}
               className={cn(
-                "flex flex-col gap-3 py-4 sm:flex-row sm:items-start sm:justify-between",
+                "flex flex-col gap-3 py-4 md:flex-row md:items-start md:justify-between",
                 idx === 0 ? "" : "border-t border-slate-100",
               )}
             >

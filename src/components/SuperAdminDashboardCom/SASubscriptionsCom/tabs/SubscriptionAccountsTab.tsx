@@ -109,7 +109,7 @@ export function SubscriptionAccountsTab({
 }) {
   return (
     <div className="mt-6">
-      <h2 className="text-base font-semibold text-slate-900 sm:text-lg">
+      <h2 className="text-base font-semibold text-slate-900 md:text-lg">
         Active Subscriptions
       </h2>
 

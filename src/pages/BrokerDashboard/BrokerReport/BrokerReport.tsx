@@ -141,10 +141,10 @@ const BrokerReport = () => {
 
   return (
     <>
-      <div className="space-y-5 sm:space-y-6">
+      <div className="space-y-5 md:space-y-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0">
-            <h1 className="text-lg font-medium tracking-[-0.02em] text-[#111827] sm:text-xl">
+            <h1 className="text-lg font-medium tracking-[-0.02em] text-[#111827] md:text-xl">
               Performance Analytics
             </h1>
             <p className="mt-1 text-sm leading-6 text-[#6B7280]">
@@ -152,11 +152,11 @@ const BrokerReport = () => {
             </p>
           </div>
 
-          <div className="grid w-full grid-cols-1 gap-2 sm:w-auto sm:grid-cols-2">
+          <div className="grid w-full grid-cols-1 gap-2 md:w-auto md:grid-cols-2">
             <button
               type="button"
               onClick={exportCSV}
-              className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg border border-[#BEE3F8] bg-[#DFF4FF] px-4 text-xs font-medium tracking-[0.01em] text-[#355268] transition hover:bg-[#d3effd] sm:w-auto"
+              className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg border border-[#BEE3F8] bg-[#DFF4FF] px-4 text-xs font-medium tracking-[0.01em] text-[#355268] transition hover:bg-[#d3effd] md:w-auto"
             >
               <Download className="h-4 w-4" />
               EXPORT CSV
@@ -165,7 +165,7 @@ const BrokerReport = () => {
             <button
               type="button"
               onClick={exportPDF}
-              className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-[#0EA5E9] px-4 text-xs font-medium tracking-[0.01em] text-white transition hover:bg-sky-600 sm:w-auto"
+              className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-[#0EA5E9] px-4 text-xs font-medium tracking-[0.01em] text-white transition hover:bg-sky-600 md:w-auto"
             >
               <Download className="h-4 w-4" />
               EXPORT PDF
@@ -195,10 +195,10 @@ const BrokerReport = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-          <section className="rounded-2xl border border-[#8ED3FF] bg-white p-4 sm:p-5">
-            <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <section className="rounded-2xl border border-[#8ED3FF] bg-white p-4 md:p-5">
+            <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
               <div className="min-w-0">
-                <h2 className="text-base font-semibold tracking-[-0.02em] text-[#111827] sm:text-[18px]">
+                <h2 className="text-base font-semibold tracking-[-0.02em] text-[#111827] md:text-[18px]">
                   Partner Conversion Audit
                 </h2>
                 <p className="mt-1 text-xs text-[#9CA3AF]">
@@ -241,10 +241,10 @@ const BrokerReport = () => {
             />
           </section>
 
-          <section className="rounded-2xl border border-[#8ED3FF] bg-white p-4 sm:p-5">
-            <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <section className="rounded-2xl border border-[#8ED3FF] bg-white p-4 md:p-5">
+            <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
               <div className="min-w-0">
-                <h2 className="text-base font-semibold tracking-[-0.02em] text-[#111827] sm:text-[18px]">
+                <h2 className="text-base font-semibold tracking-[-0.02em] text-[#111827] md:text-[18px]">
                   Settlement Forecast
                 </h2>
                 <p className="mt-1 text-xs text-[#9CA3AF]">

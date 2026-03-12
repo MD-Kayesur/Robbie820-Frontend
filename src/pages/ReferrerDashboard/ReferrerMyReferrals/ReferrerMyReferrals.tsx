@@ -108,7 +108,7 @@ function SelectLikeButton({
         {leftIcon ? (
           <span className="shrink-0 text-[#6F7B82]">{leftIcon}</span>
         ) : null}
-        <span className="truncate text-[16px] sm:text-lg">{value}</span>
+        <span className="truncate text-[16px] md:text-lg">{value}</span>
       </span>
       <ChevronDown className="h-6 w-6 shrink-0 text-black" />
     </button>
@@ -295,9 +295,9 @@ export const ReferrerMyReferrals = () => {
   }
 
   return (
-    <div className="mx-auto w-full max-w-400 bg-white px-4 pb-24 pt-4 sm:px-6 md:px-8 md:pb-8">
+    <div className="mx-auto w-full max-w-400 bg-white px-4 pb-24 pt-4 md:px-6 md:px-8 md:pb-8">
       {/* filters */}
-      <div className="rounded-3xl border border-[#BFE6FF] bg-white p-4 sm:p-5 md:rounded-2xl md:border-slate-200 md:p-4">
+      <div className="rounded-3xl border border-[#BFE6FF] bg-white p-4 md:p-5 md:rounded-2xl md:border-slate-200 md:p-4">
         <div className="grid grid-cols-1 gap-4 md:flex md:flex-wrap md:items-center md:justify-between">
           <div className="grid grid-cols-2 gap-4 md:flex md:flex-wrap md:items-center md:gap-4">
             {/* label */}
@@ -311,7 +311,7 @@ export const ReferrerMyReferrals = () => {
                 )}
               >
                 <Filter className="h-7 w-7 md:h-4 md:w-4" />
-                <span className="text-[16px] sm:text-lg md:text-sm">
+                <span className="text-[16px] md:text-lg md:text-sm">
                   Status
                 </span>
               </button>
@@ -375,7 +375,7 @@ export const ReferrerMyReferrals = () => {
               {rangeOpen ? (
                 <div className="absolute left-0 z-50 mt-2 w-[320px] max-w-[calc(100vw-2rem)] rounded-2xl border border-slate-200 bg-white p-4 shadow-lg md:w-100">
                   <div className="grid gap-3">
-                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                       <div className="space-y-1.5">
                         <p className="text-xs font-semibold text-slate-600">
                           From

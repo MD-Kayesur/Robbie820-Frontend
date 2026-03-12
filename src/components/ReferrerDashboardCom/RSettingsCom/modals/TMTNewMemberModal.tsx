@@ -59,7 +59,7 @@ function StepTitle({
     <div className="flex items-start justify-between gap-4">
       <div>
         <h2 className="font-medium leading-4 text-[#000000]">{title}</h2>
-        <p className="mt-1 text-sm leading-4 text-[#666666]">{subtitle}</p>
+        <p className="mt-2 text-sm leading-4 text-[#666666]">{subtitle}</p>
       </div>
 
       <button
@@ -361,7 +361,7 @@ const TMTNewMemberModal: React.FC<Props> = ({
     <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/25 p-4">
       <div
         ref={panelRef}
-        className="w-full max-w-lg rounded-2xl bg-white p-5 shadow-2xl sm:p-6"
+        className="w-full max-w-lg rounded-2xl bg-white p-5 shadow-2xl md:p-6"
       >
         {step === 1 && (
           <>

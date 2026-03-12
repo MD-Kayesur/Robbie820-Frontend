@@ -22,7 +22,7 @@ export default function OverviewHeader({
       </div>
 
       <div className="flex items-center gap-3">
-        <div className="relative w-full sm:w-65 lg:w-75">
+        <div className="relative w-full md:w-65 lg:w-75">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8d8d8d]" />
           <input
             type="text"

@@ -156,7 +156,7 @@ const BrokerMyReferrals = () => {
             <button
               type="button"
               onClick={() => setExportOpen(true)}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#D3ECF7] px-4 text-[13px] font-medium text-[#374151] transition hover:opacity-90 sm:h-8"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#D3ECF7] px-4 text-[13px] font-medium text-[#374151] transition hover:opacity-90 md:h-8"
             >
               <Download className="h-4 w-4" />
               EXPORT CSV
@@ -165,7 +165,7 @@ const BrokerMyReferrals = () => {
             <button
               type="button"
               onClick={() => setCreateLeadOpen(true)}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#12A9F4] px-4 text-[13px] font-medium text-white transition hover:opacity-90 sm:h-8"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#12A9F4] px-4 text-[13px] font-medium text-white transition hover:opacity-90 md:h-8"
             >
               <Plus className="h-4 w-4" />
               Create Lead
@@ -314,13 +314,13 @@ const BrokerMyReferrals = () => {
             </table>
           </div>
 
-          <div className="flex flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between">
             <p className="text-[12px] text-[#6B7280]">
               Showing {startResult} to {endResult} of {filteredRows.length}{" "}
               results
             </p>
 
-            <div className="flex flex-wrap items-center gap-2 sm:justify-end">
+            <div className="flex flex-wrap items-center gap-2 md:justify-end">
               <button
                 type="button"
                 onClick={() => setPage((prev) => Math.max(1, prev - 1))}

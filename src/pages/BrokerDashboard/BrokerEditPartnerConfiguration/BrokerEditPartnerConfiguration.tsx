@@ -234,7 +234,7 @@ const BrokerEditPartnerConfiguration = () => {
 
   if (!partner) {
     return (
-      <div className="rounded-2xl border border-[#E5E7EB] bg-white p-6 sm:p-8">
+      <div className="rounded-2xl border border-[#E5E7EB] bg-white p-6 md:p-8">
         <p className="text-sm text-[#6B7280]">Partner not found.</p>
       </div>
     );
@@ -297,8 +297,8 @@ const BrokerEditPartnerConfiguration = () => {
 
   return (
     <>
-      <section className="space-y-4 sm:space-y-6">
-        <div className="space-y-3 sm:space-y-4">
+      <section className="space-y-4 md:space-y-6">
+        <div className="space-y-3 md:space-y-4">
           <button
             type="button"
             onClick={() => navigate(`/broker-dashboard/partner-profile/${id}`)}
@@ -309,7 +309,7 @@ const BrokerEditPartnerConfiguration = () => {
           </button>
 
           <div>
-            <h1 className="wrap-break-word text-[26px] font-semibold leading-tight text-[#111827] sm:text-[32px] lg:text-[38px] lg:leading-none">
+            <h1 className="wrap-break-word text-[26px] font-semibold leading-tight text-[#111827] md:text-[32px] lg:text-[38px] lg:leading-none">
               {partner.partnerName}
             </h1>
             <p className="mt-2 text-sm leading-6 text-[#6B7280]">
@@ -319,18 +319,18 @@ const BrokerEditPartnerConfiguration = () => {
           </div>
         </div>
 
-        <div className="grid gap-4 sm:gap-6 2xl:grid-cols-[1.8fr_0.9fr]">
-          <div className="space-y-4 sm:space-y-6">
-            <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <h2 className="text-base font-medium text-[#111827] sm:text-lg">
+        <div className="grid gap-4 md:gap-6 2xl:grid-cols-[1.8fr_0.9fr]">
+          <div className="space-y-4 md:space-y-6">
+            <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 md:p-5">
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <h2 className="text-base font-medium text-[#111827] md:text-lg">
                   Commission Rules & Logic
                 </h2>
 
                 <button
                   type="button"
                   onClick={handleAddRule}
-                  className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-[#0EA5E9] px-4 text-sm font-medium text-white transition hover:bg-[#0284C7] sm:w-auto"
+                  className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-[#0EA5E9] px-4 text-sm font-medium text-white transition hover:bg-[#0284C7] md:w-auto"
                 >
                   <Plus className="h-4 w-4" />
                   Add Rule
@@ -548,13 +548,13 @@ const BrokerEditPartnerConfiguration = () => {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 md:p-5">
+              <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                 <div>
-                  <h2 className="text-base font-medium text-[#111827] sm:text-lg">
+                  <h2 className="text-base font-medium text-[#111827] md:text-lg">
                     Linked Portfolio
                   </h2>
-                  <p className="mt-3 text-[30px] font-semibold leading-none text-[#111827] sm:mt-4 sm:text-[42px]">
+                  <p className="mt-3 text-[30px] font-semibold leading-none text-[#111827] md:mt-4 md:text-[42px]">
                     {config?.linkedPortfolioActiveReferrals ?? 42}
                   </p>
                   <p className="mt-2 text-sm text-[#6B7280]">
@@ -565,7 +565,7 @@ const BrokerEditPartnerConfiguration = () => {
                 <button
                   type="button"
                   onClick={() => console.log("view full pipeline", partner.id)}
-                  className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-[#D1D5DB] bg-white px-4 text-sm font-medium text-[#111827] transition hover:bg-slate-50 sm:w-auto"
+                  className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-[#D1D5DB] bg-white px-4 text-sm font-medium text-[#111827] transition hover:bg-slate-50 md:w-auto"
                 >
                   View Full Pipeline
                   <Link2 className="h-4 w-4" />
@@ -573,8 +573,8 @@ const BrokerEditPartnerConfiguration = () => {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5">
-              <h2 className="text-base font-medium text-[#111827] sm:text-lg">
+            <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 md:p-5">
+              <h2 className="text-base font-medium text-[#111827] md:text-lg">
                 Partner Portal Access
               </h2>
 
@@ -611,7 +611,7 @@ const BrokerEditPartnerConfiguration = () => {
               <div className="mt-6 border-t border-[#E5E7EB] pt-6">
                 <p className="text-sm font-medium text-[#111827]">Actions</p>
 
-                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <div className="mt-4 grid gap-3 md:grid-cols-2">
                   <button
                     type="button"
                     onClick={() => setResetPasswordOpen(true)}
@@ -648,8 +648,8 @@ const BrokerEditPartnerConfiguration = () => {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5">
-            <h2 className="text-base font-medium text-[#111827] sm:text-lg">
+          <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 md:p-5">
+            <h2 className="text-base font-medium text-[#111827] md:text-lg">
               Setup Configuration
             </h2>
 
@@ -687,7 +687,7 @@ const BrokerEditPartnerConfiguration = () => {
                   ))}
                 </div>
 
-                <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+                <div className="mt-4 flex flex-col gap-2 md:flex-row">
                   <input
                     type="text"
                     value={newAgreement}
@@ -698,7 +698,7 @@ const BrokerEditPartnerConfiguration = () => {
                   <button
                     type="button"
                     onClick={handleAddAgreement}
-                    className="inline-flex h-10 items-center justify-center rounded-xl border border-[#D1D5DB] px-4 text-sm font-medium text-[#111827] transition hover:bg-slate-50 sm:w-auto"
+                    className="inline-flex h-10 items-center justify-center rounded-xl border border-[#D1D5DB] px-4 text-sm font-medium text-[#111827] transition hover:bg-slate-50 md:w-auto"
                   >
                     + Add
                   </button>

@@ -51,7 +51,7 @@ const ReferrerNotifications = () => {
       <div
         className={cn(
           "rounded-2xl bg-[#00B4FE] px-5 py-5 text-white",
-          "sm:px-7 sm:py-6",
+          "md:px-7 md:py-6",
           "shadow-sm",
         )}
       >
@@ -60,10 +60,10 @@ const ReferrerNotifications = () => {
             <div className="grid h-9 w-9 place-items-center rounded-lg bg-white/15 ring-1 ring-white/20">
               <BadgeInfo className="h-5 w-5" />
             </div>
-            <h1 className="text-sm font-semibold sm:text-base">Stay Updated</h1>
+            <h1 className="text-sm font-semibold md:text-base">Stay Updated</h1>
           </div>
         </div>
-        <p className="mt-2 max-w-3xl leading-7.5 sm:text-sm sm:leading-6">
+        <p className="mt-2 max-w-3xl leading-7.5 md:text-sm md:leading-6">
           Notifications keep you informed about critical updates in your
           portfolio. We alert you whenever a client’s loan status changes, when
           commissions are calculated, or when a payment is successfully settled
@@ -72,9 +72,9 @@ const ReferrerNotifications = () => {
       </div>
 
       {/* header row */}
-      <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-10 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-6">
-          <p className="font-medium text-slate-900 sm:text-base">
+          <p className="font-medium text-slate-900 md:text-base">
             Recent Notifications
           </p>
 
@@ -132,7 +132,7 @@ const ReferrerNotifications = () => {
                   <p className="truncate text-sm font-medium text-slate-900">
                     {it.title}
                   </p>
-                  <p className="mt-1 line-clamp-2 leading-5 text-slate-500 sm:text-sm">
+                  <p className="mt-1 line-clamp-2 leading-5 text-slate-500 md:text-sm">
                     {it.message}
                   </p>
                 </div>

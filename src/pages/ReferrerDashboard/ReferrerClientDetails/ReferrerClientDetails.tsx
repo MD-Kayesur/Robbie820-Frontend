@@ -135,7 +135,7 @@ const ReferrerClientDetails = () => {
       {/* hero card */}
       <SectionCard className="p-3">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+          <div className="flex min-w-0 items-center gap-3 md:gap-4">
             <div className="relative shrink-0">
               <div className="grid h-11.5 w-11.5 place-items-center rounded-lg bg-[#19A8F3] text-3xl font-medium text-white">
                 {data.avatarText}
@@ -156,12 +156,12 @@ const ReferrerClientDetails = () => {
             </span>
           </div>
 
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:justify-end">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between lg:justify-end">
             <span className="inline-flex h-8 w-fit items-center rounded-full border border-[#5BC3F6] bg-[#F5F5F5] px-4 text-[13px] font-medium uppercase text-[#0DA7F4] md:hidden">
               {data.badgeText}
             </span>
 
-            <div className="w-full rounded-xl border border-[#D2D2D2] bg-[#F7F7F7] px-4 py-4 sm:w-44.5">
+            <div className="w-full rounded-xl border border-[#D2D2D2] bg-[#F7F7F7] px-4 py-4 md:w-44.5">
               <p className="text-[13px] text-[#7E7E7E]">
                 Expected Referral Fee
               </p>
@@ -176,7 +176,7 @@ const ReferrerClientDetails = () => {
       {/* content grid */}
       <div className="space-y-8">
         <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_255px]">
-          <SectionCard className="px-5 py-6 sm:px-6">
+          <SectionCard className="px-5 py-6 md:px-6">
             <div className="flex items-center gap-3">
               <Clock3 className="h-5 w-5 text-[#16AAF5]" strokeWidth={1.9} />
               <h2 className="text-[16px] font-medium text-black">
@@ -184,7 +184,7 @@ const ReferrerClientDetails = () => {
               </h2>
             </div>
 
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               {data.progressTimeline.map((item) => (
                 <ProgressStepCard key={item.id} item={item} />
               ))}
@@ -211,7 +211,7 @@ const ReferrerClientDetails = () => {
         </div>
 
         <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_255px]">
-          <SectionCard className="px-5 py-7 sm:px-6">
+          <SectionCard className="px-5 py-7 md:px-6">
             <div className="grid grid-cols-[minmax(0,1fr)_160px] items-center gap-4 border-b border-[#EAEAEA] pb-5">
               <h2 className="text-[16px] font-semibold uppercase tracking-[0.02em] text-[#3C3C3C]">
                 Status History
@@ -226,7 +226,7 @@ const ReferrerClientDetails = () => {
                 <div
                   key={item.id}
                   className={cn(
-                    "grid grid-cols-1 gap-3 py-6 sm:grid-cols-[minmax(0,1fr)_160px] sm:items-center",
+                    "grid grid-cols-1 gap-3 py-6 md:grid-cols-[minmax(0,1fr)_160px] md:items-center",
                     idx === data.statusHistory.length - 1 ? "pb-2" : "",
                   )}
                 >
@@ -239,7 +239,7 @@ const ReferrerClientDetails = () => {
                     </p>
                   </div>
 
-                  <p className="text-left text-[16px] font-medium text-black sm:text-right">
+                  <p className="text-left text-[16px] font-medium text-black md:text-right">
                     {item.date}
                   </p>
                 </div>

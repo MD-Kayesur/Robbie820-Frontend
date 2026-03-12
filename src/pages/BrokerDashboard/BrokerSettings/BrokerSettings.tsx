@@ -198,13 +198,13 @@ const BrokerSettings = () => {
           </div>
         </div>
 
-        <div className="flex w-full gap-3 sm:w-auto sm:flex-row">
+        <div className="flex w-full gap-3 md:w-auto md:flex-row">
           <button
             type="button"
             onClick={handleResetChanges}
             disabled={!isDirty}
             className={cn(
-              "inline-flex h-11 w-full items-center justify-center rounded-[10px] border px-5 text-[15px] font-medium transition sm:h-12 sm:w-auto sm:text-[16px]",
+              "inline-flex h-11 w-full items-center justify-center rounded-[10px] border px-5 text-[15px] font-medium transition md:h-12 md:w-auto md:text-[16px]",
               isDirty
                 ? "border-[#D1D5DB] bg-white text-[#374151] hover:bg-slate-50"
                 : "cursor-not-allowed border-[#E5E7EB] bg-[#F9FAFB] text-[#9CA3AF]",
@@ -218,20 +218,20 @@ const BrokerSettings = () => {
             onClick={handleSaveAll}
             disabled={!isDirty}
             className={cn(
-              "inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] px-5 text-[15px] font-medium text-white transition sm:h-12 sm:w-auto sm:text-[18px]",
+              "inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] px-5 text-[15px] font-medium text-white transition md:h-12 md:w-auto md:text-[18px]",
               isDirty
                 ? "bg-[#0EA5E9] hover:bg-sky-600"
                 : "cursor-not-allowed bg-sky-300",
             )}
           >
-            <Save className="h-4 w-4 sm:h-5 sm:w-5" />
+            <Save className="h-4 w-4 md:h-5 md:w-5" />
             Save Changes
           </button>
         </div>
       </div>
 
       <div className="border-t border-[#E5E7EB] pt-4">
-        <div className="grid grid-cols-1 gap-2 rounded-xl border border-[#63C8FF] bg-[#EEF8FF] p-2 sm:grid-cols-2 xl:inline-flex xl:flex-wrap">
+        <div className="grid grid-cols-1 gap-2 rounded-xl border border-[#63C8FF] bg-[#EEF8FF] p-2 md:grid-cols-2 xl:inline-flex xl:flex-wrap">
           {settingsTabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.key;
@@ -242,7 +242,7 @@ const BrokerSettings = () => {
                 type="button"
                 onClick={() => setActiveTab(tab.key)}
                 className={cn(
-                  "inline-flex h-10 items-center justify-center gap-2 rounded-lg px-4 text-center text-[14px] font-medium transition sm:text-[15px] xl:justify-start xl:text-[16px]",
+                  "inline-flex h-10 items-center justify-center gap-2 rounded-lg px-4 text-center text-[14px] font-medium transition md:text-[15px] xl:justify-start xl:text-[16px]",
                   isActive
                     ? "bg-black text-white"
                     : "text-[#111827] hover:bg-white",
