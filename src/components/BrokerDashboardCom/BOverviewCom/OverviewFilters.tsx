@@ -56,7 +56,7 @@ export default function OverviewFilters({
   const [calendarOpen, setCalendarOpen] = useState(false);
 
   return (
-    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+    <div className="flex flex-col gap-1 md:gap-3 lg:flex-row lg:items-center lg:justify-between">
       <div className="inline-flex w-full rounded-xl border border-[#E5E7EB] bg-white p-1 lg:w-auto">
         {rangeOptions.map((item) => (
           <button
@@ -64,7 +64,7 @@ export default function OverviewFilters({
             type="button"
             onClick={() => onRangeChange(item)}
             className={cn(
-              "flex-1 rounded-md px-4 py-1 my-0.5 text-sm font-medium transition md:px-5 lg:flex-none",
+              "flex-1 rounded-md py-1 my-0.5 text-sm font-medium transition md:px-5 lg:flex-none",
               range === item
                 ? "bg-black text-white"
                 : "text-[#222] hover:bg-[#F4F4F5]",
@@ -75,8 +75,8 @@ export default function OverviewFilters({
         ))}
       </div>
 
-      <div className="flex flex-col gap-3 md:flex-row md:flex-wrap md:items-center lg:flex-nowrap lg:justify-end">
-        <div className="grid grid-cols-2 gap-3 md:flex md:flex-wrap md:items-center lg:grid-cols-none">
+      <div className="flex flex-col gap-1 md:gap-3 md:flex-row md:flex-wrap md:items-center lg:flex-nowrap lg:justify-end">
+        <div className="grid gap-1 md:gap3 md:flex md:flex-wrap md:items-center lg:grid-cols-none">
           <div className="relative">
             <button
               type="button"
@@ -84,7 +84,7 @@ export default function OverviewFilters({
                 setFilterOpen((prev) => !prev);
                 setCalendarOpen(false);
               }}
-              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#E5E7EB] leading-none  bg-white px-4 text-sm font-medium text-[#222] md:w-auto md:justify-start"
+              className="inline-flex h-9 md:h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#E5E7EB] leading-none  bg-white px-4 text-sm font-medium text-[#222] md:w-auto md:justify-start"
             >
               <Filter className="h-4 w-4 shrink-0" strokeWidth={1.8} />
               <span>Filter</span>
@@ -138,7 +138,7 @@ export default function OverviewFilters({
                 setCalendarOpen((prev) => !prev);
                 setFilterOpen(false);
               }}
-              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#E5E7EB] bg-white px-4 text-sm leading-none font-medium text-[#222] md:w-auto md:justify-start"
+              className="inline-flex h-9 md:h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#E5E7EB] bg-white px-4 text-sm leading-none font-medium text-[#222] md:w-auto md:justify-start"
             >
               <Calendar className="h-4 w-4 shrink-0" strokeWidth={1.8} />
               <span className="truncate">{dateLabel}</span>
@@ -208,7 +208,7 @@ export default function OverviewFilters({
         <button
           type="button"
           onClick={onCreateLead}
-          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#1BAEF5] px-5 text-sm font-medium text-white transition hover:bg-[#129fe2] md:w-auto lg:rounded-md leading-none"
+          className="inline-flex h-9 md:h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#1BAEF5] px-5 text-sm font-medium text-white transition hover:bg-[#129fe2] md:w-auto lg:rounded-md leading-none"
         >
           <Plus size={20} />
           Create Lead

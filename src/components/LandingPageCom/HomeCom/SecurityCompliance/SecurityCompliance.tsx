@@ -54,7 +54,7 @@ const SecurityCompliance = () => {
               <h2 className="text-lg leading-5 font-medium md:leading-none mb-2 md:mb-8 text-[#12A8F5] md:text-[34px]">
                 Built For Security & Compliance
               </h2>
-              <p className="mx-auto max-w-2xl text-black text-sm md:text-lg md:leading-none">
+              <p className="max-w-2xl text-black text-sm md:text-lg md:leading-none">
                 Your Financial Data Deserves Enterprise-Grade Protection. We
                 Take Security Seriously So You Can Focus On Growing Your
                 Business.

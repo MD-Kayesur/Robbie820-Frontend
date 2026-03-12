@@ -44,7 +44,7 @@ const HowItWorks = () => {
             <h2 className="text-lg leading-5 font-medium md:leading-none mb-2 md:mb-8 text-[#12A8F5] md:text-[34px]">
               How ReferNow Works
             </h2>
-            <p className="mx-auto max-w-2xl text-black text-sm md:text-lg md:leading-none">
+            <p className="max-w-2xl text-black text-sm md:text-lg md:leading-none">
               From Signup To Payout In Four Simple Steps
             </p>
             <div className="mt-8 h-px w-full bg-[#E5E7EB]" />

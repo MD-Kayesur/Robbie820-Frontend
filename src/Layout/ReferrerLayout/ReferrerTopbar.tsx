@@ -95,7 +95,7 @@ export default function ReferrerTopbar({ onOpenSidebar }: Props) {
         </div>
 
         {/* Main content */}
-        <div className="px-4 md:px-5 md:px-6 md:pt-8 xl:px-7.5 xl:pt-11">
+        <div className="px-4 md:px-5 md:pt-8 xl:px-7.5 xl:pt-11">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             {/* Left */}
             <div className="min-w-0">
