@@ -114,13 +114,12 @@ const ReferrerSettings = () => {
   }
 
   return (
-    <div className="mx-auto w-full bg-white px-4 pb-10 pt-5 md:px-6 md:px-8 md:pb-12 md:pt-8 clash">
+    <div className="mx-auto w-full bg-white px-4 pb-10 pt-5 md:px-6 md:pb-12 md:pt-8 clash">
       {/* tabs */}
       <div className="overflow-x-auto no-scrollbar max-w-4xl mx-auto">
         <div className="mb-6 flex min-w-max mx-auto items-center gap-2.5 justify-center">
           {tabs.map((t) => {
             const active = t === tab;
-
             return (
               <button
                 key={t}

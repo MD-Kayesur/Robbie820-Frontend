@@ -21,7 +21,7 @@ function Field({
     <div className={cn("relative pt-3", className)}>
       <div
         className={cn(
-          "relative rounded-lg bg-white px-5 pt-3 pb-4",
+          "relative rounded-lg bg-white",
           !noBorder && "border border-[#AFAFAF]",
         )}
       >
@@ -35,7 +35,7 @@ function Field({
 }
 
 const inputBase =
-  "w-full border-0 bg-transparent p-0 placeholder:text-[#CDCDCD] text-xs";
+  "w-full border-0 bg-transparent px-5 pt-3 pb-4 placeholder:text-[#CDCDCD] text-xs";
 
 export default function MyProfileTab({
   value,
@@ -112,15 +112,15 @@ export default function MyProfileTab({
           </Field>
 
           <Field label="Verification Status">
-            <div className="flex min-h-6 items-center">
-              <span className="text-xs text-[#1B7231]">
+            <div className="flex min-h-11 items-center">
+              <span className="ml-6 text-xs text-[#1B7231]">
                 {form.verificationStatus}
               </span>
             </div>
           </Field>
 
           <Field label="Account Status" noBorder>
-            <div className="flex min-h-6 items-center">
+            <div className="flex min-h-11 items-center">
               <span className="inline-flex items-center rounded-full border border-[#4ADE80] bg-[#15D9461A] ml-6 px-6 py-2 text-xs leading-none text-[#15D946]">
                 {form.accountStatus}
               </span>
@@ -139,8 +139,8 @@ export default function MyProfileTab({
           </Field>
 
           <Field label="GST Registered" className="md:col-span-1">
-            <div className="flex min-h-6 items-center justify-between gap-4">
-              <span className="text-[17px] lowercase text-black md:text-sm">
+            <div className="flex min-h-11 items-center justify-between gap-4">
+              <span className="ml-6 lowercase text-black text-sm">
                 {form.gstRegistered ? "yes" : "no"}
               </span>
 

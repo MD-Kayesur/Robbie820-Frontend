@@ -63,7 +63,7 @@ const ReferrerNotifications = () => {
             <h1 className="text-sm font-semibold md:text-base">Stay Updated</h1>
           </div>
         </div>
-        <p className="mt-2 max-w-3xl leading-7.5 md:text-sm md:leading-6">
+        <p className="mt-2 max-w-3xl text-sm leading-6">
           Notifications keep you informed about critical updates in your
           portfolio. We alert you whenever a client’s loan status changes, when
           commissions are calculated, or when a payment is successfully settled
