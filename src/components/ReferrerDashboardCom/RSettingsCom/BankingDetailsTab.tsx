@@ -6,7 +6,7 @@ import { BankingForm } from "@/pages/ReferrerDashboard/ReferrerSettings/types";
 import { cn } from "@/hooks/useCn";
 
 const inputBase =
-  "h-17 w-full rounded-[18px] border border-[#D9DDE3] bg-white px-7 text-[16px] text-[#C9CED6] outline-none placeholder:text-[#C9CED6] focus:ring-2 focus:ring-sky-200 md:h-11 md:rounded-xl md:px-4 md:text-sm";
+  "w-full border border-[#D9DDE3] bg-white text-base text-[#C9CED6] placeholder:text-[#C9CED6] rounded-xl px-4 py-2";
 
 function Field({
   label,
@@ -17,7 +17,7 @@ function Field({
 }) {
   return (
     <div className="space-y-3 md:space-y-2.5">
-      <p className="text-[16px] font-bold uppercase leading-none text-[#666666] md:text-xs md:leading-4 md:tracking-wide">
+      <p className="font-bold uppercase leading-none text-[#666666] text-xs md:leading-4 md:tracking-wide">
         {label}
       </p>
       {children}
@@ -43,19 +43,19 @@ export default function BankingDetailsTab({
 
   return (
     <div className="mx-auto max-w-2xl">
-      <div className="space-y-8 rounded-2xl border border-[#BEEAFF] bg-white p-6 md:space-y-10 md:p-10">
+      <div className="space-y-6 rounded-2xl border border-[#BEEAFF] bg-white p-4 md:space-y-10 md:p-10">
         {/* header */}
         <div className="flex items-center gap-4">
-          <div className="grid shrink-0 place-items-center bg-emerald-100 text-emerald-700 h-12 w-12 rounded-2xl">
+          <div className="grid shrink-0 place-items-center bg-emerald-100 text-emerald-700 p-2.5 rounded-2xl">
             <CreditCard className="h-6 w-6" />
           </div>
-          <p className="font-bold leading-none text-black text-2xl md:text-slate-900">
+          <p className="font-bold leading-none text-black text-lg sm:text-2xl md:text-slate-900">
             Banking Details
           </p>
         </div>
 
         {/* form */}
-        <div className="grid gap-7 md:grid-cols-2 md:gap-5">
+        <div className="grid md:grid-cols-2 gap-5">
           <Field label="BANK NAME">
             <input
               className={inputBase}
@@ -101,7 +101,7 @@ export default function BankingDetailsTab({
           </Field>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center">
+        <div className="flex flex-col md:flex-row justify-between gap-2 items-center">
           {/* note */}
           <p className="text-[#666666] max-w-sm text-sm leading-6">
             <span className="font-bold text-emerald-600">Note:</span> Changing
