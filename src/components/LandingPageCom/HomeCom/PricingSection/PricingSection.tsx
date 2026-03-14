@@ -73,11 +73,10 @@ const PricingSection = () => {
         <img src={gridLeft} alt="" className="w-full h-auto" />
       </div>
 
-      {/* content */}
-      <div className="max-w-6xl mx-auto relative z-10">
-        <div className="text-center mb-6 md:mb-16">
-          <h2 className="text-xl leading-5 font-medium md:leading-none mb-3 md:mb-8 text-[#12A8F5] md:text-[34px]">
-            Simple, Transparent Pricing
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-medium tracking-tight text-[#12A8F5] md:text-4xl">
+            How Refer Now Works
           </h2>
           <p className="mx-auto text-black text-sm md:text-lg leading-4.5 md:leading-none mb-6">
             Choose The Plan That Fits Your Business. No Hidden Fees.
