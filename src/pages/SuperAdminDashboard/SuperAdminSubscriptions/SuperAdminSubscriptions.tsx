@@ -15,6 +15,8 @@ import { Dropdown } from "@/components/SuperAdminDashboardCom/SASubscriptionsCom
 import { SubscriptionAccountsTab } from "@/components/SuperAdminDashboardCom/SASubscriptionsCom/tabs/SubscriptionAccountsTab";
 import { PlansPricingTab } from "@/components/SuperAdminDashboardCom/SASubscriptionsCom/tabs/PlansPricingTab";
 import { RevenueAnalyticsTab } from "@/components/SuperAdminDashboardCom/SASubscriptionsCom/tabs/RevenueAnalyticsTab";
+import { CreatePlanModal } from "@/components/SuperAdminDashboardCom/SASubscriptionsCom/modals/CreatePlanModal";
+
 
 export default function SuperAdminSubscriptions() {
   const [tab, setTab] = useState<Tab>("Subscription Accounts");
@@ -32,6 +34,8 @@ export default function SuperAdminSubscriptions() {
 
   const [plans, setPlans] = useState<PlanCard[]>(plansMock);
   const [editPlan, setEditPlan] = useState<PlanCard | null>(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+
 
   const filteredSubscriptions = useMemo(() => {
     const s = q.trim().toLowerCase();
@@ -78,11 +82,13 @@ export default function SuperAdminSubscriptions() {
 
           <button
             type="button"
+            onClick={() => setShowCreateModal(true)}
             className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#070A1A] px-4 text-sm font-medium text-white shadow-sm hover:opacity-95 md:w-auto"
           >
             <Plus className="h-4 w-4" />
             Create New Plan
           </button>
+
         </div>
 
         {/* divider */}
@@ -139,10 +145,22 @@ export default function SuperAdminSubscriptions() {
             editPlan={editPlan}
             setEditPlan={setEditPlan}
           />
+
         )}
+
 
         {tab === "Revenue Analytics" && <RevenueAnalyticsTab />}
       </div>
+
+      <CreatePlanModal
+        open={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        onCreate={(next) => {
+          setPlans((prev) => [...prev, next]);
+          setTab("Plans & Pricing");
+        }}
+      />
     </div>
+
   );
 }

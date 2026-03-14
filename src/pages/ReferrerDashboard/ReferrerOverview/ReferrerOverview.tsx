@@ -369,7 +369,7 @@ export default function ReferrerOverview() {
           </button>
 
           {calOpen ? (
-            <div className="absolute left-0 top-[calc(100%+8px)] z-50 w-full rounded-2xl border border-slate-200 bg-white p-4 shadow-lg md:w-90">
+            <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-full rounded-2xl border border-slate-200 bg-white p-4 shadow-lg md:w-90">
               <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
                 Custom range (months)
               </p>

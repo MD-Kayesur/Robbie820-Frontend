@@ -1,7 +1,9 @@
 // src/pages/SuperAdminDashboard/SuperAdminIntegrations/SuperAdminIntegrations.tsx
 import { useMemo, useState } from "react";
 import { Info, MoreVertical } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import IntegrationDetailsModal from "@/components/SuperAdminDashboardCom/SAIntegrationsCom/modals/IntegrationDetailsModal";
+import ConfirmationModal from "@/components/SuperAdminDashboardCom/SAIntegrationsCom/modals/ConfirmationModal";
 import { integrationCardsMock, webhookRowsMock } from "./mock";
 import type {
   AlertTone,
@@ -75,22 +77,48 @@ function WebhookStatusPill({ s }: { s: WebhookRow["status"] }) {
 }
 
 export default function SuperAdminIntegrations() {
+  const navigate = useNavigate();
   const [filter, setFilter] = useState<Filter>("All");
+  const [integrations, setIntegrations] = useState<IntegrationCardData[]>(integrationCardsMock);
   const [selected, setSelected] = useState<IntegrationCardData | null>(null);
+  const [confirming, setConfirming] = useState<IntegrationCardData | null>(null);
 
   const shownCards = useMemo(() => {
-    if (filter === "All") return integrationCardsMock;
+    if (filter === "All") return integrations;
     if (filter === "Active")
-      return integrationCardsMock.filter((c) => c.status === "Connected");
+      return integrations.filter((c) => c.status === "Connected");
     if (filter === "Inactive")
-      return integrationCardsMock.filter((c) => c.status === "Disconnected");
+      return integrations.filter((c) => c.status === "Disconnected");
     if (filter === "Error")
-      return integrationCardsMock.filter((c) => c.syncErrors > 0);
+      return integrations.filter((c) => c.syncErrors > 0);
 
-    return integrationCardsMock.filter(
+    return integrations.filter(
       (c) => c.status === "Warning" || c.syncErrors > 0,
     );
-  }, [filter]);
+  }, [filter, integrations]);
+
+  const onViewLogs = (item: IntegrationCardData) => {
+    navigate("/super-admin/audit-logs", { state: { q: item.name } });
+  };
+
+  const onToggleStatus = (item: IntegrationCardData) => {
+    setIntegrations((prev) =>
+      prev.map((c) =>
+        c.id === item.id
+          ? {
+              ...c,
+              status: c.status === "Disconnected" ? "Connected" : "Disconnected",
+            }
+          : c,
+      ),
+    );
+    if (selected?.id === item.id) {
+      setSelected((prev) => prev ? ({
+        ...prev,
+        status: prev.status === "Disconnected" ? "Connected" : "Disconnected",
+      }) : null);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -129,6 +157,14 @@ export default function SuperAdminIntegrations() {
               key={c.id}
               item={c}
               onViewDetails={() => setSelected(c)}
+              onViewLogs={() => onViewLogs(c)}
+              onToggleStatus={() => {
+                if (c.status === "Disconnected") {
+                  onToggleStatus(c);
+                } else {
+                  setConfirming(c);
+                }
+              }}
             />
           ))}
         </div>
@@ -287,6 +323,25 @@ export default function SuperAdminIntegrations() {
         open={!!selected}
         item={selected}
         onClose={() => setSelected(null)}
+        onToggleStatus={() => {
+          if (selected) {
+            if (selected.status === "Disconnected") {
+              onToggleStatus(selected);
+            } else {
+              setConfirming(selected);
+            }
+          }
+        }}
+      />
+
+      <ConfirmationModal
+        open={!!confirming}
+        onClose={() => setConfirming(null)}
+        onConfirm={() => confirming && onToggleStatus(confirming)}
+        title={confirming?.status === "Disconnected" ? "Enable Integration?" : "Disable Integration?"}
+        description={`Are you sure you want to ${confirming?.status === "Disconnected" ? "enable" : "disable"} the ${confirming?.name} integration? This may affect automated workflows.`}
+        confirmLabel={confirming?.status === "Disconnected" ? "Enable" : "Disable"}
+        variant={confirming?.status === "Disconnected" ? "primary" : "danger"}
       />
     </div>
   );

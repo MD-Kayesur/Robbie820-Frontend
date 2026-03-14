@@ -6,9 +6,13 @@ import { IntegrationCardData } from "@/pages/SuperAdminDashboard/SuperAdminInteg
 export function IntegrationCard({
   item,
   onViewDetails,
+  onViewLogs,
+  onToggleStatus,
 }: {
   item: IntegrationCardData;
   onViewDetails: () => void;
+  onViewLogs: () => void;
+  onToggleStatus: () => void;
 }) {
   const Icon = item.icon;
 
@@ -59,7 +63,7 @@ export function IntegrationCard({
       <button
         type="button"
         onClick={onViewDetails}
-        className="mt-4 w-full rounded-xl border border-slate-200 bg-white py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50"
+        className="mt-4 w-full rounded-xl border border-slate-200 bg-white py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50 transition-colors"
       >
         View Details
       </button>
@@ -67,15 +71,22 @@ export function IntegrationCard({
       <div className="mt-3 grid gap-3 grid-cols-2">
         <button
           type="button"
-          className="rounded-xl border border-slate-200 bg-white py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50"
+          onClick={onViewLogs}
+          className="rounded-xl border border-slate-200 bg-white py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50 transition-colors"
         >
           View Logs
         </button>
         <button
           type="button"
-          className="rounded-xl border border-slate-200 bg-white py-2 text-sm font-semibold text-[#D76C6C] hover:bg-rose-50"
+          onClick={onToggleStatus}
+          className={cn(
+            "rounded-xl border border-slate-200 py-2 text-sm font-semibold transition-colors",
+            item.status === "Disconnected"
+              ? "bg-emerald-600 text-white hover:bg-emerald-700 border-none"
+              : "bg-white text-[#D76C6C] hover:bg-rose-50 border-slate-200"
+          )}
         >
-          Disable
+          {item.status === "Disconnected" ? "Enable" : "Disable"}
         </button>
       </div>
     </div>
