@@ -1,5 +1,5 @@
 import { Camera, Trash2 } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import type { BrokerProfile } from "../types";
 
@@ -10,6 +10,7 @@ type AccountProfileTabProps = {
 
 const AccountProfileTab = ({ profile, onChange }: AccountProfileTabProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [photoError, setPhotoError] = useState("");
 
   const updateField = <K extends keyof BrokerProfile>(
     key: K,
@@ -30,10 +31,11 @@ const AccountProfileTab = ({ profile, onChange }: AccountProfileTabProps) => {
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
-      alert("Please select a valid image file.");
+      setPhotoError("Please select a valid image file.");
       return;
     }
 
+    setPhotoError("");
     const reader = new FileReader();
 
     reader.onloadend = () => {
@@ -52,6 +54,7 @@ const AccountProfileTab = ({ profile, onChange }: AccountProfileTabProps) => {
   };
 
   const handleRemovePhoto = () => {
+    setPhotoError("");
     onChange({
       ...profile,
       photo: "",
@@ -172,6 +175,12 @@ const AccountProfileTab = ({ profile, onChange }: AccountProfileTabProps) => {
           <Camera className="h-4 w-4" />
           {profile.photo ? "Change Photo" : "Upload Photo"}
         </button>
+
+        {photoError ? (
+          <p className="mt-2 text-sm text-red-600" role="alert">
+            {photoError}
+          </p>
+        ) : null}
 
         {profile.photo ? (
           <button

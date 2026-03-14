@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { BadgeInfo, ChevronRight } from "lucide-react";
+import { toast } from "sonner";
 
 import type { NotificationItem } from "./types";
 import { notificationMeta, notificationsMock } from "./mock";
@@ -17,6 +18,8 @@ const iconWrapBase =
 
 const chevronBtnBase =
   "grid h-9 w-9 place-items-center rounded-lg border border-slate-200 bg-[#0000000D] text-slate-600 hover:bg-slate-50 active:scale-[0.99] transition";
+
+const MARK_ALL_READ_ID = "referrer-notifications-mark-all-read";
 
 const ReferrerNotifications = () => {
   const [items, setItems] = useState<NotificationItem[]>(notificationsMock);
@@ -35,9 +38,7 @@ const ReferrerNotifications = () => {
   }
 
   function openNotification(it: NotificationItem) {
-    // keep functionality (you can swap with route/modal later)
-    // eslint-disable-next-line no-alert
-    alert(`${it.title}\n\n${it.message}`);
+    toast.info(it.title, { description: it.message });
     if (!it.read) {
       setItems((prev) =>
         prev.map((p) => (p.id === it.id ? { ...p, read: true } : p)),
@@ -88,12 +89,17 @@ const ReferrerNotifications = () => {
           </span>
         </div>
 
-        <label className="flex items-center gap-2.5 leading-4 text-sm font-medium text-[#00B4FE]">
+        <label
+          htmlFor={MARK_ALL_READ_ID}
+          className="flex items-center gap-2.5 leading-4 text-sm font-medium text-[#00B4FE] cursor-pointer"
+        >
           <input
+            id={MARK_ALL_READ_ID}
             type="checkbox"
             checked={allRead}
             onChange={(e) => markAllAsRead(e.target.checked)}
             className="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-200"
+            aria-label="Mark all notifications as read"
           />
           Mark all as read
         </label>

@@ -406,8 +406,8 @@ export default function BrokerOverview() {
         <RecentLeadsTable
           leads={filteredLeads}
           onOpenDetails={(id) => navigate(`/broker-dashboard/leads/${id}`)}
-          onUpdateStatus={(id) => console.log("update status", id)}
-          onAddNote={(id) => console.log("add note", id)}
+          onUpdateStatus={() => {}}
+          onAddNote={() => {}}
         />
       </div>
 

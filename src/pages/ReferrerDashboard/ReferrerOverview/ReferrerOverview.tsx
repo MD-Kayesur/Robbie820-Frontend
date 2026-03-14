@@ -136,7 +136,10 @@ function MetricCard({ m }: { m: Metric }) {
             <div className="h-7" />
           )}
 
-          <Info className="mt-0.5 h-4 w-4 rotate-180 text-black" />
+          <Info
+            className="mt-0.5 h-4 w-4 rotate-180 text-black"
+            aria-hidden
+          />
         </div>
       </div>
 
@@ -345,6 +348,9 @@ export default function ReferrerOverview() {
           <button
             type="button"
             onClick={() => setCalOpen((v) => !v)}
+            aria-expanded={calOpen}
+            aria-haspopup="dialog"
+            aria-label="Choose date range"
             className={cn(
               "inline-flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50 md:w-auto md:gap-6 md:rounded-md md:px-4 md:py-4",
             )}

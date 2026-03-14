@@ -14,27 +14,7 @@ import {
 } from "@/pages/ReferrerDashboard/ReferrerSettings/types";
 import { cn } from "@/hooks/useCn";
 import TeamMemberDetailsModal from "./modals/TMTDetailsModal";
-
-function useOutsideClose<T extends HTMLElement>(
-  open: boolean,
-  onClose: () => void,
-) {
-  const ref = React.useRef<T | null>(null);
-
-  React.useEffect(() => {
-    if (!open) return;
-
-    const onDown = (e: MouseEvent) => {
-      if (!ref.current) return;
-      if (!ref.current.contains(e.target as Node)) onClose();
-    };
-
-    document.addEventListener("mousedown", onDown);
-    return () => document.removeEventListener("mousedown", onDown);
-  }, [open, onClose]);
-
-  return ref;
-}
+import { useOutsideClose } from "@/hooks/useOutsideClose";
 
 function PermPill({ value }: { value: TeamPermission }) {
   return (

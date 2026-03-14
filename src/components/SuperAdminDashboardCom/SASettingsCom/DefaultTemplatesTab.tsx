@@ -43,7 +43,7 @@ export default function DefaultTemplatesTab() {
                   <div className="grid grid-cols-2 gap-2 md:flex md:shrink-0 md:items-center">
                     <button
                       type="button"
-                      onClick={() => console.log("Preview", t.id)}
+                      onClick={() => {}}
                       className={cn(
                         "inline-flex h-9 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3",
                         "text-xs font-semibold text-slate-700 hover:bg-slate-50",
@@ -55,7 +55,7 @@ export default function DefaultTemplatesTab() {
 
                     <button
                       type="button"
-                      onClick={() => console.log("Edit", t.id)}
+                      onClick={() => {}}
                       className={cn(
                         "inline-flex h-9 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3",
                         "text-xs font-semibold text-slate-700 hover:bg-slate-50",

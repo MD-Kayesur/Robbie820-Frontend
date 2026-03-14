@@ -88,16 +88,20 @@ function SelectLikeButton({
   value,
   onClick,
   className,
+  ariaLabel,
 }: {
   leftIcon?: React.ReactNode;
   value: string;
   onClick: () => void;
   className?: string;
+  ariaLabel?: string;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
+      aria-label={ariaLabel}
+      aria-haspopup="listbox"
       className={cn(
         "flex py-2.5 w-full rounded-lg items-center justify-between gap-3 border bg-white px-5 text-left",
         "border-[#D6DEDD] text-[#6F7B82] hover:bg-slate-50",
@@ -135,6 +139,7 @@ function Menu({
         className,
       )}
       role="menu"
+      aria-hidden={!open}
     >
       {items.map((it) => (
         <button
@@ -276,11 +281,17 @@ export const ReferrerMyReferrals = () => {
   const filtered = useMemo(() => {
     return rows
       .filter((r) => (status === "All Statuses" ? true : r.status === status))
-      .filter((r) => inMonthRange(r.dateSubmitted, range))
+      .filter(
+        (r) =>
+          timePreset === "All Time" || inMonthRange(r.dateSubmitted, range),
+      )
       .sort((a, b) => (a.dateSubmitted < b.dateSubmitted ? 1 : -1));
-  }, [rows, range, status]);
+  }, [rows, range, status, timePreset]);
 
-  const rangeLabel = `${monthLabel(range.from)} - ${monthLabel(range.to)}`;
+  const rangeLabel =
+    timePreset === "All Time"
+      ? "All time"
+      : `${monthLabel(range.from)} - ${monthLabel(range.to)}`;
 
   function applyPreset(p: TimePreset) {
     setTimePreset(p);
@@ -317,6 +328,7 @@ export const ReferrerMyReferrals = () => {
             <div className="col-span-1 relative" ref={statusRef}>
               <SelectLikeButton
                 value={status}
+                ariaLabel="Filter by status"
                 onClick={() => {
                   setStatusOpen((v) => !v);
                   setTimeOpen(false);
@@ -338,6 +350,7 @@ export const ReferrerMyReferrals = () => {
             <div className="col-span-1 relative" ref={timeRef}>
               <SelectLikeButton
                 value={timePreset}
+                ariaLabel="Filter by time range"
                 onClick={() => {
                   setTimeOpen((v) => !v);
                   setStatusOpen(false);
@@ -360,6 +373,7 @@ export const ReferrerMyReferrals = () => {
               <SelectLikeButton
                 leftIcon={<Calendar className="h-7 w-7 md:h-4 md:w-4" />}
                 value={rangeLabel}
+                ariaLabel="Select date range"
                 onClick={() => {
                   setRangeOpen((v) => !v);
                   setStatusOpen(false);
@@ -433,9 +447,7 @@ export const ReferrerMyReferrals = () => {
             <MobileReferralCard
               key={r.id}
               row={r}
-              onEdit={() => {
-                alert(`Edit referral: ${r.clientName} (${r.company})`);
-              }}
+              onEdit={() => {}}
               onRemove={() => onRemoveRow(r.id)}
             />
           ))
@@ -532,9 +544,7 @@ export const ReferrerMyReferrals = () => {
 
                   <td className="px-5 py-4 text-left">
                     <RowActions
-                      onEdit={() => {
-                        alert(`Edit referral: ${r.clientName} (${r.company})`);
-                      }}
+                      onEdit={() => {}}
                       onRemove={() => onRemoveRow(r.id)}
                     />
                   </td>
