@@ -1,6 +1,7 @@
 // src/pages/SuperAdminDashboard/SuperAdminDashboard/SuperAdminDashboard.tsx
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Users,
@@ -149,11 +150,12 @@ function SnapshotCard({ title, children }: SnapshotCardProps) {
   );
 }
 
-function LinkRow({ label }: LinkRowProps) {
+function LinkRow({ label, onClick }: LinkRowProps) {
   return (
     <button
       type="button"
-      className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#00B4FE] hover:text-[#00A63E]"
+      onClick={onClick}
+      className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#00B4FE] hover:underline"
     >
       {label} <ArrowRight className="h-4 w-4" />
     </button>
@@ -179,22 +181,117 @@ function Chip({ kind, label }: ChipProps) {
 }
 
 export default function SuperAdminDashboard() {
+  const navigate = useNavigate();
   const [range, setRange] = useState("Month to Date (MTD)");
   const [open, setOpen] = useState(false);
   const [modal, setModal] = useState<ModalType | null>(null);
+
+  // Custom Range Date Picker States
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [dateRange, setDateRange] = useState({ from: "", to: "" });
+  const [monthsDiff, setMonthsDiff] = useState(1);
+
+  const calculateMonthsDifference = (from: string, to: string) => {
+    if (!from || !to) return 1;
+    const d1 = new Date(from);
+    const d2 = new Date(to);
+
+    // Ensure from is before to
+    if (d1 > d2) return 1;
+
+    let months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    months -= d1.getMonth();
+    months += d2.getMonth();
+
+    // Round up so even partial months count as at least 1 multiplier
+    return months <= 0 ? 1 : months;
+  };
+
+  const applyCustomRange = () => {
+    setMonthsDiff(calculateMonthsDifference(dateRange.from, dateRange.to));
+    setRange("Custom Range");
+    setCalendarOpen(false);
+  };
+
+  const scaleMetric = (metricStr: string, multiplier: number) => {
+    // If it's a fixed string like "$1.8M", return it unscaled for now (or implement precise parsing)
+    if (metricStr.endsWith("M") || metricStr.endsWith("K")) return metricStr;
+
+    const isCurrency = metricStr.startsWith("$");
+    const num = parseFloat(metricStr.replace(/[^0-9.-]+/g, ""));
+    const scaledNum = Math.round(num * multiplier);
+
+    if (isNaN(scaledNum)) return metricStr;
+    return isCurrency
+      ? `$${scaledNum.toLocaleString()}`
+      : scaledNum.toLocaleString();
+  };
 
   const dropdownRef = useOutsideClose<HTMLDivElement>(open, () =>
     setOpen(false),
   );
 
+  const { ranges, systemHealth, metricsByRange } = dashboardMock;
+
+  let activeMetrics =
+    metricsByRange[range] || metricsByRange["Month to Date (MTD)"];
+
+  // Dynamically project "Custom Range" from MTD explicitly.
+  if (range === "Custom Range" && monthsDiff > 1) {
+    const base = metricsByRange["Month to Date (MTD)"];
+    activeMetrics = {
+      ...base,
+      licensedUsersCount: scaleMetric(base.licensedUsersCount, monthsDiff),
+      registeredAccountsCount: scaleMetric(
+        base.registeredAccountsCount,
+        monthsDiff,
+      ),
+      activeSubscriptionsCount: scaleMetric(
+        base.activeSubscriptionsCount,
+        monthsDiff,
+      ),
+      monthlyRevenue: scaleMetric(base.monthlyRevenue, monthsDiff), // Actually aggregate revenue depending on interpretation, here scaled.
+      newSignups: scaleMetric(base.newSignups, monthsDiff),
+      churnedAccounts: scaleMetric(base.churnedAccounts, monthsDiff),
+      activeBrokers: Math.round(base.activeBrokers * monthsDiff),
+      suspendedBrokers: Math.round(base.suspendedBrokers * monthsDiff),
+      activeReferrers: Math.round(base.activeReferrers * monthsDiff),
+      referrersWithLeads: Math.round(base.referrersWithLeads * monthsDiff),
+      totalCommission: scaleMetric(base.totalCommission, monthsDiff),
+      marketPaid: scaleMetric(base.marketPaid, monthsDiff),
+      pendingCommission: scaleMetric(base.pendingCommission, monthsDiff),
+    } as any;
+  }
+
   const {
+    licensedUsersCount,
+    licensedUsersChange,
+    registeredAccountsCount,
+    registeredAccountsChange,
+    activeSubscriptionsCount,
+    activeSubscriptionsChange,
+    monthlyRevenue,
+    monthlyRevenueChange,
+    annualRevenueCount,
+    annualRevenueChange,
+    newSignups,
+    newSignupsChange,
+    churnedAccounts,
+    churnedAccountsChange,
+    netGrowth,
+    netGrowthChange,
+    activeBrokers,
+    suspendedBrokers,
+    activeReferrers,
+    referrersWithLeads,
+    totalCommission,
+    marketPaid,
+    pendingCommission,
     licensedUsers,
     registeredAccounts,
     subscriptions,
     annualRevenue,
-    ranges,
-    systemHealth,
-  } = dashboardMock;
+  } = activeMetrics;
 
   return (
     <div className="min-h-screen bg-white">
@@ -209,7 +306,9 @@ export default function SuperAdminDashboard() {
             className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
           >
             <Calendar className="h-4 w-4 text-[#364153]" />
-            {range}
+            {range === "Custom Range" && dateRange.from && dateRange.to
+              ? `${dateRange.from} - ${dateRange.to}`
+              : range}
 
             {open ? (
               <ChevronUp className="h-4 w-4 text-[#364153]" />
@@ -219,20 +318,88 @@ export default function SuperAdminDashboard() {
           </button>
 
           {open && (
-            <div className="absolute left-7 top-full mt-2 w-56 rounded-xl border border-slate-200 bg-white shadow-md">
+            <div className="absolute left-7 top-full mt-2 w-56 rounded-xl border border-slate-200 bg-white z-20 shadow-[0_16px_40px_rgba(15,23,42,0.10)]">
               {ranges.map((item) => (
                 <button
                   key={item}
                   type="button"
                   onClick={() => {
-                    setRange(item);
-                    setOpen(false);
+                    if (item === "Custom Range") {
+                      setCalendarOpen(true);
+                      setOpen(false);
+                    } else {
+                      setRange(item);
+                      setOpen(false);
+                      setCalendarOpen(false);
+                    }
                   }}
                   className="block w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
+                  style={
+                    item === "Custom Range"
+                      ? { borderTop: "1px solid #e2e8f0" }
+                      : {}
+                  }
                 >
                   {item}
                 </button>
               ))}
+            </div>
+          )}
+
+          {calendarOpen && (
+            <div className="absolute left-7 top-[calc(100%+8px)] z-30 w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-[#E5E7EB] bg-white p-4 shadow-[0_16px_40px_rgba(15,23,42,0.10)]">
+              <div className="space-y-4">
+                <p className="text-[14px] font-semibold text-[#222]">
+                  Select Date Range
+                </p>
+
+                <div className="space-y-2 text-black">
+                  <label className="text-[12px]">From</label>
+                  <input
+                    type="date"
+                    value={dateRange.from}
+                    onChange={(e) =>
+                      setDateRange({
+                        ...dateRange,
+                        from: e.target.value,
+                      })
+                    }
+                    className="h-10 w-full rounded-lg border border-[#E5E7EB] px-3 text-[13px] outline-none"
+                  />
+                </div>
+
+                <div className="space-y-2 text-black">
+                  <label className="text-[12px]">To</label>
+                  <input
+                    type="date"
+                    value={dateRange.to}
+                    onChange={(e) =>
+                      setDateRange({
+                        ...dateRange,
+                        to: e.target.value,
+                      })
+                    }
+                    className="h-10 w-full rounded-lg border border-[#E5E7EB] px-3 text-[13px] outline-none"
+                  />
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setCalendarOpen(false)}
+                    className="flex-1 rounded-lg border border-[#E5E7EB] py-2 text-[13px] font-medium text-[#222] transition hover:bg-[#F4F4F5]"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={applyCustomRange}
+                    className="flex-1 rounded-lg bg-[#1BAEF5] py-2 text-[13px] font-medium text-white transition hover:bg-[#129fe2]"
+                  >
+                    Apply
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -249,39 +416,39 @@ export default function SuperAdminDashboard() {
           <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
             <MetricCard
               title="Total Licensed Users"
-              value="8,547"
-              change="+12.5%"
+              value={licensedUsersCount}
+              change={licensedUsersChange}
               icon={Users}
               tone="indigo"
               onInfo={() => setModal("licensedUsers")}
             />
             <MetricCard
               title="Total Registered Accounts"
-              value="12,834"
-              change="+8.2%"
+              value={registeredAccountsCount}
+              change={registeredAccountsChange}
               icon={UserPlus}
               tone="blue"
               onInfo={() => setModal("registeredAccounts")}
             />
             <MetricCard
               title="Active Subscriptions"
-              value="1,247"
-              change="+5.4%"
+              value={activeSubscriptionsCount}
+              change={activeSubscriptionsChange}
               icon={CreditCard}
               tone="emerald"
               onInfo={() => setModal("activeSubscriptions")}
             />
             <MetricCard
               title="Monthly Revenue"
-              value="$158,800"
-              change="+18.7%"
+              value={monthlyRevenue}
+              change={monthlyRevenueChange}
               icon={DollarSign}
               tone="blue"
             />
             <MetricCard
               title="Annual Revenue"
-              value="$1.8M"
-              change="+24.3%"
+              value={annualRevenueCount}
+              change={annualRevenueChange}
               icon={Banknote}
               tone="blue"
               onInfo={() => setModal("annualRevenue")}
@@ -295,20 +462,20 @@ export default function SuperAdminDashboard() {
           <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
             <GrowthCard
               title="New Signups"
-              value="342"
-              change="+15.3%"
+              value={newSignups}
+              change={newSignupsChange}
               icon={UserCheck}
             />
             <GrowthCard
               title="Churned Accounts"
-              value="28"
-              change="-5.2%"
+              value={churnedAccounts}
+              change={churnedAccountsChange}
               icon={UserMinus}
             />
             <GrowthCard
               title="Net Growth"
-              value="+314"
-              change="+22.1%"
+              value={netGrowth}
+              change={netGrowthChange}
               icon={TrendingUp}
             />
           </div>
@@ -320,30 +487,46 @@ export default function SuperAdminDashboard() {
           <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
             <SnapshotCard title="Active Brokers">
               <div className="text-3xl font-semibold tracking-tight text-slate-900">
-                147
+                {activeBrokers}
               </div>
               <div className="mt-3 space-y-1 text-sm text-black">
                 <div>Total count</div>
                 <div className="text-slate-900">
-                  <p className="font-semibold">3 </p>
+                  <p className="font-semibold">{suspendedBrokers} </p>
                   <span>Suspended count</span>
                 </div>
               </div>
-              <LinkRow label="View Brokers" />
+              <LinkRow
+                label="View Brokers"
+                onClick={() =>
+                  navigate("/super-admin/user-management", {
+                    state: { tab: "Brokers" },
+                  })
+                }
+              />
             </SnapshotCard>
 
             <SnapshotCard title="Active Referrers">
               <div className="text-3xl font-semibold tracking-tight text-slate-900">
-                2,845
+                {activeReferrers.toLocaleString()}
               </div>
               <div className="mt-3 space-y-1 text-sm text-black">
                 <div>Total</div>
                 <div className="text-slate-900">
-                  <p className="font-semibold">1,923</p>
+                  <p className="font-semibold">
+                    {referrersWithLeads.toLocaleString()}
+                  </p>
                   <span>With Active Leads</span>
                 </div>
               </div>
-              <LinkRow label="View Referrers" />
+              <LinkRow
+                label="View Referrers"
+                onClick={() =>
+                  navigate("/super-admin/user-management", {
+                    state: { tab: "Referrers" },
+                  })
+                }
+              />
             </SnapshotCard>
 
             <SnapshotCard title="Commission Tracking Snapshot">
@@ -352,7 +535,7 @@ export default function SuperAdminDashboard() {
                   Total Commission Calculated
                 </div>
                 <div className="mt-2 text-2xl font-semibold text-slate-900">
-                  $847,250
+                  {totalCommission}
                 </div>
                 <div className="text-xs font-medium text-slate-400">
                   Platform wide
@@ -362,20 +545,26 @@ export default function SuperAdminDashboard() {
               <div className="flex justify-between">
                 <div className="flex flex-col justify-between text-sm">
                   <div className="text-black">Market Paid</div>
-                  <div className="text-[16px] font-semibold text-emerald-600">
-                    $742,100
+                  <div className="text-[16px] font-semibold text-[#15D946]">
+                    {marketPaid}
                   </div>
                 </div>
 
                 <div className="flex flex-col justify-between text-sm">
                   <div className="text-black">Pending</div>
-                  <div className="text-[16px] font-semibold text-rose-500">
-                    $105,150
+                  <div className="text-[16px] font-semibold text-[#D76C6C]">
+                    {pendingCommission}
                   </div>
                 </div>
               </div>
 
-              <LinkRow label="View Commission Details" />
+              <LinkRow
+                label="View Commission Details"
+                onClick={
+                  () => alert("TODO: Add route to commission details page")
+                  //  navigate("/super-admin/user-management")
+                }
+              />
             </SnapshotCard>
           </div>
         </div>
@@ -408,6 +597,7 @@ export default function SuperAdminDashboard() {
             <div className="px-6 py-5">
               <button
                 type="button"
+                onClick={() => navigate("/super-admin/audit-logs")}
                 className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
               >
                 View Detailed Logs

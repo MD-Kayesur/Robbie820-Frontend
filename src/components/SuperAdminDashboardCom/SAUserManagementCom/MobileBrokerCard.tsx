@@ -4,20 +4,13 @@ import {
 } from "@/pages/SuperAdminDashboard/SuperAdminUserManagement/mock";
 import { BrokerRow } from "@/pages/SuperAdminDashboard/SuperAdminUserManagement/types";
 import { MoreVertical } from "lucide-react";
-import { ActionsMenu } from "./ActionsMenu";
 
 export function MobileBrokerCard({
   row,
-  open,
   onToggleMenu,
-  onCloseMenu,
-  onDisable,
 }: {
   row: BrokerRow;
-  open: boolean;
-  onToggleMenu: () => void;
-  onCloseMenu: () => void;
-  onDisable: () => void;
+  onToggleMenu: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4">
@@ -36,12 +29,6 @@ export function MobileBrokerCard({
           >
             <MoreVertical className="h-4 w-4 text-slate-600" />
           </button>
-
-          <ActionsMenu
-            open={open}
-            onClose={onCloseMenu}
-            onDisable={onDisable}
-          />
         </div>
       </div>
 

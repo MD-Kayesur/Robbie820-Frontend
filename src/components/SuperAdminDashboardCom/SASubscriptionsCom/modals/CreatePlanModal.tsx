@@ -1,4 +1,4 @@
-// src/pages/SuperAdmin/SubscriptionsCom/modals/EditPlanModal.tsx
+// src/components/SuperAdminDashboardCom/SASubscriptionsCom/modals/CreatePlanModal.tsx
 import React, { useEffect, useId, useRef, useState } from "react";
 import { X } from "lucide-react";
 import type {
@@ -7,6 +7,7 @@ import type {
 } from "../../../../pages/SuperAdminDashboard/SuperAdminSubscriptions/types";
 import { useEscClose } from "@/hooks/useEscClose";
 import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
+import { cn } from "@/hooks/useCn";
 
 function Field({
   label,
@@ -32,18 +33,27 @@ function Field({
 
 const inputBase =
   "h-11 w-full rounded-lg px-3 text-sm " +
-  "bg-[#F3F3F5] text-[#000000] placeholder:text-[#000000] ";
+  "bg-[#F3F3F5] text-[#000000] placeholder:text-slate-400 ";
 
-export function EditPlanModal({
+const DEFAULT_PLAN: PlanCard = {
+  name: "",
+  monthly: 0,
+  yearly: 0,
+  includedSeats: 0,
+  additionalSeat: 0,
+  maxActiveDeals: "Standard",
+  features: ["Access to CRM", "Custom Reporting", "Email Support"],
+  popular: false,
+};
+
+export function CreatePlanModal({
   open,
   onClose,
-  plan,
-  onSave,
+  onCreate,
 }: {
   open: boolean;
   onClose: () => void;
-  plan: PlanCard | null;
-  onSave: (next: PlanCard) => void;
+  onCreate: (next: PlanCard) => void;
 }) {
   const panelRef = useRef<HTMLDivElement>(null);
   const modalTitleId = useId();
@@ -51,11 +61,11 @@ export function EditPlanModal({
   useEscClose(open, onClose);
   useLockBodyScroll(open);
 
-  const [draft, setDraft] = useState<PlanCard | null>(plan);
+  const [draft, setDraft] = useState<PlanCard>(DEFAULT_PLAN);
 
   useEffect(() => {
-    if (open) setDraft(plan);
-  }, [open, plan]);
+    if (open) setDraft(DEFAULT_PLAN);
+  }, [open]);
 
   // focus for accessibility
   useEffect(() => {
@@ -64,10 +74,10 @@ export function EditPlanModal({
     return () => window.clearTimeout(t);
   }, [open]);
 
-  if (!open || !draft) return null;
+  if (!open) return null;
 
   const set = <K extends keyof PlanCard>(k: K, v: PlanCard[K]) =>
-    setDraft((d) => (d ? { ...d, [k]: v } : d));
+    setDraft((d) => ({ ...d, [k]: v }));
 
   return (
     <div className="fixed inset-0 z-200">
@@ -93,7 +103,7 @@ export function EditPlanModal({
               id={modalTitleId}
               className="text-xl font-semibold tracking-tight text-[#000000]"
             >
-              Edit Plan - {draft.name}
+              Create New Plan
             </h2>
 
             <button
@@ -115,6 +125,7 @@ export function EditPlanModal({
                     id="plan_name"
                     value={draft.name}
                     onChange={(e) => set("name", e.target.value as PlanName)}
+                    placeholder="e.g. Pro, Enterprise, etc."
                     className={inputBase}
                   />
                 </Field>
@@ -123,32 +134,35 @@ export function EditPlanModal({
               <Field label="Monthly Price ($)" htmlFor="plan_monthly">
                 <input
                   id="plan_monthly"
-                  value={draft.monthly}
+                  value={draft.monthly || ""}
                   onChange={(e) => set("monthly", Number(e.target.value || 0))}
                   className={inputBase}
-                  inputMode="numeric"
+                  placeholder="0"
+                  type="number"
                 />
               </Field>
 
               <Field label="Yearly Price ($)" htmlFor="plan_yearly">
                 <input
                   id="plan_yearly"
-                  value={draft.yearly}
+                  value={draft.yearly || ""}
                   onChange={(e) => set("yearly", Number(e.target.value || 0))}
                   className={inputBase}
-                  inputMode="numeric"
+                  placeholder="0"
+                  type="number"
                 />
               </Field>
 
               <Field label="Included Seats" htmlFor="plan_included_seats">
                 <input
                   id="plan_included_seats"
-                  value={draft.includedSeats}
+                  value={draft.includedSeats || ""}
                   onChange={(e) =>
                     set("includedSeats", Number(e.target.value || 0))
                   }
                   className={inputBase}
-                  inputMode="numeric"
+                  placeholder="0"
+                  type="number"
                 />
               </Field>
 
@@ -158,12 +172,13 @@ export function EditPlanModal({
               >
                 <input
                   id="plan_additional_seat"
-                  value={draft.additionalSeat}
+                  value={draft.additionalSeat || ""}
                   onChange={(e) =>
                     set("additionalSeat", Number(e.target.value || 0))
                   }
                   className={inputBase}
-                  inputMode="numeric"
+                  placeholder="0"
+                  type="number"
                 />
               </Field>
 
@@ -172,23 +187,35 @@ export function EditPlanModal({
                   id="plan_max_deals"
                   value={String(draft.maxActiveDeals)}
                   onChange={(e) => set("maxActiveDeals", e.target.value)}
+                  placeholder="e.g. 50, Unlimited"
                   className={inputBase}
                 />
               </Field>
 
-              {/* keeping your original field (even though it reuses maxActiveDeals) */}
-              <Field label="Max Referrers" htmlFor="plan_max_referrers">
-                <input
-                  id="plan_max_referrers"
-                  value={String(draft.maxActiveDeals)}
-                  onChange={(e) => set("maxActiveDeals", e.target.value)}
-                  className={inputBase}
-                />
-              </Field>
+              <div className="flex items-center gap-3 py-2 md:col-span-2">
+                <button
+                  type="button"
+                  onClick={() => set("popular", !draft.popular)}
+                  className={cn(
+                    "flex h-5 w-10 shrink-0 cursor-pointer items-center rounded-full px-0.5 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500",
+                    draft.popular ? "bg-[#155DFC]" : "bg-slate-200",
+                  )}
+                >
+                  <div
+                    className={cn(
+                      "h-4 w-4 transform rounded-full bg-white transition-transform",
+                      draft.popular ? "translate-x-5" : "translate-x-0",
+                    )}
+                  />
+                </button>
+                <span className="text-sm font-medium text-slate-700">
+                  Mark as Most Popular
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Footer (responsive + no cut buttons) */}
+          {/* Footer */}
           <div className="border-t border-slate-200 px-4 pt-2 pb-8 md:px-6 md:pb-6">
             <div className="flex flex-col-reverse gap-3 md:flex-row md:items-center md:justify-end md:gap-4">
               <button
@@ -202,12 +229,13 @@ export function EditPlanModal({
               <button
                 type="button"
                 onClick={() => {
-                  onSave(draft);
+                  onCreate(draft);
                   onClose();
                 }}
-                className="rounded-lg bg-[#070A1A] px-4 py-2 text-sm font-medium text-white hover:opacity-95 cursor-pointer"
+                disabled={!draft.name}
+                className="rounded-lg bg-[#070A1A] px-4 py-2 text-sm font-medium text-white hover:opacity-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Save Changes
+                Create Plan
               </button>
             </div>
           </div>

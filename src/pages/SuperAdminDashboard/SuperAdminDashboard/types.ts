@@ -48,6 +48,7 @@ export type SnapshotCardProps = {
 
 export type LinkRowProps = {
   label: string;
+  onClick?: () => void;
 };
 
 export type ChipProps = {
@@ -55,11 +56,42 @@ export type ChipProps = {
   label: string;
 };
 
-export type DashboardMockData = {
+export type DashboardMetrics = {
+  licensedUsersCount: string;
+  licensedUsersChange: string;
+  registeredAccountsCount: string;
+  registeredAccountsChange: string;
+  activeSubscriptionsCount: string;
+  activeSubscriptionsChange: string;
+  monthlyRevenue: string;
+  monthlyRevenueChange: string;
+  annualRevenueCount: string;
+  annualRevenueChange: string;
+
+  newSignups: string;
+  newSignupsChange: string;
+  churnedAccounts: string;
+  churnedAccountsChange: string;
+  netGrowth: string;
+  netGrowthChange: string;
+
+  activeBrokers: number;
+  suspendedBrokers: number;
+  activeReferrers: number;
+  referrersWithLeads: number;
+
+  totalCommission: string;
+  marketPaid: string;
+  pendingCommission: string;
+
   licensedUsers: UserRow[];
   registeredAccounts: UserRow[];
   subscriptions: SubscriptionRow[];
   annualRevenue: RevenueRow[];
+};
+
+export type DashboardMockData = {
+  metricsByRange: Record<RangeOption, DashboardMetrics>;
   ranges: RangeOption[];
   systemHealth: SystemHealthRow[];
 };

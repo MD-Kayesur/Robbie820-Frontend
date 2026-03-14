@@ -4,7 +4,7 @@ export type Tab =
   | "Plans & Pricing"
   | "Revenue Analytics";
 
-export type PlanName = "Business" | "Pro" | "Enterprise";
+export type PlanName = string;
 export type BillingCycle = "Monthly" | "Yearly";
 
 export type PaymentStatus = "Paid" | "Failed" | "Pending";
