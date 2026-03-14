@@ -29,7 +29,11 @@ const item: Variants = {
 
 const imageVariant: Variants = {
   hidden: { opacity: 0, x: 40 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.7, ease: easeOut, delay: 0.3 } },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: easeOut, delay: 0.3 },
+  },
 };
 
 const Hero = ({ onGetStarted, className }: HeroProps) => {
@@ -73,15 +77,15 @@ const Hero = ({ onGetStarted, className }: HeroProps) => {
                   variants={item}
                   className="text-sm md:text-lg text-[#504F4F] md:max-w-4xl mx-auto lg:mx-0"
                 >
-                  Eliminate manual tracking and commission disputes. Our platform
-                  connects brokers and referral partners with transparent,
-                  automated commission management.
+                  Eliminate manual tracking and commission disputes. Our
+                  platform connects brokers and referral partners with
+                  transparent, automated commission management.
                 </motion.p>
               </div>
 
               <motion.div
                 variants={item}
-                className="mb-3 flex flex-col gap-4 md:mb-8 md:flex-row md:items-center md:justify-center lg:justify-start"
+                className="mb-3 flex flex-col gap-2 md:gap-4 md:mb-8 md:flex-row md:items-center md:justify-center lg:justify-start"
               >
                 <button
                   onClick={onGetStarted}
@@ -151,7 +155,6 @@ const Hero = ({ onGetStarted, className }: HeroProps) => {
           </div>
         </div>
       </main>
-
 
       {/* Video Demo Modal */}
       {showDemo && (

@@ -61,11 +61,11 @@ const SecurityCompliance = () => {
               </p>
             </div>
 
-            <div className="space-y-10">
+            <div className="space-y-5">
               {securityFeatures.map((feature, idx) => (
                 <div
                   key={idx}
-                  className="flex flex-col md:flex-row items-start gap-2.5 md:gap-6.5 group transition-all duration-300 hover:shadow-md hover:-translate-y-1 rounded-2xl p-2 cursor-default"
+                  className="flex flex-col md:flex-row items-start gap-2.5 md:gap-6.5 group transition-all duration-300 hover:shadow-md hover:-translate-y-1 rounded-2xl cursor-default"
                 >
                   <div
                     className={`${feature.color} rounded-2xl p-3 flex items-center justify-center shrink-0`}

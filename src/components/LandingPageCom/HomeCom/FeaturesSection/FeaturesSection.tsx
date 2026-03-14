@@ -4,7 +4,7 @@ import {
   ShieldCheck,
   Bell,
   BarChart3,
-  Link as LinkIcon,
+  CreditCard,
 } from "lucide-react";
 
 const features = [
@@ -47,7 +47,7 @@ const features = [
     title: "Lead Management",
     description:
       "Automatically sync referral leads to your CRM via API and Zapier for seamless tracking and follow-ups.",
-    icon: LinkIcon,
+    icon: CreditCard,
     color: "bg-pink-50 text-pink-500",
   },
 ];
