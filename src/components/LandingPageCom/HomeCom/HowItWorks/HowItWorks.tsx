@@ -39,10 +39,10 @@ const HowItWorks = () => {
     >
       <div className="flex md:flex-col items-start flex-col-reverse gap-6 md:gap-16 lg:flex-row lg:gap-45 px-4.5 md:px-0">
         {/* Left content: Steps */}
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-6 md:mb-16">
-            <h2 className="text-xl leading-5 font-medium md:leading-none mb-3 md:mb-8 text-[#12A8F5] md:text-[34px]">
-              Simple, Transparent Pricing
+        <div className="flex-1">
+          <div className="mb-4 md:mb-8">
+            <h2 className="text-lg leading-5 font-medium md:leading-none mb-2 md:mb-8 text-[#12A8F5] md:text-[34px]">
+              How ReferNow Works
             </h2>
             <p className="max-w-2xl text-black text-sm md:text-lg md:leading-none">
               From Signup To Payout In Four Simple Steps
