@@ -73,7 +73,6 @@ const PricingSection = () => {
         <img src={gridLeft} alt="" className="w-full h-auto" />
       </div>
 
-      {/* content */}
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-6 md:mb-16">
           <h2 className="text-xl leading-5 font-medium md:leading-none mb-3 md:mb-8 text-[#12A8F5] md:text-[34px]">
