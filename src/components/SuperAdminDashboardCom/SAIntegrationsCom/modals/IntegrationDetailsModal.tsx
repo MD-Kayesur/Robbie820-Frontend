@@ -20,10 +20,12 @@ export default function IntegrationDetailsModal({
   open,
   onClose,
   item,
+  onToggleStatus,
 }: {
   open: boolean;
   onClose: () => void;
   item: IntegrationCardData | null;
+  onToggleStatus: () => void;
 }) {
   const panelRef = useOutsideClose<HTMLDivElement>(open, onClose);
 
@@ -262,9 +264,13 @@ export default function IntegrationDetailsModal({
 
                 <button
                   type="button"
-                  className="h-12 w-full rounded-2xl bg-[#D4183D] text-sm font-medium text-white hover:opacity-95"
+                  onClick={onToggleStatus}
+                  className={cn(
+                    "h-12 w-full rounded-2xl text-sm font-medium text-white hover:opacity-95 transition-all",
+                    item.status === "Disconnected" ? "bg-emerald-600" : "bg-[#D4183D]"
+                  )}
                 >
-                  Disable Integration
+                  {item.status === "Disconnected" ? "Enable" : "Disable"} Integration
                 </button>
               </div>
             </div>

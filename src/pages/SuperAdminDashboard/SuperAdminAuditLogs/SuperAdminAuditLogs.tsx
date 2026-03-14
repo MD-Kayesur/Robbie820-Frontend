@@ -26,6 +26,7 @@ import { MobileLogCard } from "@/components/SuperAdminDashboardCom/SAAuditLogsCo
 import { RowDetailsModal } from "@/components/SuperAdminDashboardCom/SAAuditLogsCom/modals/RowDetailsModal";
 import { cn } from "@/hooks/useCn";
 import { useOutsideClose } from "@/hooks/useOutsideClose";
+import { useLocation } from "react-router-dom";
 
 export function Pill({
   tone = "slate",
@@ -206,8 +207,9 @@ function downloadCsv(filename: string, csv: string) {
 
 const SuperAdminAuditLogs = () => {
   const now = Date.now();
+  const location = useLocation();
 
-  const [q, setQ] = useState("");
+  const [q, setQ] = useState(location.state?.q || "");
   const [userFilter, setUserFilter] = useState(userOptions[0].value);
   const [actionFilter, setActionFilter] = useState(actionOptions[0].value);
   const [range, setRange] = useState(rangeOptions[1].value);
