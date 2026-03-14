@@ -81,7 +81,7 @@ const FeaturesSection = () => {
                 <feature.icon size={40} />
               </div>
 
-              <h3 className="text-sm md:text-xl font-semibold text-[#111827] mb-4 leading-none md:mb-6">
+              <h3 className="text-sm md:text-xl font-semibold text-[#111827] mb-2 leading-none md:mb-6">
                 {feature.title}
               </h3>
 

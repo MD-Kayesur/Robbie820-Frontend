@@ -143,11 +143,11 @@ const Hero = ({ onGetStarted, className }: HeroProps) => {
               </div>
 
               <div className="flex-1 w-full md:hidden">
-                <div className="w-full h-50 md:h-200 flex justify-end">
+                <div className="w-full h-50 flex justify-center overflow-hidden">
                   <img
                     src={howItWorksImage}
                     alt="Professional using ReferNow"
-                    className="h-full w-full rounded-sm md:rounded-lg object-cover"
+                    className="h-full w-[86%] rounded-sm object-cover"
                   />
                 </div>
               </div>

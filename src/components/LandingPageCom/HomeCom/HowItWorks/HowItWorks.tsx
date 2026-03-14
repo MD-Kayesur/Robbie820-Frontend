@@ -40,14 +40,14 @@ const HowItWorks = () => {
       <div className="flex md:flex-col items-start flex-col-reverse gap-6 md:gap-16 lg:flex-row lg:gap-45 px-4.5 md:px-0">
         {/* Left content: Steps */}
         <div className="flex-1">
-          <div className="mb-8">
+          <div className="mb-4 md:mb-8">
             <h2 className="text-lg leading-5 font-medium md:leading-none mb-2 md:mb-8 text-[#12A8F5] md:text-[34px]">
               How ReferNow Works
             </h2>
             <p className="max-w-2xl text-black text-sm md:text-lg md:leading-none">
               From Signup To Payout In Four Simple Steps
             </p>
-            <div className="mt-8 h-px w-full bg-[#E5E7EB]" />
+            <div className="hidden md:block mt-8 h-px w-full bg-[#E5E7EB]" />
           </div>
 
           <div className="grid grid-cols-1 gap-5 md:gap-13.5 md:grid-cols-2">
@@ -57,11 +57,11 @@ const HowItWorks = () => {
                   <img
                     src={step.icon}
                     alt={`Step ${idx + 1}`}
-                    className="h-16 w-16 object-contain"
+                    className="h-11 w-11 md:h-16 md:w-16 object-contain"
                   />
                 </div>
 
-                <h3 className="mb-0 md:mb-3.5 text-sm sm:text-lg font-semibold tracking-tight text-black">
+                <h3 className="mb-1 md:mb-3.5 text-sm sm:text-lg font-semibold tracking-tight text-black">
                   {step.title}
                 </h3>
 
