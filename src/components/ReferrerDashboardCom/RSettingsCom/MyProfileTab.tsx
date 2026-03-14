@@ -181,9 +181,7 @@ export default function MyProfileTab({
 
           <button
             type="button"
-            onClick={() => {
-              alert("Delete account (mock).");
-            }}
+            onClick={() => {}}
             className="inline-flex w-full items-center justify-center gap-2.5 rounded-sm border border-[#D76C6C] bg-white px-5 py-2.5 text-sm font-medium text-[#D76C6C] transition hover:bg-red-50 md:w-auto"
           >
             <Trash className="h-5 w-5" />

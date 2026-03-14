@@ -1,5 +1,5 @@
 // src/Layout/ReferrerLayout/ReferrerSidebar.tsx
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   Bell,
@@ -47,6 +47,15 @@ const SidebarItem = ({ to, icon: Icon, label, end, onClick }: ItemProps) => {
 const ReferrerSidebar = ({ mobileOpen, onClose }: Props) => {
   const navigate = useNavigate();
   const sidebarRef = useOutsideClose<HTMLElement>(mobileOpen, onClose);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [mobileOpen, onClose]);
 
   const handleSignOut = () => {
     localStorage.clear();

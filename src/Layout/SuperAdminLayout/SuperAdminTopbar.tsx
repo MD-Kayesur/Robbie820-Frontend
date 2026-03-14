@@ -32,6 +32,7 @@ const SuperAdminTopbar = ({ onMenuClick }: SuperAdminTopbarProps) => {
             <input
               type="text"
               placeholder="Search users, subscriptions, logs..."
+              aria-label="Search users, subscriptions, and logs"
               className="h-11 w-full rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] pl-11 pr-4 text-sm text-slate-700 placeholder:text-slate-400 outline-none transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60"
             />
           </div>

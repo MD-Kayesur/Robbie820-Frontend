@@ -28,10 +28,7 @@ import AlertsTab from "@/components/ReferrerDashboardCom/RSettingsCom/AlertsTab"
 import LegalDocumentsTab from "@/components/ReferrerDashboardCom/RSettingsCom/LegalDocumentsTab";
 import BankingDetailsTab from "@/components/ReferrerDashboardCom/RSettingsCom/BankingDetailsTab";
 import TMTNewMemberModal from "@/components/ReferrerDashboardCom/RSettingsCom/modals/TMTNewMemberModal";
-
-function cn(...s: Array<string | false | null | undefined>) {
-  return s.filter(Boolean).join(" ");
-}
+import { cn } from "@/hooks/useCn";
 
 type InvitePayload = {
   fullName: string;
@@ -93,14 +90,11 @@ const ReferrerSettings = () => {
   }
 
   function onUploadDoc() {
-    const title = prompt("Document title (mock):");
-    if (!title) return;
-
     setDocs((prev) => [
       ...prev,
       {
         id: `d_${Date.now()}`,
-        title,
+        title: "New document",
         type: "Agreement",
         sizeLabel: "—",
         uploadedOn: new Date().toISOString().slice(0, 10),
@@ -108,9 +102,8 @@ const ReferrerSettings = () => {
     ]);
   }
 
-  function onDownloadDoc(id: string) {
-    const d = docs.find((x) => x.id === id);
-    alert(`Download (mock): ${d?.title ?? id}`);
+  function onDownloadDoc(_id: string) {
+    // Placeholder until download API exists
   }
 
   return (

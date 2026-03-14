@@ -294,7 +294,7 @@ const BrokerMyReferrals = () => {
 
                     <td className="px-4 py-4">
                       <RowMenu
-                        onView={() => console.log("View details:", row)}
+                        onView={() => {}}
                       />
                     </td>
                   </tr>

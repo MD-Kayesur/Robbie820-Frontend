@@ -73,7 +73,7 @@ export default function NewReferralModal({
       {open ? (
         <motion.div
           className={cn(
-            "fixed inset-0 z-200 bg-black/30",
+            "fixed inset-0 z-50 bg-black/30",
             "flex items-center justify-center",
             "p-4 md:p-6",
           )}

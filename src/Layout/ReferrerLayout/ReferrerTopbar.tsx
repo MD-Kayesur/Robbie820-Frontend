@@ -115,6 +115,7 @@ export default function ReferrerTopbar({ onOpenSidebar }: Props) {
                 <input
                   type="text"
                   placeholder="search referrals..."
+                  aria-label="Search referrals"
                   className={cn(
                     "h-12 w-full rounded-2xl border border-slate-200 bg-white pl-12 pr-4",
                     "text-sm text-slate-700 placeholder:text-slate-400",
@@ -168,7 +169,7 @@ export default function ReferrerTopbar({ onOpenSidebar }: Props) {
       <button
         type="button"
         onClick={() => setOpenNew(true)}
-        className="fixed bottom-5 right-5 z-60 grid h-16 w-16 place-items-center rounded-full bg-black text-white shadow-[0_10px_30px_rgba(0,0,0,0.2)] transition hover:scale-[1.03] md:hidden"
+        className="fixed bottom-5 right-5 z-50 grid h-16 w-16 place-items-center rounded-full bg-black text-white shadow-[0_10px_30px_rgba(0,0,0,0.2)] transition hover:scale-[1.03] md:hidden"
         aria-label="New referral"
       >
         <Plus className="h-8 w-8" strokeWidth={2.2} />
@@ -177,9 +178,7 @@ export default function ReferrerTopbar({ onOpenSidebar }: Props) {
       <NewReferralModal
         open={openNew}
         onClose={() => setOpenNew(false)}
-        onSubmit={(data) => {
-          console.log("new referral submit:", data);
-        }}
+        onSubmit={() => {}}
       />
     </>
   );

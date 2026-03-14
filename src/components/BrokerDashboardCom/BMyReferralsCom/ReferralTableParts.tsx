@@ -196,7 +196,7 @@ export function MobileReferralCard({ row }: { row: ReferralRow }) {
           <p className="mt-1 text-[12px] text-[#6B7280]">{row.referrer}</p>
         </div>
 
-        <RowMenu onView={() => console.log("View details:", row)} />
+        <RowMenu onView={() => {}} />
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">

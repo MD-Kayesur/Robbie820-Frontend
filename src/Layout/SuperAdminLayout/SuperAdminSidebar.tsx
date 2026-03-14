@@ -1,6 +1,6 @@
 // src/Layout/SuperAdminLayout/SuperAdminSidebar.tsx
 
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import {
   LayoutGrid,
@@ -96,6 +96,15 @@ const SuperAdminSidebar = ({
   mobileOpen = false,
   onClose,
 }: SuperAdminSidebarProps) => {
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose?.();
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [mobileOpen, onClose]);
+
   return (
     <>
       {/* Desktop sidebar */}
@@ -106,7 +115,7 @@ const SuperAdminSidebar = ({
       {/* Mobile drawer */}
       <div
         className={[
-          "fixed inset-0 z-999 lg:hidden",
+          "fixed inset-0 z-50 lg:hidden",
           mobileOpen ? "pointer-events-auto" : "pointer-events-none",
         ].join(" ")}
       >

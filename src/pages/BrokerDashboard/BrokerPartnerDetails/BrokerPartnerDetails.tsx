@@ -154,20 +154,14 @@ function ReferralActionsMenu() {
           <div className="absolute right-0 top-9 z-20 min-w-40 overflow-hidden rounded-xl border border-[#E5E7EB] bg-white py-1 shadow-lg">
             <button
               type="button"
-              onClick={() => {
-                setOpen(false);
-                console.log("view referral");
-              }}
+              onClick={() => setOpen(false)}
               className="block w-full px-4 py-2 text-left text-sm text-[#111827] hover:bg-slate-50"
             >
               View Referral
             </button>
             <button
               type="button"
-              onClick={() => {
-                setOpen(false);
-                console.log("open lead");
-              }}
+              onClick={() => setOpen(false)}
               className="block w-full px-4 py-2 text-left text-sm text-[#111827] hover:bg-slate-50"
             >
               Open Lead
@@ -280,10 +274,6 @@ const BrokerPartnerDetails = () => {
 
   const handleSaveNote = () => {
     setNote(draftNote);
-    console.log("save internal note", {
-      partnerId: partner.id,
-      note: draftNote,
-    });
   };
 
   return (
@@ -317,7 +307,7 @@ const BrokerPartnerDetails = () => {
         <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row">
           <button
             type="button"
-            onClick={() => console.log("download agreement", partner.id)}
+            onClick={() => {}}
             className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#D1D5DB] bg-white px-4 text-sm font-medium text-[#111827] transition hover:bg-slate-50 md:w-auto"
           >
             <Download className="h-4 w-4" />
@@ -586,7 +576,7 @@ const BrokerPartnerDetails = () => {
 
           <button
             type="button"
-            onClick={() => console.log("view all referrals", partner.id)}
+            onClick={() => {}}
             className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-[#D1D5DB] bg-white px-4 text-xs font-medium text-[#111827] transition hover:bg-slate-50 md:w-auto"
           >
             View All Referrals

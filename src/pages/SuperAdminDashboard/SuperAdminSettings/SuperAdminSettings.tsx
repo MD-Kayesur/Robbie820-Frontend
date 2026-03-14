@@ -65,10 +65,7 @@ export default function SuperAdminSettings() {
 
           <button
             type="button"
-            onClick={() => {
-              setLastUpdatedText("Just now");
-              console.log("Save changes clicked");
-            }}
+            onClick={() => setLastUpdatedText("Just now")}
             className="inline-flex h-11 w-full items-center justify-center gap-3 rounded-lg bg-[#101828] px-4 text-sm font-medium text-white shadow-sm hover:opacity-95 md:w-auto md:h-10"
           >
             <Save className="h-4 w-4" />

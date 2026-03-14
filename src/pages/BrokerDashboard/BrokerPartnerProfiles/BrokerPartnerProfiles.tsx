@@ -63,9 +63,7 @@ const BrokerPartnerProfiles = () => {
     }
   };
 
-  const handleSubmitOnboard = (values: OnboardPartnerForm) => {
-    console.log("submit onboard partner:", values);
-  };
+  const handleSubmitOnboard = (_values: OnboardPartnerForm) => {};
 
   return (
     <>
@@ -99,6 +97,7 @@ const BrokerPartnerProfiles = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="search partners by name or company..."
+              aria-label="Search partners by name or company"
               className="h-12 w-full rounded-xl border border-[#E5E7EB] bg-white pl-11 pr-4 text-sm text-[#111827] outline-none placeholder:text-[#9CA3AF] focus:border-[#CBD5E1]"
             />
           </div>
@@ -163,8 +162,7 @@ const BrokerPartnerProfiles = () => {
           setResetPasswordOpen(false);
           setSelectedPartner(null);
         }}
-        onSubmit={(email) => {
-          console.log("send reset link:", email);
+        onSubmit={() => {
           setResetPasswordOpen(false);
           setSelectedPartner(null);
         }}
@@ -177,8 +175,7 @@ const BrokerPartnerProfiles = () => {
           setSendInvitationOpen(false);
           setSelectedPartner(null);
         }}
-        onSubmit={(email) => {
-          console.log("send invitation:", email);
+        onSubmit={() => {
           setSendInvitationOpen(false);
           setSelectedPartner(null);
         }}
@@ -190,11 +187,7 @@ const BrokerPartnerProfiles = () => {
           setAddLoginOpen(false);
           setSelectedPartner(null);
         }}
-        onSubmit={(values) => {
-          console.log("create additional login:", {
-            partner: selectedPartner,
-            values,
-          });
+        onSubmit={() => {
           setAddLoginOpen(false);
           setSelectedPartner(null);
         }}

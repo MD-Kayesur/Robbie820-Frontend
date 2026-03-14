@@ -284,16 +284,7 @@ const BrokerEditPartnerConfiguration = () => {
     setLinkedAgreements((prev) => prev.filter((item) => item !== name));
   };
 
-  const handleSaveConfiguration = () => {
-    console.log("save partner configuration", {
-      partnerId: partner.id,
-      effectiveDate,
-      linkedAgreements,
-      automaticSettlement,
-      reviewFrequency,
-      rules,
-    });
-  };
+  const handleSaveConfiguration = () => {};
 
   return (
     <>
@@ -354,7 +345,7 @@ const BrokerEditPartnerConfiguration = () => {
                           Commission Rule
                         </p>
                         <RuleActionsMenu
-                          onEdit={() => console.log("edit rule", rule.id)}
+                          onEdit={() => {}}
                           onDelete={() => handleDeleteRule(rule.id)}
                         />
                       </div>
@@ -525,7 +516,7 @@ const BrokerEditPartnerConfiguration = () => {
                         <td className="px-2 py-3 text-right align-top">
                           <div className="flex justify-end">
                             <RuleActionsMenu
-                              onEdit={() => console.log("edit rule", rule.id)}
+                              onEdit={() => {}}
                               onDelete={() => handleDeleteRule(rule.id)}
                             />
                           </div>
@@ -564,7 +555,7 @@ const BrokerEditPartnerConfiguration = () => {
 
                 <button
                   type="button"
-                  onClick={() => console.log("view full pipeline", partner.id)}
+                  onClick={() => {}}
                   className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-[#D1D5DB] bg-white px-4 text-sm font-medium text-[#111827] transition hover:bg-slate-50 md:w-auto"
                 >
                   View Full Pipeline
@@ -638,7 +629,7 @@ const BrokerEditPartnerConfiguration = () => {
 
                   <button
                     type="button"
-                    onClick={() => console.log("disable access", partner.id)}
+                    onClick={() => {}}
                     className="inline-flex h-11 items-center justify-center rounded-xl border border-[#E5E7EB] bg-white px-4 text-sm font-medium text-red-500 transition hover:bg-red-50"
                   >
                     Disable Access
@@ -765,38 +756,20 @@ const BrokerEditPartnerConfiguration = () => {
         open={resetPasswordOpen}
         email={config?.loginEmail || partner.email}
         onClose={() => setResetPasswordOpen(false)}
-        onSubmit={(email) => {
-          console.log("send reset link:", {
-            partnerId: partner.id,
-            email,
-          });
-          setResetPasswordOpen(false);
-        }}
+        onSubmit={() => setResetPasswordOpen(false)}
       />
 
       <SendInvitationModal
         open={sendInvitationOpen}
         email={config?.loginEmail || partner.email}
         onClose={() => setSendInvitationOpen(false)}
-        onSubmit={(email) => {
-          console.log("send invitation:", {
-            partnerId: partner.id,
-            email,
-          });
-          setSendInvitationOpen(false);
-        }}
+        onSubmit={() => setSendInvitationOpen(false)}
       />
 
       <AddAdditionalLoginModal
         open={addLoginOpen}
         onClose={() => setAddLoginOpen(false)}
-        onSubmit={(values) => {
-          console.log("create additional login:", {
-            partnerId: partner.id,
-            values,
-          });
-          setAddLoginOpen(false);
-        }}
+        onSubmit={() => setAddLoginOpen(false)}
       />
     </>
   );
