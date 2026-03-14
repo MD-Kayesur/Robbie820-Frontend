@@ -11,42 +11,42 @@ const features = [
   {
     title: "Automated Commission Calculation",
     description:
-      "Backend-Driven Calculations Ensure 100% Accuracy. No More Disputes Or Manual Errors.",
+      "Backend-driven calculations ensure 100% accuracy. No more disputes or manual errors.",
     icon: Calculator,
     color: "bg-sky-50 text-sky-500",
   },
   {
     title: "Role-Based Dashboards",
     description:
-      "Customized, Role-Based Dashboards Designed For Brokers, Referrers, And Team Members.",
+      "Customized, role-based dashboards designed for brokers, referrers, and team members.",
     icon: Users,
     color: "bg-violet-50 text-violet-500",
   },
   {
     title: "Secure Referral Management",
     description:
-      "Enterprise-Grade Security With Role-Based Access Control And Encrypted Data Storage.",
+      "Enterprise-grade security with role-based access control and encrypted data storage.",
     icon: ShieldCheck,
     color: "bg-emerald-50 text-emerald-500",
   },
   {
     title: "Real-Time Notifications",
     description:
-      "Stay Updated With Instant Email And SMS Alerts For Deal Progress And Commission Updates.",
+      "Stay updated with instant email and SMS alerts for deal progress and commission updates.",
     icon: Bell,
     color: "bg-orange-50 text-orange-500",
   },
   {
     title: "Reporting & Insights",
     description:
-      "Track Referrals With Year-Over-Year Trends, Flexible Dates, And Exportable Analytics.",
+      "Track referrals with year-over-year trends, flexible dates, and exportable analytics.",
     icon: BarChart3,
     color: "bg-indigo-50 text-indigo-500",
   },
   {
     title: "Lead Management",
     description:
-      "Automatically Sync Referral Leads To Your CRM Via API And Zapier For Seamless Tracking And Follow-Ups.",
+      "Automatically sync referral leads to your CRM via API and Zapier for seamless tracking and follow-ups.",
     icon: LinkIcon,
     color: "bg-pink-50 text-pink-500",
   },
@@ -73,7 +73,7 @@ const FeaturesSection = () => {
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="rounded-2xl border border-[#D8E7FF] bg-white p-4.5 md:p-6"
+              className="rounded-2xl border border-[#D8E7FF] bg-white p-4.5 md:p-6 transition-all duration-300 hover:shadow-md hover:-translate-y-1 cursor-default"
             >
               <div
                 className={`mb-4 md:mb-6 inline-flex p-3 items-center justify-center rounded-xl ${feature.color}`}

@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "@/assets/logos/refer_now_logo.png";
 
@@ -16,6 +17,13 @@ const navItems = [
 const Navbar = ({ activeSection, onSectionClick }: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleSectionNavigation = (sectionId: string) => {
     if (location.pathname === "/") {
@@ -39,7 +47,10 @@ const Navbar = ({ activeSection, onSectionClick }: Props) => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 md:pt-8">
       <div className="mx-auto md:px-20 lg:px-37.5">
-        <nav className="w-full bg-white md:border md:border-[rgb(234,234,234)] md:rounded-2xl px-4.5 md:mt-2.5 md:px-6 md:py-2.5 flex items-center justify-between">
+        <nav className={`w-full bg-white md:border md:border-[rgb(234,234,234)] md:rounded-2xl px-4.5 md:px-6 md:py-2.5 flex items-center justify-between transition-all duration-300 ${scrolled
+            ? "shadow-md md:shadow-lg backdrop-blur-md bg-white/90"
+            : ""
+          }`}>
           <button
             type="button"
             className="cursor-pointer w-26 h-12 md:w-37.5 md:h-12.5 bg-transparent border-0 p-0"
@@ -61,11 +72,10 @@ const Navbar = ({ activeSection, onSectionClick }: Props) => {
                   key={id}
                   type="button"
                   onClick={() => handleSectionNavigation(id)}
-                  className={`text-lg leading-6.75 relative group ${
-                    isActive
-                      ? "text-sky-500"
-                      : "text-slate-500 hover:text-sky-500"
-                  }`}
+                  className={`text-lg leading-6.75 relative group ${isActive
+                    ? "text-sky-500"
+                    : "text-slate-500 hover:text-sky-500"
+                    }`}
                 >
                   {label}
                 </button>
