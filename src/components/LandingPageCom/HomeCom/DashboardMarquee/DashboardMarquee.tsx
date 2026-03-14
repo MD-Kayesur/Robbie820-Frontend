@@ -14,7 +14,7 @@ const DashboardMarquee = () => {
   ];
 
   return (
-    <section className="md:py-30 py-6 bg-white overflow-hidden border-t border-[#DFDEDE] md:border-t-0 px-4.5 md:px-0">
+    <section className="md:py-30 py-6 bg-white overflow-hidden border-t border-[#DFDEDE] md:border-t-0">
       <div className="max-w-7xl mx-auto px-4 mb-6 md:mb-16 text-center">
         <div>
           <h2 className="text-lg leading-5 font-medium md:leading-none mb-4 md:mb-8 text-[#12A8F5] md:text-[34px]">
