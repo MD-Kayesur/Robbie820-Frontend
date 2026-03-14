@@ -79,7 +79,7 @@ const Footer = () => {
         {/* Bottom Row: Copyright & Social */}
         <div className="flex flex-col-reverse gap-8 text-center md:flex-row md:items-center md:justify-between md:text-left">
           <p className="text-sm text-black md:text-base">
-            2024 ReferNow All Rights Reserved.
+            &#169; {new Date().getFullYear()} ReferNow All Rights Reserved.
           </p>
 
           {/* Horizontal divider */}

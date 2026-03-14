@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 import Navbar from "@/components/LandingPageCom/Navbar/Navbar";
 import DashboardMarquee from "@/components/LandingPageCom/HomeCom/DashboardMarquee/DashboardMarquee";
@@ -66,15 +67,26 @@ const Home = () => {
     navigate("/login");
   };
 
+  const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => (
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.7, delay }}
+    >
+      {children}
+    </motion.div>
+  );
+
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] selection:bg-sky-100 overflow-x-hidden no-scrollbar">
       <Navbar activeSection={activeSection} onSectionClick={setActiveSection} />
       <Hero onGetStarted={handleGetStarted} />
-      <DashboardMarquee />
-      <FeaturesSection />
-      <HowItWorks />
-      <SecurityCompliance />
-      <PricingSection />
+      <FadeIn delay={0.1}><DashboardMarquee /></FadeIn>
+      <FadeIn delay={0.1}><FeaturesSection /></FadeIn>
+      <FadeIn delay={0.1}><HowItWorks /></FadeIn>
+      <FadeIn delay={0.1}><SecurityCompliance /></FadeIn>
+      <FadeIn delay={0.1}><PricingSection /></FadeIn>
       <Footer />
     </div>
   );
