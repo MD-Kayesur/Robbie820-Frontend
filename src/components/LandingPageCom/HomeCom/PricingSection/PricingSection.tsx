@@ -105,14 +105,6 @@ const PricingSection = () => {
                 Yearly
               </button>
             </div>
-            {/* Save badge — shown next to the toggle */}
-            <span className={`text-[10px] md:text-xs font-semibold px-2.5 py-1 rounded-full transition-all duration-300 ${
-              billingCycle === "yearly"
-                ? "bg-emerald-100 text-emerald-700 opacity-100 scale-100"
-                : "opacity-0 scale-90 pointer-events-none"
-            }`}>
-              Save 16%
-            </span>
           </div>
         </div>
 
@@ -155,11 +147,16 @@ const PricingSection = () => {
                     )}
                 </div>
 
-                {/* Monthly equivalent shown in yearly mode */}
+                {/* Monthly equivalent & Save badge shown in yearly mode */}
                 {billingCycle === "yearly" && plan.monthlyEquivalent && (
-                  <p className="text-xs md:text-sm text-emerald-600 font-medium">
-                    {plan.monthlyEquivalent}/mo — billed annually
-                  </p>
+                  <div className="flex items-center gap-2 animate-fade-in">
+                    <p className="text-xs md:text-sm text-emerald-600 font-medium">
+                      {plan.monthlyEquivalent}/mo — billed annually
+                    </p>
+                    <span className="text-[10px] md:text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">
+                      Save 16%
+                    </span>
+                  </div>
                 )}
               </div>
 

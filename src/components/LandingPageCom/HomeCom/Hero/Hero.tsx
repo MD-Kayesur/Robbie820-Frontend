@@ -62,7 +62,7 @@ const Hero = ({ onGetStarted, className }: HeroProps) => {
               <div className="md:space-y-11 space-y-3 mb-5 md:mb-16">
                 <motion.h1
                   variants={item}
-                  className="text-xl md:text-4xl lg:text-[56px] leading-6 md:leading-16 font-medium text-[#0F172A]"
+                  className="text-2xl md:text-4xl lg:text-[56px] leading-6 md:leading-16 font-medium text-[#0F172A]"
                 >
                   Automate Referral Commissions <br />
                   With
@@ -71,7 +71,7 @@ const Hero = ({ onGetStarted, className }: HeroProps) => {
 
                 <motion.p
                   variants={item}
-                  className="text-xs md:text-lg text-[#504F4F] md:max-w-4xl mx-auto lg:mx-0"
+                  className="text-sm md:text-lg text-[#504F4F] md:max-w-4xl mx-auto lg:mx-0"
                 >
                   Eliminate manual tracking and commission disputes. Our platform
                   connects brokers and referral partners with transparent,
