@@ -16,6 +16,8 @@ import {
 import { cn } from "@/hooks/useCn";
 import { useOutsideClose } from "@/hooks/useOutsideClose";
 
+import logo from "@/assets/logos/refer_now_logo.png";
+
 type ItemProps = {
   to: string;
   icon: React.ElementType;
@@ -92,14 +94,9 @@ const BrokerSidebar = ({ mobileOpen, onClose }: Props) => {
               navigate("/");
               onClose();
             }}
-            className="text-left text-[#00B4FE]"
+            className="text-left"
           >
-            <h1 className="text-2xl font-semibold leading-6">Refer Now</h1>
-            <p className="text-[10px] font-medium uppercase leading-2.5">
-              Seamlessly
-              <br />
-              Connected
-            </p>
+            <img src={logo} alt="ReferNow" className="h-auto w-40 scale-130" />
           </button>
 
           <button
