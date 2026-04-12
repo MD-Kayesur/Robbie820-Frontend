@@ -115,6 +115,7 @@ export type LeadTableRow = {
   status: LeadStatus;
   commission: number;
   timeline: RangeKey;
+  paymentStatus: PaymentStatus;
 };
 
 export type CreateLeadStage =

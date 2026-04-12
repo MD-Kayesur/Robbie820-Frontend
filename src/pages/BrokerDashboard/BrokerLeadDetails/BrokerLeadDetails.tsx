@@ -13,6 +13,7 @@ import {
   Save,
   SquarePen,
   Trash2,
+  TrendingUp,
   User,
   X,
 } from "lucide-react";
@@ -435,119 +436,153 @@ export default function BrokerLeadDetails() {
 
         <div className="min-w-0 space-y-5">
           <SectionCard
-            title={isEditing ? "Commission Calculation" : "Commission Summary"}
+            title={isEditing ? "Commission Calculation" : "Referral Revenue Split"}
             icon={BadgeDollarSign}
-            className="bg-[#EEF2FF]"
+            className="bg-[#F8FAFF]"
           >
             {isEditing ? (
               <div className="space-y-4">
-                <div className="rounded-xl bg-white p-4">
-                  <p className="text-[12px] text-[#9CA3AF]">
-                    Expected Commission for Broker
+                <div className="rounded-xl border border-[#2563EB33] bg-white p-4 shadow-sm">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-[#9CA3AF]">
+                    Broker Net Revenue
                   </p>
-                  <p className="mt-1 wrap-break-word text-[22px] font-semibold text-[#16A34A] md:text-[24px]">
+                  <p className="mt-1 wrap-break-word text-[24px] font-bold text-[#16A34A] md:text-[26px]">
                     {formatMoney(recalculated.brokerCommission)}
                   </p>
                   <p className="mt-1 text-[11px] text-[#9CA3AF]">
-                    Net after referrer split
+                    Your expected earnings
                   </p>
                 </div>
 
-                <div className="rounded-xl bg-white p-4">
-                  <p className="text-[12px] text-[#9CA3AF]">
-                    Expected Commission for Referrer
+                <div className="rounded-xl border border-[#2563EB33] bg-white p-4 shadow-sm">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-[#9CA3AF]">
+                    Referrer Payout Amount
                   </p>
-                  <p className="mt-1 wrap-break-word text-[22px] font-semibold text-[#2563EB] md:text-[24px]">
+                  <p className="mt-1 wrap-break-word text-[24px] font-bold text-[#2563EB] md:text-[26px]">
                     {formatMoney(recalculated.referrerFeeExpected)}
                   </p>
                   <p className="mt-1 text-[11px] text-[#9CA3AF]">
-                    ({lead.referrerCommissionPercent}% split)
+                    Partner split ({lead.referrerCommissionPercent}%)
                   </p>
                 </div>
 
-                <div className="rounded-xl bg-[#2563EB] p-4 text-white">
-                  <p className="text-[12px]/5 text-white/80">
-                    Total Estimated Revenue
+                <div className="rounded-xl bg-[#2563EB] p-4 text-white shadow-md">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-white/70">
+                    Total Estimated Commission
                   </p>
-                  <p className="mt-1 wrap-break-word text-[22px] font-semibold md:text-[24px]">
+                  <p className="mt-1 wrap-break-word text-[24px] font-bold md:text-[26px]">
                     {formatMoney(recalculated.totalCommission)}
                   </p>
-                  <p className="mt-1 text-[11px] text-white/80">
-                    1% of total loan amount
+                  <p className="mt-1 text-[11px] text-white/70">
+                    Calculated at 1% of loan amount
                   </p>
                 </div>
               </div>
             ) : (
               <div className="space-y-5">
-                <div className="rounded-xl border border-[#DCE7F5] bg-white/40 p-4">
-                  <p className="text-[12px] text-[#9CA3AF]">
-                    Expected Commission for Broker
-                  </p>
-                  <p className="mt-1 wrap-break-word text-[26px] font-semibold text-[#111827]">
-                    {formatMoney(lead.brokerCommission)}
-                  </p>
+                <div className="rounded-2xl border-2 border-dashed border-[#2563EB22] bg-white p-5 shadow-sm">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-[#9CA3AF]">
+                        Broker Comm
+                      </p>
+                      <p className="mt-1 wrap-break-word text-[28px] font-bold text-[#111827]">
+                        {formatMoney(lead.brokerCommission)}
+                      </p>
+                    </div>
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                      <TrendingUp className="h-6 w-6" />
+                    </div>
+                  </div>
                 </div>
 
-                <div className="rounded-xl border border-[#DCE7F5] bg-white/40 p-4">
-                  <p className="text-[12px] text-[#9CA3AF]">
-                    Expected Commission for Referrer
-                  </p>
-                  <p className="mt-1 wrap-break-word text-[26px] font-semibold text-[#2563EB]">
-                    {formatMoney(lead.referrerFeeExpected)}
-                  </p>
-                  <p className="mt-1 text-[11px] text-[#9CA3AF]">
-                    {lead.agreementType === "Flat Referral Fee"
-                      ? "Flat payout amount"
-                      : `${lead.referrerCommissionPercent}% of total`}
-                  </p>
+                <div className="rounded-2xl border-2 border-dashed border-[#2563EB22] bg-white p-5 shadow-sm">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-[#9CA3AF]">
+                        Referrer Comm
+                      </p>
+                      <p className="mt-1 wrap-break-word text-[28px] font-bold text-[#2563EB]">
+                        {formatMoney(lead.referrerFeeExpected)}
+                      </p>
+                      <p className="mt-2 text-[11px] font-medium text-[#6B7280]">
+                        {lead.agreementType === "Flat Referral Fee"
+                          ? "Fixed partner fee"
+                          : `${lead.referrerCommissionPercent}% partner split`}
+                      </p>
+                    </div>
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                      <BadgeDollarSign className="h-6 w-6" />
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
           </SectionCard>
 
           {!isEditing ? (
-            <SectionCard title="Payment Status" icon={CreditCard}>
-              <div className="space-y-4">
-                <ReadonlyField
-                  label="Status"
-                  value={
-                    <span
-                      className={cn(
-                        "inline-flex max-w-full wrap-break-word rounded-full border px-2.5 py-1 text-[12px] font-medium",
-                        paymentPillClassMap[lead.paymentStatus],
-                      )}
-                    >
-                      {lead.paymentStatus}
-                    </span>
-                  }
-                />
+            <div className="space-y-5">
+              <SectionCard title="Payment Tracking" icon={CreditCard}>
+                <div className="space-y-5">
+                  <div className="grid grid-cols-2 gap-4 border-b border-slate-100 pb-5">
+                    <ReadonlyField
+                      label="Current Payment Status"
+                      value={
+                        <span
+                          className={cn(
+                            "inline-flex max-w-full wrap-break-word rounded-full border px-3 py-1 text-[12px] font-semibold uppercase tracking-wide",
+                            paymentPillClassMap[lead.paymentStatus],
+                          )}
+                        >
+                          {lead.paymentStatus}
+                        </span>
+                      }
+                    />
+                    <ReadonlyField
+                      label="Payment Method"
+                      value={
+                        <span className="text-[14px] font-medium text-[#111827]">
+                          Bank Transfer (EFT)
+                        </span>
+                      }
+                    />
+                  </div>
 
-                <ReadonlyField
-                  label="Date Payment Made"
-                  value={
-                    lead.paymentMadeDate ? formatDisplayDate(lead.paymentMadeDate) : "-"
-                  }
-                />
+                  <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-wider text-[#9CA3AF]">
+                        Date Payment Made
+                      </p>
+                      <p className="mt-1 text-[18px] font-bold text-[#111827]">
+                        {lead.paymentMadeDate
+                          ? formatDisplayDate(lead.paymentMadeDate)
+                          : "Not Yet Executed"}
+                      </p>
+                    </div>
 
-                <ReadonlyField
-                  label="Expected Payment Date"
-                  value={
-                    lead.paymentDate ? formatDisplayDate(lead.paymentDate) : "-"
-                  }
-                />
+                    <div className="rounded-xl border border-slate-200 bg-white p-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-wider text-[#9CA3AF]">
+                        Exp. Payment Date
+                      </p>
+                      <p className="mt-1 text-[18px] font-bold text-[#6B7280]">
+                        {lead.paymentDate
+                          ? formatDisplayDate(lead.paymentDate)
+                          : "TBA"}
+                      </p>
+                    </div>
+                  </div>
 
-                <ReadonlyField label="Payment Method" value="Bank Transfer" />
-
-                <ReadonlyField
-                  label="Payment Notes"
-                  value={
-                    lead.paymentNotes ||
-                    "Payment will be processed within 5 business days after settlement."
-                  }
-                  valueClassName="wrap-break-word font-normal text-[#6B7280]"
-                />
-              </div>
-            </SectionCard>
+                  <ReadonlyField
+                    label="Payment Execution Notes"
+                    value={
+                      lead.paymentNotes ||
+                      "No specific notes recorded for this transaction."
+                    }
+                    valueClassName="wrap-break-word font-normal text-[#6B7280] text-[13px] leading-relaxed"
+                  />
+                </div>
+              </SectionCard>
+            </div>
           ) : null}
 
           <SectionCard title="Activity Timeline" icon={Clock3}>

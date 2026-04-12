@@ -7,6 +7,7 @@ import { useFloatingMenu } from "@/hooks/useFloatingMenu";
 import type {
   Lead,
   LeadStatus,
+  PaymentStatus,
 } from "../../../pages/BrokerDashboard/BrokerOverview/types";
 import {
   formatMoney,
@@ -29,6 +30,13 @@ const statusClassMap: Record<LeadStatus, string> = {
   APPROVED: "bg-[#F0FDF4] text-[#16A34A] border-[#BBF7D0]",
   FUNDED: "bg-[#ECFDF5] text-[#059669] border-[#A7F3D0]",
   DISQUALIFIED: "bg-[#FEF2F2] text-[#EF4444] border-[#FECACA]",
+};
+
+const paymentPillClassMap: Record<PaymentStatus, string> = {
+  "Paid to ref": "bg-emerald-50 text-emerald-600 border-emerald-200",
+  "pending settlement": "bg-slate-100 text-slate-500 border-slate-200",
+  "Payment outstanding to referrer":
+    "bg-amber-50 text-amber-700 border-amber-200",
 };
 
 function getRelativeTimeLabel(date: string) {
@@ -202,9 +210,19 @@ export default function RecentLeadsTable({
 
                 <div className="flex justify-between">
                   <span>Referrer Payout</span>
-                  <span className="font-medium text-[#16A34A]">
-                    {formatMoney(row.commission)}
-                  </span>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className="font-medium text-[#16A34A]">
+                      {formatMoney(row.commission)}
+                    </span>
+                    <span
+                      className={cn(
+                        "rounded-full border px-2 py-0.5 text-[10px] font-medium leading-none",
+                        paymentPillClassMap[row.paymentStatus],
+                      )}
+                    >
+                      {row.paymentStatus}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="flex justify-between">
@@ -290,8 +308,20 @@ export default function RecentLeadsTable({
                     </span>
                   </td>
 
-                  <td className="px-5 py-4 text-sm font-medium text-[#16A34A]">
-                    {formatMoney(row.commission)}
+                  <td className="px-5 py-4">
+                    <div className="flex flex-col gap-1.5">
+                      <span className="font-medium text-[#16A34A]">
+                        {formatMoney(row.commission)}
+                      </span>
+                      <span
+                        className={cn(
+                          "inline-flex w-fit rounded-full border px-2 py-0.5 text-[10px] font-medium leading-none",
+                          paymentPillClassMap[row.paymentStatus],
+                        )}
+                      >
+                        {row.paymentStatus}
+                      </span>
+                    </div>
                   </td>
 
                   <td className="px-5 py-4 text-sm text-[#9CA3AF]">

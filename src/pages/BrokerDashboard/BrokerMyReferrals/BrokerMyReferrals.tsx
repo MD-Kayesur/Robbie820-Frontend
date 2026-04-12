@@ -48,7 +48,7 @@ const BrokerMyReferrals = () => {
         query.length === 0
           ? true
           : row.borrowerName.toLowerCase().includes(query) ||
-            row.referrer.toLowerCase().includes(query);
+          row.referrer.toLowerCase().includes(query);
 
       const matchesReferrer =
         referrer === "Referrer" ? true : row.referrer === referrer;
@@ -125,10 +125,10 @@ const BrokerMyReferrals = () => {
           ?.name || "Unassigned",
       settlementDate: lead.expectedSettlementDate
         ? new Date(lead.expectedSettlementDate).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          })
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        })
         : "-",
     };
   }
@@ -294,7 +294,7 @@ const BrokerMyReferrals = () => {
 
                     <td className="px-4 py-4">
                       <RowMenu
-                        onView={() => {}}
+                        onView={() => { }}
                       />
                     </td>
                   </tr>
@@ -363,7 +363,12 @@ const BrokerMyReferrals = () => {
         </div>
       </div>
 
-      <ExportModal open={exportOpen} onClose={() => setExportOpen(false)} />
+      <ExportModal
+        open={exportOpen}
+        onClose={() => setExportOpen(false)}
+        leadRows={leadRows}
+        filteredRows={filteredRows}
+      />
 
       <CreateLeadModal
         open={createLeadOpen}

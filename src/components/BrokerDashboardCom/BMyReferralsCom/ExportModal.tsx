@@ -4,13 +4,18 @@ import { Calendar, Download, X } from "lucide-react";
 import { cn } from "@/hooks/useCn";
 import { useOutsideClose } from "@/hooks/useOutsideClose";
 import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
+import type { ReferralRow } from "@/pages/BrokerDashboard/BrokerMyReferrals/types";
 
 function ExportModal({
   open,
   onClose,
+  leadRows,
+  filteredRows,
 }: {
   open: boolean;
   onClose: () => void;
+  leadRows: ReferralRow[];
+  filteredRows: ReferralRow[];
 }) {
   const [dateRange, setDateRange] = useState("Last 30 Days");
   const [exportScope, setExportScope] = useState("Filtered Results");
@@ -46,6 +51,46 @@ function ExportModal({
 
   const toggleField = (key: keyof typeof fields) => {
     setFields((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const handleExport = () => {
+    const dataToExport = exportScope === "Filtered Results" ? filteredRows : leadRows;
+    const selectedFields = Object.entries(fields)
+      .filter(([_, value]) => value)
+      .map(([key]) => key);
+
+    if (selectedFields.length === 0) {
+      alert("Please select at least one field to export.");
+      return;
+    }
+
+    const headers = includeRows
+      .filter(([_, key]) => fields[key as keyof typeof fields])
+      .map(([label]) => label);
+
+    const csvRows = [headers.join(",")];
+
+    dataToExport.forEach((row) => {
+      const rowValues = includeRows
+        .filter(([_, key]) => fields[key as keyof typeof fields])
+        .map(([_, key]) => {
+          const value = row[key as keyof ReferralRow];
+          // Escape commas and wrap in quotes for CSV safety
+          const stringValue = String(value || "").replace(/"/g, '""');
+          return `"${stringValue}"`;
+        });
+      csvRows.push(rowValues.join(","));
+    });
+
+    const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `referrals_export_${new Date().toISOString().split("T")[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    onClose();
   };
 
   return (
@@ -196,6 +241,7 @@ function ExportModal({
 
           <button
             type="button"
+            onClick={handleExport}
             className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#11A9F3] px-5 text-[15px] font-medium text-white transition hover:opacity-90"
           >
             <Download className="h-4 w-4" strokeWidth={1.9} />

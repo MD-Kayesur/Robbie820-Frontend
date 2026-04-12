@@ -98,6 +98,7 @@ export function mapLeadToTableRow(lead: Lead): LeadTableRow {
     status: lead.leadStage,
     commission: lead.referrerFeeExpected,
     timeline: lead.timeline,
+    paymentStatus: lead.paymentStatus,
   };
 }
 
