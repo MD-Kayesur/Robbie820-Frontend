@@ -109,4 +109,5 @@ export const appPreferencesMock: AppPreferencesState = {
   leadStagnationAlert: true,
   stagnationPeriod: "7_days",
   weeklySummaryDigest: false,
+  aggregatorFeePercent: 10,
 };

@@ -127,6 +127,40 @@ const AppPreferencesTab = ({
         </div>
 
         <div className="mt-10 flex items-center gap-3 md:mt-12">
+          <Clock3 className="h-6 w-6 text-[#111827] md:h-8 md:w-8" />
+          <h2 className="text-[18px] font-semibold uppercase tracking-[-0.03em] text-[#111827] md:text-[22px]">
+            System Defaults
+          </h2>
+        </div>
+
+        <div className="mt-6 grid grid-cols-1 gap-5 md:mt-8 md:grid-cols-2">
+          <div className="relative">
+            <label className="mb-2 block text-[12px] font-medium uppercase text-[#8B8F97] md:text-[13px]">
+              GLOBAL AGGREGATOR FEE (%)
+            </label>
+            <div className="relative">
+              <input
+                type="number"
+                min="0"
+                max="100"
+                step="0.1"
+                value={value.aggregatorFeePercent}
+                onChange={(e) =>
+                  updateField("aggregatorFeePercent", Number(e.target.value))
+                }
+                className="flex h-11 w-full items-center justify-between rounded-xl border border-[#EEF2F7] bg-[#F8FAFC] px-4 text-left text-[14px] text-[#111827] outline-none transition focus:border-[#0EA5E9] md:h-12 md:text-[15px]"
+              />
+              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-[#6B7280]">
+                %
+              </span>
+            </div>
+            <p className="mt-2 text-[12px] text-[#6B7280]">
+              This fee is applied globally across all partners and formulas.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-10 flex items-center gap-3 md:mt-12">
           <Bell className="h-6 w-6 text-[#6B7280] md:h-7 md:w-7" />
           <h2 className="text-[18px] font-semibold uppercase tracking-[-0.03em] text-[#111827] md:text-[22px]">
             Notification Routing

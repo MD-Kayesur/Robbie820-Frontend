@@ -23,6 +23,8 @@ import {
   partnerProfilesMock,
   partnerRecentReferralsMock,
 } from "../BrokerPartnerProfiles/mock";
+import { appPreferencesMock } from "../BrokerSettings/mock";
+import PartnerLegalDocuments from "@/components/BrokerDashboardCom/BPartnerProfileCom/PartnerLegalDocuments";
 import type {
   PartnerRecentReferral,
   ReferralFeeStatus,
@@ -307,7 +309,12 @@ const BrokerPartnerDetails = () => {
         <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row">
           <button
             type="button"
-            onClick={() => { }}
+            onClick={() => {
+              alert(
+                "Downloading Full Agreement: " +
+                (agreement?.agreementName || "Standard Referral Agreement"),
+              );
+            }}
             className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#D1D5DB] bg-white px-4 text-sm font-medium text-[#111827] transition hover:bg-slate-50 md:w-auto"
           >
             <Download className="h-4 w-4" />
@@ -323,6 +330,17 @@ const BrokerPartnerDetails = () => {
           >
             <Edit className="h-4 w-4" />
             Edit Configuration
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              alert("Portal access reset link sent to " + partner.email);
+            }}
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#D1D5DB] bg-white px-4 text-sm font-medium text-[#111827] transition hover:bg-slate-50 md:w-auto"
+          >
+            <User className="h-4 w-4" />
+            Reset Portal Access
           </button>
         </div>
       </div>
@@ -453,12 +471,12 @@ const BrokerPartnerDetails = () => {
             </div>
 
             <div>
-              <p className="text-xs text-[#6B7280]">Aggregator Fee</p>
+              <p className="text-xs text-[#6B7280]">Aggregator Fee (Global)</p>
               <p className="mt-1 text-sm font-medium text-[#111827]">
-                {agreement?.aggregatorFeePercent ?? 0}%
+                {appPreferencesMock.aggregatorFeePercent}%
               </p>
               <p className="mt-1 text-xs leading-5 text-[#6B7280]">
-                Aggregator fee is applied before referral commission is
+                Global aggregator fee applied before referral commission is
                 calculated.
               </p>
             </div>
@@ -530,6 +548,10 @@ const BrokerPartnerDetails = () => {
             Save Notes
           </button>
         </div>
+      </div>
+
+      <div className="rounded-2xl border border-[#E5E7EB] bg-white p-4 md:p-5">
+        <PartnerLegalDocuments />
       </div>
 
       <div>
@@ -608,10 +630,7 @@ const BrokerPartnerDetails = () => {
                   Status
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-[#6B7280]">
-                  Loan Amount
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-[#6B7280]">
-                  Commission generated
+                  Ref Comm Earned
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-[#6B7280]">
                   Referral Fee Paid
@@ -639,10 +658,6 @@ const BrokerPartnerDetails = () => {
                     <StatusPill className={getReferralStatusClass(item.status)}>
                       {item.status}
                     </StatusPill>
-                  </td>
-
-                  <td className="px-4 py-3 text-sm text-[#111827]">
-                    {formatMoney(item.loanAmount)}
                   </td>
 
                   <td className="px-4 py-3 text-sm text-[#111827]">

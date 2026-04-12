@@ -15,6 +15,7 @@ import {
   partnerProfileStepLabels,
   portalAccessRoleOptions,
 } from "@/pages/BrokerDashboard/BrokerPartnerProfiles/mock";
+import { appPreferencesMock } from "@/pages/BrokerDashboard/BrokerSettings/mock";
 
 type OnboardPartnerModalProps = {
   open: boolean;
@@ -364,15 +365,13 @@ const OnboardPartnerModal = ({
 
   const exampleLoanAmount = 500000;
 
-  const referrerCommissionValue =
-    form.referrerCommissionPercent === ""
-      ? 0
-      : (exampleLoanAmount * form.referrerCommissionPercent) / 100;
+  const aggregatorFeePercent = appPreferencesMock.aggregatorFeePercent;
 
-  const aggregatorFeeValue =
-    form.aggregatorFeePercent === ""
-      ? 0
-      : (exampleLoanAmount * form.aggregatorFeePercent) / 100;
+  const bankRate = 0.65; // Example bank rate
+  const bankComm = (exampleLoanAmount * bankRate) / 100;
+  const netComm = bankComm * (1 - aggregatorFeePercent / 100);
+  const refRate = form.referrerCommissionPercent === "" ? 0 : form.referrerCommissionPercent;
+  const refCommEarned = (netComm * refRate) / 100;
 
   const canGoNext = useMemo(() => {
     switch (currentStep) {
@@ -391,8 +390,7 @@ const OnboardPartnerModal = ({
           form.agreementName.trim() &&
           form.effectiveStartDate.trim() &&
           form.agreementStatus &&
-          form.referrerCommissionPercent !== "" &&
-          form.aggregatorFeePercent !== "",
+          form.referrerCommissionPercent !== "",
         );
       case 3:
         return Boolean(
@@ -632,17 +630,7 @@ const OnboardPartnerModal = ({
                       onChange={(value) =>
                         updateForm("referrerCommissionPercent", value)
                       }
-                      placeholder="1.0"
-                    />
-                  </ModalField>
-
-                  <ModalField label="Aggregator Fee %">
-                    <PercentInput
-                      value={form.aggregatorFeePercent}
-                      onChange={(value) =>
-                        updateForm("aggregatorFeePercent", value)
-                      }
-                      placeholder="0.5"
+                      placeholder="20.0"
                     />
                   </ModalField>
                 </div>
@@ -655,24 +643,20 @@ const OnboardPartnerModal = ({
 
                 <div className="mt-4 space-y-2 md:text-sm text-xs text-[#374151]">
                   <p>Loan Amount: {formatCurrency(exampleLoanAmount)}</p>
+                  <p>Bank Commission (0.65%): {formatCurrency(bankComm)}</p>
                   <p>
-                    Referrer Commission (
+                    Aggregator Fee ({aggregatorFeePercent}%): -
+                    {formatCurrency(bankComm * (aggregatorFeePercent / 100))}
+                  </p>
+                  <p>Net Commission: {formatCurrency(netComm)}</p>
+                  <p>
+                    Ref Comm Earned (
                     {form.referrerCommissionPercent === ""
                       ? "0"
                       : form.referrerCommissionPercent}
-                    %):{" "}
+                    % of Net):{" "}
                     <span className="font-semibold">
-                      {formatCurrency(referrerCommissionValue)}
-                    </span>
-                  </p>
-                  <p>
-                    Aggregator Fee (
-                    {form.aggregatorFeePercent === ""
-                      ? "0"
-                      : form.aggregatorFeePercent}
-                    %):{" "}
-                    <span className="font-semibold">
-                      {formatCurrency(aggregatorFeeValue)}
+                      {formatCurrency(refCommEarned)}
                     </span>
                   </p>
                 </div>
@@ -780,8 +764,8 @@ const OnboardPartnerModal = ({
                     value={`${form.referrerCommissionPercent || 0}%`}
                   />
                   <ReviewRow
-                    label="Aggregator Fee"
-                    value={`${form.aggregatorFeePercent || 0}%`}
+                    label="Aggregator Fee (Global)"
+                    value={`${aggregatorFeePercent}%`}
                   />
                 </div>
               </ReviewCard>

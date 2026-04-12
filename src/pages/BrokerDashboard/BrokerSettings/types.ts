@@ -60,4 +60,5 @@ export type AppPreferencesState = {
   leadStagnationAlert: boolean;
   stagnationPeriod: string;
   weeklySummaryDigest: boolean;
+  aggregatorFeePercent: number;
 };
