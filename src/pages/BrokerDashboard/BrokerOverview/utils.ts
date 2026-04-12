@@ -183,7 +183,7 @@ export function buildLeadFromCreateForm({
 
     estimatedLoanAmount: amount,
     loanType: form.loanType || "Home Loan",
-    interestRate: Number(form.interestRate) || 0,
+    interestRate: 0,
     expectedSettlementDate: form.expectedSettlementDate,
 
     referrerName: referrer?.name || "Unknown Referrer",

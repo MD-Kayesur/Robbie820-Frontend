@@ -175,11 +175,6 @@ export default function RecentLeadsTable({
                 </div>
 
                 <div className="flex justify-between">
-                  <span>Rate</span>
-                  <span className="text-black">{row.rate.toFixed(2)}%</span>
-                </div>
-
-                <div className="flex justify-between">
                   <span>Commission</span>
                   <span className="font-medium text-[#16A34A]">
                     {formatMoney(row.commission)}
@@ -221,7 +216,6 @@ export default function RecentLeadsTable({
                 "Referrer",
                 "Loan Amount",
                 "Stage",
-                "Interest Rate",
                 "Commission",
                 "Last Updated",
                 "Actions",
@@ -267,10 +261,6 @@ export default function RecentLeadsTable({
                     >
                       {row.status}
                     </span>
-                  </td>
-
-                  <td className="px-5 py-4 text-sm text-[#6B7280]">
-                    {row.rate.toFixed(2)}%
                   </td>
 
                   <td className="px-5 py-4 text-sm font-medium text-[#16A34A]">

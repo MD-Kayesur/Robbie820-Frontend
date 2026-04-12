@@ -108,12 +108,12 @@ export default function BrokerLeadDetails() {
     setLead((prev) =>
       prev
         ? {
-            ...prev,
-            totalCommission: recalculated.totalCommission,
-            brokerCommission: recalculated.brokerCommission,
-            referrerFeeExpected: recalculated.referrerFeeExpected,
-            agreementSplitPercent: prev.referrerCommissionPercent,
-          }
+          ...prev,
+          totalCommission: recalculated.totalCommission,
+          brokerCommission: recalculated.brokerCommission,
+          referrerFeeExpected: recalculated.referrerFeeExpected,
+          agreementSplitPercent: prev.referrerCommissionPercent,
+        }
         : prev,
     );
     setIsEditing(false);
@@ -263,9 +263,9 @@ export default function BrokerLeadDetails() {
                     setLead((prev) =>
                       prev
                         ? {
-                            ...prev,
-                            estimatedLoanAmount: Number(value) || 0,
-                          }
+                          ...prev,
+                          estimatedLoanAmount: Number(value) || 0,
+                        }
                         : prev,
                     )
                   }
@@ -274,20 +274,6 @@ export default function BrokerLeadDetails() {
                   prefix="$"
                 />
 
-                <InputField
-                  label="Interest Rate"
-                  value={lead.interestRate}
-                  onChange={(value) =>
-                    setLead((prev) =>
-                      prev
-                        ? { ...prev, interestRate: Number(value) || 0 }
-                        : prev,
-                    )
-                  }
-                  placeholder="6.25"
-                  type="number"
-                  suffix="%"
-                />
 
                 <ReadonlyField
                   label="Loan Status"
@@ -319,11 +305,6 @@ export default function BrokerLeadDetails() {
                 <ReadonlyField
                   label="Estimated Loan Amount"
                   value={formatMoney(lead.estimatedLoanAmount)}
-                  valueClassName="text-[24px] leading-tight md:text-[28px] lg:text-[32px]"
-                />
-                <ReadonlyField
-                  label="Interest Rate"
-                  value={`${lead.interestRate.toFixed(2)}%`}
                   valueClassName="text-[24px] leading-tight md:text-[28px] lg:text-[32px]"
                 />
                 <ReadonlyField

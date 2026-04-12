@@ -130,7 +130,6 @@ export type CreateLeadForm = {
 
   estimatedLoanAmount: string;
   loanType: LoanType | "";
-  interestRate: string;
   expectedSettlementDate: string;
 
   leadStage: CreateLeadStage;
@@ -144,7 +143,6 @@ export type EditLeadForm = {
   companyName: string;
 
   estimatedLoanAmount: string;
-  interestRate: string;
   expectedSettlementDate: string;
 
   leadStage: LeadStatus;

@@ -46,7 +46,6 @@ const defaultForm: CreateLeadForm = {
   referrerCommissionPercent: "",
   estimatedLoanAmount: "",
   loanType: "",
-  interestRate: "",
   expectedSettlementDate: "",
   leadStage: "New Referral",
   assignTo: "",
@@ -306,7 +305,6 @@ export default function CreateLeadModal({
     !form.referrerCommissionPercent.trim() ||
     !form.estimatedLoanAmount.trim() ||
     !form.loanType ||
-    !form.interestRate.trim() ||
     !form.expectedSettlementDate.trim() ||
     !form.assignTo;
 
@@ -493,15 +491,6 @@ export default function CreateLeadModal({
                       />
                     </Field>
 
-                    <Field label="Interest Rate (%)" required>
-                      <TextInput
-                        value={form.interestRate}
-                        onChange={(value) =>
-                          setForm((prev) => ({ ...prev, interestRate: value }))
-                        }
-                        placeholder="6.25"
-                      />
-                    </Field>
 
                     <Field label="Expected Settlement Date" required>
                       <TextInput
