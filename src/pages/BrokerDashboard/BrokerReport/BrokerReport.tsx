@@ -150,7 +150,7 @@ const BrokerReport = () => {
   };
 
   return (
-    <>
+    <div className="report-print-content">
       <div className="space-y-5 md:space-y-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0">
@@ -162,7 +162,7 @@ const BrokerReport = () => {
             </p>
           </div>
 
-          <div className="grid w-full grid-cols-1 gap-2 md:w-auto md:grid-cols-2">
+          <div className="grid w-full grid-cols-1 gap-2 md:w-auto md:grid-cols-2 print:hidden">
             <button
               type="button"
               onClick={exportCSV}
@@ -183,28 +183,30 @@ const BrokerReport = () => {
           </div>
         </div>
 
-        <ReportFilters
-          containerRef={topFiltersRef}
-          openMenu={openMenu}
-          onOpenMenuChange={setOpenMenu}
-          range={range}
-          datePreset={datePreset}
-          referrer={referrer}
-          selectedRangeLabel={selectedRangeLabel}
-          selectedDateLabel={selectedDateLabel}
-          selectedReferrerLabel={selectedReferrerLabel}
-          onRangeChange={setRange}
-          onDatePresetChange={setDatePreset}
-          onReferrerChange={setReferrer}
-        />
+        <div className="print:hidden">
+          <ReportFilters
+            containerRef={topFiltersRef}
+            openMenu={openMenu}
+            onOpenMenuChange={setOpenMenu}
+            range={range}
+            datePreset={datePreset}
+            referrer={referrer}
+            selectedRangeLabel={selectedRangeLabel}
+            selectedDateLabel={selectedDateLabel}
+            selectedReferrerLabel={selectedReferrerLabel}
+            onRangeChange={setRange}
+            onDatePresetChange={setDatePreset}
+            onReferrerChange={setReferrer}
+          />
+        </div>
 
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 report-metrics-grid">
           {summaryMetrics.map((item) => (
             <ReportMetricCard key={item.id} item={item} />
           ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-2 report-charts-grid">
           <section className="rounded-2xl border border-[#8ED3FF] bg-white p-4 md:p-5">
             <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
               <div className="min-w-0">
@@ -273,7 +275,7 @@ const BrokerReport = () => {
                   <button
                     type="button"
                     onClick={exportModalCSV}
-                    className="inline-flex items-center gap-2 rounded-lg border border-[#BEE3F8] bg-[#DFF4FF] px-4 py-2 text-xs font-medium text-[#355268] transition hover:bg-[#d3effd]"
+                    className="inline-flex items-center gap-2 rounded-lg border border-[#BEE3F8] bg-[#DFF4FF] px-4 py-2 text-xs font-medium text-[#355268] transition hover:bg-[#d3effd] print:hidden"
                   >
                     <Download className="h-4 w-4" />
                     <span>EXPORT LIST</span>
@@ -349,7 +351,7 @@ const BrokerReport = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
