@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Plus } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import { cn } from "@/hooks/useCn";
 
@@ -85,9 +86,9 @@ const BrokerTeamManagement = () => {
       prev.map((member) =>
         member.id === id
           ? {
-              ...member,
-              status: member.status === "Active" ? "Inactive" : "Active",
-            }
+            ...member,
+            status: member.status === "Active" ? "Inactive" : "Active",
+          }
           : member,
       ),
     );
@@ -135,7 +136,7 @@ const BrokerTeamManagement = () => {
             <div>
               <p className="text-sm text-[#7B7B82]">Plan Name</p>
               <p className="mt-1 text-lg font-medium text-[#111111]">
-                Professional Plan
+                Medium Office Plan
               </p>
             </div>
 
@@ -165,12 +166,14 @@ const BrokerTeamManagement = () => {
             Each additional broker seat adds to your monthly subscription.
           </p>
 
-          <button
-            type="button"
-            className="mt-6 inline-flex h-11 items-center justify-center rounded-xl border border-[#1F2937] px-4 text-[16px] font-medium text-[#111111] transition hover:bg-[#F7F7F8]"
-          >
-            View Subscription Details
-          </button>
+          <Link to="/broker-dashboard/subscription">
+            <button
+              type="button"
+              className="mt-6 inline-flex h-11 items-center justify-center rounded-xl border border-[#1F2937] px-4 text-[16px] font-medium text-[#111111] transition hover:bg-[#F7F7F8]"
+            >
+              View Subscription Details
+            </button>
+          </Link>
         </Card>
 
         <div className="grid gap-5 xl:grid-cols-3">

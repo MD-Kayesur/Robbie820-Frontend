@@ -1,6 +1,6 @@
 export type BillingCycle = "monthly" | "yearly";
 export type PaymentMethodType = "card" | "bank";
-export type SubscriptionPlanKey = "starter" | "professional" | "enterprise";
+export type SubscriptionPlanKey = "solo" | "mediumOffice" | "enterprise";
 export type InvoiceStatus = "Paid" | "Pending";
 
 export type CurrentPlanFeature = {

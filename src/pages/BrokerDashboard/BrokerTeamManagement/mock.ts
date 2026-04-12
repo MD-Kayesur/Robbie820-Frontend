@@ -31,8 +31,8 @@ export const initialMembers: TeamMember[] = [
 ];
 
 export const totalSeats = 5;
-export const monthlyPlanCost = 149;
-export const paidSeatExtraCost = 20;
+export const monthlyPlanCost = 138;
+export const paidSeatExtraCost = 69;
 
 export const roleCards: RoleCardItem[] = [
   {

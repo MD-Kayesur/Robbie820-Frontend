@@ -172,13 +172,13 @@ const BrokerSubscription = () => {
 
     const extraSeatQty =
       seatUsage.usedSeats >
-      (typeof currentPlan.brokerSeatsIncluded === "number"
-        ? currentPlan.brokerSeatsIncluded
-        : seatUsage.usedSeats)
+        (typeof currentPlan.brokerSeatsIncluded === "number"
+          ? currentPlan.brokerSeatsIncluded
+          : seatUsage.usedSeats)
         ? seatUsage.usedSeats -
-          (typeof currentPlan.brokerSeatsIncluded === "number"
-            ? currentPlan.brokerSeatsIncluded
-            : seatUsage.usedSeats)
+        (typeof currentPlan.brokerSeatsIncluded === "number"
+          ? currentPlan.brokerSeatsIncluded
+          : seatUsage.usedSeats)
         : 0;
 
     const planLineAmount =
@@ -189,34 +189,34 @@ const BrokerSubscription = () => {
     const items =
       currentPlan.planId === "enterprise"
         ? [
-            {
-              id: "line-1",
-              description: `${planName} (${capitalize(currentPlan.billingCycle)})`,
-              quantity: 1,
-              unitPrice: amount,
-              amount,
-            },
-          ]
+          {
+            id: "line-1",
+            description: `${planName} (${capitalize(currentPlan.billingCycle)})`,
+            quantity: 1,
+            unitPrice: amount,
+            amount,
+          },
+        ]
         : [
-            {
-              id: "line-1",
-              description: `${planName} (${capitalize(currentPlan.billingCycle)})`,
-              quantity: 1,
-              unitPrice: Math.max(planLineAmount, 0),
-              amount: Math.max(planLineAmount, 0),
-            },
-            ...(extraSeatQty > 0
-              ? [
-                  {
-                    id: "line-2",
-                    description: "Additional Broker Seat",
-                    quantity: extraSeatQty,
-                    unitPrice: seatUsage.additionalSeatMonthlyCost,
-                    amount: extraSeatQty * seatUsage.additionalSeatMonthlyCost,
-                  },
-                ]
-              : []),
-          ];
+          {
+            id: "line-1",
+            description: `${planName} (${capitalize(currentPlan.billingCycle)})`,
+            quantity: 1,
+            unitPrice: Math.max(planLineAmount, 0),
+            amount: Math.max(planLineAmount, 0),
+          },
+          ...(extraSeatQty > 0
+            ? [
+              {
+                id: "line-2",
+                description: "Additional Broker Seat",
+                quantity: extraSeatQty,
+                unitPrice: seatUsage.additionalSeatMonthlyCost,
+                amount: extraSeatQty * seatUsage.additionalSeatMonthlyCost,
+              },
+            ]
+            : []),
+        ];
 
     const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
     const taxAmount = Number((subtotal * 0.1).toFixed(2));
@@ -246,19 +246,19 @@ const BrokerSubscription = () => {
     const newMethod: PaymentMethod =
       paymentForm.type === "card"
         ? {
-            id: `pm-${Date.now()}`,
-            type: "card",
-            label: `Visa ending in ${paymentForm.cardNumber.slice(-4) || "4242"}`,
-            subLabel: `Expires ${paymentForm.expiryDate}`,
-            isDefault: paymentForm.isDefault,
-          }
+          id: `pm-${Date.now()}`,
+          type: "card",
+          label: `Visa ending in ${paymentForm.cardNumber.slice(-4) || "4242"}`,
+          subLabel: `Expires ${paymentForm.expiryDate}`,
+          isDefault: paymentForm.isDefault,
+        }
         : {
-            id: `pm-${Date.now()}`,
-            type: "bank",
-            label: "Bank Direct Debit",
-            subLabel: `BSB: ${paymentForm.bsb} • Account: ••• ${paymentForm.accountNumber.slice(-4) || "5678"}`,
-            isDefault: paymentForm.isDefault,
-          };
+          id: `pm-${Date.now()}`,
+          type: "bank",
+          label: "Bank Direct Debit",
+          subLabel: `BSB: ${paymentForm.bsb} • Account: ••• ${paymentForm.accountNumber.slice(-4) || "5678"}`,
+          isDefault: paymentForm.isDefault,
+        };
 
     setPaymentMethods((prev) => {
       const normalized = prev.map((item) => ({
@@ -313,7 +313,7 @@ const BrokerSubscription = () => {
           <CircleAlert className="mt-0.5 h-4 w-4 shrink-0" />
           <p className="leading-5">
             Your subscription controls the number of active deals, referral
-            partners, and broker seats available in your account.
+            partners, and broker seats available. All plans include a 14-day free trial.
           </p>
         </div>
 
@@ -568,11 +568,14 @@ const BrokerSubscription = () => {
               </div>
 
               <p className="mt-4 text-xs leading-5 text-[#6B7280]">
-                Your plan renews automatically each billing cycle. Changes take
+                Your plan is an annual contract that renews automatically. Changes take
                 effect after the current billing period ends.
               </p>
               <p className="mt-3 text-xs leading-5 text-black">
-                Cancellation requires 30 days&apos; notice.
+                Cancellation requires 30 days&apos; notice period.
+              </p>
+              <p className="mt-2 text-xs leading-5 text-black font-medium">
+                14-day free trial applies to all new plans.
               </p>
             </section>
           </div>
@@ -613,14 +616,12 @@ function TinyToggle({
       type="button"
       aria-pressed={checked}
       onClick={onChange}
-      className={`relative inline-flex h-5 w-9 items-center rounded-full transition ${
-        checked ? "bg-[#020617]" : "bg-[#CBD5E1]"
-      }`}
+      className={`relative inline-flex h-5 w-9 items-center rounded-full transition ${checked ? "bg-[#020617]" : "bg-[#CBD5E1]"
+        }`}
     >
       <span
-        className={`inline-block h-4 w-4 rounded-full bg-white transition ${
-          checked ? "translate-x-5" : "translate-x-0.5"
-        }`}
+        className={`inline-block h-4 w-4 rounded-full bg-white transition ${checked ? "translate-x-5" : "translate-x-0.5"
+          }`}
       />
     </button>
   );
