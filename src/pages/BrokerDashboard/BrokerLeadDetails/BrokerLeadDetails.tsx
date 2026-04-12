@@ -51,6 +51,7 @@ const stagePillClassMap: Record<LeadStatus, string> = {
   "SUBMITTED TO LENDER": "bg-violet-50 text-violet-600 border-violet-200",
   APPROVED: "bg-emerald-50 text-emerald-600 border-emerald-200",
   FUNDED: "bg-green-50 text-green-700 border-green-200",
+  DISQUALIFIED: "bg-rose-50 text-rose-600 border-rose-200",
 };
 
 const paymentPillClassMap: Record<PaymentStatus, string> = {
@@ -97,6 +98,7 @@ export default function BrokerLeadDetails() {
   const recalculated = calculateCommissionValues(
     lead.estimatedLoanAmount,
     lead.referrerCommissionPercent,
+    lead.agreementType,
   );
 
   const handleCancelEdit = () => {
@@ -239,8 +241,16 @@ export default function BrokerLeadDetails() {
                 }
               />
               <ReadonlyField
-                label="Commission Percentage"
-                value={`${lead.referrerCommissionPercent}%`}
+                label={
+                  lead.agreementType === "Flat Referral Fee"
+                    ? "Flat Referral Fee Amount"
+                    : "Commission Percentage"
+                }
+                value={
+                  lead.agreementType === "Flat Referral Fee"
+                    ? formatMoney(lead.referrerCommissionPercent)
+                    : `${lead.referrerCommissionPercent}%`
+                }
                 valueClassName="text-[#16A34A]"
               />
             </div>
@@ -476,12 +486,16 @@ export default function BrokerLeadDetails() {
                   </p>
                 </div>
 
-                <div className="border-t border-[#DCE7F5] pt-4">
+                <div>
                   <p className="text-[12px] text-[#9CA3AF]">
-                    Referrer Commission %
+                    {lead.agreementType === "Flat Referral Fee"
+                      ? "Flat Referral Fee"
+                      : "Referrer Commission %"}
                   </p>
                   <p className="mt-1 text-[20px] font-semibold text-[#2563EB] md:text-[22px]">
-                    {lead.referrerCommissionPercent}%
+                    {lead.agreementType === "Flat Referral Fee"
+                      ? formatMoney(lead.referrerCommissionPercent)
+                      : `${lead.referrerCommissionPercent}%`}
                   </p>
                 </div>
 

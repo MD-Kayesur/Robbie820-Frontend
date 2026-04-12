@@ -69,7 +69,6 @@ export const leadsMock: Lead[] = [
 
     estimatedLoanAmount: 450000,
     loanType: "Home Loan",
-    interestRate: 6.25,
     expectedSettlementDate: "2026-04-15",
 
     referrerName: "Sarah Johnson",
@@ -157,7 +156,6 @@ export const leadsMock: Lead[] = [
 
     estimatedLoanAmount: 320000,
     loanType: "Refinance",
-    interestRate: 6.5,
     expectedSettlementDate: "2026-04-08",
 
     referrerName: "Michael Chen",
@@ -215,7 +213,6 @@ export const leadsMock: Lead[] = [
 
     estimatedLoanAmount: 580000,
     loanType: "Commercial Loan",
-    interestRate: 6.0,
     expectedSettlementDate: "2026-04-25",
 
     referrerName: "Emily Rodriguez",
@@ -273,7 +270,6 @@ export const leadsMock: Lead[] = [
 
     estimatedLoanAmount: 275000,
     loanType: "Investment Property",
-    interestRate: 6.75,
     expectedSettlementDate: "2026-04-18",
 
     referrerName: "David Park",
@@ -331,7 +327,6 @@ export const leadsMock: Lead[] = [
 
     estimatedLoanAmount: 300000,
     loanType: "Construction Loan",
-    interestRate: 6.15,
     expectedSettlementDate: "2026-03-30",
 
     referrerName: "Jessica Williams",

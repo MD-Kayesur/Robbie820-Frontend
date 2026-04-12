@@ -22,18 +22,16 @@ import {
 } from "../../../pages/BrokerDashboard/BrokerOverview/utils";
 
 const stageOptions: CreateLeadStage[] = [
-  "New Referral",
-  "Contacted",
   "Application Started",
   "Submitted to Lender",
+  "Disqualified",
 ];
 
 const loanTypeOptions: LoanType[] = [
-  "Home Loan",
-  "Refinance",
-  "Commercial Loan",
   "Investment Property",
   "Construction Loan",
+  "Personal Loan",
+  "Asset Finance",
 ];
 
 const defaultForm: CreateLeadForm = {
@@ -242,8 +240,8 @@ export default function CreateLeadModal({
   const amount = parseMoneyInput(form.estimatedLoanAmount);
 
   const commissionValues = useMemo(
-    () => calculateCommissionValues(amount, commissionPercent),
-    [amount, commissionPercent],
+    () => calculateCommissionValues(amount, commissionPercent, form.agreementType),
+    [amount, commissionPercent, form.agreementType],
   );
 
   const referrerOptionsMapped = useMemo(
@@ -448,7 +446,14 @@ export default function CreateLeadModal({
                       />
                     </Field>
 
-                    <Field label="Referrer Commission%" required>
+                    <Field
+                      label={
+                        form.agreementType === "Flat Referral Fee"
+                          ? "Amount to be paid to referrer in $"
+                          : "Referrer Commission%"
+                      }
+                      required
+                    >
                       <TextInput
                         value={form.referrerCommissionPercent}
                         onChange={(value) =>
@@ -457,7 +462,16 @@ export default function CreateLeadModal({
                             referrerCommissionPercent: value,
                           }))
                         }
-                        placeholder="10"
+                        placeholder={
+                          form.agreementType === "Flat Referral Fee" ? "500" : "10"
+                        }
+                        icon={
+                          form.agreementType === "Flat Referral Fee" ? (
+                            <DollarSign className="h-4 w-4" />
+                          ) : (
+                            <span className="text-sm font-semibold">%</span>
+                          )
+                        }
                       />
                     </Field>
                   </div>
@@ -564,10 +578,14 @@ export default function CreateLeadModal({
                           <p className="text-[14px]">Referrer Commission</p>
                         </div>
                         <p className="text-[18px] font-semibold text-[#2563EB]">
-                          {commissionPercent || 0}%
+                          {form.agreementType === "Flat Referral Fee"
+                            ? formatMoney(commissionPercent)
+                            : `${commissionPercent || 0}%`}
                         </p>
                         <p className="text-[14px] text-[#4B5563]">
-                          Of broker commission
+                          {form.agreementType === "Flat Referral Fee"
+                            ? "Flat fee amount"
+                            : "Of broker commission"}
                         </p>
                       </div>
 

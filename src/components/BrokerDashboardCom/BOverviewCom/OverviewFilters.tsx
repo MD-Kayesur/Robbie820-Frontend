@@ -33,6 +33,7 @@ const statusOptions: Array<LeadStatus | "ALL"> = [
   "SUBMITTED TO LENDER",
   "APPROVED",
   "FUNDED",
+  "DISQUALIFIED",
 ];
 
 function formatRangeLabel(value: RangeKey) {

@@ -27,6 +27,7 @@ const statusClassMap: Record<LeadStatus, string> = {
   "SUBMITTED TO LENDER": "bg-[#FAF5FF] text-[#9333EA] border-[#E9D5FF]",
   APPROVED: "bg-[#F0FDF4] text-[#16A34A] border-[#BBF7D0]",
   FUNDED: "bg-[#ECFDF5] text-[#059669] border-[#A7F3D0]",
+  DISQUALIFIED: "bg-[#FEF2F2] text-[#EF4444] border-[#FECACA]",
 };
 
 function getRelativeTimeLabel(date: string) {

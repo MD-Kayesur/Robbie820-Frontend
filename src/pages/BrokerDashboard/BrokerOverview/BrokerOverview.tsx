@@ -166,6 +166,7 @@ export default function BrokerOverview() {
       "SUBMITTED TO LENDER": 0,
       APPROVED: 0,
       FUNDED: 0,
+      DISQUALIFIED: 0,
     };
 
     filteredLeads.forEach((lead) => {
@@ -187,6 +188,7 @@ export default function BrokerOverview() {
       },
       { label: "Approved", value: counts["APPROVED"], tone: "green" },
       { label: "Funded", value: counts["FUNDED"], tone: "emerald" },
+      { label: "Disqualified", value: counts["DISQUALIFIED"], tone: "slate" },
     ];
   }, [filteredLeads]);
 
@@ -289,9 +291,8 @@ export default function BrokerOverview() {
                   >
                     <div className="flex min-w-0 flex-1 items-center gap-3">
                       <div
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold text-white ${
-                          toneClasses[index % toneClasses.length]
-                        }`}
+                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold text-white ${toneClasses[index % toneClasses.length]
+                          }`}
                       >
                         {initials}
                       </div>
@@ -406,8 +407,8 @@ export default function BrokerOverview() {
         <RecentLeadsTable
           leads={filteredLeads}
           onOpenDetails={(id) => navigate(`/broker-dashboard/leads/${id}`)}
-          onUpdateStatus={() => {}}
-          onAddNote={() => {}}
+          onUpdateStatus={() => { }}
+          onAddNote={() => { }}
         />
       </div>
 
