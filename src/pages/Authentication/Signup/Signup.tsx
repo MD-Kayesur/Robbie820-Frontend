@@ -145,13 +145,18 @@ const Signup: React.FC = () => {
             </button>
           </div>
 
-          <div className="mt-16 flex justify-center">
+          <div className="mt-16 flex flex-col items-center">
+            {role === "referrer" && (
+              <p className="mb-6 max-w-[480px] text-center text-[15px] leading-6 text-[#666666]">
+                *** Note: Referrers must reach out to their broker referral partner to set them up to have their logins. Account creation is for brokers only. ***
+              </p>
+            )}
             <button
               type="button"
-              onClick={handleNext}
+              onClick={role === "referrer" ? () => navigate("/login") : handleNext}
               className="inline-flex h-14 min-w-59.5 items-center justify-center gap-3 rounded-2xl bg-[#16AAF5] px-8 text-[16px] font-medium text-white transition hover:bg-[#0f9ae2]"
             >
-              Next
+              {role === "referrer" ? "Log In" : "Next"}
               <ArrowRight className="h-5 w-5" strokeWidth={2.2} />
             </button>
           </div>
