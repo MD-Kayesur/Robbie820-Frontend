@@ -64,11 +64,13 @@ export function AuditChart({
   data,
   hoverIndex,
   onHoverIndex,
+  onLeadsClick,
   onFundedClick,
 }: {
   data: AuditBarDatum[];
   hoverIndex: number | null;
   onHoverIndex: (index: number | null) => void;
+  onLeadsClick: (refKey: ReferrerKey) => void;
   onFundedClick: (refKey: ReferrerKey) => void;
 }) {
   const maxValue = Math.max(...data.map((item) => item.leads), 60);
@@ -128,9 +130,12 @@ export function AuditChart({
                   ) : null}
 
                   <div className="flex h-45 items-end gap-1 md:h-50 md:gap-2">
-                    <div
-                      className="w-4 rounded-t-sm bg-[#D9DDE3] md:w-7"
+                    <button
+                      type="button"
+                      className="w-4 rounded-t-sm bg-[#D9DDE3] transition hover:opacity-90 md:w-7"
                       style={{ height: `${leadsHeight}%` }}
+                      onClick={() => onLeadsClick(item.referrer)}
+                      title="Open leads"
                     />
                     <button
                       type="button"
@@ -183,9 +188,8 @@ export function ForecastChart({ data }: { data: ForecastDatum[] }) {
     .map((point, index) => `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`)
     .join(" ");
 
-  const areaPath = `${linePath} L ${points[points.length - 1].x} ${
-    padding.top + usableHeight
-  } L ${points[0].x} ${padding.top + usableHeight} Z`;
+  const areaPath = `${linePath} L ${points[points.length - 1].x} ${padding.top + usableHeight
+    } L ${points[0].x} ${padding.top + usableHeight} Z`;
 
   const yTicks = [0, 1.5, 3, 4.5, 6];
 

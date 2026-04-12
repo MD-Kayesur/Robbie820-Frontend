@@ -1,6 +1,6 @@
 import { FundedDealRow } from "@/pages/BrokerDashboard/BrokerReport/types";
 import { formatMoney } from "@/pages/BrokerDashboard/BrokerReport/utils";
-import { MoreHorizontal, X } from "lucide-react";
+import { Download, MoreHorizontal, X } from "lucide-react";
 
 type FundedDealsModalProps = {
   title: string;
@@ -8,6 +8,7 @@ type FundedDealsModalProps = {
   dateLabel: string;
   rows: FundedDealRow[];
   onClose: () => void;
+  onExport: () => void;
 };
 
 const FundedDealsModal = ({
@@ -16,6 +17,7 @@ const FundedDealsModal = ({
   dateLabel,
   rows,
   onClose,
+  onExport,
 }: FundedDealsModalProps) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 p-3 md:p-6">
@@ -29,12 +31,24 @@ const FundedDealsModal = ({
         </button>
 
         <div className="overflow-y-auto p-4 md:p-6 lg:p-8">
-          <h3 className="pr-12 text-[20px] font-semibold tracking-[-0.03em] text-[#111827] md:text-[24px]">
-            {title}
-          </h3>
-          <p className="mt-1 text-sm text-[#6B7280] md:text-[16px]">
-            Partner: {partnerLabel} {dateLabel}
-          </p>
+          <div className="flex items-center justify-between gap-4 pr-12">
+            <div>
+              <h3 className="text-[20px] font-semibold tracking-[-0.03em] text-[#111827] md:text-[24px]">
+                {title}
+              </h3>
+              <p className="mt-1 text-sm text-[#6B7280] md:text-[16px]">
+                Partner: {partnerLabel} {dateLabel}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={onExport}
+              className="inline-flex items-center gap-2 rounded-lg border border-[#BEE3F8] bg-[#DFF4FF] px-4 py-2 text-xs font-medium text-[#355268] transition hover:bg-[#d3effd]"
+            >
+              <Download className="h-4 w-4" />
+              <span className="hidden sm:inline">EXPORT CSV</span>
+            </button>
+          </div>
 
           <div className="mt-6 space-y-4 lg:hidden">
             {rows.length ? (
@@ -69,12 +83,7 @@ const FundedDealsModal = ({
                       </p>
                     </div>
 
-                    <div>
-                      <p className="text-[11px] text-[#6B7280]">Rate</p>
-                      <p className="mt-1 font-medium text-[#111827]">
-                        {row.rate}%
-                      </p>
-                    </div>
+
 
                     <div>
                       <p className="text-[11px] text-[#6B7280]">Last Updated</p>
@@ -123,9 +132,6 @@ const FundedDealsModal = ({
                     Status
                   </th>
                   <th className="border-b border-[#DCDCDC] px-5 py-5 font-medium">
-                    Rate
-                  </th>
-                  <th className="border-b border-[#DCDCDC] px-5 py-5 font-medium">
                     Commission
                   </th>
                   <th className="border-b border-[#DCDCDC] px-5 py-5 font-medium">
@@ -158,9 +164,7 @@ const FundedDealsModal = ({
                         {row.status}
                       </span>
                     </td>
-                    <td className="border-b border-[#E5E7EB] px-5 py-6 text-[18px]">
-                      {row.rate}%
-                    </td>
+
                     <td className="border-b border-[#E5E7EB] px-5 py-6 text-[18px] font-medium text-[#23803D]">
                       {formatMoney(row.commission)}
                     </td>
