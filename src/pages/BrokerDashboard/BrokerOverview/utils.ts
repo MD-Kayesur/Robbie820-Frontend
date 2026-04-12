@@ -237,8 +237,9 @@ export function buildLeadFromCreateForm({
     referrerFeeExpected,
     expectedReferrerPaymentDate: form.expectedSettlementDate || "",
 
-    paymentStatus: "Pending",
+    paymentStatus: "pending settlement",
     paymentDate: "",
+    paymentMadeDate: "",
     paymentNotes: "",
   };
 }

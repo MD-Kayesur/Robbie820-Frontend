@@ -307,7 +307,7 @@ const BrokerPartnerDetails = () => {
         <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row">
           <button
             type="button"
-            onClick={() => {}}
+            onClick={() => { }}
             className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#D1D5DB] bg-white px-4 text-sm font-medium text-[#111827] transition hover:bg-slate-50 md:w-auto"
           >
             <Download className="h-4 w-4" />
@@ -576,7 +576,7 @@ const BrokerPartnerDetails = () => {
 
           <button
             type="button"
-            onClick={() => {}}
+            onClick={() => { }}
             className="inline-flex h-9 w-full items-center justify-center rounded-lg border border-[#D1D5DB] bg-white px-4 text-xs font-medium text-[#111827] transition hover:bg-slate-50 md:w-auto"
           >
             View All Referrals

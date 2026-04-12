@@ -564,18 +564,18 @@ export default function CreateLeadModal({
                       <div className="space-y-2">
                         <div className="flex items-center gap-2 text-[#6B7280]">
                           <DollarSign className="h-4 w-4" />
-                          <p className="text-[14px]">Broker Commission</p>
+                          <p className="text-[14px]">Exp. Broker Comm</p>
                         </div>
                         <p className="text-[18px] font-semibold text-[#111827]">
                           {formatMoney(commissionValues.brokerCommission)}
                         </p>
-                        <p className="text-[14px] text-[#4B5563]">Estimated</p>
+                        <p className="text-[14px] text-[#4B5563]">Your Revenue</p>
                       </div>
 
                       <div className="space-y-2">
                         <div className="flex items-center gap-2 text-[#6B7280]">
                           <TrendingUp className="h-4 w-4" />
-                          <p className="text-[14px]">Referrer Commission</p>
+                          <p className="text-[14px]">Referrer Split</p>
                         </div>
                         <p className="text-[18px] font-semibold text-[#2563EB]">
                           {form.agreementType === "Flat Referral Fee"
@@ -585,20 +585,20 @@ export default function CreateLeadModal({
                         <p className="text-[14px] text-[#4B5563]">
                           {form.agreementType === "Flat Referral Fee"
                             ? "Flat fee amount"
-                            : "Of broker commission"}
+                            : "Of total commission"}
                         </p>
                       </div>
 
                       <div className="space-y-2">
                         <div className="flex items-center gap-2 text-[#6B7280]">
                           <DollarSign className="h-4 w-4" />
-                          <p className="text-[14px]">Referrer Earnings</p>
+                          <p className="text-[14px]">Exp. Referrer Comm</p>
                         </div>
                         <p className="text-[18px] font-semibold text-[#16A34A]">
                           {formatMoney(commissionValues.referrerFeeExpected)}
                         </p>
                         <p className="text-[14px] text-[#4B5563]">
-                          Expected payout
+                          Referrer Payout
                         </p>
                       </div>
                     </div>

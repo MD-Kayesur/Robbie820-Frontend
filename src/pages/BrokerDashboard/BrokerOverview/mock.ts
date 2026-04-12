@@ -134,8 +134,9 @@ export const leadsMock: Lead[] = [
     referrerFeeExpected: 450,
     expectedReferrerPaymentDate: "2026-04-20",
 
-    paymentStatus: "Scheduled",
+    paymentStatus: "Payment outstanding to referrer",
     paymentDate: "2026-04-20",
+    paymentMadeDate: "",
     paymentNotes:
       "Payment will be processed within 5 business days after settlement.",
   },
@@ -192,8 +193,9 @@ export const leadsMock: Lead[] = [
     referrerFeeExpected: 800,
     expectedReferrerPaymentDate: "2026-04-15",
 
-    paymentStatus: "Pending",
+    paymentStatus: "pending settlement",
     paymentDate: "",
+    paymentMadeDate: "",
     paymentNotes: "",
   },
 
@@ -249,8 +251,9 @@ export const leadsMock: Lead[] = [
     referrerFeeExpected: 750,
     expectedReferrerPaymentDate: "2026-04-28",
 
-    paymentStatus: "Pending",
+    paymentStatus: "pending settlement",
     paymentDate: "",
+    paymentMadeDate: "",
     paymentNotes: "",
   },
 
@@ -306,8 +309,9 @@ export const leadsMock: Lead[] = [
     referrerFeeExpected: 330,
     expectedReferrerPaymentDate: "2026-04-22",
 
-    paymentStatus: "Pending",
+    paymentStatus: "pending settlement",
     paymentDate: "",
+    paymentMadeDate: "",
     paymentNotes: "",
   },
 
@@ -399,8 +403,9 @@ export const leadsMock: Lead[] = [
     referrerFeeExpected: 600,
     expectedReferrerPaymentDate: "2026-04-05",
 
-    paymentStatus: "Scheduled",
+    paymentStatus: "Paid to ref",
     paymentDate: "2026-04-05",
+    paymentMadeDate: "2026-04-06",
     paymentNotes: "Scheduled after lender settlement confirmation.",
   },
 ];

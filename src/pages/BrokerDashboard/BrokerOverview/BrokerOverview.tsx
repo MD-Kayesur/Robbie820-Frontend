@@ -407,8 +407,9 @@ export default function BrokerOverview() {
         <RecentLeadsTable
           leads={filteredLeads}
           onOpenDetails={(id) => navigate(`/broker-dashboard/leads/${id}`)}
-          onUpdateStatus={() => { }}
-          onAddNote={() => { }}
+          onUpdateStatus={(id) => navigate(`/broker-dashboard/leads/${id}`)}
+          onAddNote={(id) => navigate(`/broker-dashboard/leads/${id}`)}
+          onAssignMember={(id) => navigate(`/broker-dashboard/leads/${id}`)}
         />
       </div>
 

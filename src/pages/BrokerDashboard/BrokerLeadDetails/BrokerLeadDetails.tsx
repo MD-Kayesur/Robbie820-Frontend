@@ -38,10 +38,9 @@ import PipelineTracker from "@/components/BrokerDashboardCom/BLeadDetailsCom/Pip
 import TimelineItem from "@/components/BrokerDashboardCom/BLeadDetailsCom/TimelineItem";
 
 const paymentStatusOptions: PaymentStatus[] = [
-  "Pending",
-  "Scheduled",
-  "Paid",
-  "Failed",
+  "Paid to ref",
+  "pending settlement",
+  "Payment outstanding to referrer",
 ];
 
 const stagePillClassMap: Record<LeadStatus, string> = {
@@ -55,10 +54,10 @@ const stagePillClassMap: Record<LeadStatus, string> = {
 };
 
 const paymentPillClassMap: Record<PaymentStatus, string> = {
-  Pending: "bg-slate-100 text-slate-600 border-slate-200",
-  Scheduled: "bg-amber-50 text-amber-700 border-amber-200",
-  Paid: "bg-emerald-50 text-emerald-600 border-emerald-200",
-  Failed: "bg-rose-50 text-rose-600 border-rose-200",
+  "Paid to ref": "bg-emerald-50 text-emerald-600 border-emerald-200",
+  "pending settlement": "bg-slate-100 text-slate-600 border-slate-200",
+  "Payment outstanding to referrer":
+    "bg-amber-50 text-amber-700 border-amber-200",
 };
 
 export default function BrokerLeadDetails() {
@@ -364,7 +363,18 @@ export default function BrokerLeadDetails() {
                 />
 
                 <InputField
-                  label="Payment Date"
+                  label="Date Payment Made"
+                  value={lead.paymentMadeDate || ""}
+                  onChange={(value) =>
+                    setLead((prev) =>
+                      prev ? { ...prev, paymentMadeDate: value } : prev,
+                    )
+                  }
+                  type="date"
+                />
+
+                <InputField
+                  label="Expected Payment Date"
                   value={lead.paymentDate}
                   onChange={(value) =>
                     setLead((prev) =>
@@ -430,81 +440,65 @@ export default function BrokerLeadDetails() {
             className="bg-[#EEF2FF]"
           >
             {isEditing ? (
-              <div className="space-y-3">
-                <div className="rounded-xl bg-white p-4">
-                  <p className="text-[12px] text-[#9CA3AF]">Total Commission</p>
-                  <p className="mt-1 wrap-break-word text-[22px] font-semibold text-[#111827] md:text-[24px]">
-                    {formatMoney(recalculated.totalCommission)}
-                  </p>
-                  <p className="mt-1 text-[11px] text-[#9CA3AF]">
-                    1% of loan amount
-                  </p>
-                </div>
-
+              <div className="space-y-4">
                 <div className="rounded-xl bg-white p-4">
                   <p className="text-[12px] text-[#9CA3AF]">
-                    Referrer Commission
-                  </p>
-                  <p className="mt-1 wrap-break-word text-[22px] font-semibold text-[#F97316] md:text-[24px]">
-                    {formatMoney(recalculated.referrerFeeExpected)}
-                  </p>
-                  <p className="mt-1 text-[11px] text-[#9CA3AF]">
-                    ({lead.referrerCommissionPercent}% of total)
-                  </p>
-                </div>
-
-                <div className="rounded-xl bg-white p-4">
-                  <p className="text-[12px] text-[#9CA3AF]">
-                    Broker Commission
+                    Expected Commission for Broker
                   </p>
                   <p className="mt-1 wrap-break-word text-[22px] font-semibold text-[#16A34A] md:text-[24px]">
                     {formatMoney(recalculated.brokerCommission)}
                   </p>
                   <p className="mt-1 text-[11px] text-[#9CA3AF]">
-                    Remaining amount
+                    Net after referrer split
                   </p>
                 </div>
 
-                <div className="rounded-xl bg-[#1BAEF5] p-4 text-white">
-                  <p className="text-[12px]/5 text-white/80">Net Earnings</p>
+                <div className="rounded-xl bg-white p-4">
+                  <p className="text-[12px] text-[#9CA3AF]">
+                    Expected Commission for Referrer
+                  </p>
+                  <p className="mt-1 wrap-break-word text-[22px] font-semibold text-[#2563EB] md:text-[24px]">
+                    {formatMoney(recalculated.referrerFeeExpected)}
+                  </p>
+                  <p className="mt-1 text-[11px] text-[#9CA3AF]">
+                    ({lead.referrerCommissionPercent}% split)
+                  </p>
+                </div>
+
+                <div className="rounded-xl bg-[#2563EB] p-4 text-white">
+                  <p className="text-[12px]/5 text-white/80">
+                    Total Estimated Revenue
+                  </p>
                   <p className="mt-1 wrap-break-word text-[22px] font-semibold md:text-[24px]">
-                    {formatMoney(recalculated.brokerCommission)}
+                    {formatMoney(recalculated.totalCommission)}
                   </p>
                   <p className="mt-1 text-[11px] text-white/80">
-                    Your total earnings
+                    1% of total loan amount
                   </p>
                 </div>
               </div>
             ) : (
               <div className="space-y-5">
-                <div>
+                <div className="rounded-xl border border-[#DCE7F5] bg-white/40 p-4">
                   <p className="text-[12px] text-[#9CA3AF]">
-                    Broker Commission
+                    Expected Commission for Broker
                   </p>
-                  <p className="mt-1 wrap-break-word text-[28px] font-semibold leading-tight text-[#111827] md:text-[32px] lg:text-[34px]">
+                  <p className="mt-1 wrap-break-word text-[26px] font-semibold text-[#111827]">
                     {formatMoney(lead.brokerCommission)}
                   </p>
                 </div>
 
-                <div>
+                <div className="rounded-xl border border-[#DCE7F5] bg-white/40 p-4">
                   <p className="text-[12px] text-[#9CA3AF]">
-                    {lead.agreementType === "Flat Referral Fee"
-                      ? "Flat Referral Fee"
-                      : "Referrer Commission %"}
+                    Expected Commission for Referrer
                   </p>
-                  <p className="mt-1 text-[20px] font-semibold text-[#2563EB] md:text-[22px]">
-                    {lead.agreementType === "Flat Referral Fee"
-                      ? formatMoney(lead.referrerCommissionPercent)
-                      : `${lead.referrerCommissionPercent}%`}
-                  </p>
-                </div>
-
-                <div className="border-t border-[#DCE7F5] pt-4">
-                  <p className="text-[12px] text-[#9CA3AF]">
-                    Referrer Expected Earnings
-                  </p>
-                  <p className="mt-1 wrap-break-word text-[24px] font-semibold text-[#16A34A] md:text-[26px] lg:text-[28px]">
+                  <p className="mt-1 wrap-break-word text-[26px] font-semibold text-[#2563EB]">
                     {formatMoney(lead.referrerFeeExpected)}
+                  </p>
+                  <p className="mt-1 text-[11px] text-[#9CA3AF]">
+                    {lead.agreementType === "Flat Referral Fee"
+                      ? "Flat payout amount"
+                      : `${lead.referrerCommissionPercent}% of total`}
                   </p>
                 </div>
               </div>
@@ -525,6 +519,13 @@ export default function BrokerLeadDetails() {
                     >
                       {lead.paymentStatus}
                     </span>
+                  }
+                />
+
+                <ReadonlyField
+                  label="Date Payment Made"
+                  value={
+                    lead.paymentMadeDate ? formatDisplayDate(lead.paymentMadeDate) : "-"
                   }
                 />
 

@@ -27,7 +27,10 @@ export type LoanType =
   | "Personal Loan"
   | "Asset Finance";
 
-export type PaymentStatus = "Pending" | "Scheduled" | "Paid" | "Failed";
+export type PaymentStatus =
+  | "Paid to ref"
+  | "pending settlement"
+  | "Payment outstanding to referrer";
 
 export type TeamMember = {
   id: string;
@@ -99,6 +102,7 @@ export type Lead = {
 
   paymentStatus: PaymentStatus;
   paymentDate: string;
+  paymentMadeDate: string;
   paymentNotes: string;
 };
 
@@ -150,5 +154,6 @@ export type EditLeadForm = {
   leadStage: LeadStatus;
   paymentStatus: PaymentStatus;
   paymentDate: string;
+  paymentMadeDate: string;
   paymentNotes: string;
 };
