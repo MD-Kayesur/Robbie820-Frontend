@@ -9,7 +9,7 @@ type Props = {
 
 const BrokerTopbar = ({ onMenuClick }: Props) => {
   return (
-    <header className="flex h-14 sm:h-22 items-center justify-between px-5 lg:hidden">
+    <header className="flex h-14 md:h-22 items-center justify-between px-5 lg:hidden">
       <button
         type="button"
         onClick={onMenuClick}

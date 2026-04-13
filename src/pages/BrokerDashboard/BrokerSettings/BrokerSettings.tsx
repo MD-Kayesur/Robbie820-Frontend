@@ -1,6 +1,5 @@
-// src/pages/BrokerDashboard/BrokerSettings/BrokerSettings.tsx
-import { Save } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { toast } from "sonner";
 
 import { cn } from "@/hooks/useCn";
 import {
@@ -12,50 +11,224 @@ import {
   stagnationOptions,
   timezoneOptions,
   twoFactorMock,
+  systemCalculationsMock,
 } from "./mock";
 import AccountProfileTab from "./components/AccountProfileTab";
 import AppPreferencesTab from "./components/AppPreferencesTab";
 import SecuritySuiteTab from "./components/SecuritySuiteTab";
+import CalculationsTab from "./components/CalculationsTab";
 import type {
   AppPreferencesState,
   BrokerProfile,
   PasswordForm,
   SettingsTabKey,
   TwoFactorState,
+  SystemCalculationsState,
 } from "./types";
+
+type SavedSettingsState = {
+  profile: BrokerProfile;
+  passwordForm: PasswordForm;
+  twoFactor: TwoFactorState;
+  appPreferences: AppPreferencesState;
+  systemCalculations: SystemCalculationsState;
+};
+
+
+
+const getInitials = (name: string) => {
+  const parts = name.trim().split(/\s+/).filter(Boolean).slice(0, 2);
+
+  if (!parts.length) return "MB";
+  return parts.map((part) => part[0]?.toUpperCase() ?? "").join("");
+};
 
 const BrokerSettings = () => {
   const [activeTab, setActiveTab] = useState<SettingsTabKey>("account_profile");
+
+  const [savedSettings, setSavedSettings] = useState<SavedSettingsState>({
+    profile: brokerProfileMock,
+    passwordForm: passwordFormMock,
+    twoFactor: twoFactorMock,
+    appPreferences: appPreferencesMock,
+    systemCalculations: systemCalculationsMock,
+  });
+
   const [profile, setProfile] = useState<BrokerProfile>(brokerProfileMock);
   const [passwordForm, setPasswordForm] =
     useState<PasswordForm>(passwordFormMock);
   const [twoFactor, setTwoFactor] = useState<TwoFactorState>(twoFactorMock);
   const [appPreferences, setAppPreferences] =
     useState<AppPreferencesState>(appPreferencesMock);
+  const [systemCalculations, setSystemCalculations] =
+    useState<SystemCalculationsState>(systemCalculationsMock);
+
+  const [passwordError, setPasswordError] = useState("");
+
+  const isDirty = useMemo(() => {
+    return (
+      JSON.stringify(savedSettings) !==
+      JSON.stringify({
+        profile,
+        passwordForm,
+        twoFactor,
+        appPreferences,
+        systemCalculations,
+      })
+    );
+  }, [savedSettings, profile, passwordForm, twoFactor, appPreferences, systemCalculations]);
+
+  const handleProfileChange = (value: BrokerProfile) => {
+    setProfile({
+      ...value,
+      initials: getInitials(value.fullName),
+    });
+  };
+
+  const handlePasswordChange = (value: PasswordForm) => {
+    setPasswordForm(value);
+    setPasswordError("");
+  };
+
+  const handleToggle2FA = () => {
+    setTwoFactor((prev) => ({
+      ...prev,
+      enabled: !prev.enabled,
+      title: !prev.enabled
+        ? "MFA is protecting your account"
+        : "MFA is currently disabled",
+    }));
+  };
+
+  const handlePreferencesChange = (value: AppPreferencesState) => {
+    setAppPreferences(value);
+  };
+
+  const handleCalculationsChange = (value: SystemCalculationsState) => {
+    setSystemCalculations(value);
+  };
+
+  const validatePasswordForm = () => {
+    const current = passwordForm.currentPassword.trim();
+    const next = passwordForm.newPassword.trim();
+    const confirm = passwordForm.confirmNewPassword.trim();
+
+    const hasPasswordInput = current || next || confirm;
+
+    if (!hasPasswordInput) {
+      return true;
+    }
+
+    if (!current) {
+      setPasswordError("Current password is required.");
+      setActiveTab("security_suite");
+      return false;
+    }
+
+    if (!next) {
+      setPasswordError("New password is required.");
+      setActiveTab("security_suite");
+      return false;
+    }
+
+    if (next.length < 12) {
+      setPasswordError("New password must be at least 12 characters.");
+      setActiveTab("security_suite");
+      return false;
+    }
+
+    if (next !== confirm) {
+      setPasswordError("New password and confirm password do not match.");
+      setActiveTab("security_suite");
+      return false;
+    }
+
+    if (current === next) {
+      setPasswordError("New password must be different from current password.");
+      setActiveTab("security_suite");
+      return false;
+    }
+
+    setPasswordError("");
+    return true;
+  };
+
+  const handleSaveAll = () => {
+    if (!validatePasswordForm()) return;
+
+    setSavedSettings({
+      profile,
+      passwordForm,
+      twoFactor,
+      appPreferences,
+      systemCalculations,
+    });
+
+    toast.success("Changes saved successfully.");
+  };
+
+  const handleResetChanges = () => {
+    setProfile(savedSettings.profile);
+    setPasswordForm(savedSettings.passwordForm);
+    setTwoFactor(savedSettings.twoFactor);
+    setAppPreferences(savedSettings.appPreferences);
+    setSystemCalculations(savedSettings.systemCalculations);
+    setPasswordError("");
+  };
 
   return (
-    <div className="space-y-5 bg-[#F8FAFC] p-3 sm:space-y-6 sm:p-4 lg:p-6">
+    <div className="space-y-5">
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div className="min-w-0">
-          <h1 className="text-[24px] font-semibold tracking-[-0.03em] text-[#111827] sm:text-[28px]">
+          <h1 className="text-lg font-medium text-[#111827]">
             System Settings
           </h1>
-          <p className="mt-1 text-[14px] leading-6 text-[#6B7280] sm:text-[16px]">
-            configure your professional profile and workspace security.
+          <p className="text-[14px] leading-6 text-[#6B7280]">
+            Configure your professional profile and workspace security.
           </p>
+
+          <div className="mt-2 min-h-1">
+            {isDirty ? (
+              <p className="text-[13px] font-medium text-amber-600">
+                You have unsaved changes.
+              </p>
+            ) : null}
+          </div>
         </div>
 
-        <button
-          type="button"
-          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] bg-[#0EA5E9] px-5 text-[15px] font-medium text-white transition hover:bg-sky-600 sm:h-12 sm:w-auto sm:text-[18px]"
-        >
-          <Save className="h-4 w-4 sm:h-5 sm:w-5" />
-          Save Changes
-        </button>
+        <div className="flex w-full gap-3 md:w-auto md:flex-row">
+          <button
+            type="button"
+            onClick={handleResetChanges}
+            disabled={!isDirty}
+            className={cn(
+              "inline-flex h-11 w-full items-center justify-center rounded-[10px] border px-5 text-[15px] font-medium transition md:h-12 md:w-auto md:text-[16px]",
+              isDirty
+                ? "border-[#D1D5DB] bg-white text-[#374151] hover:bg-slate-50"
+                : "cursor-not-allowed border-[#E5E7EB] bg-[#F9FAFB] text-[#9CA3AF]",
+            )}
+          >
+            Cancel
+          </button>
+
+          <button
+            type="button"
+            onClick={handleSaveAll}
+            disabled={!isDirty}
+            className={cn(
+              "inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] px-5 text-[15px] font-medium text-white transition md:h-12 md:w-auto md:text-[18px]",
+              isDirty
+                ? "bg-[#0EA5E9] hover:bg-sky-600"
+                : "cursor-not-allowed bg-sky-300",
+            )}
+          >
+            Save Changes
+          </button>
+        </div>
       </div>
 
       <div className="border-t border-[#E5E7EB] pt-4">
-        <div className="grid grid-cols-1 gap-2 rounded-xl border border-[#63C8FF] bg-[#EEF8FF] p-2 sm:grid-cols-2 xl:inline-flex xl:flex-wrap">
+        <div className="grid grid-cols-1 gap-2 rounded-xl border border-[#63C8FF] bg-[#EEF8FF] p-2 md:grid-cols-2 xl:inline-flex xl:flex-wrap">
           {settingsTabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.key;
@@ -66,7 +239,7 @@ const BrokerSettings = () => {
                 type="button"
                 onClick={() => setActiveTab(tab.key)}
                 className={cn(
-                  "inline-flex h-10 items-center justify-center gap-2 rounded-lg px-4 text-center text-[14px] font-medium transition sm:text-[15px] xl:justify-start xl:text-[16px]",
+                  "inline-flex h-10 items-center justify-center gap-2 rounded-lg px-4 text-center text-[14px] font-medium transition md:text-[15px] xl:justify-start xl:text-[16px]",
                   isActive
                     ? "bg-black text-white"
                     : "text-[#111827] hover:bg-white",
@@ -81,20 +254,16 @@ const BrokerSettings = () => {
       </div>
 
       {activeTab === "account_profile" ? (
-        <AccountProfileTab profile={profile} onChange={setProfile} />
+        <AccountProfileTab profile={profile} onChange={handleProfileChange} />
       ) : null}
 
       {activeTab === "security_suite" ? (
         <SecuritySuiteTab
           passwordForm={passwordForm}
           twoFactor={twoFactor}
-          onPasswordChange={setPasswordForm}
-          onToggle2FA={() =>
-            setTwoFactor((prev) => ({
-              ...prev,
-              enabled: !prev.enabled,
-            }))
-          }
+          passwordError={passwordError}
+          onPasswordChange={handlePasswordChange}
+          onToggle2FA={handleToggle2FA}
         />
       ) : null}
 
@@ -104,7 +273,14 @@ const BrokerSettings = () => {
           timezoneOptions={timezoneOptions}
           currencyOptions={currencyOptions}
           stagnationOptions={stagnationOptions}
-          onChange={setAppPreferences}
+          onChange={handlePreferencesChange}
+        />
+      ) : null}
+
+      {activeTab === "system_calculations" ? (
+        <CalculationsTab
+          value={systemCalculations}
+          onChange={handleCalculationsChange}
         />
       ) : null}
     </div>

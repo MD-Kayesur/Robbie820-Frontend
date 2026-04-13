@@ -7,9 +7,9 @@ type SuperAdminTopbarProps = {
 const SuperAdminTopbar = ({ onMenuClick }: SuperAdminTopbarProps) => {
   return (
     <header className="relative z-40 w-full bg-white">
-      <div className="mx-auto flex h-20 items-center justify-between px-4 sm:px-6 lg:px-10">
+      <div className="mx-auto flex h-20 items-center justify-between px-4 md:px-6 lg:px-10">
         {/* Left */}
-        <div className="flex items-center gap-3 sm:gap-4">
+        <div className="flex items-center gap-3 md:gap-4">
           <button
             type="button"
             onClick={onMenuClick}
@@ -19,19 +19,20 @@ const SuperAdminTopbar = ({ onMenuClick }: SuperAdminTopbarProps) => {
             <Menu className="h-5 w-5" />
           </button>
 
-          <h2 className="text-lg font-semibold tracking-tight text-black sm:text-xl lg:px-9 lg:text-2xl">
+          <h2 className="text-lg font-semibold tracking-tight text-black md:text-xl lg:px-9 lg:text-2xl">
             Platform Overview
           </h2>
         </div>
 
         {/* Right */}
-        <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
+        <div className="flex items-center gap-3 md:gap-4 lg:gap-6">
           {/* Search */}
           <div className="relative hidden w-105 max-w-130 md:block">
             <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
               placeholder="Search users, subscriptions, logs..."
+              aria-label="Search users, subscriptions, and logs"
               className="h-11 w-full rounded-xl border border-[#E5E7EB] bg-[#F9FAFB] pl-11 pr-4 text-sm text-slate-700 placeholder:text-slate-400 outline-none transition focus:border-slate-300 focus:ring-4 focus:ring-slate-200/60"
             />
           </div>

@@ -174,7 +174,6 @@ export const commissionAgreementsMock: CommissionAgreement[] = [
     effectiveStartDate: "2025-02-05",
     status: "Active",
     referrerCommissionPercent: 1.0,
-    aggregatorFeePercent: 0.7,
   },
   {
     id: "agreement-2",
@@ -183,7 +182,6 @@ export const commissionAgreementsMock: CommissionAgreement[] = [
     effectiveStartDate: "2025-03-12",
     status: "Active",
     referrerCommissionPercent: 1.0,
-    aggregatorFeePercent: 0.5,
   },
   {
     id: "agreement-3",
@@ -192,7 +190,6 @@ export const commissionAgreementsMock: CommissionAgreement[] = [
     effectiveStartDate: "2025-01-20",
     status: "Active",
     referrerCommissionPercent: 0.9,
-    aggregatorFeePercent: 0.4,
   },
   {
     id: "agreement-4",
@@ -201,7 +198,6 @@ export const commissionAgreementsMock: CommissionAgreement[] = [
     effectiveStartDate: "2024-11-10",
     status: "Inactive",
     referrerCommissionPercent: 0.8,
-    aggregatorFeePercent: 0.4,
   },
 ];
 
@@ -297,7 +293,6 @@ export const defaultOnboardPartnerForm: OnboardPartnerForm = {
   effectiveStartDate: "",
   agreementStatus: "Active",
   referrerCommissionPercent: 1.0,
-  aggregatorFeePercent: 0.5,
 
   bankName: "",
   bsb: "",
@@ -326,10 +321,10 @@ export const partnerActionOptions: {
   label: string;
   danger?: boolean;
 }[] = [
-  { key: "view-profile", label: "View Profile" },
-  { key: "edit-partner", label: "Edit Partner" },
-  { key: "deactivate-partner", label: "Deactivate Partner", danger: true },
-];
+    { key: "view-profile", label: "View Profile" },
+    { key: "edit-partner", label: "Edit Partner" },
+    { key: "deactivate-partner", label: "Deactivate Partner", danger: true },
+  ];
 
 export const additionalLoginRoleOptions: AdditionalLoginRole[] = [
   "Admin",

@@ -16,7 +16,7 @@ export function SegmentedTabs({
   ];
 
   return (
-    <div className="inline-flex w-full flex-col rounded-2xl bg-slate-100 p-1 sm:w-auto sm:flex-row sm:items-center sm:rounded-full">
+    <div className="inline-flex w-full flex-col rounded-2xl bg-slate-100 p-1 md:w-auto md:flex-row md:items-center md:rounded-full">
       {items.map((t) => {
         const active = tab === t;
 
@@ -26,7 +26,7 @@ export function SegmentedTabs({
             type="button"
             onClick={() => onChange(t)}
             className={cn(
-              "rounded-xl px-4 py-2.5 text-sm font-semibold transition sm:rounded-full sm:px-5 sm:py-2",
+              "rounded-xl px-4 py-2.5 text-sm font-semibold transition md:rounded-full md:px-5 md:py-2",
               active ? "bg-white text-slate-900 shadow-sm" : "text-slate-600",
             )}
           >

@@ -56,7 +56,6 @@ export type CommissionAgreement = {
   effectiveStartDate: string;
   status: AgreementStatus;
   referrerCommissionPercent: number;
-  aggregatorFeePercent: number;
 };
 
 export type BankingDetails = {
@@ -95,7 +94,6 @@ export type OnboardPartnerForm = {
   effectiveStartDate: string;
   agreementStatus: AgreementStatus;
   referrerCommissionPercent: number | "";
-  aggregatorFeePercent: number | "";
 
   bankName: string;
   bsb: string;

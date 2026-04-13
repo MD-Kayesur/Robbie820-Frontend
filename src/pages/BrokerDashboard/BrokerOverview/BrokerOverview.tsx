@@ -31,14 +31,14 @@ function MetricCard({
   icon: React.ElementType;
 }) {
   return (
-    <div className="rounded-2xl border border-[#E6EAF0] bg-white px-4 py-4 shadow-sm sm:px-5">
+    <div className="rounded-2xl border border-[#E6EAF0] bg-white px-4 py-4 shadow-sm md:px-5">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
-          <p className="text-[11px] font-medium leading-4 text-[#9AA3AF] sm:text-[12px]">
+          <p className="text-[11px] font-medium leading-4 text-[#9AA3AF] md:text-[12px]">
             {title}
           </p>
 
-          <h3 className="mt-2 wrap-break-word text-[22px] font-semibold leading-none text-[#111827] sm:text-[26px] xl:text-[28px]">
+          <h3 className="mt-2 wrap-break-word text-[22px] font-semibold leading-none text-[#111827] md:text-[26px] xl:text-[28px]">
             {value}
           </h3>
 
@@ -51,7 +51,7 @@ function MetricCard({
           ) : null}
         </div>
 
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#EEF4FF] text-[#2563EB] sm:h-11 sm:w-11">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#EEF4FF] text-[#2563EB] md:h-11 md:w-11">
           <Icon className="h-5 w-5" strokeWidth={2} />
         </div>
       </div>
@@ -166,6 +166,7 @@ export default function BrokerOverview() {
       "SUBMITTED TO LENDER": 0,
       APPROVED: 0,
       FUNDED: 0,
+      DISQUALIFIED: 0,
     };
 
     filteredLeads.forEach((lead) => {
@@ -187,6 +188,7 @@ export default function BrokerOverview() {
       },
       { label: "Approved", value: counts["APPROVED"], tone: "green" },
       { label: "Funded", value: counts["FUNDED"], tone: "emerald" },
+      { label: "Disqualified", value: counts["DISQUALIFIED"], tone: "slate" },
     ];
   }, [filteredLeads]);
 
@@ -208,7 +210,7 @@ export default function BrokerOverview() {
 
   return (
     <>
-      <div className="mx-auto max-w-360 space-y-4 sm:space-y-5 lg:space-y-6">
+      <div className="mx-auto max-w-360 space-y-4 md:space-y-5 lg:space-y-6">
         <OverviewHeader search={search} onSearchChange={setSearch} />
 
         <OverviewFilters
@@ -223,7 +225,7 @@ export default function BrokerOverview() {
           onCreateLead={() => setCreateLeadOpen(true)}
         />
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4 xl:gap-4">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 xl:gap-4">
           <MetricCard
             title="Total Active Referrals"
             value={metrics.activeReferrals.toLocaleString()}
@@ -251,21 +253,21 @@ export default function BrokerOverview() {
         </div>
 
         <div className="grid grid-cols-1 gap-4 2xl:grid-cols-[360px_minmax(0,1fr)]">
-          <section className="rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5">
+          <section className="rounded-2xl border border-[#E5E7EB] bg-white p-4 md:p-5">
             <div className="flex items-center justify-between gap-3">
-              <h2 className="text-[16px] font-semibold text-[#111827] sm:text-[18px]">
+              <h2 className="text-[16px] font-semibold text-[#111827] md:text-[18px]">
                 Top Referrers
               </h2>
 
               <button
                 type="button"
-                className="shrink-0 text-[12px] font-medium text-[#1BAEF5] sm:text-[13px]"
+                className="shrink-0 text-[12px] font-medium text-[#1BAEF5] md:text-[13px]"
               >
                 View All
               </button>
             </div>
 
-            <div className="mt-4 space-y-3 sm:mt-5 sm:space-y-4">
+            <div className="mt-4 space-y-3 md:mt-5 md:space-y-4">
               {topReferrers.map((item, index) => {
                 const initials = item.name
                   .split(" ")
@@ -289,28 +291,27 @@ export default function BrokerOverview() {
                   >
                     <div className="flex min-w-0 flex-1 items-center gap-3">
                       <div
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold text-white ${
-                          toneClasses[index % toneClasses.length]
-                        }`}
+                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold text-white ${toneClasses[index % toneClasses.length]
+                          }`}
                       >
                         {initials}
                       </div>
 
                       <div className="min-w-0">
-                        <p className="truncate text-[13px] font-medium text-[#111827] sm:text-[14px]">
+                        <p className="truncate text-[13px] font-medium text-[#111827] md:text-[14px]">
                           {item.name}
                         </p>
-                        <p className="text-[11px] text-[#9CA3AF] sm:text-[12px]">
+                        <p className="text-[11px] text-[#9CA3AF] md:text-[12px]">
                           {item.referrals} referrals
                         </p>
                       </div>
                     </div>
 
                     <div className="shrink-0 text-right">
-                      <p className="text-[13px] font-semibold text-[#111827] sm:text-[14px]">
+                      <p className="text-[13px] font-semibold text-[#111827] md:text-[14px]">
                         {formatShortMoney(item.amount)}
                       </p>
-                      <p className="text-[11px] text-[#16A34A] sm:text-[12px]">
+                      <p className="text-[11px] text-[#16A34A] md:text-[12px]">
                         {formatShortMoney(item.amount * 0.01)}
                       </p>
                     </div>
@@ -324,9 +325,9 @@ export default function BrokerOverview() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-[#E5E7EB] bg-white p-4 sm:p-5">
+          <section className="rounded-2xl border border-[#E5E7EB] bg-white p-4 md:p-5">
             <div className="flex flex-col gap-1">
-              <h2 className="text-[16px] font-semibold text-[#111827] sm:text-[18px]">
+              <h2 className="text-[16px] font-semibold text-[#111827] md:text-[18px]">
                 Loan Pipeline Overview
               </h2>
               <p className="text-[12px] text-[#9CA3AF]">
@@ -334,7 +335,7 @@ export default function BrokerOverview() {
               </p>
             </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-5 sm:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-6">
+            <div className="mt-4 grid grid-cols-2 gap-3 md:mt-5 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-6">
               {stageOverview.map((item) => {
                 const toneMap = {
                   slate: "border-[#E5E7EB] bg-[#F3F4F6] text-[#666666]",
@@ -348,12 +349,12 @@ export default function BrokerOverview() {
                 return (
                   <div
                     key={item.label}
-                    className={`rounded-xl border p-3 sm:p-4 ${toneMap[item.tone as keyof typeof toneMap]}`}
+                    className={`rounded-xl border p-3 md:p-4 ${toneMap[item.tone as keyof typeof toneMap]}`}
                   >
-                    <p className="text-[22px] font-semibold leading-none sm:text-[26px] xl:text-[28px]">
+                    <p className="text-[22px] font-semibold leading-none md:text-[26px] xl:text-[28px]">
                       {item.value}
                     </p>
-                    <p className="mt-2 text-[11px] font-medium leading-4 sm:text-[12px]">
+                    <p className="mt-2 text-[11px] font-medium leading-4 md:text-[12px]">
                       {item.label}
                     </p>
                   </div>
@@ -361,7 +362,7 @@ export default function BrokerOverview() {
               })}
             </div>
 
-            <div className="mt-5 sm:mt-6">
+            <div className="mt-5 md:mt-6">
               <div className="mb-2 flex items-center justify-between gap-3">
                 <p className="text-[12px] text-[#9CA3AF]">Pipeline Progress</p>
                 <p className="text-[12px] text-[#9CA3AF]">
@@ -406,8 +407,9 @@ export default function BrokerOverview() {
         <RecentLeadsTable
           leads={filteredLeads}
           onOpenDetails={(id) => navigate(`/broker-dashboard/leads/${id}`)}
-          onUpdateStatus={(id) => console.log("update status", id)}
-          onAddNote={(id) => console.log("add note", id)}
+          onUpdateStatus={(id) => navigate(`/broker-dashboard/leads/${id}`)}
+          onAddNote={(id) => navigate(`/broker-dashboard/leads/${id}`)}
+          onAssignMember={(id) => navigate(`/broker-dashboard/leads/${id}`)}
         />
       </div>
 

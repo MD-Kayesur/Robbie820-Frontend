@@ -1,5 +1,5 @@
 // src/components/ReferrerDashboardCom/RSettingsCom/TeamManagementTab.tsx
-import React, { useMemo, useState } from "react";
+import  { useMemo, useState } from "react";
 import {
   Eye,
   MoreVertical,
@@ -14,27 +14,7 @@ import {
 } from "@/pages/ReferrerDashboard/ReferrerSettings/types";
 import { cn } from "@/hooks/useCn";
 import TeamMemberDetailsModal from "./modals/TMTDetailsModal";
-
-function useOutsideClose<T extends HTMLElement>(
-  open: boolean,
-  onClose: () => void,
-) {
-  const ref = React.useRef<T | null>(null);
-
-  React.useEffect(() => {
-    if (!open) return;
-
-    const onDown = (e: MouseEvent) => {
-      if (!ref.current) return;
-      if (!ref.current.contains(e.target as Node)) onClose();
-    };
-
-    document.addEventListener("mousedown", onDown);
-    return () => document.removeEventListener("mousedown", onDown);
-  }, [open, onClose]);
-
-  return ref;
-}
+import { useOutsideClose } from "@/hooks/useOutsideClose";
 
 function PermPill({ value }: { value: TeamPermission }) {
   return (
@@ -47,7 +27,7 @@ function PermPill({ value }: { value: TeamPermission }) {
 
 function RoleText({ value }: { value: TeamPermission | string }) {
   return (
-    <span className="text-[15px] font-medium text-[#7C3AED] sm:text-base">
+    <span className="text-sm font-medium text-[#7C3AED] md:text-base">
       {value}
     </span>
   );
@@ -117,13 +97,13 @@ function MobileMemberCard({
   onView: (member: TeamMember) => void;
 }) {
   return (
-    <div className="rounded-[22px] border border-[#CFCFCF] bg-white px-5 py-5">
+    <div className="rounded-xl border border-[#CFCFCF] bg-white p-4">
       <div className="flex items-center justify-between gap-4">
         <div className="min-w-0">
-          <p className="truncate text-[22px] font-medium leading-tight text-[#666666]">
+          <p className="text-sm font-medium leading-tight text-[#666666]">
             {member.name}
           </p>
-          <p className="mt-2 break-all text-[18px] leading-tight text-[#666666]">
+          <p className="mt-1 break-all text-xs leading-tight text-[#666666]">
             {member.email}
           </p>
         </div>
@@ -137,7 +117,7 @@ function MobileMemberCard({
         </div>
       </div>
 
-      <div className="mt-6">
+      <div>
         <RoleText value={member.role} />
       </div>
     </div>
@@ -158,20 +138,18 @@ export default function TeamManagementTab({
 
   return (
     <>
-      <div className="space-y-6 sm:space-y-8">
+      <div className="space-y-6 md:space-y-8">
         {/* blue header */}
-        <div className="rounded-3xl bg-[#00B4FE] px-5 py-6 text-white sm:px-6 sm:py-6 lg:px-8 lg:py-8">
-          <div className="flex flex-col gap-6">
-            <div className="flex items-start gap-4 sm:gap-5">
-              <div className="mt-1 grid h-18 w-18 shrink-0 place-items-center rounded-[18px] bg-white/20 ring-1 ring-white/10 sm:h-14 sm:w-14 sm:rounded-xl">
-                <Users className="h-8 w-8 sm:h-7 sm:w-7" />
+        <div className="rounded-2xl bg-[#00B4FE] p-4 md:p-6 text-white">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-start md:items-center gap-2.5">
+              <div className="p-2.5 rounded-lg bg-white/20">
+                <Users className="h-6 w-6" />
               </div>
 
-              <div className="min-w-0">
-                <p className="text-[30px] font-medium leading-none sm:text-2xl lg:text-[30px]">
-                  Business Team
-                </p>
-                <p className="mt-5 max-w-105 text-[18px] leading-[1.6] text-white/95 sm:mt-2 sm:text-sm sm:leading-6 lg:text-[18px] lg:leading-[1.7]">
+              <div>
+                <p className="text-xl font-medium leading-4.5">Business Team</p>
+                <p className="mt-2 text-base leading-4">
                   Manage employees and their permissions for referral
                   submissions.
                 </p>
@@ -181,9 +159,9 @@ export default function TeamManagementTab({
             <button
               type="button"
               onClick={onAdd}
-              className="inline-flex h-20 w-full items-center justify-center gap-4 rounded-2xl bg-white px-6 text-[20px] font-medium text-slate-900 transition hover:bg-white/95 sm:h-12 sm:w-fit sm:rounded-lg sm:px-5 sm:text-sm"
+              className="w-full flex items-center leading-none justify-center gap-2.5 rounded-sm bg-white p-2.5 text-sm font-medium text-black hover:bg-white/95 md:w-fit"
             >
-              <UserPlus className="h-7 w-7 sm:h-4 sm:w-4" />
+              <UserPlus className="h-5 w-5" />
               Add Team Member
             </button>
           </div>
@@ -265,17 +243,17 @@ export default function TeamManagementTab({
         </div>
 
         {/* about */}
-        <div className="rounded-3xl border border-sky-200 bg-sky-50 px-5 py-6 sm:px-6 sm:py-6 lg:px-8 lg:py-7">
-          <div className="flex flex-col items-start gap-5 sm:flex-row sm:gap-6">
-            <div className="grid h-22 w-22 shrink-0 place-items-center rounded-[14px] bg-[#00B4FE] text-white ring-1 ring-sky-200 sm:h-auto sm:w-auto sm:rounded-xl sm:p-3">
-              <ShieldCheck className="h-9 w-9 sm:h-6 sm:w-6" />
+        <div className="rounded-xl border border-sky-200 bg-[#00B4FE0D] p-4 md:p-6">
+          <div className="flex flex-col items-start gap-3 md:flex-row md:gap-6">
+            <div className="grid p-2.5 shrink-0 rounded-sm bg-[#00B4FE] text-white">
+              <ShieldCheck className="h-6 w-6" />
             </div>
 
             <div className="min-w-0">
-              <p className="text-[28px] font-medium leading-tight text-black sm:text-xl">
+              <p className="text-xl font-medium text-black leading-4.5">
                 About Team Permissions
               </p>
-              <p className="mt-5 text-[18px] leading-[1.45] tracking-[0.04em] text-[#666666] sm:mt-2 sm:text-base sm:leading-7 sm:tracking-normal">
+              <p className="text-base leading-4 mt-1.5 text-[#666666]">
                 Admins can manage team members, view all commissions, and access
                 business settings. Members can only submit new referrals and
                 view progress for leads they personally introduced.

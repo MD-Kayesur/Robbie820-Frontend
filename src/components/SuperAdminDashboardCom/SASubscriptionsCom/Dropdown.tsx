@@ -21,12 +21,12 @@ export function Dropdown<T extends string>({
   const ref = useOutsideClose<HTMLDivElement>(open, () => setOpen(false));
 
   return (
-    <div ref={ref} className="relative z-50 w-full sm:w-auto">
+    <div ref={ref} className="relative z-50 w-full md:w-auto">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex h-11 w-full items-center justify-between gap-3 rounded-xl border border-slate-200 bg-[#F3F3F5] px-4 text-sm font-semibold text-slate-800 hover:bg-slate-50 sm:h-10 sm:w-auto",
+          "inline-flex h-11 w-full items-center justify-between gap-3 rounded-xl border border-slate-200 bg-[#F3F3F5] px-4 text-sm font-semibold text-slate-800 hover:bg-slate-50 md:h-10 md:w-auto",
         )}
         style={{ minWidth: minW }}
         aria-label={label ?? "Dropdown"}
@@ -36,7 +36,7 @@ export function Dropdown<T extends string>({
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg sm:w-55">
+        <div className="absolute right-0 top-full mt-2 w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg md:w-55">
           {options.map((opt) => (
             <button
               key={opt}

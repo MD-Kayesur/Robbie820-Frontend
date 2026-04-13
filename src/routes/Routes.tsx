@@ -19,7 +19,7 @@ import SuperAdminAuditLogs from "@/pages/SuperAdminDashboard/SuperAdminAuditLogs
 import SuperAdminSettings from "@/pages/SuperAdminDashboard/SuperAdminSettings/SuperAdminSettings";
 import SuperAdminDashboard from "@/pages/SuperAdminDashboard/SuperAdminDashboard/SuperAdminDashboard";
 import SuperAdminLayoutNoTopbar from "@/Layout/SuperAdminLayout/SuperAdminLayoutNoTopbar";
-import Home from "@/pages/Home/Home";
+import Home from "@/pages/HomePages/Home/Home";
 import ReferrerOverview from "@/pages/ReferrerDashboard/ReferrerOverview/ReferrerOverview";
 import ReferrerMyReferrals from "@/pages/ReferrerDashboard/ReferrerMyReferrals/ReferrerMyReferrals";
 import ReferrerNotifications from "@/pages/ReferrerDashboard/ReferrerNotifications/ReferrerNotifications";
@@ -31,8 +31,11 @@ import AuthenticationLayout from "@/Layout/AuthenticationLayout/AuthenticationLa
 import RecoverPassword from "@/pages/Authentication/RecoverPassword/RecoverPassword";
 import BrokerOverview from "@/pages/BrokerDashboard/BrokerOverview/BrokerOverview";
 import BrokerLeadDetails from "@/pages/BrokerDashboard/BrokerLeadDetails/BrokerLeadDetails";
-import PartnerProfile from "@/pages/BrokerDashboard/BrokerPartnerProfiles/PartnerProfile";
-import EditPartnerConfiguration from "@/pages/BrokerDashboard/BrokerPartnerProfiles/EditPartnerConfiguration";
+import PartnerProfile from "@/pages/BrokerDashboard/BrokerPartnerDetails/BrokerPartnerDetails";
+import EditPartnerConfiguration from "@/pages/BrokerDashboard/BrokerEditPartnerConfiguration/BrokerEditPartnerConfiguration";
+import BrokerChangePlan from "@/pages/BrokerDashboard/BrokerSubscription/BrokerChangePlan";
+import Privacy from "@/pages/HomePages/Privacy/Privacy";
+import Help from "@/pages/HomePages/Help/Help";
 
 const routes = createBrowserRouter([
   {
@@ -42,6 +45,14 @@ const routes = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "privacy",
+        element: <Privacy />,
+      },
+      {
+        path: "help",
+        element: <Help />,
       },
 
       // authentication routes
@@ -70,10 +81,6 @@ const routes = createBrowserRouter([
         children: [
           { index: true, element: <ReferrerOverview /> },
           {
-            path: "overview",
-            element: <ReferrerOverview />,
-          },
-          {
             path: "my-referrals",
             element: <ReferrerMyReferrals />,
           },
@@ -92,7 +99,6 @@ const routes = createBrowserRouter([
         element: <BrokerLayout />,
         children: [
           { index: true, element: <BrokerOverview /> },
-          { path: "overview", element: <BrokerOverview /> },
           { path: "leads/:id", element: <BrokerLeadDetails /> },
           { path: "my-referrals", element: <BrokerMyReferrals /> },
           { path: "partner-profile", element: <BrokerPartnerProfile /> },
@@ -108,6 +114,7 @@ const routes = createBrowserRouter([
           { path: "report", element: <BrokerReport /> },
           { path: "notifications", element: <BrokerNotifications /> },
           { path: "subscription", element: <BrokerSubscription /> },
+          { path: "subscription/change-plan", element: <BrokerChangePlan /> },
           { path: "settings", element: <BrokerSettings /> },
         ],
       },

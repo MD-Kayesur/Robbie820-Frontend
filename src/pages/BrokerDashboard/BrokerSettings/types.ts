@@ -3,7 +3,8 @@ import type { LucideIcon } from "lucide-react";
 export type SettingsTabKey =
   | "account_profile"
   | "security_suite"
-  | "app_preferences";
+  | "app_preferences"
+  | "system_calculations";
 
 export type SettingsTab = {
   key: SettingsTabKey;
@@ -23,6 +24,7 @@ export type BrokerProfile = {
   city: string;
   state: string;
   zip: string;
+  photo?: string;
 };
 
 export type PasswordForm = {
@@ -59,4 +61,18 @@ export type AppPreferencesState = {
   leadStagnationAlert: boolean;
   stagnationPeriod: string;
   weeklySummaryDigest: boolean;
+  aggregatorFeePercent: number;
+};
+
+export type GlobalCalculationRule = {
+  id: string;
+  loanCategory: string;
+  referralCommissionPercent: number; // The default % for this loan type
+  aggregatorFeePercent: number; // The aggregator fee % for this loan type
+  brokerProcessingFee: number; // Fixed fee
+};
+
+export type SystemCalculationsState = {
+  globalAggregatorFee: number;
+  rules: GlobalCalculationRule[];
 };

@@ -1,7 +1,9 @@
 // src/pages/SuperAdminDashboard/SuperAdminIntegrations/SuperAdminIntegrations.tsx
 import { useMemo, useState } from "react";
 import { Info, MoreVertical } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import IntegrationDetailsModal from "@/components/SuperAdminDashboardCom/SAIntegrationsCom/modals/IntegrationDetailsModal";
+import ConfirmationModal from "@/components/SuperAdminDashboardCom/SAIntegrationsCom/modals/ConfirmationModal";
 import { integrationCardsMock, webhookRowsMock } from "./mock";
 import type {
   AlertTone,
@@ -75,28 +77,54 @@ function WebhookStatusPill({ s }: { s: WebhookRow["status"] }) {
 }
 
 export default function SuperAdminIntegrations() {
+  const navigate = useNavigate();
   const [filter, setFilter] = useState<Filter>("All");
+  const [integrations, setIntegrations] = useState<IntegrationCardData[]>(integrationCardsMock);
   const [selected, setSelected] = useState<IntegrationCardData | null>(null);
+  const [confirming, setConfirming] = useState<IntegrationCardData | null>(null);
 
   const shownCards = useMemo(() => {
-    if (filter === "All") return integrationCardsMock;
+    if (filter === "All") return integrations;
     if (filter === "Active")
-      return integrationCardsMock.filter((c) => c.status === "Connected");
+      return integrations.filter((c) => c.status === "Connected");
     if (filter === "Inactive")
-      return integrationCardsMock.filter((c) => c.status === "Disconnected");
+      return integrations.filter((c) => c.status === "Disconnected");
     if (filter === "Error")
-      return integrationCardsMock.filter((c) => c.syncErrors > 0);
+      return integrations.filter((c) => c.syncErrors > 0);
 
-    return integrationCardsMock.filter(
+    return integrations.filter(
       (c) => c.status === "Warning" || c.syncErrors > 0,
     );
-  }, [filter]);
+  }, [filter, integrations]);
+
+  const onViewLogs = (item: IntegrationCardData) => {
+    navigate("/super-admin/audit-logs", { state: { q: item.name } });
+  };
+
+  const onToggleStatus = (item: IntegrationCardData) => {
+    setIntegrations((prev) =>
+      prev.map((c) =>
+        c.id === item.id
+          ? {
+              ...c,
+              status: c.status === "Disconnected" ? "Connected" : "Disconnected",
+            }
+          : c,
+      ),
+    );
+    if (selected?.id === item.id) {
+      setSelected((prev) => prev ? ({
+        ...prev,
+        status: prev.status === "Disconnected" ? "Connected" : "Disconnected",
+      }) : null);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+      <div className="px-4 py-6 md:px-6 md:py-8 lg:px-8 lg:py-10">
         <div>
-          <h1 className="text-xl font-semibold text-black sm:text-2xl">
+          <h1 className="text-xl font-semibold text-black md:text-2xl">
             Integrations Management
           </h1>
           <p className="mt-1 text-sm text-[#666666]">
@@ -108,7 +136,7 @@ export default function SuperAdminIntegrations() {
           <div className="flex items-start gap-3">
             <Info className="mt-0.5 h-4 w-4 shrink-0 text-[#00B4FE]" />
 
-            <p className="text-xs font-medium text-[#00B4FE] sm:text-[13px]">
+            <p className="text-xs font-medium text-[#00B4FE] md:text-[13px]">
               <span className="font-semibold">Important:</span> Integrations
               affect broker workflow and commission tracking. Monitor connection
               status to ensure uninterrupted system performance.
@@ -116,7 +144,7 @@ export default function SuperAdminIntegrations() {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-8 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="font-semibold text-black">
             CRM &amp; Workflow Integrations
           </div>
@@ -129,6 +157,14 @@ export default function SuperAdminIntegrations() {
               key={c.id}
               item={c}
               onViewDetails={() => setSelected(c)}
+              onViewLogs={() => onViewLogs(c)}
+              onToggleStatus={() => {
+                if (c.status === "Disconnected") {
+                  onToggleStatus(c);
+                } else {
+                  setConfirming(c);
+                }
+              }}
             />
           ))}
         </div>
@@ -143,11 +179,11 @@ export default function SuperAdminIntegrations() {
 
         <div className="mt-10 overflow-hidden rounded-2xl border border-slate-200 bg-white">
           {/* header */}
-          <div className="px-4 py-4 sm:px-6 sm:py-5">
-            <div className="text-sm font-semibold text-black sm:text-base">
+          <div className="px-4 py-4 md:px-6 md:py-5">
+            <div className="text-sm font-semibold text-black md:text-base">
               Webhook Monitor
             </div>
-            <div className="mt-1 text-xs text-[#4A5565] sm:text-[13px]">
+            <div className="mt-1 text-xs text-[#4A5565] md:text-[13px]">
               Real-time webhook delivery tracking
             </div>
           </div>
@@ -229,7 +265,7 @@ export default function SuperAdminIntegrations() {
                   ].map((h) => (
                     <th
                       key={h}
-                      className="px-3 py-3 text-left text-xs font-bold text-slate-700 sm:text-[13px]"
+                      className="px-3 py-3 text-left text-xs font-bold text-slate-700 md:text-[13px]"
                     >
                       {h}
                     </th>
@@ -242,11 +278,11 @@ export default function SuperAdminIntegrations() {
                   <tr key={r.type} className="bg-white">
                     <td className="px-3 py-2 text-sm text-black">{r.type}</td>
 
-                    <td className="px-3 py-2 text-xs text-[#666666] sm:text-[13px]">
+                    <td className="px-3 py-2 text-xs text-[#666666] md:text-[13px]">
                       {r.url}
                     </td>
 
-                    <td className="px-3 py-2 text-xs text-[#666666] sm:text-[13px]">
+                    <td className="px-3 py-2 text-xs text-[#666666] md:text-[13px]">
                       {r.lastTriggered}
                     </td>
 
@@ -263,7 +299,7 @@ export default function SuperAdminIntegrations() {
                       {r.failures}
                     </td>
 
-                    <td className="px-3 py-2 text-xs text-[#666666] sm:text-[13px]">
+                    <td className="px-3 py-2 text-xs text-[#666666] md:text-[13px]">
                       {r.retry}
                     </td>
 
@@ -287,6 +323,25 @@ export default function SuperAdminIntegrations() {
         open={!!selected}
         item={selected}
         onClose={() => setSelected(null)}
+        onToggleStatus={() => {
+          if (selected) {
+            if (selected.status === "Disconnected") {
+              onToggleStatus(selected);
+            } else {
+              setConfirming(selected);
+            }
+          }
+        }}
+      />
+
+      <ConfirmationModal
+        open={!!confirming}
+        onClose={() => setConfirming(null)}
+        onConfirm={() => confirming && onToggleStatus(confirming)}
+        title={confirming?.status === "Disconnected" ? "Enable Integration?" : "Disable Integration?"}
+        description={`Are you sure you want to ${confirming?.status === "Disconnected" ? "enable" : "disable"} the ${confirming?.name} integration? This may affect automated workflows.`}
+        confirmLabel={confirming?.status === "Disconnected" ? "Enable" : "Disable"}
+        variant={confirming?.status === "Disconnected" ? "primary" : "danger"}
       />
     </div>
   );

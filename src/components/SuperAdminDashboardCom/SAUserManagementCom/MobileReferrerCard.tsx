@@ -1,20 +1,13 @@
 import { ReferrerRow } from "@/pages/SuperAdminDashboard/SuperAdminUserManagement/types";
 import { MoreVertical } from "lucide-react";
-import { ActionsMenu } from "./ActionsMenu";
 import { pillStatus } from "@/pages/SuperAdminDashboard/SuperAdminUserManagement/mock";
 
 export function MobileReferrerCard({
   row,
-  open,
   onToggleMenu,
-  onCloseMenu,
-  onDisable,
 }: {
   row: ReferrerRow;
-  open: boolean;
-  onToggleMenu: () => void;
-  onCloseMenu: () => void;
-  onDisable: () => void;
+  onToggleMenu: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4">
@@ -33,12 +26,6 @@ export function MobileReferrerCard({
           >
             <MoreVertical className="h-4 w-4 text-slate-600" />
           </button>
-
-          <ActionsMenu
-            open={open}
-            onClose={onCloseMenu}
-            onDisable={onDisable}
-          />
         </div>
       </div>
 

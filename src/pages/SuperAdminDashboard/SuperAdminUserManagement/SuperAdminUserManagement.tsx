@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Search, Download, MoreVertical } from "lucide-react";
 
+import { useFloatingMenu } from "@/hooks/useFloatingMenu";
 import { brokersMock, pillPlan, pillStatus, referrersMock } from "./mock";
 import type { BrokerRow, ReferrerRow, StatusFilter, Tab } from "./types";
 import { SegmentedTabs } from "@/components/SuperAdminDashboardCom/SAUserManagementCom/SegmentedTabs";
@@ -10,14 +12,28 @@ import { MobileReferrerCard } from "@/components/SuperAdminDashboardCom/SAUserMa
 import { ActionsMenu } from "@/components/SuperAdminDashboardCom/SAUserManagementCom/ActionsMenu";
 
 export default function SuperAdminUserManagement() {
-  const [tab, setTab] = useState<Tab>("Brokers");
+  const location = useLocation();
+  const [tab, setTab] = useState<Tab>(location.state?.tab || "Brokers");
   const [status, setStatus] = useState<StatusFilter>("Active");
   const [q, setQ] = useState("");
   const [menuKey, setMenuKey] = useState<string | null>(null);
 
+  const { triggerRef, menuRef, position } = useFloatingMenu({
+    open: !!menuKey,
+  });
+
   const [brokersData, setBrokersData] = useState<BrokerRow[]>(brokersMock);
   const [referrersData, setReferrersData] =
     useState<ReferrerRow[]>(referrersMock);
+
+  const activeUserStatus = useMemo(() => {
+    if (!menuKey) return null;
+    if (menuKey.startsWith("broker")) {
+      return brokersData.find((r) => `broker:${r.name}:${r.company}` === menuKey)?.status;
+    } else {
+      return referrersData.find((r) => `referrer:${r.name}:${r.linkedBroker}` === menuKey)?.status;
+    }
+  }, [menuKey, brokersData, referrersData]);
 
   const brokers = useMemo(() => {
     const s = q.trim().toLowerCase();
@@ -28,8 +44,8 @@ export default function SuperAdminUserManagement() {
         !s
           ? true
           : `${r.name} ${r.company} ${r.plan} ${r.commissionYTD}`
-              .toLowerCase()
-              .includes(s),
+            .toLowerCase()
+            .includes(s),
       );
   }, [q, status, brokersData]);
 
@@ -45,17 +61,17 @@ export default function SuperAdminUserManagement() {
         !s
           ? true
           : `${r.name} ${r.linkedBroker} ${r.totalCommission} ${r.lastLogin}`
-              .toLowerCase()
-              .includes(s),
+            .toLowerCase()
+            .includes(s),
       );
   }, [q, status, referrersData]);
 
-  const handleDisable = (key: string) => {
+  const handleToggleAccess = (key: string) => {
     if (key.startsWith("broker")) {
       setBrokersData((prev) =>
         prev.map((r) =>
           `broker:${r.name}:${r.company}` === key
-            ? { ...r, status: "Suspended" }
+            ? { ...r, status: r.status === "Active" ? "Suspended" : "Active" }
             : r,
         ),
       );
@@ -63,7 +79,7 @@ export default function SuperAdminUserManagement() {
       setReferrersData((prev) =>
         prev.map((r) =>
           `referrer:${r.name}:${r.linkedBroker}` === key
-            ? { ...r, status: "Disabled" }
+            ? { ...r, status: r.status === "Active" ? "Disabled" : "Active" }
             : r,
         ),
       );
@@ -72,17 +88,55 @@ export default function SuperAdminUserManagement() {
     setMenuKey(null);
   };
 
+  const handleExport = () => {
+    const data = tab === "Brokers" ? brokers : referrers;
+    if (!data.length) return;
+
+    let csvContent = "data:text/csv;charset=utf-8,";
+
+    if (tab === "Brokers") {
+      csvContent +=
+        "Broker Name,Company,Subscription Plan,Active Seats,Total Referrers,Total Commission (YTD),Status\n";
+      (data as BrokerRow[]).forEach((r) => {
+        csvContent += `"${r.name}","${r.company}","${r.plan}",${r.seats},${r.referrers},"${r.commissionYTD}","${r.status}"\n`;
+      });
+    } else {
+      csvContent +=
+        "Referrer Name,Linked Broker,Total Referrals,Total Commission Earned,Marked Paid,Status,Last Login\n";
+      (data as ReferrerRow[]).forEach((r) => {
+        csvContent += `"${r.name}","${r.linkedBroker}",${r.totalReferrals},"${r.totalCommission}","${r.markedPaid}","${r.status}","${r.lastLogin}"\n`;
+      });
+    }
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `${tab.toLowerCase()}_export.csv`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  const handleToggleMenu = (e: React.MouseEvent<HTMLButtonElement>, key: string) => {
+    if (menuKey === key) {
+      setMenuKey(null);
+    } else {
+      triggerRef.current = e.currentTarget;
+      setMenuKey(key);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
-      <div className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
-        <div className="flex flex-col gap-4 sm:gap-5 lg:flex-row lg:items-start lg:justify-between">
+      <div className="px-4 py-6 md:px-6 md:py-8 lg:px-8 lg:py-10">
+        <div className="flex flex-col gap-4 md:gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0 flex-1">
-            <h1 className="text-xl font-semibold text-slate-900 sm:text-2xl">
+            <h1 className="text-xl font-semibold text-slate-900 md:text-2xl">
               Account Management
             </h1>
 
             <div className="mt-3">
-              <div className="flex w-full items-center gap-2 rounded-xl border border-slate-200 bg-[#F9FAFB] px-4 py-3 sm:max-w-105 sm:py-2">
+              <div className="flex w-full items-center gap-2 rounded-xl border border-slate-200 bg-[#F9FAFB] px-4 py-3 md:max-w-105 md:py-2">
                 <Search className="h-4 w-4 shrink-0 text-slate-400" />
                 <input
                   value={q}
@@ -96,7 +150,8 @@ export default function SuperAdminUserManagement() {
 
           <button
             type="button"
-            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 sm:h-10 sm:w-auto"
+            onClick={handleExport}
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 md:h-10 md:w-auto"
           >
             <Download className="h-4 w-4" />
             Export CSV
@@ -105,7 +160,7 @@ export default function SuperAdminUserManagement() {
 
         <div className="mt-6 h-px w-full bg-slate-200" />
 
-        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <SegmentedTabs tab={tab} setTab={setTab} />
           <StatusDropdown value={status} onChange={setStatus} />
         </div>
@@ -117,18 +172,11 @@ export default function SuperAdminUserManagement() {
               brokers.length ? (
                 brokers.map((r) => {
                   const key = `broker:${r.name}:${r.company}`;
-                  const open = menuKey === key;
-
                   return (
                     <MobileBrokerCard
                       key={key}
                       row={r}
-                      open={open}
-                      onToggleMenu={() =>
-                        setMenuKey((k) => (k === key ? null : key))
-                      }
-                      onCloseMenu={() => setMenuKey(null)}
-                      onDisable={() => handleDisable(key)}
+                      onToggleMenu={(e) => handleToggleMenu(e, key)}
                     />
                   );
                 })
@@ -140,18 +188,11 @@ export default function SuperAdminUserManagement() {
             ) : referrers.length ? (
               referrers.map((r) => {
                 const key = `referrer:${r.name}:${r.linkedBroker}`;
-                const open = menuKey === key;
-
                 return (
                   <MobileReferrerCard
                     key={key}
                     row={r}
-                    open={open}
-                    onToggleMenu={() =>
-                      setMenuKey((k) => (k === key ? null : key))
-                    }
-                    onCloseMenu={() => setMenuKey(null)}
-                    onDisable={() => handleDisable(key)}
+                    onToggleMenu={(e) => handleToggleMenu(e, key)}
                   />
                 );
               })
@@ -192,7 +233,6 @@ export default function SuperAdminUserManagement() {
                   <tbody className="divide-y divide-slate-200">
                     {brokers.map((r) => {
                       const key = `broker:${r.name}:${r.company}`;
-                      const open = menuKey === key;
 
                       return (
                         <tr key={key} className="bg-white">
@@ -235,20 +275,12 @@ export default function SuperAdminUserManagement() {
                             <div className="relative flex justify-start">
                               <button
                                 type="button"
-                                onClick={() =>
-                                  setMenuKey((k) => (k === key ? null : key))
-                                }
+                                onClick={(e) => handleToggleMenu(e, key)}
                                 className="inline-flex h-9 w-9 items-center justify-center rounded-xl hover:bg-slate-50"
                                 aria-label="Open actions"
                               >
                                 <MoreVertical className="h-4 w-4 text-slate-600" />
                               </button>
-
-                              <ActionsMenu
-                                open={open}
-                                onClose={() => setMenuKey(null)}
-                                onDisable={() => handleDisable(key)}
-                              />
                             </div>
                           </td>
                         </tr>
@@ -296,7 +328,6 @@ export default function SuperAdminUserManagement() {
                   <tbody className="divide-y divide-slate-200">
                     {referrers.map((r) => {
                       const key = `referrer:${r.name}:${r.linkedBroker}`;
-                      const open = menuKey === key;
 
                       return (
                         <tr key={key} className="bg-white">
@@ -332,20 +363,12 @@ export default function SuperAdminUserManagement() {
                             <div className="relative flex justify-end">
                               <button
                                 type="button"
-                                onClick={() =>
-                                  setMenuKey((k) => (k === key ? null : key))
-                                }
+                                onClick={(e) => handleToggleMenu(e, key)}
                                 className="inline-flex h-9 w-9 items-center justify-center rounded-xl hover:bg-slate-50"
                                 aria-label="Open actions"
                               >
                                 <MoreVertical className="h-4 w-4 text-slate-600" />
                               </button>
-
-                              <ActionsMenu
-                                open={open}
-                                onClose={() => setMenuKey(null)}
-                                onDisable={() => handleDisable(key)}
-                              />
                             </div>
                           </td>
                         </tr>
@@ -369,6 +392,17 @@ export default function SuperAdminUserManagement() {
           </div>
         </div>
       </div>
+
+      <ActionsMenu
+        ref={menuRef}
+        open={!!menuKey}
+        onClose={() => setMenuKey(null)}
+        onToggleAccess={() => {
+          if (menuKey) handleToggleAccess(menuKey);
+        }}
+        isActive={activeUserStatus === "Active"}
+        position={position}
+      />
     </div>
   );
 }

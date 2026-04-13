@@ -59,6 +59,8 @@ export function mapCreateStageToLeadStatus(stage: CreateLeadStage): LeadStatus {
       return "APPLICATION STARTED";
     case "Submitted to Lender":
       return "SUBMITTED TO LENDER";
+    case "Disqualified":
+      return "DISQUALIFIED";
     default:
       return "NEW REFERRAL";
   }
@@ -79,6 +81,8 @@ export function mapLeadStatusToCreateStage(
     case "APPROVED":
     case "FUNDED":
       return "Submitted to Lender";
+    case "DISQUALIFIED":
+      return "Disqualified";
     default:
       return "New Referral";
   }
@@ -92,9 +96,9 @@ export function mapLeadToTableRow(lead: Lead): LeadTableRow {
     amount: lead.estimatedLoanAmount,
     date: lead.leadCreatedDate,
     status: lead.leadStage,
-    rate: lead.interestRate,
     commission: lead.referrerFeeExpected,
     timeline: lead.timeline,
+    paymentStatus: lead.paymentStatus,
   };
 }
 
@@ -126,12 +130,20 @@ export function getReferrerById(
 
 export function calculateCommissionValues(
   amount: number,
-  referrerCommissionPercent: number,
+  referrerValue: number,
+  agreementType: string,
 ) {
   const totalCommission = Number((amount * 0.01).toFixed(2));
-  const referrerFeeExpected = Number(
-    ((totalCommission * referrerCommissionPercent) / 100).toFixed(2),
-  );
+  let referrerFeeExpected = 0;
+
+  if (agreementType === "Flat Referral Fee") {
+    referrerFeeExpected = referrerValue;
+  } else {
+    referrerFeeExpected = Number(
+      ((totalCommission * referrerValue) / 100).toFixed(2),
+    );
+  }
+
   const brokerCommission = Number(
     (totalCommission - referrerFeeExpected).toFixed(2),
   );
@@ -159,7 +171,11 @@ export function buildLeadFromCreateForm({
   const referrerCommissionPercent = Number(form.referrerCommissionPercent) || 0;
 
   const { totalCommission, brokerCommission, referrerFeeExpected } =
-    calculateCommissionValues(amount, referrerCommissionPercent);
+    calculateCommissionValues(
+      amount,
+      referrerCommissionPercent,
+      form.agreementType,
+    );
 
   const selectedMember = teamMembers.find((m) => m.id === form.assignTo);
   const now = new Date();
@@ -183,7 +199,6 @@ export function buildLeadFromCreateForm({
 
     estimatedLoanAmount: amount,
     loanType: form.loanType || "Home Loan",
-    interestRate: Number(form.interestRate) || 0,
     expectedSettlementDate: form.expectedSettlementDate,
 
     referrerName: referrer?.name || "Unknown Referrer",
@@ -223,8 +238,9 @@ export function buildLeadFromCreateForm({
     referrerFeeExpected,
     expectedReferrerPaymentDate: form.expectedSettlementDate || "",
 
-    paymentStatus: "Pending",
+    paymentStatus: "pending settlement",
     paymentDate: "",
+    paymentMadeDate: "",
     paymentNotes: "",
   };
 }

@@ -88,18 +88,22 @@ function SelectLikeButton({
   value,
   onClick,
   className,
+  ariaLabel,
 }: {
   leftIcon?: React.ReactNode;
   value: string;
   onClick: () => void;
   className?: string;
+  ariaLabel?: string;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
+      aria-label={ariaLabel}
+      aria-haspopup="listbox"
       className={cn(
-        "flex h-16 w-full items-center justify-between gap-3 rounded-[18px] border bg-white px-5 text-left transition active:scale-[0.99]",
+        "flex py-2.5 w-full rounded-lg items-center justify-between gap-3 border bg-white px-5 text-left",
         "border-[#D6DEDD] text-[#6F7B82] hover:bg-slate-50",
         className,
       )}
@@ -108,7 +112,7 @@ function SelectLikeButton({
         {leftIcon ? (
           <span className="shrink-0 text-[#6F7B82]">{leftIcon}</span>
         ) : null}
-        <span className="truncate text-[16px] sm:text-lg">{value}</span>
+        <span className="truncate text-[16px] md:text-lg">{value}</span>
       </span>
       <ChevronDown className="h-6 w-6 shrink-0 text-black" />
     </button>
@@ -135,6 +139,7 @@ function Menu({
         className,
       )}
       role="menu"
+      aria-hidden={!open}
     >
       {items.map((it) => (
         <button
@@ -211,16 +216,16 @@ function MobileReferralCard({
   onRemove: () => void;
 }) {
   return (
-    <div className="border-b border-[#CFCFCF] bg-white p-7 last:border-b-0">
+    <div className="border-b border-[#CFCFCF] bg-white p-4 last:border-b-0">
       <div className="flex items-start justify-between gap-4">
         <Link
           to={`/referrer-dashboard/my-referrals/clients/${row.id}`}
           className="min-w-0 flex-1"
         >
-          <p className="truncate text-[22px] font-semibold leading-none text-black">
+          <p className="truncate text-base font-semibold leading-none text-black">
             {row.clientName}
           </p>
-          <p className="mt-4 text-[18px] leading-none text-[#6B6B6B]">
+          <p className="mt-2 text-sm leading-none text-[#6B6B6B]">
             {row.company}
           </p>
         </Link>
@@ -228,25 +233,23 @@ function MobileReferralCard({
         <RowActions onEdit={onEdit} onRemove={onRemove} />
       </div>
 
-      <div className="mt-7 flex items-end justify-between gap-4">
+      <div className="mt-4 flex items-end justify-between gap-4">
         <span
           className={cn(
-            "inline-flex max-w-full items-center rounded-full px-6 py-3 text-[14px] font-medium uppercase leading-none",
+            "inline-flex max-w-full items-center rounded-full px-4 py-2 text-xs font-medium uppercase leading-none",
             statusPill(row.status),
           )}
         >
-          <span className="truncate">{row.status}</span>
+          {row.status}
         </span>
 
         <div className="shrink-0 text-right">
-          <p className="text-[22px] font-semibold leading-none text-black">
+          <p className="text-base font-semibold leading-none text-black">
             {row.expectedRefFee == null
               ? "Pending"
               : toMoney(row.expectedRefFee)}
           </p>
-          <p className="mt-4 text-[18px] leading-none text-[#6B6B6B]">
-            Commission
-          </p>
+          <p className="mt-1 text-sm leading-none text-[#6B6B6B]">Commission</p>
         </div>
       </div>
     </div>
@@ -278,11 +281,17 @@ export const ReferrerMyReferrals = () => {
   const filtered = useMemo(() => {
     return rows
       .filter((r) => (status === "All Statuses" ? true : r.status === status))
-      .filter((r) => inMonthRange(r.dateSubmitted, range))
+      .filter(
+        (r) =>
+          timePreset === "All Time" || inMonthRange(r.dateSubmitted, range),
+      )
       .sort((a, b) => (a.dateSubmitted < b.dateSubmitted ? 1 : -1));
-  }, [rows, range, status]);
+  }, [rows, range, status, timePreset]);
 
-  const rangeLabel = `${monthLabel(range.from)} - ${monthLabel(range.to)}`;
+  const rangeLabel =
+    timePreset === "All Time"
+      ? "All time"
+      : `${monthLabel(range.from)} - ${monthLabel(range.to)}`;
 
   function applyPreset(p: TimePreset) {
     setTimePreset(p);
@@ -295,25 +304,23 @@ export const ReferrerMyReferrals = () => {
   }
 
   return (
-    <div className="mx-auto w-full max-w-400 bg-white px-4 pb-24 pt-4 sm:px-6 md:px-8 md:pb-8">
+    <div className="mx-auto w-full max-w-400 bg-white px-4 pb-24 pt-4 md:px-6 md:pb-8">
       {/* filters */}
-      <div className="rounded-3xl border border-[#BFE6FF] bg-white p-4 sm:p-5 md:rounded-2xl md:border-slate-200 md:p-4">
+      <div className="rounded-3xl border border-[#BFE6FF] bg-white p-4 md:rounded-2xl md:border-slate-200 md:p-4">
         <div className="grid grid-cols-1 gap-4 md:flex md:flex-wrap md:items-center md:justify-between">
-          <div className="grid grid-cols-2 gap-4 md:flex md:flex-wrap md:items-center md:gap-4">
+          <div className="grid grid-cols-1 gap-4 md:flex md:flex-wrap md:items-center md:gap-4">
             {/* label */}
             <div className="col-span-1">
               <button
                 type="button"
                 className={cn(
-                  "flex h-16 w-full items-center justify-center gap-3 rounded-[18px] border bg-white px-5",
+                  "flex w-full items-center justify-center gap-2.5 rounded-lg border bg-white",
                   "border-[#D6DEDD] text-[#6F7B82]",
-                  "md:h-11 md:min-w-27.5 md:justify-start md:rounded-xl md:border-slate-200 md:px-3 md:text-sm",
+                  "h-11 min-w-27.5 md:justify-start px-3",
                 )}
               >
-                <Filter className="h-7 w-7 md:h-4 md:w-4" />
-                <span className="text-[16px] sm:text-lg md:text-sm">
-                  Status
-                </span>
+                <Filter className="h-6 w-6" />
+                <span className="md:text-sm">Status</span>
               </button>
             </div>
 
@@ -321,12 +328,13 @@ export const ReferrerMyReferrals = () => {
             <div className="col-span-1 relative" ref={statusRef}>
               <SelectLikeButton
                 value={status}
+                ariaLabel="Filter by status"
                 onClick={() => {
                   setStatusOpen((v) => !v);
                   setTimeOpen(false);
                   setRangeOpen(false);
                 }}
-                className="md:h-11 md:min-w-45 md:rounded-xl md:border-slate-200 md:px-3 md:text-sm"
+                className="md:min-w-45 md:border-slate-200 md:px-3 md:text-sm"
               />
               <Menu
                 open={statusOpen}
@@ -342,12 +350,13 @@ export const ReferrerMyReferrals = () => {
             <div className="col-span-1 relative" ref={timeRef}>
               <SelectLikeButton
                 value={timePreset}
+                ariaLabel="Filter by time range"
                 onClick={() => {
                   setTimeOpen((v) => !v);
                   setStatusOpen(false);
                   setRangeOpen(false);
                 }}
-                className="md:h-11 md:min-w-40 md:rounded-xl md:border-slate-200 md:px-3 md:text-sm"
+                className="md:min-w-40 md:border-slate-200 md:px-3 md:text-sm"
               />
               <Menu
                 open={timeOpen}
@@ -364,18 +373,19 @@ export const ReferrerMyReferrals = () => {
               <SelectLikeButton
                 leftIcon={<Calendar className="h-7 w-7 md:h-4 md:w-4" />}
                 value={rangeLabel}
+                ariaLabel="Select date range"
                 onClick={() => {
                   setRangeOpen((v) => !v);
                   setStatusOpen(false);
                   setTimeOpen(false);
                 }}
-                className="md:h-11 md:min-w-60 md:rounded-xl md:border-slate-200 md:px-3 md:text-sm"
+                className="md:min-w-60 md:border-slate-200 md:px-3 md:text-sm"
               />
 
               {rangeOpen ? (
                 <div className="absolute left-0 z-50 mt-2 w-[320px] max-w-[calc(100vw-2rem)] rounded-2xl border border-slate-200 bg-white p-4 shadow-lg md:w-100">
                   <div className="grid gap-3">
-                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                       <div className="space-y-1.5">
                         <p className="text-xs font-semibold text-slate-600">
                           From
@@ -416,7 +426,7 @@ export const ReferrerMyReferrals = () => {
             </div>
           </div>
 
-          <p className="text-[18px] leading-none text-black md:text-sm md:text-slate-500">
+          <p className="leading-none text-black text-sm md:text-slate-500">
             showing{" "}
             <span className="font-semibold md:text-slate-700">
               {filtered.length}
@@ -437,9 +447,7 @@ export const ReferrerMyReferrals = () => {
             <MobileReferralCard
               key={r.id}
               row={r}
-              onEdit={() => {
-                alert(`Edit referral: ${r.clientName} (${r.company})`);
-              }}
+              onEdit={() => {}}
               onRemove={() => onRemoveRow(r.id)}
             />
           ))
@@ -536,9 +544,7 @@ export const ReferrerMyReferrals = () => {
 
                   <td className="px-5 py-4 text-left">
                     <RowActions
-                      onEdit={() => {
-                        alert(`Edit referral: ${r.clientName} (${r.company})`);
-                      }}
+                      onEdit={() => {}}
                       onRemove={() => onRemoveRow(r.id)}
                     />
                   </td>

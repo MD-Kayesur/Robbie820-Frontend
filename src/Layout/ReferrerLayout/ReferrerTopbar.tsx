@@ -65,7 +65,7 @@ export default function ReferrerTopbar({ onOpenSidebar }: Props) {
 
   return (
     <>
-      <header className="relative z-30 w-full bg-white mt-11">
+      <header className="relative z-30 w-full bg-white mt-11 md:mt-0">
         {/* Mobile controls only: sticky */}
         <div className=" bg-white px-4 pt-5 pb-3 md:hidden">
           <div className="flex items-center justify-between">
@@ -95,26 +95,27 @@ export default function ReferrerTopbar({ onOpenSidebar }: Props) {
         </div>
 
         {/* Main content */}
-        <div className="px-4 sm:px-5 md:px-6 md:pt-8 xl:px-7.5 xl:pt-11">
+        <div className="px-4 md:px-5 md:pt-8 xl:px-7.5 xl:pt-11">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             {/* Left */}
             <div className="min-w-0">
-              <h2 className="text-[18px] font-medium leading-none text-black sm:text-[20px] md:text-base xl:text-lg">
+              <h2 className="text-[18px] font-medium leading-none text-black md:text-[20px] md:text-base xl:text-lg">
                 {meta.title}
               </h2>
-              <p className="mt-3 text-[15px] text-[#666666] sm:text-base md:mt-2.5">
+              <p className="mt-3 text-[15px] text-[#666666] md:text-base md:mt-2.5">
                 {meta.subtitle}
               </p>
             </div>
 
             {/* Right */}
-            <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:w-auto lg:flex-nowrap lg:justify-end">
+            <div className="flex w-full flex-col gap-3 md:flex-row md:flex-wrap md:items-center lg:w-auto lg:flex-nowrap lg:justify-end">
               {/* Search */}
-              <div className="relative w-full sm:flex-1 md:min-w-65 lg:w-[320px] xl:mr-8.5 xl:w-105">
+              <div className="relative w-full md:flex-1 md:min-w-65 lg:w-[320px] xl:mr-8.5 xl:w-105">
                 <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
                 <input
                   type="text"
                   placeholder="search referrals..."
+                  aria-label="Search referrals"
                   className={cn(
                     "h-12 w-full rounded-2xl border border-slate-200 bg-white pl-12 pr-4",
                     "text-sm text-slate-700 placeholder:text-slate-400",
@@ -168,7 +169,7 @@ export default function ReferrerTopbar({ onOpenSidebar }: Props) {
       <button
         type="button"
         onClick={() => setOpenNew(true)}
-        className="fixed bottom-5 right-5 z-60 grid h-16 w-16 place-items-center rounded-full bg-black text-white shadow-[0_10px_30px_rgba(0,0,0,0.2)] transition hover:scale-[1.03] md:hidden"
+        className="fixed bottom-5 right-5 z-50 grid h-16 w-16 place-items-center rounded-full bg-black text-white shadow-[0_10px_30px_rgba(0,0,0,0.2)] transition hover:scale-[1.03] md:hidden"
         aria-label="New referral"
       >
         <Plus className="h-8 w-8" strokeWidth={2.2} />
@@ -177,9 +178,7 @@ export default function ReferrerTopbar({ onOpenSidebar }: Props) {
       <NewReferralModal
         open={openNew}
         onClose={() => setOpenNew(false)}
-        onSubmit={(data) => {
-          console.log("new referral submit:", data);
-        }}
+        onSubmit={() => {}}
       />
     </>
   );

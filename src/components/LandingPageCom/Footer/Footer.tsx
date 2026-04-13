@@ -1,66 +1,72 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Linkedin, Facebook, Instagram } from "lucide-react";
+import logo from "@/assets/logos/refer_now_logo.png";
 
 const Footer = () => {
   const navigate = useNavigate();
 
   return (
-    <footer className="bg-[#DFF5FF] pt-20 pb-10 px-6 md:px-12 text-[#2D3E50] clash">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+    <footer className="bg-[#cfefff] pt-5 pb-5 text-[#2D3E50] md:pt-20 md:pb-10 px-4.5 md:px-0">
+      <div className="mx-auto md:px-20 lg:px-37.5">
+        <div className="mb-10 flex flex-col gap-6 md:mb-12 md:gap-12 md:flex-row md:items-start md:justify-between">
           {/* Left Column: Logo & Description */}
-          <div className="space-y-8">
-            <div
-              className="flex items-center gap-2.5 cursor-pointer group w-fit"
-              onClick={() => navigate("/")}
-            >
-              <div className="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                <span className="text-white font-black text-lg">R</span>
-              </div>
-              <span className="text-xl font-bold tracking-tight text-[#1E293B]">
-                Refer<span className="text-sky-500">Now</span>
-              </span>
+          <div className="md:space-y-4 space-y-2">
+            <div className="w-fit cursor-pointer" onClick={() => navigate("/")}>
+              <img src={logo} alt="ReferNow logo" className="w-25 md:w-40" />
             </div>
 
-            <p className="max-w-md text-[15px] font-normal leading-relaxed opacity-80">
+            <p className="max-w-md text-sm leading-relaxed text-[#666666] md:text-base">
               Automated Referral Commission Management For Brokers, And Referral
               Partners. Built For Accuracy, Transparency, And Trust.
             </p>
 
-            <div className="flex gap-8 text-[15px] font-normal">
-              <a href="#" className="hover:text-sky-500 transition-colors">
+            <div className="flex gap-4.5 md:gap-7 text-[#1F2D2E] text-sm md:text-lg">
+              <Link
+                to="/help"
+                className="hover:text-sky-500 hover:underline transition-colors"
+              >
                 Help
-              </a>
-              <a href="#" className="hover:text-sky-500 transition-colors">
+              </Link>
+
+              <Link
+                to="/privacy"
+                className="hover:text-sky-500 hover:underline transition-colors"
+              >
                 Privacy
-              </a>
+              </Link>
             </div>
           </div>
 
           {/* Right Column: App Links */}
-          <div className="flex flex-col md:items-end justify-start space-y-6">
-            <span className="text-sky-500 font-semibold text-[15px] uppercase tracking-wider">
+          <div className="flex flex-col justify-start space-y-3 md:space-y-5 md:items-start">
+            <span className="text-sky-500 font-semibold text-base md:text-lg">
               Get the app
             </span>
-            <div className="flex flex-col gap-3">
+
+            <div className="flex flex-col gap-3 md:gap-4">
               <a
-                href="#"
-                className="block hover:scale-105 transition-transform"
+                href="https://apps.apple.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-fit"
               >
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
                   alt="Download on the App Store"
-                  className="h-10 w-auto"
+                  className="h-10 w-auto md:h-12"
                 />
               </a>
+
               <a
-                href="#"
-                className="block hover:scale-105 transition-transform"
+                href="https://play.google.com/store"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-fit"
               >
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
                   alt="Get it on Google Play"
-                  className="h-10 w-auto"
+                  className="h-10 w-auto md:h-12"
                 />
               </a>
             </div>
@@ -68,46 +74,50 @@ const Footer = () => {
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-sky-200 w-full mb-8 opacity-50" />
+        <div className="hidden md:block mb-6 h-px w-full bg-[#3A86FF40] md:mb-8" />
 
         {/* Bottom Row: Copyright & Social */}
-        <div className="flex flex-col md:row items-center justify-between gap-6 md:flex-row">
-          <p className="text-[13px] font-normal opacity-70 order-2 md:order-1">
-            2024 ReferNow All Rights Reserved.
+        <div className="flex flex-col-reverse gap-8 text-center md:flex-row md:items-center md:justify-between md:text-left">
+          <p className="text-sm text-black md:text-base">
+            &#169; {new Date().getFullYear()} ReferNow All Rights Reserved.
           </p>
 
-          <div className="flex flex-col items-center md:items-end gap-3 order-1 md:order-2">
-            <div className="flex gap-4">
+          {/* Horizontal divider */}
+          <div className="block md:hidden h-px w-full bg-[#00B4FE4A]" />
+
+          <div className="flex flex-col gap-4 items-start md:items-end">
+            <div className="flex items-center justify-center gap-6 md:gap-8">
               <a
-                href="#"
-                className="w-9 h-9 bg-slate-300/30 rounded-md flex items-center justify-center hover:bg-sky-500 hover:text-white transition-all duration-300 text-slate-500"
+                href="https://www.linkedin.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#A4A7AE] hover:text-sky-500"
               >
-                <Linkedin
-                  size={18}
-                  fill="currentColor"
-                  className="stroke-none"
-                />
+                <Linkedin size={34} />
               </a>
+
               <a
-                href="#"
-                className="w-9 h-9 bg-slate-300/30 rounded-md flex items-center justify-center hover:bg-sky-500 hover:text-white transition-all duration-300 text-slate-500"
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#A4A7AE] hover:text-sky-500"
               >
-                <Facebook
-                  size={18}
-                  fill="currentColor"
-                  className="stroke-none"
-                />
+                <Facebook size={34} />
               </a>
+
               <a
-                href="#"
-                className="w-9 h-9 bg-slate-300/30 rounded-md flex items-center justify-center hover:bg-sky-500 hover:text-white transition-all duration-300 text-slate-500"
+                href="https://www.instagram.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#A4A7AE] hover:text-sky-500"
               >
-                <Instagram size={18} />
+                <Instagram size={34} />
               </a>
             </div>
-            <span className="text-[11px] font-normal opacity-60 uppercase tracking-widest">
+
+            <div className="text-center text-black md:text-right">
               Follow us on Social Media
-            </span>
+            </div>
           </div>
         </div>
       </div>

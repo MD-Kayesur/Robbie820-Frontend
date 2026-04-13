@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+// src/Layout/BrokerLayout/BrokerSidebar.tsx
+import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   Bell,
@@ -13,6 +14,9 @@ import {
   X,
 } from "lucide-react";
 import { cn } from "@/hooks/useCn";
+import { useOutsideClose } from "@/hooks/useOutsideClose";
+
+import logo from "@/assets/logos/refer_now_logo.png";
 
 type ItemProps = {
   to: string;
@@ -36,7 +40,7 @@ const SidebarItem = ({ to, icon: Icon, label, end, onClick }: ItemProps) => {
       className={({ isActive }) =>
         cn(
           "flex items-center gap-1.5 rounded-sm px-3 py-2 transition",
-          isActive ? "bg-[#67C5F0]" : "hover:bg-[#00B4FE1A]",
+          isActive ? "bg-[#00B4FE99]" : "hover:bg-[#00B4FE1A]",
         )
       }
     >
@@ -48,22 +52,15 @@ const SidebarItem = ({ to, icon: Icon, label, end, onClick }: ItemProps) => {
 
 const BrokerSidebar = ({ mobileOpen, onClose }: Props) => {
   const navigate = useNavigate();
-  const sidebarRef = useRef<HTMLElement | null>(null);
+  const sidebarRef = useOutsideClose<HTMLElement>(mobileOpen, onClose);
 
   useEffect(() => {
     if (!mobileOpen) return;
-
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-      if (sidebarRef.current && !sidebarRef.current.contains(target)) {
-        onClose();
-      }
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
     };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
   }, [mobileOpen, onClose]);
 
   const handleSignOut = () => {
@@ -73,10 +70,10 @@ const BrokerSidebar = ({ mobileOpen, onClose }: Props) => {
 
   return (
     <>
-      {/* Mobile overlay */}
       <div
+        onClick={onClose}
         className={cn(
-          "fixed inset-0 z-40 bg-black/30 transition-opacity lg:hidden",
+          "fixed inset-0 z-40 bg-black/30 transition-opacity md:hidden",
           mobileOpen
             ? "pointer-events-auto opacity-100"
             : "pointer-events-none opacity-0",
@@ -86,7 +83,7 @@ const BrokerSidebar = ({ mobileOpen, onClose }: Props) => {
       <aside
         ref={sidebarRef}
         className={cn(
-          "fixed left-0 top-0 z-50 flex h-screen sm:w-70 flex-col overflow-y-auto bg-[#F3F3F3] px-4 py-6 sm:px-8 sm:py-11 transition-transform duration-300 lg:static lg:z-0 lg:w-72.5 lg:translate-x-0 lg:border-r lg:border-slate-200",
+          "fixed left-0 top-0 z-50 flex h-screen md:w-70 flex-col overflow-y-auto bg-[#F3F3F3] px-4 py-6 md:px-8 md:py-11 transition-transform duration-300 md:static lg:z-0 lg:w-72.5 lg:translate-x-0 lg:border-r lg:border-slate-200",
           mobileOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
@@ -97,27 +94,22 @@ const BrokerSidebar = ({ mobileOpen, onClose }: Props) => {
               navigate("/");
               onClose();
             }}
-            className="text-left text-[#00B4FE]"
+            className="text-left"
           >
-            <h1 className="text-2xl font-semibold leading-6">Refer Now</h1>
-            <p className="text-[10px] font-medium uppercase leading-2.5">
-              Seamlessly
-              <br />
-              Connected
-            </p>
+            <img src={logo} alt="ReferNow" className="h-auto w-40 scale-130" />
           </button>
 
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl bg-white p-2 text-black shadow-sm lg:hidden"
+            className="rounded-xl bg-white p-2 text-black shadow-sm md:hidden"
             aria-label="Close sidebar"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        <nav className="space-y-4 sm:space-y-7.5">
+        <nav className="space-y-4 md:space-y-7.5">
           <SidebarItem
             to="/broker-dashboard"
             icon={LayoutGrid}
@@ -175,7 +167,7 @@ const BrokerSidebar = ({ mobileOpen, onClose }: Props) => {
           <button
             type="button"
             onClick={handleSignOut}
-            className="flex w-full items-center gap-1.5 px-4 text-left transition hover:bg-[#00B4FE1A]"
+            className="flex w-full items-center gap-1.5 p-4 text-left transition hover:bg-[#00B4FE1A]"
           >
             <LogOut className="h-6 w-6 text-black" strokeWidth={2} />
             <span className="text-black">Sign Out</span>

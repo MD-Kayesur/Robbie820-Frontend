@@ -44,7 +44,7 @@ export function RowDetailsModal({
         ref={panelRef}
         className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl"
       >
-        <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-5 sm:px-6">
+        <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-5 md:px-6">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
               <h3 className="truncate text-lg font-black text-[#101828]">
@@ -67,8 +67,8 @@ export function RowDetailsModal({
           </button>
         </div>
 
-        <div className="space-y-4 px-5 py-5 sm:px-6">
-          <div className="grid gap-3 sm:grid-cols-2">
+        <div className="space-y-4 px-5 py-5 md:px-6">
+          <div className="grid gap-3 md:grid-cols-2">
             <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
               <p className="text-xs font-extrabold text-[#4A5565]">User</p>
               <p className="mt-1 text-sm font-black text-[#101828]">
@@ -107,7 +107,7 @@ export function RowDetailsModal({
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-3 border-t border-slate-200 px-5 py-4 sm:px-6">
+        <div className="flex items-center justify-end gap-3 border-t border-slate-200 px-5 py-4 md:px-6">
           <button
             type="button"
             onClick={onClose}

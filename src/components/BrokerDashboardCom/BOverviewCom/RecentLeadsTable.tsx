@@ -1,12 +1,13 @@
 // src/components/BrokerDashboardCom/BOverivewCom/RecentLeadsTable.tsx
 import { useMemo, useState } from "react";
-import { MoreHorizontal } from "lucide-react";
+import { Eye, FileText, MoreHorizontal, RefreshCcw, UserPlus } from "lucide-react";
 
 import { cn } from "@/hooks/useCn";
 import { useFloatingMenu } from "@/hooks/useFloatingMenu";
 import type {
   Lead,
   LeadStatus,
+  PaymentStatus,
 } from "../../../pages/BrokerDashboard/BrokerOverview/types";
 import {
   formatMoney,
@@ -18,6 +19,7 @@ type RecentLeadsTableProps = {
   onOpenDetails: (id: string) => void;
   onUpdateStatus?: (id: string) => void;
   onAddNote?: (id: string) => void;
+  onAssignMember?: (id: string) => void;
 };
 
 const statusClassMap: Record<LeadStatus, string> = {
@@ -27,6 +29,14 @@ const statusClassMap: Record<LeadStatus, string> = {
   "SUBMITTED TO LENDER": "bg-[#FAF5FF] text-[#9333EA] border-[#E9D5FF]",
   APPROVED: "bg-[#F0FDF4] text-[#16A34A] border-[#BBF7D0]",
   FUNDED: "bg-[#ECFDF5] text-[#059669] border-[#A7F3D0]",
+  DISQUALIFIED: "bg-[#FEF2F2] text-[#EF4444] border-[#FECACA]",
+};
+
+const paymentPillClassMap: Record<PaymentStatus, string> = {
+  "Paid to ref": "bg-emerald-50 text-emerald-600 border-emerald-200",
+  "pending settlement": "bg-slate-100 text-slate-500 border-slate-200",
+  "Payment outstanding to referrer":
+    "bg-amber-50 text-amber-700 border-amber-200",
 };
 
 function getRelativeTimeLabel(date: string) {
@@ -43,12 +53,16 @@ function getRelativeTimeLabel(date: string) {
 
 function ActionMenu({
   lead,
+  onOpenDetails,
   onUpdateStatus,
   onAddNote,
+  onAssignMember,
 }: {
   lead: Lead;
+  onOpenDetails: (id: string) => void;
   onUpdateStatus?: (id: string) => void;
   onAddNote?: (id: string) => void;
+  onAssignMember?: (id: string) => void;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -84,27 +98,47 @@ function ActionMenu({
 
           <div
             ref={menuRef}
-            className="fixed z-30 w-56 rounded-[18px] border border-[#E7E7E7] bg-white p-2 shadow-[0_8px_24px_rgba(15,23,42,0.10)]"
+            className="fixed z-30 w-64 rounded-[22px] border border-[#E7E7E7] bg-white p-2 shadow-[0_20px_48px_rgba(0,0,0,0.1)]"
             style={{
               top: position.top,
               left: position.left,
             }}
           >
-            <div className="flex flex-col">
+            <div className="flex flex-col py-1">
+              <button
+                type="button"
+                onClick={() => handleAction(onOpenDetails)}
+                className="flex items-center gap-4 rounded-[14px] px-4 py-3.5 text-left text-[14px] font-medium text-[#111827] transition hover:bg-[#F9FAFB]"
+              >
+                <Eye className="h-5 w-5 text-[#6B7280]" strokeWidth={1.5} />
+                View Details
+              </button>
+
               <button
                 type="button"
                 onClick={() => handleAction(onUpdateStatus)}
-                className="rounded-xl px-4 py-3 text-left text-[14px] font-medium text-[#2A2A2A] transition hover:bg-[#F7F7F7]"
+                className="flex items-center gap-4 rounded-[14px] px-4 py-3.5 text-left text-[14px] font-medium text-[#111827] transition hover:bg-[#F9FAFB]"
               >
-                Update Status
+                <RefreshCcw className="h-5 w-5 text-[#6B7280]" strokeWidth={1.5} />
+                Update Stage
               </button>
 
               <button
                 type="button"
                 onClick={() => handleAction(onAddNote)}
-                className="rounded-xl px-4 py-3 text-left text-[14px] font-medium text-[#2A2A2A] transition hover:bg-[#F7F7F7]"
+                className="flex items-center gap-4 rounded-[14px] px-4 py-3.5 text-left text-[14px] font-medium text-[#111827] transition hover:bg-[#F9FAFB]"
               >
-                Add Note
+                <FileText className="h-5 w-5 text-[#6B7280]" strokeWidth={1.5} />
+                Add Internal Note
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleAction(onAssignMember)}
+                className="flex items-center gap-4 rounded-[14px] px-4 py-3.5 text-left text-[14px] font-medium text-[#111827] transition hover:bg-[#F9FAFB]"
+              >
+                <UserPlus className="h-5 w-5 text-[#6B7280]" strokeWidth={1.5} />
+                Assign Team Member
               </button>
             </div>
           </div>
@@ -125,7 +159,7 @@ export default function RecentLeadsTable({
   return (
     <section className="overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white">
       {/* header */}
-      <div className="flex items-center justify-between px-4 py-4 sm:px-5">
+      <div className="flex items-center justify-between px-4 py-4 md:px-5">
         <div>
           <h2 className="text-[18px] font-semibold text-[#111827]">
             Recent Referrals
@@ -175,15 +209,20 @@ export default function RecentLeadsTable({
                 </div>
 
                 <div className="flex justify-between">
-                  <span>Rate</span>
-                  <span className="text-black">{row.rate.toFixed(2)}%</span>
-                </div>
-
-                <div className="flex justify-between">
-                  <span>Commission</span>
-                  <span className="font-medium text-[#16A34A]">
-                    {formatMoney(row.commission)}
-                  </span>
+                  <span>Referrer Payout</span>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className="font-medium text-[#16A34A]">
+                      {formatMoney(row.commission)}
+                    </span>
+                    <span
+                      className={cn(
+                        "rounded-full border px-2 py-0.5 text-[10px] font-medium leading-none",
+                        paymentPillClassMap[row.paymentStatus],
+                      )}
+                    >
+                      {row.paymentStatus}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="flex justify-between">
@@ -202,6 +241,7 @@ export default function RecentLeadsTable({
 
                 <ActionMenu
                   lead={lead}
+                  onOpenDetails={onOpenDetails}
                   onUpdateStatus={onUpdateStatus}
                   onAddNote={onAddNote}
                 />
@@ -221,8 +261,7 @@ export default function RecentLeadsTable({
                 "Referrer",
                 "Loan Amount",
                 "Stage",
-                "Interest Rate",
-                "Commission",
+                "Referrer Comm",
                 "Last Updated",
                 "Actions",
               ].map((h) => (
@@ -269,12 +308,20 @@ export default function RecentLeadsTable({
                     </span>
                   </td>
 
-                  <td className="px-5 py-4 text-sm text-[#6B7280]">
-                    {row.rate.toFixed(2)}%
-                  </td>
-
-                  <td className="px-5 py-4 text-sm font-medium text-[#16A34A]">
-                    {formatMoney(row.commission)}
+                  <td className="px-5 py-4">
+                    <div className="flex flex-col gap-1.5">
+                      <span className="font-medium text-[#16A34A]">
+                        {formatMoney(row.commission)}
+                      </span>
+                      <span
+                        className={cn(
+                          "inline-flex w-fit rounded-full border px-2 py-0.5 text-[10px] font-medium leading-none",
+                          paymentPillClassMap[row.paymentStatus],
+                        )}
+                      >
+                        {row.paymentStatus}
+                      </span>
+                    </div>
                   </td>
 
                   <td className="px-5 py-4 text-sm text-[#9CA3AF]">
@@ -292,6 +339,7 @@ export default function RecentLeadsTable({
 
                       <ActionMenu
                         lead={lead}
+                        onOpenDetails={onOpenDetails}
                         onUpdateStatus={onUpdateStatus}
                         onAddNote={onAddNote}
                       />

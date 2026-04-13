@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { BadgeInfo, ChevronRight } from "lucide-react";
+import { toast } from "sonner";
 
 import type { NotificationItem } from "./types";
 import { notificationMeta, notificationsMock } from "./mock";
@@ -17,6 +18,8 @@ const iconWrapBase =
 
 const chevronBtnBase =
   "grid h-9 w-9 place-items-center rounded-lg border border-slate-200 bg-[#0000000D] text-slate-600 hover:bg-slate-50 active:scale-[0.99] transition";
+
+const MARK_ALL_READ_ID = "referrer-notifications-mark-all-read";
 
 const ReferrerNotifications = () => {
   const [items, setItems] = useState<NotificationItem[]>(notificationsMock);
@@ -35,9 +38,7 @@ const ReferrerNotifications = () => {
   }
 
   function openNotification(it: NotificationItem) {
-    // keep functionality (you can swap with route/modal later)
-    // eslint-disable-next-line no-alert
-    alert(`${it.title}\n\n${it.message}`);
+    toast.info(it.title, { description: it.message });
     if (!it.read) {
       setItems((prev) =>
         prev.map((p) => (p.id === it.id ? { ...p, read: true } : p)),
@@ -51,7 +52,7 @@ const ReferrerNotifications = () => {
       <div
         className={cn(
           "rounded-2xl bg-[#00B4FE] px-5 py-5 text-white",
-          "sm:px-7 sm:py-6",
+          "md:px-7 md:py-6",
           "shadow-sm",
         )}
       >
@@ -60,10 +61,10 @@ const ReferrerNotifications = () => {
             <div className="grid h-9 w-9 place-items-center rounded-lg bg-white/15 ring-1 ring-white/20">
               <BadgeInfo className="h-5 w-5" />
             </div>
-            <h1 className="text-sm font-semibold sm:text-base">Stay Updated</h1>
+            <h1 className="text-sm font-semibold md:text-base">Stay Updated</h1>
           </div>
         </div>
-        <p className="mt-2 max-w-3xl leading-7.5 sm:text-sm sm:leading-6">
+        <p className="mt-2 max-w-3xl text-sm leading-6">
           Notifications keep you informed about critical updates in your
           portfolio. We alert you whenever a client’s loan status changes, when
           commissions are calculated, or when a payment is successfully settled
@@ -72,9 +73,9 @@ const ReferrerNotifications = () => {
       </div>
 
       {/* header row */}
-      <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-10 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-6">
-          <p className="font-medium text-slate-900 sm:text-base">
+          <p className="font-medium text-slate-900 md:text-base">
             Recent Notifications
           </p>
 
@@ -88,12 +89,17 @@ const ReferrerNotifications = () => {
           </span>
         </div>
 
-        <label className="flex items-center gap-2.5 leading-4 text-sm font-medium text-[#00B4FE]">
+        <label
+          htmlFor={MARK_ALL_READ_ID}
+          className="flex items-center gap-2.5 leading-4 text-sm font-medium text-[#00B4FE] cursor-pointer"
+        >
           <input
+            id={MARK_ALL_READ_ID}
             type="checkbox"
             checked={allRead}
             onChange={(e) => markAllAsRead(e.target.checked)}
             className="h-4 w-4 rounded border-slate-300 text-sky-600 focus:ring-sky-200"
+            aria-label="Mark all notifications as read"
           />
           Mark all as read
         </label>
@@ -132,7 +138,7 @@ const ReferrerNotifications = () => {
                   <p className="truncate text-sm font-medium text-slate-900">
                     {it.title}
                   </p>
-                  <p className="mt-1 line-clamp-2 leading-5 text-slate-500 sm:text-sm">
+                  <p className="mt-1 line-clamp-2 leading-5 text-slate-500 md:text-sm">
                     {it.message}
                   </p>
                 </div>

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Calendar, Download, Plus, Search } from "lucide-react";
 
 import { cn } from "@/hooks/useCn";
@@ -24,10 +25,15 @@ import {
 } from "./types";
 
 const BrokerMyReferrals = () => {
+  const location = useLocation();
+  const state = location.state as { stage?: string } | null;
+
   const [search, setSearch] = useState("");
   const [referrer, setReferrer] =
     useState<(typeof referrerFilterOptions)[number]>("Referrer");
-  const [stage, setStage] = useState<(typeof stageOptions)[number]>("Stage");
+  const [stage, setStage] = useState<(typeof stageOptions)[number]>(
+    (state?.stage as any) || "Stage"
+  );
   const [teamMember, setTeamMember] =
     useState<(typeof teamMemberOptions)[number]>("Team Members");
   const [page, setPage] = useState(1);
@@ -48,7 +54,7 @@ const BrokerMyReferrals = () => {
         query.length === 0
           ? true
           : row.borrowerName.toLowerCase().includes(query) ||
-            row.referrer.toLowerCase().includes(query);
+          row.referrer.toLowerCase().includes(query);
 
       const matchesReferrer =
         referrer === "Referrer" ? true : row.referrer === referrer;
@@ -72,6 +78,12 @@ const BrokerMyReferrals = () => {
     const start = (currentPage - 1) * perPage;
     return filteredRows.slice(start, start + perPage);
   }, [filteredRows, currentPage]);
+
+  useEffect(() => {
+    if (state?.stage) {
+      setStage(state.stage as any);
+    }
+  }, [state?.stage]);
 
   useEffect(() => {
     setPage(1);
@@ -125,10 +137,10 @@ const BrokerMyReferrals = () => {
           ?.name || "Unassigned",
       settlementDate: lead.expectedSettlementDate
         ? new Date(lead.expectedSettlementDate).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          })
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        })
         : "-",
     };
   }
@@ -156,7 +168,7 @@ const BrokerMyReferrals = () => {
             <button
               type="button"
               onClick={() => setExportOpen(true)}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#D3ECF7] px-4 text-[13px] font-medium text-[#374151] transition hover:opacity-90 sm:h-8"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#D3ECF7] px-4 text-[13px] font-medium text-[#374151] transition hover:opacity-90 md:h-8"
             >
               <Download className="h-4 w-4" />
               EXPORT CSV
@@ -165,7 +177,7 @@ const BrokerMyReferrals = () => {
             <button
               type="button"
               onClick={() => setCreateLeadOpen(true)}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#12A9F4] px-4 text-[13px] font-medium text-white transition hover:opacity-90 sm:h-8"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-[#12A9F4] px-4 text-[13px] font-medium text-white transition hover:opacity-90 md:h-8"
             >
               <Plus className="h-4 w-4" />
               Create Lead
@@ -294,7 +306,7 @@ const BrokerMyReferrals = () => {
 
                     <td className="px-4 py-4">
                       <RowMenu
-                        onView={() => console.log("View details:", row)}
+                        onView={() => { }}
                       />
                     </td>
                   </tr>
@@ -314,13 +326,13 @@ const BrokerMyReferrals = () => {
             </table>
           </div>
 
-          <div className="flex flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between">
             <p className="text-[12px] text-[#6B7280]">
               Showing {startResult} to {endResult} of {filteredRows.length}{" "}
               results
             </p>
 
-            <div className="flex flex-wrap items-center gap-2 sm:justify-end">
+            <div className="flex flex-wrap items-center gap-2 md:justify-end">
               <button
                 type="button"
                 onClick={() => setPage((prev) => Math.max(1, prev - 1))}
@@ -363,7 +375,12 @@ const BrokerMyReferrals = () => {
         </div>
       </div>
 
-      <ExportModal open={exportOpen} onClose={() => setExportOpen(false)} />
+      <ExportModal
+        open={exportOpen}
+        onClose={() => setExportOpen(false)}
+        leadRows={leadRows}
+        filteredRows={filteredRows}
+      />
 
       <CreateLeadModal
         open={createLeadOpen}

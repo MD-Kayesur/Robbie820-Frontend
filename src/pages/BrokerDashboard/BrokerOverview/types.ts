@@ -8,7 +8,8 @@ export type LeadStatus =
   | "APPLICATION STARTED"
   | "SUBMITTED TO LENDER"
   | "APPROVED"
-  | "FUNDED";
+  | "FUNDED"
+  | "DISQUALIFIED";
 
 export type CRMStatus = "Operational" | "Syncing" | "Disconnected";
 
@@ -22,9 +23,14 @@ export type LoanType =
   | "Refinance"
   | "Commercial Loan"
   | "Investment Property"
-  | "Construction Loan";
+  | "Construction Loan"
+  | "Personal Loan"
+  | "Asset Finance";
 
-export type PaymentStatus = "Pending" | "Scheduled" | "Paid" | "Failed";
+export type PaymentStatus =
+  | "Paid to ref"
+  | "pending settlement"
+  | "Payment outstanding to referrer";
 
 export type TeamMember = {
   id: string;
@@ -73,7 +79,6 @@ export type Lead = {
 
   estimatedLoanAmount: number;
   loanType: LoanType;
-  interestRate: number;
   expectedSettlementDate: string;
 
   referrerName: string;
@@ -97,6 +102,7 @@ export type Lead = {
 
   paymentStatus: PaymentStatus;
   paymentDate: string;
+  paymentMadeDate: string;
   paymentNotes: string;
 };
 
@@ -107,16 +113,17 @@ export type LeadTableRow = {
   amount: number;
   date: string;
   status: LeadStatus;
-  rate: number;
   commission: number;
   timeline: RangeKey;
+  paymentStatus: PaymentStatus;
 };
 
 export type CreateLeadStage =
   | "New Referral"
   | "Contacted"
   | "Application Started"
-  | "Submitted to Lender";
+  | "Submitted to Lender"
+  | "Disqualified";
 
 export type CreateLeadForm = {
   fullName: string;
@@ -130,7 +137,6 @@ export type CreateLeadForm = {
 
   estimatedLoanAmount: string;
   loanType: LoanType | "";
-  interestRate: string;
   expectedSettlementDate: string;
 
   leadStage: CreateLeadStage;
@@ -144,11 +150,11 @@ export type EditLeadForm = {
   companyName: string;
 
   estimatedLoanAmount: string;
-  interestRate: string;
   expectedSettlementDate: string;
 
   leadStage: LeadStatus;
   paymentStatus: PaymentStatus;
   paymentDate: string;
+  paymentMadeDate: string;
   paymentNotes: string;
 };

@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+// src/Layout/ReferrerLayout/ReferrerSidebar.tsx
+import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   Bell,
@@ -9,6 +10,9 @@ import {
   X,
 } from "lucide-react";
 import { cn } from "@/hooks/useCn";
+import { useOutsideClose } from "@/hooks/useOutsideClose";
+
+import logo from "@/assets/logos/refer_now_logo.png";
 
 type ItemProps = {
   to: string;
@@ -31,43 +35,40 @@ const SidebarItem = ({ to, icon: Icon, label, end, onClick }: ItemProps) => {
       onClick={onClick}
       className={({ isActive }) =>
         cn(
-          "group flex items-center gap-2.75 rounded-sm px-2.5 py-1.5 transition",
-          !isActive && "hover:bg-[#00B4FE33]",
-          isActive && "bg-[#00B4FE99]",
-          "aria-[current=page]:hover:bg-[#00B4FE99]",
+          "flex items-center gap-1.5 rounded-sm px-3 py-2 transition",
+          isActive ? "bg-[#67C5F0]" : "hover:bg-[#00B4FE1A]",
         )
       }
     >
-      <Icon className="h-6 w-6 shrink-0 text-black" />
-      <span className="text-base text-black">{label}</span>
+      <Icon className="h-6 w-6 shrink-0 text-black" strokeWidth={2} />
+      <span className="text-black">{label}</span>
     </NavLink>
   );
 };
 
 const ReferrerSidebar = ({ mobileOpen, onClose }: Props) => {
   const navigate = useNavigate();
-  const sidebarRef = useRef<HTMLElement | null>(null);
+  const sidebarRef = useOutsideClose<HTMLElement>(mobileOpen, onClose);
 
   useEffect(() => {
     if (!mobileOpen) return;
-
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-      if (sidebarRef.current && !sidebarRef.current.contains(target)) {
-        onClose();
-      }
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
     };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
   }, [mobileOpen, onClose]);
+
+  const handleSignOut = () => {
+    localStorage.clear();
+    window.location.href = "/login";
+  };
 
   return (
     <>
       {/* Mobile overlay */}
       <div
+        onClick={onClose}
         className={cn(
           "fixed inset-0 z-40 bg-black/30 transition-opacity md:hidden",
           mobileOpen
@@ -79,49 +80,36 @@ const ReferrerSidebar = ({ mobileOpen, onClose }: Props) => {
       <aside
         ref={sidebarRef}
         className={cn(
-          "fixed left-0 top-0 z-50 flex h-full w-70 flex-col overflow-y-auto bg-[#F5F5F5] px-8 py-8 transition-transform duration-300 md:static md:z-0 md:w-64 md:translate-x-0 md:py-11",
+          "fixed left-0 top-0 z-50 flex h-screen md:w-70 flex-col overflow-y-auto bg-[#F3F3F3] px-4 py-6 md:px-8 md:py-11 transition-transform duration-300 md:static lg:z-0 lg:w-72.5 lg:translate-x-0 lg:border-r lg:border-slate-200",
           mobileOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        <div className="mb-10 flex items-center justify-between md:mb-12.5">
-          {/* Brand */}
-          <div>
-            <button
-              type="button"
-              onClick={() => {
-                navigate("/");
-                onClose();
-              }}
-              className="text-left"
-            >
-              <div className="text-2xl font-semibold text-[#00B4FE]">
-                Refer Now
-              </div>
-              <div className="mt-1 text-[10px] font-medium uppercase leading-tight tracking-[0.18em] text-[#00B4FE]">
-                Seamlessly
-                <br />
-                Connected
-              </div>
-            </button>
-          </div>
+        <div className="mb-12.5 flex items-start justify-between gap-3">
+          <button
+            type="button"
+            onClick={() => {
+              navigate("/");
+              onClose();
+            }}
+            className="text-left"
+          >
+            <img src={logo} alt="ReferNow" className="h-auto w-40 scale-130" />
+          </button>
 
-          {/* Mobile close */}
-          <div className="md:hidden">
-            <button
-              type="button"
-              onClick={onClose}
-              className="rounded-lg bg-white p-1 text-black"
-              aria-label="Close sidebar"
-            >
-              <X size={24} />
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-xl bg-white p-2 text-black shadow-sm md:hidden"
+            aria-label="Close sidebar"
+          >
+            <X className="h-5 w-5" />
+          </button>
         </div>
 
         {/* Nav */}
-        <nav className="space-y-8.5">
+        <nav className="space-y-4 md:space-y-7.5">
           <SidebarItem
-            to="/referrer-dashboard/overview"
+            to="/referrer-dashboard"
             icon={LayoutGrid}
             label="Overview"
             end
@@ -149,18 +137,15 @@ const ReferrerSidebar = ({ mobileOpen, onClose }: Props) => {
 
         {/* Footer */}
         <div className="mt-auto pt-10">
-          <div className="mx-1 mb-3.5 h-px bg-[#EBEBEB]" />
+          <div className="mb-6 h-px w-full bg-[#E5E5E5]" />
 
           <button
             type="button"
-            onClick={() => {
-              localStorage.clear();
-              window.location.href = "/login";
-            }}
-            className="flex items-center gap-2.75 rounded-sm px-2.5 py-1.5 text-black transition hover:bg-[#00B4FE33]"
+            onClick={handleSignOut}
+            className="flex w-full items-center gap-1.5 p-4 text-left transition hover:bg-[#00B4FE1A]"
           >
-            <LogOut className="h-6 w-6" />
-            <span className="text-base">Sign Out</span>
+            <LogOut className="h-6 w-6 text-black" strokeWidth={2} />
+            <span className="text-black">Sign Out</span>
           </button>
         </div>
       </aside>

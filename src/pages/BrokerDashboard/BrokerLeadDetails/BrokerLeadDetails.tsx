@@ -13,6 +13,7 @@ import {
   Save,
   SquarePen,
   Trash2,
+  TrendingUp,
   User,
   X,
 } from "lucide-react";
@@ -26,23 +27,21 @@ import {
   formatMoney,
   getAllocatedTeamMemberLabel,
 } from "../BrokerOverview/utils";
-
-import Breadcrumbs from "../../../components/BrokerDashboardCom/BBrokerLeadDetails/Breadcrumbs";
-import SectionCard from "../../../components/BrokerDashboardCom/BBrokerLeadDetails/SectionCard";
-import ReadonlyField from "../../../components/BrokerDashboardCom/BBrokerLeadDetails/ReadonlyField";
+import Breadcrumbs from "@/components/BrokerDashboardCom/BLeadDetailsCom/Breadcrumbs";
+import SectionCard from "@/components/BrokerDashboardCom/BLeadDetailsCom/SectionCard";
+import ReadonlyField from "@/components/BrokerDashboardCom/BLeadDetailsCom/ReadonlyField";
 import {
   InputField,
   SelectField,
   TextareaField,
-} from "../../../components/BrokerDashboardCom/BBrokerLeadDetails/FormFields";
-import PipelineTracker from "../../../components/BrokerDashboardCom/BBrokerLeadDetails/PipelineTracker";
-import TimelineItem from "../../../components/BrokerDashboardCom/BBrokerLeadDetails/TimelineItem";
+} from "@/components/BrokerDashboardCom/BLeadDetailsCom/FormFields";
+import PipelineTracker from "@/components/BrokerDashboardCom/BLeadDetailsCom/PipelineTracker";
+import TimelineItem from "@/components/BrokerDashboardCom/BLeadDetailsCom/TimelineItem";
 
 const paymentStatusOptions: PaymentStatus[] = [
-  "Pending",
-  "Scheduled",
-  "Paid",
-  "Failed",
+  "Paid to ref",
+  "pending settlement",
+  "Payment outstanding to referrer",
 ];
 
 const stagePillClassMap: Record<LeadStatus, string> = {
@@ -52,13 +51,14 @@ const stagePillClassMap: Record<LeadStatus, string> = {
   "SUBMITTED TO LENDER": "bg-violet-50 text-violet-600 border-violet-200",
   APPROVED: "bg-emerald-50 text-emerald-600 border-emerald-200",
   FUNDED: "bg-green-50 text-green-700 border-green-200",
+  DISQUALIFIED: "bg-rose-50 text-rose-600 border-rose-200",
 };
 
 const paymentPillClassMap: Record<PaymentStatus, string> = {
-  Pending: "bg-slate-100 text-slate-600 border-slate-200",
-  Scheduled: "bg-amber-50 text-amber-700 border-amber-200",
-  Paid: "bg-emerald-50 text-emerald-600 border-emerald-200",
-  Failed: "bg-rose-50 text-rose-600 border-rose-200",
+  "Paid to ref": "bg-emerald-50 text-emerald-600 border-emerald-200",
+  "pending settlement": "bg-slate-100 text-slate-600 border-slate-200",
+  "Payment outstanding to referrer":
+    "bg-amber-50 text-amber-700 border-amber-200",
 };
 
 export default function BrokerLeadDetails() {
@@ -98,6 +98,7 @@ export default function BrokerLeadDetails() {
   const recalculated = calculateCommissionValues(
     lead.estimatedLoanAmount,
     lead.referrerCommissionPercent,
+    lead.agreementType,
   );
 
   const handleCancelEdit = () => {
@@ -109,40 +110,40 @@ export default function BrokerLeadDetails() {
     setLead((prev) =>
       prev
         ? {
-            ...prev,
-            totalCommission: recalculated.totalCommission,
-            brokerCommission: recalculated.brokerCommission,
-            referrerFeeExpected: recalculated.referrerFeeExpected,
-            agreementSplitPercent: prev.referrerCommissionPercent,
-          }
+          ...prev,
+          totalCommission: recalculated.totalCommission,
+          brokerCommission: recalculated.brokerCommission,
+          referrerFeeExpected: recalculated.referrerFeeExpected,
+          agreementSplitPercent: prev.referrerCommissionPercent,
+        }
         : prev,
     );
     setIsEditing(false);
   };
 
   return (
-    <div className="space-y-4 sm:space-y-5">
+    <div className="space-y-4 md:space-y-5">
       <Breadcrumbs items={breadcrumbItems} />
 
       <div className="flex flex-col gap-4 lg:gap-5 xl:flex-row xl:items-start xl:justify-between">
         <div className="min-w-0 flex-1">
-          <h1 className="text-[22px] font-bold leading-tight text-[#111827] sm:text-[24px] lg:text-[28px]">
+          <h1 className="text-[22px] font-bold leading-tight text-[#111827] md:text-[24px] lg:text-[28px]">
             {isEditing ? "Edit Referral" : "Referral Details"}
           </h1>
-          <p className="mt-1 text-[13px] text-[#9CA3AF] sm:text-sm">
+          <p className="mt-1 text-[13px] text-[#9CA3AF] md:text-sm">
             {isEditing
               ? "Update borrower and loan details"
               : "Manage and track this referral's progress"}
           </p>
         </div>
 
-        <div className="grid w-full grid-cols-1 gap-2.5 sm:grid-cols-2 xl:w-auto xl:grid-cols-3">
+        <div className="grid w-full grid-cols-1 gap-2.5 md:grid-cols-2 xl:w-auto xl:grid-cols-3">
           {isEditing ? (
             <>
               <button
                 type="button"
                 onClick={handleCancelEdit}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#374151] transition hover:bg-[#F9FAFB] sm:h-10 sm:w-auto"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#374151] transition hover:bg-[#F9FAFB] md:h-10 md:w-auto"
               >
                 <X className="h-4 w-4 shrink-0" />
                 <span className="truncate">Cancel</span>
@@ -151,7 +152,7 @@ export default function BrokerLeadDetails() {
               <button
                 type="button"
                 onClick={handleSave}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-4 text-[13px] font-medium text-white transition hover:bg-[#1D4ED8] sm:h-10 sm:w-auto sm:col-span-1"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-4 text-[13px] font-medium text-white transition hover:bg-[#1D4ED8] md:h-10 md:w-auto md:col-span-1"
               >
                 <Save className="h-4 w-4 shrink-0" />
                 <span className="truncate">Save Changes</span>
@@ -162,7 +163,7 @@ export default function BrokerLeadDetails() {
               <button
                 type="button"
                 onClick={() => setIsEditing(true)}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#374151] transition hover:bg-[#F9FAFB] sm:h-10 sm:w-auto"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#E5E7EB] bg-white px-4 text-[13px] font-medium text-[#374151] transition hover:bg-[#F9FAFB] md:h-10 md:w-auto"
               >
                 <SquarePen className="h-4 w-4 shrink-0" />
                 <span className="truncate">Edit Referral</span>
@@ -170,7 +171,7 @@ export default function BrokerLeadDetails() {
 
               <button
                 type="button"
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#FECACA] bg-white px-4 text-[13px] font-medium text-[#EF4444] transition hover:bg-[#FEF2F2] sm:h-10 sm:w-auto"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#FECACA] bg-white px-4 text-[13px] font-medium text-[#EF4444] transition hover:bg-[#FEF2F2] md:h-10 md:w-auto"
               >
                 <Trash2 className="h-4 w-4 shrink-0" />
                 <span className="truncate">Delete</span>
@@ -178,7 +179,7 @@ export default function BrokerLeadDetails() {
 
               <button
                 type="button"
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-4 text-[13px] font-medium text-white transition hover:bg-[#1D4ED8] sm:col-span-2 sm:h-10 sm:w-auto xl:col-span-1"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#2563EB] px-4 text-[13px] font-medium text-white transition hover:bg-[#1D4ED8] md:col-span-2 md:h-10 md:w-auto xl:col-span-1"
               >
                 <RefreshCcw className="h-4 w-4 shrink-0" />
                 <span className="truncate">Update Stage</span>
@@ -240,8 +241,16 @@ export default function BrokerLeadDetails() {
                 }
               />
               <ReadonlyField
-                label="Commission Percentage"
-                value={`${lead.referrerCommissionPercent}%`}
+                label={
+                  lead.agreementType === "Flat Referral Fee"
+                    ? "Flat Referral Fee Amount"
+                    : "Commission Percentage"
+                }
+                value={
+                  lead.agreementType === "Flat Referral Fee"
+                    ? formatMoney(lead.referrerCommissionPercent)
+                    : `${lead.referrerCommissionPercent}%`
+                }
                 valueClassName="text-[#16A34A]"
               />
             </div>
@@ -264,9 +273,9 @@ export default function BrokerLeadDetails() {
                     setLead((prev) =>
                       prev
                         ? {
-                            ...prev,
-                            estimatedLoanAmount: Number(value) || 0,
-                          }
+                          ...prev,
+                          estimatedLoanAmount: Number(value) || 0,
+                        }
                         : prev,
                     )
                   }
@@ -275,20 +284,6 @@ export default function BrokerLeadDetails() {
                   prefix="$"
                 />
 
-                <InputField
-                  label="Interest Rate"
-                  value={lead.interestRate}
-                  onChange={(value) =>
-                    setLead((prev) =>
-                      prev
-                        ? { ...prev, interestRate: Number(value) || 0 }
-                        : prev,
-                    )
-                  }
-                  placeholder="6.25"
-                  type="number"
-                  suffix="%"
-                />
 
                 <ReadonlyField
                   label="Loan Status"
@@ -316,16 +311,11 @@ export default function BrokerLeadDetails() {
                 />
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                 <ReadonlyField
                   label="Estimated Loan Amount"
                   value={formatMoney(lead.estimatedLoanAmount)}
-                  valueClassName="text-[24px] leading-tight sm:text-[28px] lg:text-[32px]"
-                />
-                <ReadonlyField
-                  label="Interest Rate"
-                  value={`${lead.interestRate.toFixed(2)}%`}
-                  valueClassName="text-[24px] leading-tight sm:text-[28px] lg:text-[32px]"
+                  valueClassName="text-[24px] leading-tight md:text-[28px] lg:text-[32px]"
                 />
                 <ReadonlyField
                   label="Loan Status"
@@ -374,7 +364,18 @@ export default function BrokerLeadDetails() {
                 />
 
                 <InputField
-                  label="Payment Date"
+                  label="Date Payment Made"
+                  value={lead.paymentMadeDate || ""}
+                  onChange={(value) =>
+                    setLead((prev) =>
+                      prev ? { ...prev, paymentMadeDate: value } : prev,
+                    )
+                  }
+                  type="date"
+                />
+
+                <InputField
+                  label="Expected Payment Date"
                   value={lead.paymentDate}
                   onChange={(value) =>
                     setLead((prev) =>
@@ -384,7 +385,7 @@ export default function BrokerLeadDetails() {
                   type="date"
                 />
 
-                <div className="sm:col-span-2">
+                <div className="md:col-span-2">
                   <TextareaField
                     label="Payment Notes"
                     value={lead.paymentNotes}
@@ -421,10 +422,10 @@ export default function BrokerLeadDetails() {
                 )}
               </div>
 
-              <div className="mt-4 flex justify-stretch sm:justify-end">
+              <div className="mt-4 flex justify-stretch md:justify-end">
                 <button
                   type="button"
-                  className="inline-flex h-10 w-full items-center justify-center rounded-md bg-[#1BAEF5] px-4 text-[12px] font-medium text-white transition hover:bg-[#0ea5e9] sm:h-8 sm:w-auto sm:px-3"
+                  className="inline-flex h-10 w-full items-center justify-center rounded-md bg-[#1BAEF5] px-4 text-[12px] font-medium text-white transition hover:bg-[#0ea5e9] md:h-8 md:w-auto md:px-3"
                 >
                   Save Notes
                 </button>
@@ -435,124 +436,153 @@ export default function BrokerLeadDetails() {
 
         <div className="min-w-0 space-y-5">
           <SectionCard
-            title={isEditing ? "Commission Calculation" : "Commission Summary"}
+            title={isEditing ? "Commission Calculation" : "Referral Revenue Split"}
             icon={BadgeDollarSign}
-            className="bg-[#EEF2FF]"
+            className="bg-[#F8FAFF]"
           >
             {isEditing ? (
-              <div className="space-y-3">
-                <div className="rounded-xl bg-white p-4">
-                  <p className="text-[12px] text-[#9CA3AF]">Total Commission</p>
-                  <p className="mt-1 wrap-break-word text-[22px] font-semibold text-[#111827] sm:text-[24px]">
-                    {formatMoney(recalculated.totalCommission)}
+              <div className="space-y-4">
+                <div className="rounded-xl border border-[#2563EB33] bg-white p-4 shadow-sm">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-[#9CA3AF]">
+                    Broker Net Revenue
+                  </p>
+                  <p className="mt-1 wrap-break-word text-[24px] font-bold text-[#16A34A] md:text-[26px]">
+                    {formatMoney(recalculated.brokerCommission)}
                   </p>
                   <p className="mt-1 text-[11px] text-[#9CA3AF]">
-                    1% of loan amount
+                    Your expected earnings
                   </p>
                 </div>
 
-                <div className="rounded-xl bg-white p-4">
-                  <p className="text-[12px] text-[#9CA3AF]">
-                    Referrer Commission
+                <div className="rounded-xl border border-[#2563EB33] bg-white p-4 shadow-sm">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-[#9CA3AF]">
+                    Referrer Payout Amount
                   </p>
-                  <p className="mt-1 wrap-break-word text-[22px] font-semibold text-[#F97316] sm:text-[24px]">
+                  <p className="mt-1 wrap-break-word text-[24px] font-bold text-[#2563EB] md:text-[26px]">
                     {formatMoney(recalculated.referrerFeeExpected)}
                   </p>
                   <p className="mt-1 text-[11px] text-[#9CA3AF]">
-                    ({lead.referrerCommissionPercent}% of total)
+                    Partner split ({lead.referrerCommissionPercent}%)
                   </p>
                 </div>
 
-                <div className="rounded-xl bg-white p-4">
-                  <p className="text-[12px] text-[#9CA3AF]">
-                    Broker Commission
+                <div className="rounded-xl bg-[#2563EB] p-4 text-white shadow-md">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-white/70">
+                    Total Estimated Commission
                   </p>
-                  <p className="mt-1 wrap-break-word text-[22px] font-semibold text-[#16A34A] sm:text-[24px]">
-                    {formatMoney(recalculated.brokerCommission)}
+                  <p className="mt-1 wrap-break-word text-[24px] font-bold md:text-[26px]">
+                    {formatMoney(recalculated.totalCommission)}
                   </p>
-                  <p className="mt-1 text-[11px] text-[#9CA3AF]">
-                    Remaining amount
-                  </p>
-                </div>
-
-                <div className="rounded-xl bg-[#1BAEF5] p-4 text-white">
-                  <p className="text-[12px]/5 text-white/80">Net Earnings</p>
-                  <p className="mt-1 wrap-break-word text-[22px] font-semibold sm:text-[24px]">
-                    {formatMoney(recalculated.brokerCommission)}
-                  </p>
-                  <p className="mt-1 text-[11px] text-white/80">
-                    Your total earnings
+                  <p className="mt-1 text-[11px] text-white/70">
+                    Calculated at 1% of loan amount
                   </p>
                 </div>
               </div>
             ) : (
               <div className="space-y-5">
-                <div>
-                  <p className="text-[12px] text-[#9CA3AF]">
-                    Broker Commission
-                  </p>
-                  <p className="mt-1 wrap-break-word text-[28px] font-semibold leading-tight text-[#111827] sm:text-[32px] lg:text-[34px]">
-                    {formatMoney(lead.brokerCommission)}
-                  </p>
+                <div className="rounded-2xl border-2 border-dashed border-[#2563EB22] bg-white p-5 shadow-sm">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-[#9CA3AF]">
+                        Broker Comm
+                      </p>
+                      <p className="mt-1 wrap-break-word text-[28px] font-bold text-[#111827]">
+                        {formatMoney(lead.brokerCommission)}
+                      </p>
+                    </div>
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                      <TrendingUp className="h-6 w-6" />
+                    </div>
+                  </div>
                 </div>
 
-                <div className="border-t border-[#DCE7F5] pt-4">
-                  <p className="text-[12px] text-[#9CA3AF]">
-                    Referrer Commission %
-                  </p>
-                  <p className="mt-1 text-[20px] font-semibold text-[#2563EB] sm:text-[22px]">
-                    {lead.referrerCommissionPercent}%
-                  </p>
-                </div>
-
-                <div className="border-t border-[#DCE7F5] pt-4">
-                  <p className="text-[12px] text-[#9CA3AF]">
-                    Referrer Expected Earnings
-                  </p>
-                  <p className="mt-1 wrap-break-word text-[24px] font-semibold text-[#16A34A] sm:text-[26px] lg:text-[28px]">
-                    {formatMoney(lead.referrerFeeExpected)}
-                  </p>
+                <div className="rounded-2xl border-2 border-dashed border-[#2563EB22] bg-white p-5 shadow-sm">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-[#9CA3AF]">
+                        Referrer Comm
+                      </p>
+                      <p className="mt-1 wrap-break-word text-[28px] font-bold text-[#2563EB]">
+                        {formatMoney(lead.referrerFeeExpected)}
+                      </p>
+                      <p className="mt-2 text-[11px] font-medium text-[#6B7280]">
+                        {lead.agreementType === "Flat Referral Fee"
+                          ? "Fixed partner fee"
+                          : `${lead.referrerCommissionPercent}% partner split`}
+                      </p>
+                    </div>
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                      <BadgeDollarSign className="h-6 w-6" />
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
           </SectionCard>
 
           {!isEditing ? (
-            <SectionCard title="Payment Status" icon={CreditCard}>
-              <div className="space-y-4">
-                <ReadonlyField
-                  label="Status"
-                  value={
-                    <span
-                      className={cn(
-                        "inline-flex max-w-full wrap-break-word rounded-full border px-2.5 py-1 text-[12px] font-medium",
-                        paymentPillClassMap[lead.paymentStatus],
-                      )}
-                    >
-                      {lead.paymentStatus}
-                    </span>
-                  }
-                />
+            <div className="space-y-5">
+              <SectionCard title="Payment Tracking" icon={CreditCard}>
+                <div className="space-y-5">
+                  <div className="grid grid-cols-2 gap-4 border-b border-slate-100 pb-5">
+                    <ReadonlyField
+                      label="Current Payment Status"
+                      value={
+                        <span
+                          className={cn(
+                            "inline-flex max-w-full wrap-break-word rounded-full border px-3 py-1 text-[12px] font-semibold uppercase tracking-wide",
+                            paymentPillClassMap[lead.paymentStatus],
+                          )}
+                        >
+                          {lead.paymentStatus}
+                        </span>
+                      }
+                    />
+                    <ReadonlyField
+                      label="Payment Method"
+                      value={
+                        <span className="text-[14px] font-medium text-[#111827]">
+                          Bank Transfer (EFT)
+                        </span>
+                      }
+                    />
+                  </div>
 
-                <ReadonlyField
-                  label="Expected Payment Date"
-                  value={
-                    lead.paymentDate ? formatDisplayDate(lead.paymentDate) : "-"
-                  }
-                />
+                  <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-wider text-[#9CA3AF]">
+                        Date Payment Made
+                      </p>
+                      <p className="mt-1 text-[18px] font-bold text-[#111827]">
+                        {lead.paymentMadeDate
+                          ? formatDisplayDate(lead.paymentMadeDate)
+                          : "Not Yet Executed"}
+                      </p>
+                    </div>
 
-                <ReadonlyField label="Payment Method" value="Bank Transfer" />
+                    <div className="rounded-xl border border-slate-200 bg-white p-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-wider text-[#9CA3AF]">
+                        Exp. Payment Date
+                      </p>
+                      <p className="mt-1 text-[18px] font-bold text-[#6B7280]">
+                        {lead.paymentDate
+                          ? formatDisplayDate(lead.paymentDate)
+                          : "TBA"}
+                      </p>
+                    </div>
+                  </div>
 
-                <ReadonlyField
-                  label="Payment Notes"
-                  value={
-                    lead.paymentNotes ||
-                    "Payment will be processed within 5 business days after settlement."
-                  }
-                  valueClassName="wrap-break-word font-normal text-[#6B7280]"
-                />
-              </div>
-            </SectionCard>
+                  <ReadonlyField
+                    label="Payment Execution Notes"
+                    value={
+                      lead.paymentNotes ||
+                      "No specific notes recorded for this transaction."
+                    }
+                    valueClassName="wrap-break-word font-normal text-[#6B7280] text-[13px] leading-relaxed"
+                  />
+                </div>
+              </SectionCard>
+            </div>
           ) : null}
 
           <SectionCard title="Activity Timeline" icon={Clock3}>

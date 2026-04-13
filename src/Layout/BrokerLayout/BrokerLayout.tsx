@@ -1,42 +1,31 @@
-import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import BrokerSidebar from "./BrokerSidebar";
 import BrokerTopbar from "./BrokerTopbar";
 
 const BrokerLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { pathname, search, hash } = useLocation();
+  const mainRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setMobileOpen(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileOpen]);
+    mainRef.current?.scrollTo({ top: 0, behavior: "auto" });
+  }, [pathname, search, hash]);
 
   return (
-    <div className="flex min-h-screen w-full bg-white">
+    <div className="flex h-screen w-full overflow-hidden bg-white selection:bg-sky-100 selection:text-sky-900">
       <BrokerSidebar
         mobileOpen={mobileOpen}
         onClose={() => setMobileOpen(false)}
       />
 
-      <div className="flex min-w-0 flex-1 flex-col">
-        {/* mobile only */}
+      <div className="flex h-full flex-1 flex-col overflow-hidden">
         <BrokerTopbar onMenuClick={() => setMobileOpen(true)} />
 
-        {/* desktop has no topbar */}
-        <main className="min-w-0 px-4 py-3 sm:px-7.5 sm:py-10 flex-1 overflow-y-auto">
+        <main
+          ref={mainRef}
+          className="no-scrollbar scroll-smooth flex-1 overflow-y-auto min-w-0 px-4 py-3 md:px-7.5 md:py-10"
+        >
           <Outlet />
         </main>
       </div>

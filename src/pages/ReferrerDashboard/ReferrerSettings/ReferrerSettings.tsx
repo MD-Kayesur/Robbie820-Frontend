@@ -28,10 +28,7 @@ import AlertsTab from "@/components/ReferrerDashboardCom/RSettingsCom/AlertsTab"
 import LegalDocumentsTab from "@/components/ReferrerDashboardCom/RSettingsCom/LegalDocumentsTab";
 import BankingDetailsTab from "@/components/ReferrerDashboardCom/RSettingsCom/BankingDetailsTab";
 import TMTNewMemberModal from "@/components/ReferrerDashboardCom/RSettingsCom/modals/TMTNewMemberModal";
-
-function cn(...s: Array<string | false | null | undefined>) {
-  return s.filter(Boolean).join(" ");
-}
+import { cn } from "@/hooks/useCn";
 
 type InvitePayload = {
   fullName: string;
@@ -93,14 +90,11 @@ const ReferrerSettings = () => {
   }
 
   function onUploadDoc() {
-    const title = prompt("Document title (mock):");
-    if (!title) return;
-
     setDocs((prev) => [
       ...prev,
       {
         id: `d_${Date.now()}`,
-        title,
+        title: "New document",
         type: "Agreement",
         sizeLabel: "—",
         uploadedOn: new Date().toISOString().slice(0, 10),
@@ -108,26 +102,24 @@ const ReferrerSettings = () => {
     ]);
   }
 
-  function onDownloadDoc(id: string) {
-    const d = docs.find((x) => x.id === id);
-    alert(`Download (mock): ${d?.title ?? id}`);
+  function onDownloadDoc(_id: string) {
+    // Placeholder until download API exists
   }
 
   return (
-    <div className="mx-auto w-full max-w-375 bg-white px-4 pb-10 pt-5 sm:px-6 md:px-8 md:pb-12 md:pt-8 clash">
+    <div className="mx-auto w-full bg-white px-4 pb-10 pt-5 md:px-6 md:pb-12 md:pt-8 clash">
       {/* tabs */}
-      <div className="overflow-x-auto no-scrollbar">
-        <div className="mb-6 flex min-w-max items-center gap-8 md:mb-8 md:gap-10">
+      <div className="overflow-x-auto no-scrollbar max-w-4xl mx-auto">
+        <div className="mb-6 flex min-w-max mx-auto items-center gap-2.5 justify-center">
           {tabs.map((t) => {
             const active = t === tab;
-
             return (
               <button
                 key={t}
                 type="button"
                 onClick={() => setTab(t)}
                 className={cn(
-                  "relative shrink-0 pb-3 text-left text-[15px] font-normal uppercase tracking-normal text-black transition md:pb-4 md:text-sm",
+                  "relative shrink-0 pb-1 px-2.5 text-left text-xs uppercase tracking-normal text-black transition md:text-sm leading-4",
                   active ? "" : "hover:text-slate-700",
                 )}
               >
@@ -144,9 +136,6 @@ const ReferrerSettings = () => {
           })}
         </div>
       </div>
-
-      {/* divider */}
-      <div className="mb-7 h-px w-full bg-[#D9D9D9] md:mb-8" />
 
       {/* content */}
       <div>

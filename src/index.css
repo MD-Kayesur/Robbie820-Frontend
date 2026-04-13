@@ -180,7 +180,7 @@ html::-webkit-scrollbar {
   body {
     @apply bg-background text-foreground transition-colors duration-300;
     font-family: "MyCustomFont", sans-serif;
-    background-image: url("./assets/home.jpg");
+    /* background-image: url("./assets/home.jpg"); */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -207,8 +207,12 @@ html::-webkit-scrollbar {
   }
 }
 
-button {
+button:not(:disabled) {
   cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -243,4 +247,75 @@ button {
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.08);
+}
+/* Print Styles */
+@media print {
+  @page {
+    margin: 1cm;
+    size: A4 portrait;
+  }
+
+  body {
+    background: white !important;
+    background-image: none !important;
+    color: black !important;
+  }
+
+  body::after {
+    display: none !important;
+  }
+
+  /* Hide non-essential elements */
+  nav, 
+  [class*="Sidebar"],
+  [class*="Navbar"],
+  [class*="Header"],
+  .no-print,
+  .print\:hidden,
+  button:not(.print\:show) {
+    display: none !important;
+  }
+
+  /* Adjust main content wrapper */
+  main, 
+  .main-content {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  /* Force metrics to 4 columns */
+  .report-metrics-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  /* Force charts to 2 columns */
+  .report-charts-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+
+  /* Ensure cards look good */
+  .rounded-xl, .rounded-2xl {
+    border: 1px solid #e5e7eb !important;
+    box-shadow: none !important;
+  }
+
+  /* Scale content to fit 1 page */
+  .report-print-content {
+    transform: scale(0.8);
+    transform-origin: top left;
+    width: 125%; /* Adjust width to compensate for scale: 100 / 0.8 */
+  }
+
+  /* Avoid page breaks inside sections */
+  section, .card {
+    break-inside: avoid;
+  }
 }

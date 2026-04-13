@@ -22,18 +22,16 @@ import {
 } from "../../../pages/BrokerDashboard/BrokerOverview/utils";
 
 const stageOptions: CreateLeadStage[] = [
-  "New Referral",
-  "Contacted",
   "Application Started",
   "Submitted to Lender",
+  "Disqualified",
 ];
 
 const loanTypeOptions: LoanType[] = [
-  "Home Loan",
-  "Refinance",
-  "Commercial Loan",
   "Investment Property",
   "Construction Loan",
+  "Personal Loan",
+  "Asset Finance",
 ];
 
 const defaultForm: CreateLeadForm = {
@@ -46,7 +44,6 @@ const defaultForm: CreateLeadForm = {
   referrerCommissionPercent: "",
   estimatedLoanAmount: "",
   loanType: "",
-  interestRate: "",
   expectedSettlementDate: "",
   leadStage: "New Referral",
   assignTo: "",
@@ -161,7 +158,7 @@ function SectionTitle({ title }: { title: string }) {
     <div className="border-b border-[#E5E7EB] pb-3">
       <div className="flex items-center gap-2">
         <div className="h-8 w-1 rounded-full bg-[#2563EB]" />
-        <h4 className="text-[18px] font-semibold text-[#111827]">{title}</h4>
+        <h4 className="md:text-lg font-semibold text-[#111827]">{title}</h4>
       </div>
     </div>
   );
@@ -243,8 +240,8 @@ export default function CreateLeadModal({
   const amount = parseMoneyInput(form.estimatedLoanAmount);
 
   const commissionValues = useMemo(
-    () => calculateCommissionValues(amount, commissionPercent),
-    [amount, commissionPercent],
+    () => calculateCommissionValues(amount, commissionPercent, form.agreementType),
+    [amount, commissionPercent, form.agreementType],
   );
 
   const referrerOptionsMapped = useMemo(
@@ -306,7 +303,6 @@ export default function CreateLeadModal({
     !form.referrerCommissionPercent.trim() ||
     !form.estimatedLoanAmount.trim() ||
     !form.loanType ||
-    !form.interestRate.trim() ||
     !form.expectedSettlementDate.trim() ||
     !form.assignTo;
 
@@ -345,23 +341,23 @@ export default function CreateLeadModal({
       <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
 
       <div className="absolute inset-0 overflow-y-auto">
-        <div className="flex min-h-full items-center justify-center p-3 sm:p-6">
+        <div className="flex min-h-full items-center justify-center p-3 md:p-6">
           <div
             ref={modalRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby="create-lead-modal-title"
-            className="relative flex w-full max-w-3xl max-h-[calc(100vh-24px)] flex-col overflow-hidden rounded-sm bg-white shadow-[0_24px_80px_rgba(0,0,0,0.22)] sm:max-h-[calc(100vh-48px)]"
+            className="relative flex w-full max-w-3xl max-h-[calc(100vh-24px)] flex-col overflow-hidden rounded-sm bg-white shadow-[0_24px_80px_rgba(0,0,0,0.22)] md:max-h-[calc(100vh-48px)]"
           >
-            <div className="flex items-start justify-between gap-4 px-6 py-6 sm:px-8">
+            <div className="flex items-start justify-between gap-4 px-6 py-6 md:px-8">
               <div>
                 <h3
                   id="create-lead-modal-title"
-                  className="text-[28px] font-semibold leading-tight text-[#111827]"
+                  className="text-lg md:text-2xl font-semibold leading-tight text-[#111827]"
                 >
                   Create Lead / New Referral
                 </h3>
-                <p className="mt-3 text-[15px] text-[#6B7280]">
+                <p className="mt-3 text-xs md:text-sm text-[#6B7280]">
                   Register a new borrower referred by a partner
                 </p>
               </div>
@@ -377,7 +373,7 @@ export default function CreateLeadModal({
               </button>
             </div>
 
-            <div className="min-h-0 flex-1 overflow-y-auto px-6 pb-6 sm:px-8">
+            <div className="min-h-0 flex-1 overflow-y-auto px-6 pb-6 md:px-8">
               <div className="space-y-6">
                 <section className="space-y-5">
                   <SectionTitle title="Borrower Information" />
@@ -450,7 +446,14 @@ export default function CreateLeadModal({
                       />
                     </Field>
 
-                    <Field label="Referrer Commission%" required>
+                    <Field
+                      label={
+                        form.agreementType === "Flat Referral Fee"
+                          ? "Amount to be paid to referrer in $"
+                          : "Referrer Commission%"
+                      }
+                      required
+                    >
                       <TextInput
                         value={form.referrerCommissionPercent}
                         onChange={(value) =>
@@ -459,7 +462,16 @@ export default function CreateLeadModal({
                             referrerCommissionPercent: value,
                           }))
                         }
-                        placeholder="10"
+                        placeholder={
+                          form.agreementType === "Flat Referral Fee" ? "500" : "10"
+                        }
+                        icon={
+                          form.agreementType === "Flat Referral Fee" ? (
+                            <DollarSign className="h-4 w-4" />
+                          ) : (
+                            <span className="text-sm font-semibold">%</span>
+                          )
+                        }
                       />
                     </Field>
                   </div>
@@ -493,15 +505,6 @@ export default function CreateLeadModal({
                       />
                     </Field>
 
-                    <Field label="Interest Rate (%)" required>
-                      <TextInput
-                        value={form.interestRate}
-                        onChange={(value) =>
-                          setForm((prev) => ({ ...prev, interestRate: value }))
-                        }
-                        placeholder="6.25"
-                      />
-                    </Field>
 
                     <Field label="Expected Settlement Date" required>
                       <TextInput
@@ -561,44 +564,48 @@ export default function CreateLeadModal({
                       <div className="space-y-2">
                         <div className="flex items-center gap-2 text-[#6B7280]">
                           <DollarSign className="h-4 w-4" />
-                          <p className="text-[14px]">Broker Commission</p>
+                          <p className="text-[14px]">Exp. Broker Comm</p>
                         </div>
                         <p className="text-[18px] font-semibold text-[#111827]">
                           {formatMoney(commissionValues.brokerCommission)}
                         </p>
-                        <p className="text-[14px] text-[#4B5563]">Estimated</p>
+                        <p className="text-[14px] text-[#4B5563]">Your Revenue</p>
                       </div>
 
                       <div className="space-y-2">
                         <div className="flex items-center gap-2 text-[#6B7280]">
                           <TrendingUp className="h-4 w-4" />
-                          <p className="text-[14px]">Referrer Commission</p>
+                          <p className="text-[14px]">Referrer Split</p>
                         </div>
                         <p className="text-[18px] font-semibold text-[#2563EB]">
-                          {commissionPercent || 0}%
+                          {form.agreementType === "Flat Referral Fee"
+                            ? formatMoney(commissionPercent)
+                            : `${commissionPercent || 0}%`}
                         </p>
                         <p className="text-[14px] text-[#4B5563]">
-                          Of broker commission
+                          {form.agreementType === "Flat Referral Fee"
+                            ? "Flat fee amount"
+                            : "Of total commission"}
                         </p>
                       </div>
 
                       <div className="space-y-2">
                         <div className="flex items-center gap-2 text-[#6B7280]">
                           <DollarSign className="h-4 w-4" />
-                          <p className="text-[14px]">Referrer Earnings</p>
+                          <p className="text-[14px]">Exp. Referrer Comm</p>
                         </div>
                         <p className="text-[18px] font-semibold text-[#16A34A]">
                           {formatMoney(commissionValues.referrerFeeExpected)}
                         </p>
                         <p className="text-[14px] text-[#4B5563]">
-                          Expected payout
+                          Referrer Payout
                         </p>
                       </div>
                     </div>
                   </div>
                 </section>
 
-                <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
+                <div className="flex justify-between gap-3 pt-2 md:flex-row md:justify-end">
                   <button
                     type="button"
                     onClick={onClose}

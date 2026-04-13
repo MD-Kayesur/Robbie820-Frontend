@@ -10,12 +10,12 @@ import type {
   PartnerProfile,
   ViewMode,
 } from "./types";
-import PartnerCard from "./PartnerCard";
-import PartnerTable from "./PartnerTable";
-import OnboardPartnerModal from "./OnboardPartnerModal";
-import ResetPasswordModal from "./ResetPasswordModal";
-import SendInvitationModal from "./SendInvitationModal";
-import AddAdditionalLoginModal from "./AddAdditionalLoginModal";
+import PartnerCard from "@/components/BrokerDashboardCom/BPartnerProfileCom/PartnerCard";
+import PartnerTable from "@/components/BrokerDashboardCom/BPartnerProfileCom/PartnerTable";
+import OnboardPartnerModal from "@/components/BrokerDashboardCom/BPartnerProfileCom/OnboardPartnerModal";
+import ResetPasswordModal from "@/components/BrokerDashboardCom/BEditPartnerConfigurationCom/ResetPasswordModal";
+import SendInvitationModal from "@/components/BrokerDashboardCom/BEditPartnerConfigurationCom/SendInvitationModal";
+import AddAdditionalLoginModal from "@/components/BrokerDashboardCom/BEditPartnerConfigurationCom/AddAdditionalLoginModal";
 
 const BrokerPartnerProfiles = () => {
   const [search, setSearch] = useState("");
@@ -63,16 +63,14 @@ const BrokerPartnerProfiles = () => {
     }
   };
 
-  const handleSubmitOnboard = (values: OnboardPartnerForm) => {
-    console.log("submit onboard partner:", values);
-  };
+  const handleSubmitOnboard = (_values: OnboardPartnerForm) => {};
 
   return (
     <>
       <section className="space-y-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
-            <h1 className="text-[28px] font-semibold leading-none text-[#111827]">
+            <h1 className="text-lg font-medium leading-none text-[#111827]">
               Partner Profiles
             </h1>
             <p className="mt-2 text-sm text-[#6B7280]">
@@ -99,6 +97,7 @@ const BrokerPartnerProfiles = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="search partners by name or company..."
+              aria-label="Search partners by name or company"
               className="h-12 w-full rounded-xl border border-[#E5E7EB] bg-white pl-11 pr-4 text-sm text-[#111827] outline-none placeholder:text-[#9CA3AF] focus:border-[#CBD5E1]"
             />
           </div>
@@ -163,8 +162,7 @@ const BrokerPartnerProfiles = () => {
           setResetPasswordOpen(false);
           setSelectedPartner(null);
         }}
-        onSubmit={(email) => {
-          console.log("send reset link:", email);
+        onSubmit={() => {
           setResetPasswordOpen(false);
           setSelectedPartner(null);
         }}
@@ -177,8 +175,7 @@ const BrokerPartnerProfiles = () => {
           setSendInvitationOpen(false);
           setSelectedPartner(null);
         }}
-        onSubmit={(email) => {
-          console.log("send invitation:", email);
+        onSubmit={() => {
           setSendInvitationOpen(false);
           setSelectedPartner(null);
         }}
@@ -190,11 +187,7 @@ const BrokerPartnerProfiles = () => {
           setAddLoginOpen(false);
           setSelectedPartner(null);
         }}
-        onSubmit={(values) => {
-          console.log("create additional login:", {
-            partner: selectedPartner,
-            values,
-          });
+        onSubmit={() => {
           setAddLoginOpen(false);
           setSelectedPartner(null);
         }}

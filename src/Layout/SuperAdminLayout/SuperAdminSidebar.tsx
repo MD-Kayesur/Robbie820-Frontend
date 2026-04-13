@@ -1,6 +1,6 @@
 // src/Layout/SuperAdminLayout/SuperAdminSidebar.tsx
 
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import {
   LayoutGrid,
@@ -9,7 +9,6 @@ import {
   GitBranch,
   FileText,
   Settings,
-  Zap,
   X,
 } from "lucide-react";
 
@@ -25,6 +24,8 @@ type SuperAdminSidebarProps = {
   mobileOpen?: boolean;
   onClose?: () => void;
 };
+
+import logo from "@/assets/logos/refer_now_logo.png";
 
 const navItems = [
   { to: "/super-admin", icon: LayoutGrid, label: "Dashboard", end: true },
@@ -68,12 +69,7 @@ function SidebarContent({ onItemClick }: { onItemClick?: () => void }) {
   return (
     <>
       <div className="hidden lg:flex items-center gap-3 px-2">
-        <div className="grid h-9 w-9 place-items-center rounded-xl bg-sky-500">
-          <Zap className="h-5 w-5 fill-white text-white" />
-        </div>
-        <span className="text-[15px] font-semibold text-slate-900">
-          SuperAdmin
-        </span>
+        <img src={logo} alt="ReferNow" className="h-auto w-40" />
       </div>
 
       <nav className="mt-6 space-y-6">
@@ -96,6 +92,15 @@ const SuperAdminSidebar = ({
   mobileOpen = false,
   onClose,
 }: SuperAdminSidebarProps) => {
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose?.();
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [mobileOpen, onClose]);
+
   return (
     <>
       {/* Desktop sidebar */}
@@ -124,15 +129,8 @@ const SuperAdminSidebar = ({
             mobileOpen ? "translate-x-0" : "-translate-x-full",
           ].join(" ")}
         >
-          <div className="mb-6 flex items-center justify-between">
-            <div className="flex items-center gap-3 px-2">
-              <div className="grid h-9 w-9 place-items-center rounded-xl bg-sky-500">
-                <Zap className="h-5 w-5 fill-white text-white" />
-              </div>
-              <span className="text-[15px] font-semibold text-slate-900">
-                SuperAdmin
-              </span>
-            </div>
+          <div className="mb-6 flex items-center justify-between px-2">
+            <img src={logo} alt="ReferNow" className="h-auto w-32 scale-130" />
 
             <button
               type="button"

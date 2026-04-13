@@ -10,7 +10,7 @@ import { cn } from "@/hooks/useCn";
 
 function Row({ label, right }: { label: string; right: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-3 border-t border-slate-100 py-4 sm:flex-row sm:items-start sm:justify-between">
+    <div className="flex flex-col gap-3 border-t border-slate-100 py-4 md:flex-row md:items-start md:justify-between">
       <div className="min-w-0">
         <p className="text-sm font-semibold text-slate-900">{label}</p>
       </div>
@@ -148,13 +148,13 @@ export default function SystemBehaviorTab() {
   return (
     <div className="space-y-5 inter">
       <div className="rounded-2xl border border-slate-200 bg-white">
-        <div className="p-4 sm:p-5.5">
+        <div className="p-4 md:p-5.5">
           <h2 className="text-base font-semibold text-black">
             Operational Settings
           </h2>
         </div>
 
-        <div className="px-4 pb-4 sm:px-5.5 sm:pb-5.5">
+        <div className="px-4 pb-4 md:px-5.5 md:pb-5.5">
           <div className="space-y-4">
             <div>
               <label
@@ -185,7 +185,7 @@ export default function SystemBehaviorTab() {
                 Overdue Commission Reminder{" "}
                 <Info className="h-4 w-4 text-slate-400" />
               </label>
-              <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:max-w-md sm:items-center sm:gap-3">
+              <div className="mt-2 flex flex-col gap-2 md:flex-row md:max-w-md md:items-center md:gap-3">
                 <input
                   value={s.overdueCommissionReminderDays}
                   onChange={(e) =>
@@ -198,7 +198,7 @@ export default function SystemBehaviorTab() {
                   }
                   type="number"
                   step="1"
-                  className="h-11 w-full rounded-xl bg-[#F3F3F5] px-4 text-sm text-black outline-none ring-1 ring-transparent focus:ring-slate-300 sm:max-w-xs"
+                  className="h-11 w-full rounded-xl bg-[#F3F3F5] px-4 text-sm text-black outline-none ring-1 ring-transparent focus:ring-slate-300 md:max-w-xs"
                 />
                 <p className="text-sm text-slate-500">
                   days after expected date
@@ -225,7 +225,7 @@ export default function SystemBehaviorTab() {
                 Failed Payment Grace Period{" "}
                 <Info className="h-4 w-4 text-slate-400" />
               </label>
-              <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:max-w-md sm:items-center sm:gap-3">
+              <div className="mt-2 flex flex-col gap-2 md:flex-row md:max-w-md md:items-center md:gap-3">
                 <input
                   value={s.failedPaymentGracePeriodDays}
                   onChange={(e) =>
@@ -236,7 +236,7 @@ export default function SystemBehaviorTab() {
                   }
                   type="number"
                   step="1"
-                  className="h-11 w-full rounded-xl bg-[#F3F3F5] px-4 text-sm text-black outline-none ring-1 ring-transparent focus:ring-slate-300 sm:w-28"
+                  className="h-11 w-full rounded-xl bg-[#F3F3F5] px-4 text-sm text-black outline-none ring-1 ring-transparent focus:ring-slate-300 md:w-28"
                 />
                 <p className="text-sm text-slate-500">days</p>
               </div>
@@ -266,7 +266,7 @@ export default function SystemBehaviorTab() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-[#BEDBFF] bg-[#EFF6FF] px-4 py-4 sm:px-6">
+      <div className="rounded-2xl border border-[#BEDBFF] bg-[#EFF6FF] px-4 py-4 md:px-6">
         <p className="text-sm text-[#1C398E]">
           <span className="font-bold">Important:</span> Changes to payment and
           suspension rules will apply to all new transactions going forward.
