@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Download } from "lucide-react";
 
 import {
@@ -24,6 +25,7 @@ import ReportMetricCard from "@/components/BrokerDashboardCom/BReportCom/ReportM
 import ReportFilters from "@/components/BrokerDashboardCom/BReportCom/ReportFilters";
 
 const BrokerReport = () => {
+  const navigate = useNavigate();
   const [range, setRange] = useState<ReportRangeKey>("MTD");
   const [datePreset, setDatePreset] = useState("NOV_2025_JAN_2026");
   const [referrer, setReferrer] = useState<ReferrerKey>("ALL");
@@ -40,6 +42,16 @@ const BrokerReport = () => {
   const [auditHoverIndex, setAuditHoverIndex] = useState<number | null>(0);
   const [modalReferrer, setModalReferrer] = useState<ReferrerKey | null>(null);
   const [modalType, setModalType] = useState<"LEADS" | "FUNDED">("FUNDED");
+
+  const handleMetricClick = (itemId: string) => {
+    if (itemId === "funded-deals") {
+      navigate("/broker-dashboard/my-referrals", { state: { stage: "Funded" } });
+    } else if (itemId === "pending-settlement") {
+      navigate("/broker-dashboard/my-referrals", { state: { stage: "Approved" } });
+    } else if (itemId === "conversion-rate") {
+      navigate("/broker-dashboard/my-referrals");
+    }
+  };
 
   const topFiltersRef = useRef<HTMLDivElement | null>(null);
   const auditMenuRef = useRef<HTMLDivElement | null>(null);
@@ -202,7 +214,11 @@ const BrokerReport = () => {
 
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 report-metrics-grid">
           {summaryMetrics.map((item) => (
-            <ReportMetricCard key={item.id} item={item} />
+            <ReportMetricCard
+              key={item.id}
+              item={item}
+              onClick={() => handleMetricClick(item.id)}
+            />
           ))}
         </div>
 
@@ -272,14 +288,23 @@ const BrokerReport = () => {
                       Partner: {modalReferrerLabel}
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={exportModalCSV}
-                    className="inline-flex items-center gap-2 rounded-lg border border-[#BEE3F8] bg-[#DFF4FF] px-4 py-2 text-xs font-medium text-[#355268] transition hover:bg-[#d3effd] print:hidden"
-                  >
-                    <Download className="h-4 w-4" />
-                    <span>EXPORT LIST</span>
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => navigate("/broker-dashboard/my-referrals", { state: { stage: modalType === "FUNDED" ? "Funded" : "Stage" } })}
+                      className="inline-flex items-center gap-2 rounded-lg border border-[#BEE3F8] bg-white px-4 py-2 text-xs font-medium text-[#0EA5E9] transition hover:bg-[#F0F9FF] print:hidden"
+                    >
+                      <span>VIEW FULL LIST</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={exportModalCSV}
+                      className="inline-flex items-center gap-2 rounded-lg border border-[#BEE3F8] bg-[#DFF4FF] px-4 py-2 text-xs font-medium text-[#355268] transition hover:bg-[#d3effd] print:hidden"
+                    >
+                      <Download className="h-4 w-4" />
+                      <span>EXPORT LIST</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div className="flex-1 overflow-auto -mx-4 md:-mx-5 px-4 md:px-5">
