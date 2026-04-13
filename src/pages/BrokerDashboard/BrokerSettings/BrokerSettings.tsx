@@ -1,5 +1,5 @@
-import { Save } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { toast } from "sonner";
 
 import { cn } from "@/hooks/useCn";
 import {
@@ -11,16 +11,19 @@ import {
   stagnationOptions,
   timezoneOptions,
   twoFactorMock,
+  systemCalculationsMock,
 } from "./mock";
 import AccountProfileTab from "./components/AccountProfileTab";
 import AppPreferencesTab from "./components/AppPreferencesTab";
 import SecuritySuiteTab from "./components/SecuritySuiteTab";
+import CalculationsTab from "./components/CalculationsTab";
 import type {
   AppPreferencesState,
   BrokerProfile,
   PasswordForm,
   SettingsTabKey,
   TwoFactorState,
+  SystemCalculationsState,
 } from "./types";
 
 type SavedSettingsState = {
@@ -28,9 +31,10 @@ type SavedSettingsState = {
   passwordForm: PasswordForm;
   twoFactor: TwoFactorState;
   appPreferences: AppPreferencesState;
+  systemCalculations: SystemCalculationsState;
 };
 
-const SAVE_MESSAGE_DURATION = 3000;
+
 
 const getInitials = (name: string) => {
   const parts = name.trim().split(/\s+/).filter(Boolean).slice(0, 2);
@@ -47,6 +51,7 @@ const BrokerSettings = () => {
     passwordForm: passwordFormMock,
     twoFactor: twoFactorMock,
     appPreferences: appPreferencesMock,
+    systemCalculations: systemCalculationsMock,
   });
 
   const [profile, setProfile] = useState<BrokerProfile>(brokerProfileMock);
@@ -55,19 +60,10 @@ const BrokerSettings = () => {
   const [twoFactor, setTwoFactor] = useState<TwoFactorState>(twoFactorMock);
   const [appPreferences, setAppPreferences] =
     useState<AppPreferencesState>(appPreferencesMock);
+  const [systemCalculations, setSystemCalculations] =
+    useState<SystemCalculationsState>(systemCalculationsMock);
 
   const [passwordError, setPasswordError] = useState("");
-  const [saveMessage, setSaveMessage] = useState("");
-
-  useEffect(() => {
-    if (!saveMessage) return;
-
-    const timer = window.setTimeout(() => {
-      setSaveMessage("");
-    }, SAVE_MESSAGE_DURATION);
-
-    return () => window.clearTimeout(timer);
-  }, [saveMessage]);
 
   const isDirty = useMemo(() => {
     return (
@@ -77,9 +73,10 @@ const BrokerSettings = () => {
         passwordForm,
         twoFactor,
         appPreferences,
+        systemCalculations,
       })
     );
-  }, [savedSettings, profile, passwordForm, twoFactor, appPreferences]);
+  }, [savedSettings, profile, passwordForm, twoFactor, appPreferences, systemCalculations]);
 
   const handleProfileChange = (value: BrokerProfile) => {
     setProfile({
@@ -105,6 +102,10 @@ const BrokerSettings = () => {
 
   const handlePreferencesChange = (value: AppPreferencesState) => {
     setAppPreferences(value);
+  };
+
+  const handleCalculationsChange = (value: SystemCalculationsState) => {
+    setSystemCalculations(value);
   };
 
   const validatePasswordForm = () => {
@@ -160,9 +161,10 @@ const BrokerSettings = () => {
       passwordForm,
       twoFactor,
       appPreferences,
+      systemCalculations,
     });
 
-    setSaveMessage("Changes saved successfully.");
+    toast.success("Changes saved successfully.");
   };
 
   const handleResetChanges = () => {
@@ -170,8 +172,8 @@ const BrokerSettings = () => {
     setPasswordForm(savedSettings.passwordForm);
     setTwoFactor(savedSettings.twoFactor);
     setAppPreferences(savedSettings.appPreferences);
+    setSystemCalculations(savedSettings.systemCalculations);
     setPasswordError("");
-    setSaveMessage("");
   };
 
   return (
@@ -186,11 +188,7 @@ const BrokerSettings = () => {
           </p>
 
           <div className="mt-2 min-h-1">
-            {saveMessage ? (
-              <p className="text-[13px] font-medium text-emerald-600">
-                {saveMessage}
-              </p>
-            ) : isDirty ? (
+            {isDirty ? (
               <p className="text-[13px] font-medium text-amber-600">
                 You have unsaved changes.
               </p>
@@ -224,7 +222,6 @@ const BrokerSettings = () => {
                 : "cursor-not-allowed bg-sky-300",
             )}
           >
-            <Save className="h-4 w-4 md:h-5 md:w-5" />
             Save Changes
           </button>
         </div>
@@ -277,6 +274,13 @@ const BrokerSettings = () => {
           currencyOptions={currencyOptions}
           stagnationOptions={stagnationOptions}
           onChange={handlePreferencesChange}
+        />
+      ) : null}
+
+      {activeTab === "system_calculations" ? (
+        <CalculationsTab
+          value={systemCalculations}
+          onChange={handleCalculationsChange}
         />
       ) : null}
     </div>

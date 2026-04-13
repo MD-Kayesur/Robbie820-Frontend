@@ -1,4 +1,4 @@
-import { BadgeCheck, Cog, Shield } from "lucide-react";
+import { BadgeCheck, Calculator, Cog, Shield } from "lucide-react";
 
 import type {
   AppPreferencesState,
@@ -9,6 +9,7 @@ import type {
   StagnationOption,
   TimezoneOption,
   TwoFactorState,
+  SystemCalculationsState,
 } from "./types";
 
 export const settingsTabs: SettingsTab[] = [
@@ -26,6 +27,11 @@ export const settingsTabs: SettingsTab[] = [
     key: "app_preferences",
     label: "App Preferences",
     icon: Cog,
+  },
+  {
+    key: "system_calculations",
+    label: "Calculations",
+    icon: Calculator,
   },
 ];
 
@@ -110,4 +116,38 @@ export const appPreferencesMock: AppPreferencesState = {
   stagnationPeriod: "7_days",
   weeklySummaryDigest: false,
   aggregatorFeePercent: 10,
+};
+
+export const systemCalculationsMock: SystemCalculationsState = {
+  globalAggregatorFee: 10,
+  rules: [
+    {
+      id: "rule-1",
+      loanCategory: "Residential",
+      referralCommissionPercent: 20,
+      aggregatorFeePercent: 10,
+      brokerProcessingFee: 0,
+    },
+    {
+      id: "rule-2",
+      loanCategory: "Commercial",
+      referralCommissionPercent: 15,
+      aggregatorFeePercent: 12,
+      brokerProcessingFee: 250,
+    },
+    {
+      id: "rule-3",
+      loanCategory: "Asset Finance",
+      referralCommissionPercent: 25,
+      aggregatorFeePercent: 8,
+      brokerProcessingFee: 0,
+    },
+    {
+      id: "rule-4",
+      loanCategory: "Personal Loan",
+      referralCommissionPercent: 30,
+      aggregatorFeePercent: 5,
+      brokerProcessingFee: 50,
+    },
+  ],
 };
