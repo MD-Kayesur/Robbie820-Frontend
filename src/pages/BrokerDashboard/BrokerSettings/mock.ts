@@ -1,4 +1,4 @@
-import { BadgeCheck, Calculator, Cog, Shield } from "lucide-react";
+import { BadgeCheck, Calculator, Cog, Database, Shield } from "lucide-react";
 
 import type {
   AppPreferencesState,
@@ -10,6 +10,7 @@ import type {
   TimezoneOption,
   TwoFactorState,
   SystemCalculationsState,
+  CRMIntegrationState,
 } from "./types";
 
 export const settingsTabs: SettingsTab[] = [
@@ -32,6 +33,11 @@ export const settingsTabs: SettingsTab[] = [
     key: "system_calculations",
     label: "Calculations",
     icon: Calculator,
+  },
+  {
+    key: "crm_integration",
+    label: "CRM Integration",
+    icon: Database,
   },
 ];
 
@@ -150,4 +156,14 @@ export const systemCalculationsMock: SystemCalculationsState = {
       brokerProcessingFee: 50,
     },
   ],
+};
+
+export const crmIntegrationMock: CRMIntegrationState = {
+  provider: "Salesforce",
+  enabled: true,
+  apiKey: "••••••••••••••••••••••••••••",
+  endpoint: "https://api.salesforce.com/services/data/v52.0",
+  lastTested: "April 12, 2026, 10:45 AM",
+  status: "Connected",
+  autoSetup: true,
 };
