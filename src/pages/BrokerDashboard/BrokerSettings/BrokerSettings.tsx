@@ -12,11 +12,13 @@ import {
   timezoneOptions,
   twoFactorMock,
   systemCalculationsMock,
+  crmIntegrationMock,
 } from "./mock";
 import AccountProfileTab from "./components/AccountProfileTab";
 import AppPreferencesTab from "./components/AppPreferencesTab";
 import SecuritySuiteTab from "./components/SecuritySuiteTab";
 import CalculationsTab from "./components/CalculationsTab";
+import CRMIntegrationTab from "./components/CRMIntegrationTab";
 import type {
   AppPreferencesState,
   BrokerProfile,
@@ -24,6 +26,7 @@ import type {
   SettingsTabKey,
   TwoFactorState,
   SystemCalculationsState,
+  CRMIntegrationState,
 } from "./types";
 
 type SavedSettingsState = {
@@ -32,6 +35,7 @@ type SavedSettingsState = {
   twoFactor: TwoFactorState;
   appPreferences: AppPreferencesState;
   systemCalculations: SystemCalculationsState;
+  crmIntegration: CRMIntegrationState;
 };
 
 
@@ -52,6 +56,7 @@ const BrokerSettings = () => {
     twoFactor: twoFactorMock,
     appPreferences: appPreferencesMock,
     systemCalculations: systemCalculationsMock,
+    crmIntegration: crmIntegrationMock,
   });
 
   const [profile, setProfile] = useState<BrokerProfile>(brokerProfileMock);
@@ -62,6 +67,8 @@ const BrokerSettings = () => {
     useState<AppPreferencesState>(appPreferencesMock);
   const [systemCalculations, setSystemCalculations] =
     useState<SystemCalculationsState>(systemCalculationsMock);
+  const [crmIntegration, setCrmIntegration] =
+    useState<CRMIntegrationState>(crmIntegrationMock);
 
   const [passwordError, setPasswordError] = useState("");
 
@@ -74,9 +81,10 @@ const BrokerSettings = () => {
         twoFactor,
         appPreferences,
         systemCalculations,
+        crmIntegration,
       })
     );
-  }, [savedSettings, profile, passwordForm, twoFactor, appPreferences, systemCalculations]);
+  }, [savedSettings, profile, passwordForm, twoFactor, appPreferences, systemCalculations, crmIntegration]);
 
   const handleProfileChange = (value: BrokerProfile) => {
     setProfile({
@@ -106,6 +114,10 @@ const BrokerSettings = () => {
 
   const handleCalculationsChange = (value: SystemCalculationsState) => {
     setSystemCalculations(value);
+  };
+
+  const handleCRMChange = (value: CRMIntegrationState) => {
+    setCrmIntegration(value);
   };
 
   const validatePasswordForm = () => {
@@ -162,6 +174,7 @@ const BrokerSettings = () => {
       twoFactor,
       appPreferences,
       systemCalculations,
+      crmIntegration,
     });
 
     toast.success("Changes saved successfully.");
@@ -173,6 +186,7 @@ const BrokerSettings = () => {
     setTwoFactor(savedSettings.twoFactor);
     setAppPreferences(savedSettings.appPreferences);
     setSystemCalculations(savedSettings.systemCalculations);
+    setCrmIntegration(savedSettings.crmIntegration);
     setPasswordError("");
   };
 
@@ -281,6 +295,13 @@ const BrokerSettings = () => {
         <CalculationsTab
           value={systemCalculations}
           onChange={handleCalculationsChange}
+        />
+      ) : null}
+
+      {activeTab === "crm_integration" ? (
+        <CRMIntegrationTab
+          value={crmIntegration}
+          onChange={handleCRMChange}
         />
       ) : null}
     </div>

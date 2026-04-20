@@ -4,7 +4,8 @@ export type SettingsTabKey =
   | "account_profile"
   | "security_suite"
   | "app_preferences"
-  | "system_calculations";
+  | "system_calculations"
+  | "crm_integration";
 
 export type SettingsTab = {
   key: SettingsTabKey;
@@ -75,4 +76,16 @@ export type GlobalCalculationRule = {
 export type SystemCalculationsState = {
   globalAggregatorFee: number;
   rules: GlobalCalculationRule[];
+};
+
+export type CRMProvider = "Salesforce" | "HubSpot" | "Pipedrive" | "Zapier" | "Custom Webhook";
+
+export type CRMIntegrationState = {
+  provider: CRMProvider;
+  enabled: boolean;
+  apiKey?: string;
+  endpoint?: string;
+  lastTested?: string;
+  status: "Connected" | "Disconnected" | "Failed" | "Pending";
+  autoSetup: boolean;
 };
